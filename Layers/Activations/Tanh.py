@@ -3,7 +3,8 @@ from Layers.Base import Base
 
 
 class Tanh(Base):
-    def __init__(self, output_size, input_size=1):
+    def __init__(self, output_size=1, input_size=1, activation=None):
+        assert activation == None, "Activation must be None on activation layers"
         super().__init__(output_size, output_size)
         self.name = "Tanh"
 

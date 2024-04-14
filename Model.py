@@ -11,7 +11,7 @@ class Model:
         self.loss = mse()
 
     def add(self, layer):
-        layer.__init__(layer.output_size, input_size=self.layers[-1].output_size)
+        layer.__init__(layer.output_size, input_size=self.layers[-1].output_size, activation=layer.activation)
         self.layers.append(layer)
 
     def compile(self, optimiser=None, loss=mse()):
@@ -51,10 +51,8 @@ x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 y = np.array([0, 1, 1, 0])
 
 model = Model(2)
-model.add(Dense(3))
-model.add(Tanh(3))
-model.add(Dense(1))
-model.add(Tanh(1))
+model.add(Dense(3, activation=Tanh()))
+model.add(Dense(1, activation=Tanh()))
 model.compile(optimiser=None, loss=mse())
 model.summary()
 model.fit(x, y, epochs=10000, loss_step=500)
