@@ -1,6 +1,7 @@
 from Model import Model
 from Layers.Dense import Dense
 from Layers.Activations.Tanh import Tanh
+from Layers.Activations.ReLU import ReLU
 from Losses.MSE import mse
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,12 +19,6 @@ errors = model.fit(x, y, epochs=1000, loss_step=100)
 plt.plot(errors)
 plt.xlabel("Epochs")
 plt.ylabel("Mean squared error")
-plt.show()
-print(model.predict(np.array([0, 0])))
-print(model.predict(np.array([0, 1])))
-print(model.predict(np.array([1, 0])))
-print(model.predict(np.array([1, 1])))
-print(model.predict(np.array([0.5, 0.5])))
 
 Xv, Yv = np.meshgrid(np.linspace(0, 1), np.linspace(0, 1))
 values = []

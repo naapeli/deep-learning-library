@@ -8,10 +8,11 @@ Upcoming topics:
 - gradient descent optimiser
 - sigmoid activation
 - one-hot encoding
+- validation split function
 - 2d convolutional layer
 - 2d pooling layer
 - adam optimiser
-- data transformation layers (translate, rotate, scale, normalisation, reshape, flatten)
+- data transformation layers (translate, rotate, scale, normalisation, reshape, flatten, clamp)
 - RNN, LSTM layers
 - dropout layer
 - gaussian noise layer
