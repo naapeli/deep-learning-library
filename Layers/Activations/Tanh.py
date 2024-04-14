@@ -1,11 +1,10 @@
 import numpy as np
-from Layers.Base import Base
+from Layers.Activations.Activation import Activation
 
 
-class Tanh(Base):
-    def __init__(self, output_size=1, input_size=1, activation=None):
-        assert activation == None, "Activation must be None on activation layers"
-        super().__init__(output_size, output_size)
+class Tanh(Activation):
+    def __init__(self, output_size=None, input_size=None, activation=None):
+        super().__init__(output_size, input_size)
         self.name = "Tanh"
 
     def forward(self, input):

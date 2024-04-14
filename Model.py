@@ -3,6 +3,8 @@ from Layers.Activations.Tanh import Tanh
 from Layers.Input import Input
 from Losses.MSE import mse
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 class Model:
     def __init__(self, input_size):
@@ -20,8 +22,11 @@ class Model:
     
     def summary(self):
         print("Model summary:")
+        total_params = 0
         for layer in self.layers:
             print(layer.summary())
+            total_params += layer.nparams
+        print(f"Total number of parameters: {total_params}")
     
     def predict(self, input):
         current = input
@@ -33,18 +38,23 @@ class Model:
         reversedLayers = reversed(self.layers)
         gradient = initial_gradient
         for layer in reversedLayers:
-            gradient = layer.backward(gradient, learning_rate=0.1)
+            gradient = layer.backward(gradient, learning_rate=0.1) # self.optimiser.learning_rate
 
-    def fit(self, X, Y, epochs=100, loss_step=5):
+    def fit(self, X, Y, val_X=None, val_Y=None, epochs=100, loss_step=5):
+        errors = np.zeros(epochs)
         for epoch in range(epochs):
             # calculate the loss
             error = 0
             for x, y in zip(X, Y):
                 prediction = self.predict(x)
                 error += self.loss.loss(prediction, y)
-                initial_gradient = self.loss.gradient(prediction, y)#self.optimiser.gradient(self.loss, prediction, y)
+                initial_gradient = self.loss.gradient(prediction, y)
+                # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient)
-            if epoch % loss_step == 0: print(f"Epoch: {epoch} - Error: {error / len(X)}")
+            error /= len(X)
+            errors[epoch] = error
+            if epoch % loss_step == 0: print(f"Epoch: {epoch} - Error: {error}")
+        return errors
 
 
 x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
@@ -55,9 +65,25 @@ model.add(Dense(3, activation=Tanh()))
 model.add(Dense(1, activation=Tanh()))
 model.compile(optimiser=None, loss=mse())
 model.summary()
-model.fit(x, y, epochs=10000, loss_step=500)
+errors = model.fit(x, y, epochs=1000, loss_step=100)
+plt.plot(errors)
+plt.xlabel("Epochs")
+plt.ylabel("Mean squared error")
+plt.show()
 print(model.predict(np.array([0, 0])))
 print(model.predict(np.array([0, 1])))
 print(model.predict(np.array([1, 0])))
 print(model.predict(np.array([1, 1])))
 print(model.predict(np.array([0.5, 0.5])))
+
+Xv, Yv = np.meshgrid(np.linspace(0, 1), np.linspace(0, 1))
+values = []
+for x, y in zip(Xv.flatten(), Yv.flatten()):
+    values.append(model.predict(np.array([x, y])))
+z = np.array(values)
+z = z.reshape(Xv.shape)
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+surf = ax.scatter(Xv, Yv, z, cmap='viridis')
+fig.colorbar(surf)
+plt.show()

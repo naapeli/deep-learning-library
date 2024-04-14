@@ -2,10 +2,10 @@ import numpy as np
 
 
 class Base:
-    def __init__(self, output_size, input_size=1, activation=None):
+    def __init__(self, output_size, input_size=None, activation=None):
         self.input_size = input_size
         self.output_size = output_size
-        self.output = np.zeros(shape=(output_size, 1))
+        self.output = None
         self.input = None
         self.nparams = 0
         self.name = "base"
