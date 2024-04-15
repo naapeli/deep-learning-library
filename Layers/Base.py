@@ -13,7 +13,7 @@ class Base:
         if self.activation: self.activation.__init__(output_size, output_size)
 
     def summary(self):
-        return f"{self.name}: ({self.input_size}, {self.output_size}) - {self.nparams}" + ("\n" + self.activation.summary() if self.activation else "")
+        return f"{self.name}: ({self.input_size}, {self.output_size}) - {self.nparams}" + (" - Activation: " + self.activation.name if self.activation else "")
 
     def forward(self, input):
         self.input = input.reshape(-1, 1)
