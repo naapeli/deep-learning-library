@@ -16,7 +16,7 @@ class Base:
         return f"{self.name}: ({self.input_size}, {self.output_size}) - {self.nparams}" + (" - Activation: " + self.activation.name if self.activation else "")
 
     def forward(self, input):
-        self.input = input.reshape(-1, 1)
+        self.input = input.T
         return self.input
 
     def backward(self, dCdy, learning_rate=0.001):

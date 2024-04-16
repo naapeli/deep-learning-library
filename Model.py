@@ -37,15 +37,18 @@ class Model:
         for layer in reversedLayers:
             gradient = layer.backward(gradient, learning_rate=0.1) # self.optimiser.learning_rate
 
-    def fit(self, X, Y, val_X=None, val_Y=None, epochs=100, loss_step=5):
+    """
+    X.shape = (data_length, input_size)
+    """
+    def fit(self, X, Y, val_X=None, val_Y=None, epochs=100, loss_step=5, batch_size=None):
         errors = np.zeros(epochs)
         for epoch in range(epochs):
             # calculate the loss
             error = 0
             for x, y in zip(X, Y):
-                prediction = self.predict(x)
-                error += self.loss.loss(prediction, y)
-                initial_gradient = self.loss.gradient(prediction, y)
+                predictions = self.predict(x)
+                error += self.loss.loss(predictions, y)
+                initial_gradient = self.loss.gradient(predictions, y)
                 # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient)
             error /= len(X)

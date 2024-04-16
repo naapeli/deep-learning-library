@@ -21,5 +21,5 @@ class Dense(Base):
         if self.activation: dCdy = self.activation.backward(dCdy, learning_rate)
         dCdx = self.weights.T @ dCdy
         self.weights -= learning_rate * dCdy @ self.input.T
-        self.biases -= learning_rate * dCdy
+        self.biases -= learning_rate * np.mean(dCdy, axis=1, keepdims=True)
         return dCdx
