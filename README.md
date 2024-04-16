@@ -19,3 +19,4 @@ Upcoming topics:
 - text vectorisation layer???
 - Attention layer???
 - other machine learning methods (linear regression, svm, naive bayes, decision trees, knn ...)
+- data reader for batches
