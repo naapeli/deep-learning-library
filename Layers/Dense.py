@@ -7,8 +7,8 @@ class Dense(Base):
     def __init__(self, output_size, input_size=1, activation=None):
         super().__init__(output_size, input_size, activation)
         # initialise parameters by Xavier initialisation
-        self.weights = torch.normal(mean=0, std=sqrt(1/(input_size + output_size)), size=(output_size, input_size), dtype=torch.float32, device=self.device)
-        self.biases = torch.zeros(size=(output_size, 1), dtype=torch.float32, device=self.device)
+        self.weights = torch.normal(mean=0, std=sqrt(1/(input_size + output_size)), size=(output_size, input_size), dtype=torch.float32, device=self.device, requires_grad=False)
+        self.biases = torch.zeros(size=(output_size, 1), dtype=torch.float32, device=self.device, requires_grad=False)
         self.name = "Dense"
         self.nparams = output_size * input_size + output_size
 

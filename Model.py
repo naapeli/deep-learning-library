@@ -42,7 +42,7 @@ class Model:
     X.shape = (data_length, input_size)
     """
     def fit(self, X, Y, val_data=None, epochs=100, loss_step=5, batch_size=None):
-        errors = torch.zeros(epochs, dtype=torch.float32, device=self.device)
+        errors = torch.zeros(epochs, dtype=torch.float32, device=self.device, requires_grad=False)
         for epoch in range(epochs):
             # calculate the loss
             error = 0

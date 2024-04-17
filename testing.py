@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-x = torch.tensor([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=torch.float32, device=device)
-y = torch.tensor([0, 1, 1, 0], dtype=torch.float32, device=device)
+x = torch.tensor([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=torch.float32, device=device, requires_grad=False)
+y = torch.tensor([0, 1, 1, 0], dtype=torch.float32, device=device, requires_grad=False)
 
 model = Model(2)
 model.add(Dense(3, activation=Tanh()))
@@ -22,7 +22,7 @@ plt.plot(errors)
 plt.xlabel("Epochs")
 plt.ylabel("Mean squared error")
 
-Xv, Yv = torch.meshgrid(torch.linspace(0, 1, 50, dtype=torch.float32, device=device), torch.linspace(0, 1, 50, dtype=torch.float32, device=device), indexing="xy")
+Xv, Yv = torch.meshgrid(torch.linspace(0, 1, 50, dtype=torch.float32, device=device, requires_grad=False), torch.linspace(0, 1, 50, dtype=torch.float32, device=device, requires_grad=False), indexing="xy")
 z = model.predict(torch.stack([Xv.flatten(), Yv.flatten()]).T)
 z = z.reshape(Xv.shape)
 fig = plt.figure()
