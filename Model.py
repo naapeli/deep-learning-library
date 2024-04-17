@@ -2,6 +2,7 @@ from Layers.Input import Input
 from Layers.Activations import Activation
 from Losses.MSE import mse
 import torch
+from math import floor
 
 
 class Model:
@@ -46,7 +47,7 @@ class Model:
     X.shape = (data_length, input_size)
     """
     def fit(self, X, Y, val_data=None, epochs=100, loss_step=5, batch_size=None):
-        errors = torch.zeros(epochs, dtype=self.data_type, device=self.device, requires_grad=False)
+        errors = torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False)
         for epoch in range(epochs):
             # calculate the loss
             error = 0
@@ -57,6 +58,7 @@ class Model:
                 # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient, training=True)
             error /= len(X)
-            errors[epoch] = error
-            if epoch % loss_step == 0: print(f"Epoch: {epoch} - Error: {error}")
+            if epoch % loss_step == 0:
+                errors[int(epoch / loss_step)] = error
+                print(f"Epoch: {epoch} - Error: {error}")
         return errors

@@ -14,7 +14,6 @@ Upcoming topics:
 - adam optimiser
 - data transformation layers (translate, rotate, scale, normalisation, reshape, flatten, clamp)
 - RNN, LSTM layers
-- dropout layer
 - gaussian noise layer
 - text vectorisation layer???
 - Attention layer???
