@@ -1,4 +1,4 @@
-import numpy as np
+import torch
 from Layers.Activations.Activation import Activation
 
 
@@ -9,7 +9,7 @@ class ReLU(Activation):
 
     def forward(self, input):
         self.input = input
-        self.output = np.maximum(self.input, 0)
+        self.output = torch.maximum(self.input, torch.zeros_like(self.input))
         return self.output
     
     def backward(self, dCdy, learning_rate=0.001):

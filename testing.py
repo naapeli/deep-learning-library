@@ -3,13 +3,14 @@ from Layers.Dense import Dense
 from Layers.Activations.Tanh import Tanh
 from Layers.Activations.ReLU import ReLU
 from Losses.MSE import mse
-import numpy as np
+import torch
 import matplotlib.pyplot as plt
 
 
-x = np.array([[0, 0], [0, 1], [1, 0], [1, 1]]).reshape(4, 1, 2)
-y = np.array([0, 1, 1, 0])
-# errors = model.fit(x, y, epochs=1000, loss_step=100)
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
+x = torch.tensor([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=torch.float32, device=device)
+y = torch.tensor([0, 1, 1, 0], dtype=torch.float32, device=device)
 
 model = Model(2)
 model.add(Dense(3, activation=Tanh()))
@@ -21,8 +22,8 @@ plt.plot(errors)
 plt.xlabel("Epochs")
 plt.ylabel("Mean squared error")
 
-Xv, Yv = np.meshgrid(np.linspace(0, 1), np.linspace(0, 1))
-z = model.predict(np.array([Xv.flatten(), Yv.flatten()]).reshape(1, 2, 2500))
+Xv, Yv = torch.meshgrid(torch.linspace(0, 1, 50, dtype=torch.float32, device=device), torch.linspace(0, 1, 50, dtype=torch.float32, device=device), indexing="xy")
+z = model.predict(torch.stack([Xv.flatten(), Yv.flatten()]).T)
 z = z.reshape(Xv.shape)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

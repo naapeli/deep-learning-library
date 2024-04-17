@@ -1,13 +1,14 @@
-import numpy as np
+import torch
 from Layers.Base import Base
+from math import sqrt
 
 
 class Dense(Base):
     def __init__(self, output_size, input_size=1, activation=None):
         super().__init__(output_size, input_size, activation)
-        # initialise parameters by random numbers between -1 and 1
-        self.weights = np.random.uniform(size=(output_size, input_size)) * 2 - 1
-        self.biases = np.random.uniform(size=(output_size, 1)) * 2 - 1
+        # initialise parameters by Xavier initialisation
+        self.weights = torch.normal(mean=0, std=sqrt(1/(input_size + output_size)), size=(output_size, input_size), dtype=torch.float32, device=self.device)
+        self.biases = torch.zeros(size=(output_size, 1), dtype=torch.float32, device=self.device)
         self.name = "Dense"
         self.nparams = output_size * input_size + output_size
 
@@ -21,5 +22,5 @@ class Dense(Base):
         if self.activation: dCdy = self.activation.backward(dCdy, learning_rate)
         dCdx = self.weights.T @ dCdy
         self.weights -= learning_rate * dCdy @ self.input.T
-        self.biases -= learning_rate * np.mean(dCdy, axis=1, keepdims=True)
+        self.biases -= learning_rate * torch.mean(dCdy, axis=1, keepdims=True)
         return dCdx

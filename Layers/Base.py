@@ -1,4 +1,4 @@
-import numpy as np
+import torch
 
 
 class Base:
@@ -10,6 +10,7 @@ class Base:
         self.nparams = 0
         self.name = "base"
         self.activation = activation
+        self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         if self.activation: self.activation.__init__(output_size, output_size)
 
     def summary(self):

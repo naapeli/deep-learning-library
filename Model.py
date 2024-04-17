@@ -1,6 +1,6 @@
 from Layers.Input import Input
 from Losses.MSE import mse
-import numpy as np
+import torch
 
 
 class Model:
@@ -8,6 +8,7 @@ class Model:
         self.layers = [Input(input_size)]
         self.optimiser = None
         self.loss = mse()
+        self.device = self.layers[0].device
 
     def add(self, layer):
         layer.__init__(layer.output_size, input_size=self.layers[-1].output_size, activation=layer.activation)
@@ -40,8 +41,8 @@ class Model:
     """
     X.shape = (data_length, input_size)
     """
-    def fit(self, X, Y, val_X=None, val_Y=None, epochs=100, loss_step=5, batch_size=None):
-        errors = np.zeros(epochs)
+    def fit(self, X, Y, val_data=None, epochs=100, loss_step=5, batch_size=None):
+        errors = torch.zeros(epochs, dtype=torch.float32, device=self.device)
         for epoch in range(epochs):
             # calculate the loss
             error = 0

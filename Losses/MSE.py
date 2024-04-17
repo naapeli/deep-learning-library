@@ -1,9 +1,9 @@
-import numpy as np
+import torch
 
 
 class mse:
     def loss(self, prediction, true_output):
-        return np.mean((prediction - true_output) ** 2)
+        return torch.mean((prediction - true_output) ** 2)
 
     def gradient(self, prediction, true_output):
-        return 2 * (prediction - true_output) / np.size(prediction)
+        return 2 * (prediction - true_output) / prediction.shape[0]

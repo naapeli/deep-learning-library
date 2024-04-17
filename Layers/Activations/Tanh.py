@@ -1,4 +1,4 @@
-import numpy as np
+import torch
 from Layers.Activations.Activation import Activation
 
 
@@ -9,9 +9,9 @@ class Tanh(Activation):
 
     def forward(self, input):
         self.input = input
-        self.output = np.tanh(input)
+        self.output = torch.tanh(input)
         return self.output
     
     def backward(self, dCdy, learning_rate=0.001):
-        dCdx = dCdy * (1 - np.tanh(self.input) ** 2)
+        dCdx = dCdy * (1 - torch.tanh(self.input) ** 2)
         return dCdx
