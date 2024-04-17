@@ -3,8 +3,10 @@ from Layers.Base import Base
 
 
 class Activation(Base):
-    def __init__(self, output_size, input_size=None, activation=None):
-        assert activation == None, "Activation must be None on activation layers"
-        assert input_size == output_size or input_size == None, "Input_size must be None or the same as output_size on activation layers"
+    def __init__(self, output_size=1, **kwargs):
         super().__init__(output_size, output_size)
+        assert self.activation is None, "Activation layer must not have an activation function"
         self.name = "Activation"
+
+    def summary(self):
+        return f"{self.name} - Output: ({self.output_size})"

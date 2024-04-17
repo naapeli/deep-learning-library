@@ -2,7 +2,7 @@ import torch
 
 
 class Base:
-    def __init__(self, output_size, input_size=None, activation=None):
+    def __init__(self, output_size, input_size=None, activation=None, data_type=torch.float32, **kwargs):
         self.input_size = input_size
         self.output_size = output_size
         self.output = None
@@ -10,15 +10,20 @@ class Base:
         self.nparams = 0
         self.name = "base"
         self.activation = activation
+        self.p = None
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-        if self.activation: self.activation.__init__(output_size, output_size)
+        self.data_type = data_type
+        if self.activation: self.activation.__init__(output_size)
+    
+    def initialise_layer(self):
+        pass
 
     def summary(self):
-        return f"{self.name}: ({self.input_size}, {self.output_size}) - {self.nparams}" + (" - Activation: " + self.activation.name if self.activation else "")
+        return f"{self.name} - (Input, Output): ({self.input_size}, {self.output_size}) - Parameters: {self.nparams}" + (" - Activation: " + self.activation.name if self.activation else "")
 
-    def forward(self, input):
+    def forward(self, input, training=False):
         self.input = input.T
         return self.input
 
-    def backward(self, dCdy, learning_rate=0.001):
+    def backward(self, dCdy, learning_rate=0.001, training=False):
         return dCdy
