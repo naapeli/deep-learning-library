@@ -7,6 +7,9 @@ Splits the data into train, validation and test sets
 
 X.shape = (data_length, input_shape)
 Y.shape = (data_length, output_shape)
+train_split = precentage of train data
+validation_split = precentage of validation data
+1 - train_split - validation_split = precentage of test data
 """
 def data_split(X, Y, train_split=0.8, validation_split=0.2):
     assert train_split + validation_split <= 1 and validation_split >= 0 and train_split >= 0, "Splits must be between 0 and 1 and their sum less than or equal to 1."
