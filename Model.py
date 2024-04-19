@@ -45,8 +45,9 @@ class Model:
 
     """
     X.shape = (data_length, input_size)
+    Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, epochs=100, loss_step=5, batch_size=None):
+    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=100, loss_step=5, batch_size=64):
         errors = torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False)
         for epoch in range(epochs):
             # calculate the loss
