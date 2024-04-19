@@ -1,6 +1,7 @@
 from Layers.Input import Input
 from Layers.Activations import Activation
 from Losses.MSE import mse
+from Data.DataReader import DataReader
 import torch
 from math import floor
 
@@ -47,12 +48,13 @@ class Model:
     X.shape = (data_length, input_size)
     Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=100, loss_step=5, batch_size=64):
+    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=100, loss_step=5, batch_size=64, new_shuffle_per_epoch=False, shuffle_data=True):
         errors = torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False)
+        data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
         for epoch in range(epochs):
             # calculate the loss
             error = 0
-            for x, y in zip(X, Y):
+            for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
                 error += self.loss.loss(predictions, y)
                 initial_gradient = self.loss.gradient(predictions, y)

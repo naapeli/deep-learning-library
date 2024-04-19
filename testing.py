@@ -15,11 +15,11 @@ y = torch.tensor([0, 1, 1, 0], dtype=torch.float32, device=device, requires_grad
 
 model = Model(2, data_type=torch.float32)
 model.add(Dense(3, activation=Tanh()))
-model.add(Dropout(3, p=0.9))
+# model.add(Dropout(3, p=0.9))
 model.add(Dense(1, activation=Tanh()))
 model.compile(optimiser=None, loss=mse())
 model.summary()
-errors = model.fit(x.reshape(1, 4, 2), y.reshape(1, 4), epochs=10000, loss_step=10)
+errors = model.fit(x, y, epochs=10000, loss_step=10, batch_size=2, shuffle_data=True, new_shuffle_per_epoch=True)
 plt.plot(errors)
 plt.xlabel("Epochs")
 plt.ylabel("Mean squared error")
