@@ -48,8 +48,8 @@ class Model:
     X.shape = (data_length, input_size)
     Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=100, loss_step=5, batch_size=64, new_shuffle_per_epoch=False, shuffle_data=True):
-        errors = torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False)
+    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=10, loss_step=1, batch_size=64, new_shuffle_per_epoch=False, shuffle_data=True):
+        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False) for metric in metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
         for epoch in range(epochs):
             # calculate the loss
@@ -62,6 +62,23 @@ class Model:
                 self.backward(initial_gradient, training=True)
             error /= len(X)
             if epoch % loss_step == 0:
-                errors[int(epoch / loss_step)] = error
-                print(f"Epoch: {epoch} - Error: {error}")
-        return errors
+                values = self._calculate_metrics(y, predictions, metrics, val_data=val_data)
+                for metric, value in values.items():
+                    history[metric][int(epoch / loss_step)] = value
+                print(f"Epoch: {epoch} - Metrics: {values}")
+        return history
+    
+    def _calculate_metrics(self, Y, predictions, metrics, val_data=None):
+        values = {}
+        for metric in metrics:
+            if val_data and metric[:3] == "val":
+                x_val, y_val = val_data
+                if metric == "val_loss":
+                    val_predictions = self.predict(x_val)
+                    metric_value = self.loss.loss(val_predictions, y_val).item()
+
+            elif metric == "loss":
+                metric_value = self.loss.loss(predictions, Y).item()
+
+            values[metric] = metric_value
+        return values
