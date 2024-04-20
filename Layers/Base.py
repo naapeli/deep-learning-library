@@ -21,9 +21,9 @@ class Base:
     def summary(self):
         return f"{self.name} - (Input, Output): ({self.input_size}, {self.output_size}) - Parameters: {self.nparams}" + (" - Activation: " + self.activation.name if self.activation else "")
 
-    def forward(self, input, training=False):
-        self.input = input.T
+    def forward(self, input, **kwargs):
+        self.input = input
         return self.input
 
-    def backward(self, dCdy, learning_rate=0.001, training=False):
+    def backward(self, dCdy, **kwargs):
         return dCdy
