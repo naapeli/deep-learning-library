@@ -14,14 +14,14 @@ class Dense(Base):
         self.biases = torch.zeros(size=(self.output_size, 1), dtype=self.data_type, device=self.device, requires_grad=False)
         self.nparams = self.output_size * self.input_size + self.output_size
 
-    def forward(self, input, training=False):
+    def forward(self, input, **kwargs):
         self.input = input
         self.output = self.weights @ self.input + self.biases
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
 
-    def backward(self, dCdy, learning_rate=0.001, training=False):
-        if self.activation: dCdy = self.activation.backward(dCdy, learning_rate)
+    def backward(self, dCdy, learning_rate=0.001, **kwargs):
+        if self.activation: dCdy = self.activation.backward(dCdy, learning_rate=learning_rate)
         dCdx = self.weights.T @ dCdy
         self.weights -= learning_rate * dCdy @ self.input.T
         self.biases -= learning_rate * torch.mean(dCdy, axis=1, keepdims=True)

@@ -7,11 +7,11 @@ class ReLU(Activation):
         super().__init__(output_size)
         self.name = "ReLU"
 
-    def forward(self, input, training=False):
+    def forward(self, input, **kwargs):
         self.input = input
         self.output = torch.maximum(self.input, torch.zeros_like(self.input))
         return self.output
     
-    def backward(self, dCdy, learning_rate=0.001, training=False):
+    def backward(self, dCdy, **kwargs):
         dCdx = dCdy * (self.input > 0)
         return dCdx
