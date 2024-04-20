@@ -15,7 +15,6 @@ class Model:
         self.device = self.layers[0].device
 
     def add(self, layer):
-        print(layer.name, layer.output_size)
         layer.input_size = self.layers[-1].output_size
         layer.initialise_layer()
         layer.data_type = self.data_type
@@ -30,7 +29,7 @@ class Model:
         total_params = 0
         for layer in self.layers:
             print(layer.summary())
-            total_params += layer.nparams
+            total_params += layer.get_nparams()
         print(f"Total number of parameters: {total_params}")
     
     def predict(self, input, training=False):

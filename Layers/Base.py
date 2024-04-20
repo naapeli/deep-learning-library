@@ -29,3 +29,6 @@ class Base:
 
     def backward(self, dCdy, **kwargs):
         return dCdy
+    
+    def get_nparams(self):
+        return self.nparams + (self.normalisation.nparams if self.normalisation else 0)
