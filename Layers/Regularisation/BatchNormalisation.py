@@ -20,9 +20,8 @@ class BatchNorm1d(Activation):
     def forward(self, input, training=False, **kwargs):
         self.input = input
         if training:
-            # mean and variance across the batch
             mean = torch.mean(input, axis=0)
-            variance = torch.var(input, axis=0)
+            variance = torch.var(input, axis=0, unbiased=True)
             self.std = torch.sqrt(variance + self.epsilon)
             self.running_mean = self.patience * self.running_mean + (1 - self.patience) * mean
             self.running_var = self.patience * self.running_var + (1 - self.patience) * variance
