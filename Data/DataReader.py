@@ -25,4 +25,3 @@ class DataReader:
             self.perm = torch.randperm(self.data_length, requires_grad=False)
             self.X = self.X.index_select(self.axis, self.perm)
             self.Y = self.Y.index_select(self.axis, self.perm)
-
