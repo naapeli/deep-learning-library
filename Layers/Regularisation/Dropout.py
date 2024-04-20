@@ -5,7 +5,7 @@ from Layers.Activations.Activation import Activation
 class Dropout(Activation):
     def __init__(self, output_size=None, p=0.5, **kwargs):
         super().__init__(output_size)
-        self.p = p
+        self.p = 1 - p
         self.mask = torch.rand(self.output_size, dtype=self.data_type, requires_grad=False, device=self.device) < self.p
         self.name = "Dropout"
 

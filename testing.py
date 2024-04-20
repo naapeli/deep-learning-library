@@ -15,7 +15,7 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 model = Model(2, data_type=torch.float32)
 model.add(Dense(6, normalisation=BatchNorm1d(), activation=ReLU()))
-# model.add(Dropout(6, p=0.9))
+# model.add(Dropout(6, p=0.1))
 model.add(Dense(6))
 model.add(BatchNorm1d(6))
 model.add(Tanh(6))
