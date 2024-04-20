@@ -4,18 +4,19 @@ from Layers.Activations.Activation import Activation
 
 
 class BatchNorm1d(Activation):
-    def __init__(self, output_size=None, patience=0.9, **kwargs):
+    def __init__(self, output_size=1, patience=0.9, **kwargs):
         super().__init__(output_size)
         self.gamma = torch.ones(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
         self.beta = torch.zeros(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
         self.running_var = torch.ones(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
         self.running_mean = torch.zeros(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
+        self.nparams = 2 * self.output_size
         self.x_norm = None
         self.x_centered = None
         self.std = None
         self.patience = patience
         self.epsilon = 1e-6
-        self.name = "BatchNormalisation"
+        self.name = "Batch normalisation"
 
     def forward(self, input, training=False, **kwargs):
         self.input = input
@@ -44,4 +45,7 @@ class BatchNorm1d(Activation):
         self.gamma -= learning_rate * dCdgamma
         self.beta -= learning_rate * dCdbeta
         return dCdx
+    
+    def summary(self):
+        return f"{self.name} - Output: ({self.output_size}) - Parameters: {self.nparams}"
     

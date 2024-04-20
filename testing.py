@@ -10,19 +10,11 @@ from Data.Processing import data_split
 import torch
 import matplotlib.pyplot as plt
 
-layer = BatchNorm1d(2)
-data = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32).T
-print(data.shape)
-print(layer.forward(data, training=True))
-layer = torch.nn.BatchNorm1d(2, affine=False)
-print(layer(data))
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model(2, data_type=torch.float32)
-model.add(Dense(6))
-model.add(BatchNorm1d(6))
-model.add(ReLU(6))
+model.add(Dense(6, normalisation=BatchNorm1d(), activation=ReLU()))
 # model.add(Dropout(6, p=0.9))
 model.add(Dense(6))
 model.add(BatchNorm1d(6))
@@ -40,7 +32,7 @@ surf = ax.scatter(X, Y, y)
 plt.show()
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
-errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=50, batch_size=64, learning_rate=0.1, metrics=["loss", "val_loss"], shuffle_data=True, new_shuffle_per_epoch=True)
+errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=50, batch_size=1, learning_rate=0.1, metrics=["loss", "val_loss"], shuffle_data=True, new_shuffle_per_epoch=True)
 plt.plot(errors["loss"], label="loss")
 plt.plot(errors["val_loss"], label="val_loss")
 plt.legend()
