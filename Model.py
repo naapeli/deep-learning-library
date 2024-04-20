@@ -38,17 +38,17 @@ class Model:
             current = layer.forward(current, training=training)
         return current
     
-    def backward(self, initial_gradient, training=False):
+    def backward(self, initial_gradient, learning_rate=0.001, training=False):
         reversedLayers = reversed(self.layers)
         gradient = initial_gradient
         for layer in reversedLayers:
-            gradient = layer.backward(gradient, learning_rate=0.1, training=training) # self.optimiser.learning_rate
+            gradient = layer.backward(gradient, learning_rate=learning_rate, training=training) # self.optimiser.learning_rate
 
     """
     X.shape = (data_length, input_size)
     Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=10, loss_step=1, batch_size=64, new_shuffle_per_epoch=False, shuffle_data=True):
+    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=10, loss_step=1, batch_size=64, learning_rate=0.001, new_shuffle_per_epoch=False, shuffle_data=True):
         history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False) for metric in metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
         for epoch in range(epochs):
@@ -59,7 +59,7 @@ class Model:
                 error += self.loss.loss(predictions, y)
                 initial_gradient = self.loss.gradient(predictions, y)
                 # self.optimiser.gradient(initial_gradient)
-                self.backward(initial_gradient, training=True)
+                self.backward(initial_gradient, learning_rate=learning_rate, training=True)
             error /= len(X)
             if epoch % loss_step == 0:
                 values = self._calculate_metrics(y, predictions, metrics, val_data=val_data)
