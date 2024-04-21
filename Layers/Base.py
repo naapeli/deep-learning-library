@@ -2,7 +2,7 @@ import torch
 
 
 class Base:
-    def __init__(self, output_size, input_size=None, activation=None, normalisation=None, data_type=torch.float32, **kwargs):
+    def __init__(self, output_size, input_size=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
         self.input_size = input_size
         self.output_size = output_size
         self.output = None
@@ -12,7 +12,7 @@ class Base:
         self.activation = activation
         self.normalisation = normalisation
         self.p = None
-        self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        self.device = device
         self.data_type = data_type
         if self.activation: self.activation.__init__(output_size)
         if self.normalisation: self.normalisation.__init__(output_size, patience=self.normalisation.patience)

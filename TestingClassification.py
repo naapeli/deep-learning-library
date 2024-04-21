@@ -5,7 +5,7 @@ from Layers.Regularisation.BatchNormalisation import BatchNorm1d
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
-from Data.Preprocessing import data_split, OneHotEncoder, normalise
+from Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
 from Metrics import accuracy
 
 import torch
@@ -16,7 +16,10 @@ from sklearn import datasets
 iris = datasets.load_iris()
 
 encoder = OneHotEncoder()
-x = normalise(torch.tensor(iris.data, dtype=torch.float32))
+scaler = MinMaxScaler()
+x = torch.tensor(iris.data, dtype=torch.float32)
+scaler.fit(x)
+x = scaler.transform(x)
 y = encoder.one_hot_encode(torch.tensor(iris.target, dtype=torch.float32))
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 

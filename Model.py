@@ -9,17 +9,18 @@ from math import floor
 
 
 class Model:
-    def __init__(self, input_size, data_type=torch.float32, **kwargs):
-        self.layers = [Input(input_size)]
+    def __init__(self, input_size, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
+        self.layers = [Input(input_size, device=device, data_type=data_type)]
         self.optimiser = None
         self.loss = mse()
         self.data_type = data_type
-        self.device = self.layers[0].device
+        self.device = device
 
     def add(self, layer):
         layer.input_size = self.layers[-1].output_size
         layer.initialise_layer()
         layer.data_type = self.data_type
+        layer.device = self.device
         self.layers.append(layer)
 
     def compile(self, optimiser=None, loss=mse(), metrics=["loss"]):
