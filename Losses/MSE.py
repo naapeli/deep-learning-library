@@ -1,6 +1,9 @@
 import torch
 
 
+"""
+Calculates the mean squared error and the gradient between a prediction vector as well as intended outputs
+"""
 class mse:
     def loss(self, prediction, true_output):
         return torch.mean((prediction - true_output.reshape(prediction.shape)) ** 2)
