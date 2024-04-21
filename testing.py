@@ -4,6 +4,7 @@ from Layers.Regularisation.Dropout import Dropout
 from Layers.Regularisation.BatchNormalisation import BatchNorm1d
 from Layers.Activations.Tanh import Tanh
 from Layers.Activations.ReLU import ReLU
+from Layers.Activations.Sigmoid import Sigmoid
 from Losses.MSE import mse
 from Data.Preprocessing import data_split
 
@@ -18,7 +19,7 @@ model.add(Dense(6, normalisation=BatchNorm1d(), activation=ReLU()))
 # model.add(Dropout(6, p=0.1))
 model.add(Dense(6))
 model.add(BatchNorm1d(6))
-model.add(Tanh(6))
+model.add(Sigmoid(6))
 model.add(Dense(1))
 model.compile(optimiser=None, loss=mse())
 model.summary()

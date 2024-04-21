@@ -1,14 +1,13 @@
 # DLL
- my own deep learning library
 
+my own deep learning library
 
 Upcoming topics:
+
 - saving a model (as JSON???)
 - categorical cross entropy loss (also binary cross entropy)
 - gradient descent optimiser
 - sigmoid activation
-- one-hot encoding
-- validation split function
 - 2d convolutional layer
 - 2d pooling layer
 - adam optimiser
@@ -18,4 +17,3 @@ Upcoming topics:
 - text vectorisation layer???
 - Attention layer???
 - other machine learning methods (linear regression, svm, naive bayes, decision trees, knn ...)
-- data reader for batches
