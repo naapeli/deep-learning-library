@@ -2,6 +2,8 @@ from Layers.Input import Input
 from Layers.Activations import Activation
 from Losses.MSE import mse
 from Data.DataReader import DataReader
+from Metrics import accuracy
+
 import torch
 from math import floor
 
@@ -20,9 +22,10 @@ class Model:
         layer.data_type = self.data_type
         self.layers.append(layer)
 
-    def compile(self, optimiser=None, loss=mse()):
+    def compile(self, optimiser=None, loss=mse(), metrics=["loss"]):
         self.optimiser = optimiser
         self.loss = loss
+        self.metrics = metrics
     
     def summary(self):
         print("Model summary:")
@@ -48,8 +51,8 @@ class Model:
     X.shape = (data_length, input_size)
     Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, metrics=["loss"], epochs=10, loss_step=1, batch_size=64, learning_rate=0.001, new_shuffle_per_epoch=False, shuffle_data=True):
-        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False) for metric in metrics}
+    def fit(self, X, Y, val_data=None, epochs=10, loss_step=1, batch_size=64, learning_rate=0.001, new_shuffle_per_epoch=False, shuffle_data=True):
+        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
         for epoch in range(epochs):
             # calculate the loss
@@ -62,23 +65,32 @@ class Model:
                 self.backward(initial_gradient, learning_rate=learning_rate, training=True)
             error /= len(X)
             if epoch % loss_step == 0:
-                values = self._calculate_metrics(y, predictions, metrics, val_data=val_data)
+                values = self._calculate_metrics(y, predictions, val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / loss_step)] = value
-                print(f"Epoch: {epoch} - Metrics: {values}")
+                print(f"Epoch: {epoch} - Metrics: {self._round_dictionary(values)}")
         return history
     
-    def _calculate_metrics(self, Y, predictions, metrics, val_data=None):
+    def _round_dictionary(self, values):
+        return {key: round(value, 2) for key, value in values.items()}
+
+    
+    def _calculate_metrics(self, Y, predictions, val_data=None):
         values = {}
-        for metric in metrics:
+        for metric in self.metrics:
             if val_data and metric[:3] == "val":
                 x_val, y_val = val_data
                 if metric == "val_loss":
                     val_predictions = self.predict(x_val)
                     metric_value = self.loss.loss(val_predictions, y_val).item()
-
+                elif metric == "val_accuracy":
+                    val_predictions = self.predict(x_val)
+                    metric_value = accuracy(val_predictions, y_val)
+                    
             elif metric == "loss":
                 metric_value = self.loss.loss(predictions, Y).item()
+            elif metric == "accuracy":
+                metric_value = accuracy(predictions, Y)
 
             values[metric] = metric_value
         return values
