@@ -42,7 +42,7 @@ class OneHotEncoder:
     
     def one_hot_decode(self, data):
         assert len(data.shape) == 2, "Input must be of shape (data_length, number_of_categories)"
-        return torch.tensor([self.index_to_element[torch.nonzero(tensor).item()] for tensor in data], requires_grad=False)
+        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data], requires_grad=False)
 
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]

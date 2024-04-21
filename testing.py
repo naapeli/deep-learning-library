@@ -5,7 +5,7 @@ from Layers.Regularisation.BatchNormalisation import BatchNorm1d
 from Layers.Activations.Tanh import Tanh
 from Layers.Activations.ReLU import ReLU
 from Losses.MSE import mse
-from Data.Processing import data_split
+from Data.Preprocessing import data_split
 
 import torch
 import matplotlib.pyplot as plt
