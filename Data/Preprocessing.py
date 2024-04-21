@@ -31,13 +31,13 @@ one-hot encodes the given categorical Y labels
 Y.shape = (data_length, 1)
 """
 class OneHotEncoder:
-    def one_hot_encode(self, Y):
-        assert (len(Y.shape) == 2 and Y.shape[1] == 1) or len(Y.shape) == 1, "Y-labels must be of shape (data_length, 1)"
-        unique_elements = torch.unique(Y)
+    def one_hot_encode(self, data):
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
+        unique_elements = torch.unique(data)
         self.element_to_index = {element.item(): i for i, element in enumerate(unique_elements)}
         self.index_to_element = {i: element for element, i in self.element_to_index.items()}
         one_hot_length = tuple(unique_elements.size())[0]
-        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], one_hot_length) for y in Y], requires_grad=False)
+        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], one_hot_length) for y in data], requires_grad=False)
         return label_to_distribution
     
     def one_hot_decode(self, data):
@@ -53,15 +53,29 @@ Normalises the data between 0 and 1
 
 data.shape = (data_length, input_shape)
 """
-def normalise(data):
-    min = torch.min(data, dim=0).values
-    max = torch.max(data, dim=0).values
-    return (data - min) / (max - min)
+class MinMaxScaler:
+    def fit(self, data):
+        self.min = torch.min(data, dim=0).values
+        self.max = torch.max(data, dim=0).values
+
+    def transform(self, data):
+        return (data - self.min) / (self.max - self.min)
+    
+    def inverse_transform(self, data):
+        return data * (self.max - self.min) + self.min
 
 """
 Standardises the data to 0 mean and 1 variance
 
 data.shape = (data_length, input_shape)
 """
-def standardise(data):
-    return (data - torch.mean(data, dim=0)) / torch.var(data, dim=0)
+class StandardScaler:
+    def fit(self, data):
+        self.mean = torch.mean(data, dim=0)
+        self.var = torch.var(data, dim=0)
+
+    def transform(self, data):
+        return (data - self.mean) / self.var
+
+    def inverse_transform(self, data):
+        return data * self.var + self.mean
