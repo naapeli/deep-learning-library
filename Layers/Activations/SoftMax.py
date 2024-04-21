@@ -5,7 +5,7 @@ from Layers.Activations.Activation import Activation
 class SoftMax(Activation):
     def __init__(self, output_size=None, **kwargs):
         super().__init__(output_size)
-        self.name = "softMax"
+        self.name = "Softmax"
 
     def forward(self, input, **kwargs):
         self.input = input

@@ -15,14 +15,6 @@ from sklearn import datasets
 
 iris = datasets.load_iris()
 
-_, ax = plt.subplots()
-scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
-ax.set(xlabel=iris.feature_names[0], ylabel=iris.feature_names[1])
-_ = ax.legend(
-    scatter.legend_elements()[0], iris.target_names, loc="lower right", title="Classes"
-)
-plt.show()
-
 encoder = OneHotEncoder()
 x = normalise(torch.tensor(iris.data, dtype=torch.float32))
 y = encoder.one_hot_encode(torch.tensor(iris.target, dtype=torch.float32))
@@ -38,6 +30,14 @@ model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(3, activation=SoftMax()))
 model.compile(optimiser=None, loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
+
+_, ax = plt.subplots()
+scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
+ax.set(xlabel=iris.feature_names[0], ylabel=iris.feature_names[1])
+_ = ax.legend(
+    scatter.legend_elements()[0], iris.target_names, loc="lower right", title="Classes"
+)
+plt.show()
 
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=100, batch_size=64)
 test_predictions = model.predict(x_test)
