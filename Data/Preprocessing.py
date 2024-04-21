@@ -47,3 +47,21 @@ class OneHotEncoder:
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]
         return distribution
+
+"""
+Normalises the data between 0 and 1
+
+data.shape = (data_length, input_shape)
+"""
+def normalise(data):
+    min = torch.min(data, dim=0).values
+    max = torch.max(data, dim=0).values
+    return (data - min) / (max - min)
+
+"""
+Standardises the data to 0 mean and 1 variance
+
+data.shape = (data_length, input_shape)
+"""
+def standardise(data):
+    return (data - torch.mean(data, dim=0)) / torch.var(data, dim=0)
