@@ -24,7 +24,7 @@ model.add(Dense(1))
 model.compile(optimiser=None, loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 n = 30
-X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device, requires_grad=False), torch.linspace(-1, 1, n, dtype=torch.float32, device=device, requires_grad=False), indexing="xy")
+X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)

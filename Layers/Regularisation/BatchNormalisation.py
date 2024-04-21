@@ -6,10 +6,10 @@ from Layers.Activations.Activation import Activation
 class BatchNorm1d(Activation):
     def __init__(self, output_size=1, patience=0.9, **kwargs):
         super().__init__(output_size)
-        self.gamma = torch.ones(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
-        self.beta = torch.zeros(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
-        self.running_var = torch.ones(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
-        self.running_mean = torch.zeros(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
+        self.gamma = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
+        self.beta = torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
+        self.running_var = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
+        self.running_mean = torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
         self.nparams = 2 * self.output_size
         self.x_norm = None
         self.x_centered = None
@@ -22,7 +22,7 @@ class BatchNorm1d(Activation):
         self.input = input
         if training:
             mean = torch.mean(input, axis=0)
-            variance = torch.var(input, axis=0, unbiased=True) if self.input.shape[0] > 1 else torch.zeros(self.output_size, dtype=self.data_type, device=self.device, requires_grad=False)
+            variance = torch.var(input, axis=0, unbiased=True) if self.input.shape[0] > 1 else torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
             self.std = torch.sqrt(variance + self.epsilon)
             self.running_mean = self.patience * self.running_mean + (1 - self.patience) * mean
             self.running_var = self.patience * self.running_var + (1 - self.patience) * variance

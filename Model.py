@@ -52,7 +52,7 @@ class Model:
     Y.shape = (data_length, output_size)
     """
     def fit(self, X, Y, val_data=None, epochs=10, loss_step=1, batch_size=64, learning_rate=0.001, new_shuffle_per_epoch=False, shuffle_data=True):
-        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device, requires_grad=False) for metric in self.metrics}
+        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
         for epoch in range(epochs):
             # calculate the loss
