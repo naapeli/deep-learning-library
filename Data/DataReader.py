@@ -7,7 +7,7 @@ class DataReader:
         self.shuffle = shuffle
         self.new_shuffle_per_epoch = new_shuffle_per_epoch
         if self.shuffle:
-            self.perm = torch.randperm(self.data_length, requires_grad=False)
+            self.perm = torch.randperm(self.data_length)
             self.X = X.index_select(0, self.perm)
             self.Y = Y.index_select(0, self.perm)
         else:
@@ -21,6 +21,6 @@ class DataReader:
             yield self.X[iteration * self.batch_size:(iteration + 1) * self.batch_size], self.Y[iteration * self.batch_size:(iteration + 1) * self.batch_size]
             iteration += 1
         if self.new_shuffle_per_epoch and self.shuffle:
-            self.perm = torch.randperm(self.data_length, requires_grad=False)
+            self.perm = torch.randperm(self.data_length)
             self.X = self.X.index_select(0, self.perm)
             self.Y = self.Y.index_select(0, self.perm)
