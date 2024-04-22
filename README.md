@@ -5,9 +5,7 @@ my own deep learning library
 Upcoming topics:
 
 - saving a model (as JSON???)
-- categorical cross entropy loss (also binary cross entropy)
 - gradient descent optimiser
-- sigmoid activation
 - 2d convolutional layer
 - 2d pooling layer
 - adam optimiser
