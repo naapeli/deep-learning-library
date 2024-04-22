@@ -6,7 +6,7 @@ from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
 from Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
-from Metrics import accuracy
+from Data.Metrics import accuracy
 
 import torch
 import matplotlib.pyplot as plt

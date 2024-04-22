@@ -2,7 +2,7 @@ from Layers.Input import Input
 from Layers.Activations import Activation
 from Losses.MSE import mse
 from Data.DataReader import DataReader
-from Metrics import accuracy
+from Data.Metrics import accuracy
 
 import torch
 from math import floor
