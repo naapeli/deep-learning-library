@@ -69,7 +69,7 @@ class Model:
                 values = self._calculate_metrics(y, predictions, val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / loss_step)] = value
-                print(f"Epoch: {epoch} - Metrics: {self._round_dictionary(values)}")
+                print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
         return history
     
     def _round_dictionary(self, values):
