@@ -29,7 +29,7 @@ x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
-errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=20, batch_size=64, learning_rate=0.1, shuffle_data=True, new_shuffle_per_epoch=True)
+errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=20, batch_size=64, learning_rate=0.1)
 plt.plot(errors["loss"], label="loss")
 plt.plot(errors["val_loss"], label="val_loss")
 plt.legend()

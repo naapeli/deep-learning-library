@@ -15,3 +15,4 @@ Upcoming topics:
 - text vectorisation layer???
 - Attention layer???
 - other machine learning methods (linear regression, svm, naive bayes, decision trees, knn ...)
+- early stopping and other callbacks

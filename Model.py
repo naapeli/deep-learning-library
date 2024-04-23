@@ -52,9 +52,9 @@ class Model:
     X.shape = (data_length, input_size)
     Y.shape = (data_length, output_size)
     """
-    def fit(self, X, Y, val_data=None, epochs=10, loss_step=1, batch_size=64, learning_rate=0.001, new_shuffle_per_epoch=False, shuffle_data=True):
-        history = {metric: torch.zeros(floor(epochs / loss_step), dtype=self.data_type, device=self.device) for metric in self.metrics}
-        data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, new_shuffle_per_epoch=new_shuffle_per_epoch)
+    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, learning_rate=0.001, shuffle_every_epoch=True, shuffle_data=True):
+        history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}
+        data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
             # calculate the loss
             error = 0
@@ -65,15 +65,15 @@ class Model:
                 # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient, learning_rate=learning_rate, training=True)
             error /= len(X)
-            if epoch % loss_step == 0:
+            if epoch % callback_frequency == 0:
                 values = self._calculate_metrics(y, predictions, val_data=val_data)
                 for metric, value in values.items():
-                    history[metric][int(epoch / loss_step)] = value
+                    history[metric][int(epoch / callback_frequency)] = value
                 print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
         return history
     
     def _round_dictionary(self, values):
-        return {key: round(value, 2) for key, value in values.items()}
+        return {key: "{:0.4f}".format(value) for key, value in values.items()}
 
     
     def _calculate_metrics(self, Y, predictions, val_data=None):
