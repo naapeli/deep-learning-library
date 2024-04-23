@@ -59,9 +59,11 @@ class MinMaxScaler:
         self.max = torch.max(data, dim=0).values
 
     def transform(self, data):
+        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
         return (data - self.min) / (self.max - self.min)
     
     def inverse_transform(self, data):
+        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
         return data * (self.max - self.min) + self.min
 
 """
@@ -75,7 +77,9 @@ class StandardScaler:
         self.var = torch.var(data, dim=0)
 
     def transform(self, data):
+        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
         return (data - self.mean) / self.var
 
     def inverse_transform(self, data):
+        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
         return data * self.var + self.mean
