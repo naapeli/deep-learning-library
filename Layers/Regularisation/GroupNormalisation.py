@@ -2,6 +2,12 @@ import torch
 from Layers.Activations.Activation import Activation
 
 
+"""
+Computes the group norm of a batch
+
+input.shape = (batch_size, channels, *)
+output.shape = (batch_size, channels, *)
+"""
 class GroupNorm1d(Activation):
     def __init__(self, output_size=None, num_groups=32, **kwargs):
         super().__init__(output_size, **kwargs)
@@ -21,10 +27,11 @@ class GroupNorm1d(Activation):
         self.nparams = 2 * self.output_size
 
     def forward(self, input, **kwargs):
-        batch_size = input.shape[0]
-        elements_per_group = self.output_size // self.num_groups
         self.input = input
-        self.input_reshaped = self.input.view(batch_size, self.num_groups, elements_per_group)
+        batch_size = input.shape[0]
+        elements_per_group = input.shape[1] // self.num_groups
+        self.input = input
+        self.input_reshaped = self.input.view(batch_size, self.num_groups, elements_per_group, *input.shape[2:])
         mean = 1.0 / elements_per_group * self.input_reshaped.sum(2, keepdim=True)
         self.x_centered = self.input_reshaped - mean
         self.x_centered_squared = self.x_centered ** 2
@@ -37,15 +44,15 @@ class GroupNorm1d(Activation):
         return self.output
     
     def backward(self, dCdy, learning_rate=0.001, **kwargs):
-        batch_size = self.output.shape[0]
-        elements_per_group = self.output_size // self.num_groups
+        batch_size = dCdy.shape[0]
+        elements_per_group = self.output.shape[1] // self.num_groups
         dCdx_reshaped = dCdy * self.gamma
         dCdgamma = (dCdy * self.x_reshaped).sum(axis=0)
         dCdbeta = dCdy.sum(axis=0)
         self.gamma -= learning_rate * dCdgamma
         self.beta -= learning_rate * dCdbeta
 
-        dCdx_norm = dCdx_reshaped.view(batch_size, self.num_groups, elements_per_group)
+        dCdx_norm = dCdx_reshaped.view(batch_size, self.num_groups, elements_per_group, *self.output.shape[2:])
         dCdx_centered = dCdx_norm * self.inv_std
         dCdinv_std = (dCdx_norm * self.x_centered).sum(2, keepdim=True)
         dCdvar = -0.5 * ((self.var + self.epsilon) ** -1.5) * dCdinv_std
