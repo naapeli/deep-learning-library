@@ -4,8 +4,9 @@ from Layers.Activations.Activation import Activation
 
 class GroupNorm1d(Activation):
     def __init__(self, output_size=1, num_groups=32, **kwargs):
-        # assert output_size % num_groups == 0, "output_size must be divisible by the number of groups"
         super().__init__(output_size)
+        assert output_size % num_groups == 0 or output_size == 1, "output_size must be divisible by the number of groups"
+        assert output_size // num_groups > 1 or output_size == 1, "Number of elements in each group must be greater than 1"
         self.gamma = torch.ones(self.output_size)
         self.beta = torch.zeros(self.output_size)
         self.num_groups = num_groups
