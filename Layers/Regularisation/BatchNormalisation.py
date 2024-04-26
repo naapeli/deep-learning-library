@@ -1,5 +1,4 @@
 import torch
-from math import sqrt
 from Layers.Activations.Activation import Activation
 
 

@@ -2,6 +2,7 @@ from Model import Model
 from Layers.Dense import Dense
 from Layers.Regularisation.Dropout import Dropout
 from Layers.Regularisation.BatchNormalisation import BatchNorm1d
+from Layers.Regularisation.GroupNormalisation import GroupNorm1d
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
@@ -26,7 +27,7 @@ x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model(4, data_type=torch.float32)
-model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense(20, normalisation=GroupNorm1d(num_groups=2), activation=ReLU()))
 # model.add(Dropout(6, p=0.1))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))

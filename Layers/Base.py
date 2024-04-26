@@ -15,7 +15,7 @@ class Base:
         self.device = device
         self.data_type = data_type
         if self.activation: self.activation.__init__(output_size)
-        if self.normalisation: self.normalisation.__init__(output_size, patience=self.normalisation.patience)
+        if self.normalisation: self.normalisation.__init__(output_size, patience=self.normalisation.patience if hasattr(self.normalisation, "patience") else -1, num_groups=self.normalisation.num_groups if hasattr(self.normalisation, "num_groups") else -1)
     
     def initialise_layer(self):
         pass
