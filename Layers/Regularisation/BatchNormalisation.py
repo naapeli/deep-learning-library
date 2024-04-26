@@ -5,6 +5,7 @@ from Layers.Activations.Activation import Activation
 class BatchNorm1d(Activation):
     def __init__(self, output_size=1, patience=0.9, **kwargs):
         super().__init__(output_size)
+        assert 0 < patience and patience < 1, "Patience must be strictly between 0 and 1"
         self.gamma = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
         self.beta = torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
         self.running_var = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
