@@ -60,7 +60,7 @@ class GroupNorm1d(Activation):
         dCdx_centered += 2 * self.x_centered * dCdx_centered_squared
         dCdinput_reshaped = dCdx_centered.clone()
         dCdmean = -(dCdx_centered).sum(2, keepdim=True)
-        dCdinput_reshaped += 1.0 / elements_per_group * (torch.ones_like(self.input_reshaped) * dCdmean)
+        dCdinput_reshaped += 1.0 / elements_per_group * torch.ones_like(self.input_reshaped) * dCdmean
         dCdx = dCdinput_reshaped.view(self.output.shape)
         return dCdx.view(self.output.shape)
     
