@@ -3,20 +3,22 @@ from Layers.Activations.Activation import Activation
 
 
 class BatchNorm1d(Activation):
-    def __init__(self, output_size=1, patience=0.9, **kwargs):
+    def __init__(self, output_size=None, patience=0.9, **kwargs):
         super().__init__(output_size)
         assert 0 < patience and patience < 1, "Patience must be strictly between 0 and 1"
+        self.patience = patience
+        self.epsilon = 1e-6
+        self.name = "Batch normalisation"
+        if output_size is not None: self.set_output_size(output_size)
+    
+    def set_output_size(self, output_size):
+        self.output_size = output_size
+        self.input_size = output_size
         self.gamma = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
         self.beta = torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
         self.running_var = torch.ones(self.output_size, dtype=self.data_type, device=self.device)
         self.running_mean = torch.zeros(self.output_size, dtype=self.data_type, device=self.device)
         self.nparams = 2 * self.output_size
-        self.x_norm = None
-        self.x_centered = None
-        self.std = None
-        self.patience = patience
-        self.epsilon = 1e-6
-        self.name = "Batch normalisation"
 
     def forward(self, input, training=False, **kwargs):
         self.input = input

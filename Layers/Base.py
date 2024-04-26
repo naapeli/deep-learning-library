@@ -14,8 +14,10 @@ class Base:
         self.p = None
         self.device = device
         self.data_type = data_type
-        if self.activation: self.activation.__init__(output_size)
-        if self.normalisation: self.normalisation.__init__(output_size, patience=self.normalisation.patience, num_groups=self.normalisation.num_groups)
+        if self.activation:
+            self.activation.set_output_size(output_size)
+        if self.normalisation:
+            self.normalisation.set_output_size(output_size)
     
     def initialise_layer(self):
         pass

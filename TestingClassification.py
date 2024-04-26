@@ -3,6 +3,8 @@ from Layers.Dense import Dense
 from Layers.Regularisation.Dropout import Dropout
 from Layers.Regularisation.BatchNormalisation import BatchNorm1d
 from Layers.Regularisation.GroupNormalisation import GroupNorm1d
+from Layers.Regularisation.InstanceNormalisation import InstanceNorm1d
+from Layers.Regularisation.LayerNormalisation import LayerNorm1d
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
@@ -28,7 +30,6 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 model = Model(4, data_type=torch.float32)
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
-# model.add(Dropout(6, p=0.1))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(3, activation=SoftMax()))

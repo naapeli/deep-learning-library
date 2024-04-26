@@ -3,18 +3,22 @@ from Layers.Activations.Activation import Activation
 
 
 class GroupNorm1d(Activation):
-    def __init__(self, output_size=1, num_groups=32, **kwargs):
+    def __init__(self, output_size=None, num_groups=32, **kwargs):
         super().__init__(output_size, **kwargs)
-        assert output_size % num_groups == 0 or output_size == 1, "output_size must be divisible by the number of groups"
-        assert output_size // num_groups > 1 or output_size == 1, "Number of elements in each group must be greater than 1"
-        self.gamma = torch.ones(self.output_size)
-        self.beta = torch.zeros(self.output_size)
+        self.kwargs = kwargs
         self.num_groups = num_groups
         self.epsilon = 1e-6
-        self.x_centered = None
-        self.x_norm = None
-        self.x_reshaped = None
         self.name = "Group normalisation"
+        if output_size is not None: self.set_output_size(output_size)
+
+    def set_output_size(self, output_size):
+        self.output_size = output_size
+        self.input_size = output_size
+        assert self.output_size % self.num_groups == 0, "output_size must be divisible by the number of groups"
+        assert self.output_size // self.num_groups > 1, "Number of elements in each group must be greater than 1"
+        self.gamma = torch.ones(self.output_size)
+        self.beta = torch.zeros(self.output_size)
+        self.nparams = 2 * self.output_size
 
     def forward(self, input, **kwargs):
         batch_size = input.shape[0]
