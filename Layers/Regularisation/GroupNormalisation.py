@@ -3,7 +3,7 @@ from Layers.Activations.Activation import Activation
 
 
 """
-Computes the group norm of a batch
+Computes the group norm of a batch along axis=1
 
 input.shape = (batch_size, channels, *)
 output.shape = (batch_size, channels, *)

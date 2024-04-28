@@ -4,8 +4,8 @@ from math import sqrt
 
 
 class Dense(Base):
-    def __init__(self, output_size, input_size=1, activation=None, normalisation=None, **kwargs):
-        super().__init__(output_size, input_size, activation=activation, normalisation=normalisation)
+    def __init__(self, output_size, activation=None, normalisation=None, **kwargs):
+        super().__init__(output_size, activation=activation, normalisation=normalisation)
         self.name = "Dense"
 
     def initialise_layer(self):
