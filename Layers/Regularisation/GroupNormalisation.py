@@ -9,22 +9,22 @@ input.shape = (batch_size, channels, *)
 output.shape = (batch_size, channels, *)
 """
 class GroupNorm1d(Activation):
-    def __init__(self, output_size=None, num_groups=32, **kwargs):
-        super().__init__(output_size, **kwargs)
+    def __init__(self, output_shape=None, num_groups=32, **kwargs):
+        super().__init__(output_shape, **kwargs)
         self.kwargs = kwargs
         self.num_groups = num_groups
         self.epsilon = 1e-6
         self.name = "Group normalisation"
-        if output_size is not None: self.set_output_size(output_size)
+        if output_shape is not None: self.set_output_shape(output_shape)
 
-    def set_output_size(self, output_size):
-        self.output_size = output_size
-        self.input_size = output_size
-        assert self.output_size % self.num_groups == 0, "output_size must be divisible by the number of groups"
-        assert self.output_size // self.num_groups > 1, "Number of elements in each group must be greater than 1"
-        self.gamma = torch.ones(self.output_size)
-        self.beta = torch.zeros(self.output_size)
-        self.nparams = 2 * self.output_size
+    def set_output_shape(self, output_shape):
+        self.output_shape = output_shape
+        self.input_shape = output_shape
+        assert self.output_shape % self.num_groups == 0, "output_shape must be divisible by the number of groups"
+        assert self.output_shape // self.num_groups > 1, "Number of elements in each group must be greater than 1"
+        self.gamma = torch.ones(self.output_shape)
+        self.beta = torch.zeros(self.output_shape)
+        self.nparams = 2 * self.output_shape
 
     def forward(self, input, **kwargs):
         self.input = input
@@ -65,5 +65,5 @@ class GroupNorm1d(Activation):
         return dCdx.view(self.output.shape)
     
     def summary(self):
-        return f"{self.name} - Output: ({self.output_size}) - Parameters: {self.nparams}"
+        return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
     

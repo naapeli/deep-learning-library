@@ -2,9 +2,9 @@ from Layers.Base import Base
 
 
 class Input(Base):
-    def __init__(self, output_size, **kwargs):
-        super().__init__(output_size, output_size)
+    def __init__(self, output_shape, **kwargs):
+        super().__init__(output_shape, output_shape)
         self.name = "Input"
 
     def summary(self):
-        return f"{self.name} - Output: ({self.output_size})"
+        return f"{self.name} - Output: ({self.output_shape})"

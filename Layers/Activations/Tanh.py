@@ -3,8 +3,8 @@ from Layers.Activations.Activation import Activation
 
 
 class Tanh(Activation):
-    def __init__(self, output_size=None, **kwargs):
-        super().__init__(output_size)
+    def __init__(self, output_shape=None, **kwargs):
+        super().__init__(output_shape)
         self.name = "Tanh"
 
     def forward(self, input, **kwargs):

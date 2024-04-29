@@ -9,15 +9,15 @@ from math import floor
 
 
 class Model:
-    def __init__(self, input_size, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
-        self.layers = [Input(input_size, device=device, data_type=data_type)]
+    def __init__(self, input_shape, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
+        self.layers = [Input(input_shape, device=device, data_type=data_type)]
         self.optimiser = None
         self.loss = mse()
         self.data_type = data_type
         self.device = device
 
     def add(self, layer):
-        layer.input_size = self.layers[-1].output_size
+        layer.input_shape = self.layers[-1].output_shape
         layer.initialise_layer()
         layer.data_type = self.data_type
         layer.device = self.device
@@ -49,8 +49,8 @@ class Model:
             gradient = layer.backward(gradient, learning_rate=learning_rate, training=training) # self.optimiser.learning_rate
 
     """
-    X.shape = (data_length, input_size)
-    Y.shape = (data_length, output_size)
+    X.shape = (data_length, input_shape)
+    Y.shape = (data_length, output_shape)
     """
     def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, learning_rate=0.001, shuffle_every_epoch=True, shuffle_data=True):
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}

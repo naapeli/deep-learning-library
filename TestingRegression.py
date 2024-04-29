@@ -18,10 +18,10 @@ import matplotlib.pyplot as plt
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model(2, data_type=torch.float32)
-model.add(Dense(6, normalisation=LayerNorm1d(), activation=ReLU()))
-# model.add(Dropout(6, p=0.1))
+model.add(Dense(6, normalisation=GroupNorm1d(num_groups=2), activation=ReLU()))
+model.add(Dropout(6, p=0.1))
 model.add(Dense(6))
-model.add(LayerNorm1d(6))
+model.add(GroupNorm1d(6, num_groups=2))
 model.add(Sigmoid(6))
 model.add(Dense(1))
 model.compile(optimiser=None, loss=mse(), metrics=["loss", "val_loss"])

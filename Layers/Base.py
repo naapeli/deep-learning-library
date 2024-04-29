@@ -2,9 +2,9 @@ import torch
 
 
 class Base:
-    def __init__(self, output_size, input_size=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
-        self.input_size = input_size
-        self.output_size = output_size
+    def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
+        self.input_shape = input_shape
+        self.output_shape = output_shape
         self.output = None
         self.input = None
         self.nparams = 0
@@ -15,15 +15,15 @@ class Base:
         self.device = device
         self.data_type = data_type
         if self.activation:
-            self.activation.set_output_size(output_size)
+            self.activation.set_output_shape(output_shape)
         if self.normalisation:
-            self.normalisation.set_output_size(output_size)
+            self.normalisation.set_output_shape(output_shape)
     
     def initialise_layer(self):
         pass
 
     def summary(self):
-        return f"{self.name} - (Input, Output): ({self.input_size}, {self.output_size}) - Parameters: {self.nparams}" + (" - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else "") + (" - Activation: " + self.activation.name if self.activation else "")
+        return f"{self.name} - (Input, Output): ({self.input_shape}, {self.output_shape}) - Parameters: {self.nparams}" + (" - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else "") + (" - Activation: " + self.activation.name if self.activation else "")
 
     def forward(self, input, **kwargs):
         self.input = input
