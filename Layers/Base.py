@@ -2,7 +2,7 @@ import torch
 
 
 class Base:
-    def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu"), **kwargs):
+    def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu")):
         self.input_shape = input_shape
         self.output_shape = output_shape
         self.output = None
@@ -11,7 +11,6 @@ class Base:
         self.name = "base"
         self.activation = activation
         self.normalisation = normalisation
-        self.p = None
         self.device = device
         self.data_type = data_type
         if self.activation:
@@ -19,6 +18,10 @@ class Base:
         if self.normalisation:
             self.normalisation.set_output_shape(output_shape)
     
+
+    """
+    Initialises a layer. Can be called after the layer knows its input and output shapes.
+    """
     def initialise_layer(self):
         pass
 

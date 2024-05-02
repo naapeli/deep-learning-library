@@ -4,7 +4,7 @@ from Layers.Base import Base
 
 class Activation(Base):
     def __init__(self, output_shape=None, **kwargs):
-        super().__init__(output_shape, output_shape)
+        super().__init__(output_shape, output_shape, **kwargs)
         assert self.activation is None, "Activation layer must not have an activation function"
         assert self.normalisation is None, "Activation layer must not have a normalisation layer"
         self.name = "Activation"
