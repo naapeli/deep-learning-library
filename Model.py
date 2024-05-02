@@ -58,17 +58,12 @@ class Model:
         for epoch in range(epochs):
             # calculate the loss
             error = 0
-            i = 0
             for x, y in data_reader.get_data():
-                print(i)
                 predictions = self.predict(x, training=True)
                 error += self.loss.loss(predictions, y)
                 initial_gradient = self.loss.gradient(predictions, y)
                 # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient, learning_rate=learning_rate, training=True)
-                i += 1
-                if i > 500:
-                    break
             error /= len(X)
             if epoch % callback_frequency == 0:
                 values = self._calculate_metrics(y, predictions, val_data=val_data)
