@@ -2,8 +2,8 @@ from Model import Model
 from Layers.Dense import Dense
 from Layers.Conv2D import Conv2D
 from Layers.Flatten import Flatten
+from Layers.MaxPooling2D import MaxPooling2D
 from Layers.Regularisation.Dropout import Dropout
-from Layers.Regularisation.BatchNormalisation import BatchNorm1d
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
@@ -33,8 +33,10 @@ print(train_images.shape, train_labels.shape, validation_images.shape, validatio
 print(train_labels[:2])
 
 model = Model((1, 28, 28))
-model.add(Conv2D(3, 32, activation=ReLU()))
-model.add(Conv2D(3, 64, activation=ReLU()))
+model.add(Conv2D(kernel_size=3, output_depth=32, activation=ReLU()))
+model.add(Conv2D(kernel_size=3, output_depth=64, activation=ReLU()))
+model.add(MaxPooling2D(pool_size=3))
+model.add(Dropout(p=0.5))
 model.add(Flatten())
 model.add(Dense(250, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
