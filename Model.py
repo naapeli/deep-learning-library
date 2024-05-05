@@ -1,9 +1,7 @@
 from Layers.Input import Input
-from Layers.Activations import Activation
 from Losses.MSE import mse
 from Data.DataReader import DataReader
 from Data.Metrics import accuracy
-from Optimisers.SGD import sgd
 from Optimisers.ADAM import Adam
 
 import torch
