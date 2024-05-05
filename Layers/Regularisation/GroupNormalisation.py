@@ -43,14 +43,14 @@ class GroupNorm1d(Activation):
         self.output = self.x_reshaped * self.gamma + self.beta
         return self.output
     
-    def backward(self, dCdy, learning_rate=0.001, **kwargs):
+    def backward(self, dCdy, **kwargs):
         batch_size = dCdy.shape[0]
         elements_per_group = self.output.shape[1] // self.num_groups
         dCdx_reshaped = dCdy * self.gamma
         dCdgamma = (dCdy * self.x_reshaped).sum(axis=0)
         dCdbeta = dCdy.sum(axis=0)
-        self.gamma -= learning_rate * dCdgamma
-        self.beta -= learning_rate * dCdbeta
+        self.gamma.grad = dCdgamma
+        self.beta.grad = dCdbeta
 
         dCdx_norm = dCdx_reshaped.view(batch_size, self.num_groups, elements_per_group, *self.output.shape[2:])
         dCdx_centered = dCdx_norm * self.inv_std
@@ -66,4 +66,7 @@ class GroupNorm1d(Activation):
     
     def summary(self):
         return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
+
+    def get_parameters(self):
+        return (self.gamma, self.beta)
     

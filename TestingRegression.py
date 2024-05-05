@@ -9,6 +9,7 @@ from Layers.Activations.Tanh import Tanh
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.Sigmoid import Sigmoid
 from Losses.MSE import mse
+from Optimisers.SGD import sgd
 from Data.Preprocessing import data_split
 
 import torch
@@ -18,13 +19,13 @@ import matplotlib.pyplot as plt
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model(2, data_type=torch.float32)
-model.add(Dense(6, normalisation=GroupNorm1d(num_groups=2), activation=ReLU()))
+model.add(Dense(6, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dropout(6, p=0.1))
 model.add(Dense(6))
 model.add(GroupNorm1d(6, num_groups=2))
 model.add(Sigmoid(6))
 model.add(Dense(1))
-model.compile(optimiser=None, loss=mse(), metrics=["loss", "val_loss"])
+model.compile(optimiser=sgd(learning_rate=0.1), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")

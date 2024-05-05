@@ -36,3 +36,6 @@ class Base:
     
     def get_nparams(self):
         return self.nparams + (self.normalisation.nparams if self.normalisation else 0)
+    
+    def get_parameters(self):
+        return []

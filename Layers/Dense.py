@@ -21,10 +21,13 @@ class Dense(Base):
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
 
-    def backward(self, dCdy, learning_rate=0.001, **kwargs):
-        if self.activation: dCdy = self.activation.backward(dCdy, learning_rate=learning_rate)
-        if self.normalisation: dCdy = self.normalisation.backward(dCdy, learning_rate=learning_rate)
+    def backward(self, dCdy, **kwargs):
+        if self.activation: dCdy = self.activation.backward(dCdy)
+        if self.normalisation: dCdy = self.normalisation.backward(dCdy)
         dCdx = dCdy @ self.weights.T
-        self.weights -= learning_rate * self.input.T @ dCdy
-        self.biases -= learning_rate * torch.mean(dCdy, axis=0)
+        self.weights.grad = self.input.T @ dCdy
+        self.biases.grad = torch.mean(dCdy, axis=0)
         return dCdx
+    
+    def get_parameters(self):
+        return (self.weights, self.biases)

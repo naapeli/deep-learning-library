@@ -3,6 +3,7 @@ from Layers.Activations import Activation
 from Losses.MSE import mse
 from Data.DataReader import DataReader
 from Data.Metrics import accuracy
+from Optimisers.SGD import sgd
 
 import torch
 from math import floor
@@ -23,8 +24,10 @@ class Model:
         layer.device = self.device
         self.layers.append(layer)
 
-    def compile(self, optimiser=None, loss=mse(), metrics=["loss"]):
+    def compile(self, optimiser=sgd(), loss=mse(), metrics=["loss"]):
         self.optimiser = optimiser
+        parameters = [parameter for layer in self.layers for parameter in layer.get_parameters()]
+        self.optimiser.initialise_parameters(parameters)
         self.loss = loss
         self.metrics = metrics
     
@@ -59,8 +62,8 @@ class Model:
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
                 initial_gradient = self.loss.gradient(predictions, y)
-                # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient, learning_rate=learning_rate, training=True)
+                self.optimiser.update_parameters()
             if epoch % callback_frequency == 0:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():

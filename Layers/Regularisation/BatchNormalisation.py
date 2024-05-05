@@ -44,10 +44,13 @@ class BatchNorm1d(Activation):
         dCdmean = -((dCdx_norm / self.std).sum(axis=0) + dCdvar * (2 / batch_size) * self.x_centered.sum(axis=0))
         dCdx = dCdx_norm / self.std + (dCdvar * 2 * self.x_centered + dCdmean) / batch_size
 
-        self.gamma -= learning_rate * dCdgamma
-        self.beta -= learning_rate * dCdbeta
+        self.gamma.grad = dCdgamma
+        self.beta.grad = dCdbeta
         return dCdx
     
     def summary(self):
         return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
+    
+    def get_parameters(self):
+        return (self.gamma, self.beta)
     
