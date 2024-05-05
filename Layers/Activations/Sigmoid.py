@@ -4,7 +4,7 @@ from Layers.Activations.Activation import Activation
 
 class Sigmoid(Activation):
     def __init__(self, output_shape=None, **kwargs):
-        super().__init__(output_shape)
+        super().__init__(output_shape, **kwargs)
         self.name = "Sigmoid"
 
     def forward(self, input, **kwargs):

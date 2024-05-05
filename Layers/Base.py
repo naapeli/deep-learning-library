@@ -18,7 +18,6 @@ class Base:
         if self.normalisation:
             self.normalisation.set_output_shape(output_shape)
     
-
     """
     Initialises a layer. Can be called after the layer knows its input and output shapes.
     """

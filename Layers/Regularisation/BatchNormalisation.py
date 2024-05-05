@@ -4,7 +4,7 @@ from Layers.Activations.Activation import Activation
 
 class BatchNorm1d(Activation):
     def __init__(self, output_shape=None, patience=0.9, **kwargs):
-        super().__init__(output_shape)
+        super().__init__(output_shape, **kwargs)
         assert 0 < patience and patience < 1, "Patience must be strictly between 0 and 1"
         self.patience = patience
         self.epsilon = 1e-6

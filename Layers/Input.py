@@ -3,7 +3,7 @@ from Layers.Base import Base
 
 class Input(Base):
     def __init__(self, output_shape, **kwargs):
-        super().__init__(output_shape, output_shape)
+        super().__init__(output_shape, output_shape, **kwargs)
         self.name = "Input"
 
     def summary(self):

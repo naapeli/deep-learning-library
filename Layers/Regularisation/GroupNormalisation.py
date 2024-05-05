@@ -22,8 +22,8 @@ class GroupNorm1d(Activation):
         self.input_shape = output_shape
         assert self.output_shape % self.num_groups == 0, "output_shape must be divisible by the number of groups"
         assert self.output_shape // self.num_groups > 1, "Number of elements in each group must be greater than 1"
-        self.gamma = torch.ones(self.output_shape)
-        self.beta = torch.zeros(self.output_shape)
+        self.gamma = torch.ones(self.output_shape, device=self.device, dtype=self.data_type)
+        self.beta = torch.zeros(self.output_shape, device=self.device, dtype=self.data_type)
         self.nparams = 2 * self.output_shape
 
     def forward(self, input, **kwargs):
@@ -56,11 +56,11 @@ class GroupNorm1d(Activation):
         dCdx_centered = dCdx_norm * self.inv_std
         dCdinv_std = (dCdx_norm * self.x_centered).sum(2, keepdim=True)
         dCdvar = -0.5 * ((self.var + self.epsilon) ** -1.5) * dCdinv_std
-        dCdx_centered_squared = 1.0 / (elements_per_group - 1) * torch.ones_like(self.x_centered_squared) * dCdvar
+        dCdx_centered_squared = 1.0 / (elements_per_group - 1) * torch.ones_like(self.x_centered_squared, device=self.device, dtype=self.data_type) * dCdvar
         dCdx_centered += 2 * self.x_centered * dCdx_centered_squared
         dCdinput_reshaped = dCdx_centered.clone()
         dCdmean = -(dCdx_centered).sum(2, keepdim=True)
-        dCdinput_reshaped += 1.0 / elements_per_group * torch.ones_like(self.input_reshaped) * dCdmean
+        dCdinput_reshaped += 1.0 / elements_per_group * torch.ones_like(self.input_reshaped, device=self.device, dtype=self.data_type) * dCdmean
         dCdx = dCdinput_reshaped.view(self.output.shape)
         return dCdx.view(self.output.shape)
     

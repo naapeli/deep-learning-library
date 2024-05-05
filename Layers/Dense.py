@@ -5,7 +5,7 @@ from math import sqrt
 
 class Dense(Base):
     def __init__(self, output_shape, activation=None, normalisation=None, **kwargs):
-        super().__init__(output_shape, activation=activation, normalisation=normalisation)
+        super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
         self.name = "Dense"
 
     def initialise_layer(self):

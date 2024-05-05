@@ -4,7 +4,7 @@ from Layers.Activations.Activation import Activation
 
 class SoftMax(Activation):
     def __init__(self, output_shape=None, **kwargs):
-        super().__init__(output_shape)
+        super().__init__(output_shape, **kwargs)
         self.name = "Softmax"
 
     def forward(self, input, **kwargs):
@@ -15,5 +15,5 @@ class SoftMax(Activation):
     
     def backward(self, dCdy, **kwargs):
         n = self.output_shape
-        dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])
+        dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])
         return dCdx
