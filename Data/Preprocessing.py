@@ -31,18 +31,22 @@ one-hot encodes the given categorical Y labels
 Y.shape = (data_length, 1)
 """
 class OneHotEncoder:
-    def one_hot_encode(self, data):
+    def fit(self, data):
         assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
         unique_elements = torch.unique(data)
         self.element_to_index = {element.item(): i for i, element in enumerate(unique_elements)}
         self.index_to_element = {i: element for element, i in self.element_to_index.items()}
-        one_hot_length = tuple(unique_elements.size())[0]
-        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], one_hot_length) for y in data], requires_grad=False)
+        self.one_hot_length = tuple(unique_elements.size())[0]
+
+    def one_hot_encode(self, data):
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
+        assert hasattr(self, "one_hot_length"), "OneHotEncoder.fit(data) must be called before encoding the labels"
+        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data])
         return label_to_distribution
     
     def one_hot_decode(self, data):
         assert len(data.shape) == 2, "Input must be of shape (data_length, number_of_categories)"
-        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data], requires_grad=False)
+        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data])
 
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]

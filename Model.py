@@ -56,17 +56,13 @@ class Model:
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
-            # calculate the loss
-            error = 0
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
-                error += self.loss.loss(predictions, y)
                 initial_gradient = self.loss.gradient(predictions, y)
                 # self.optimiser.gradient(initial_gradient)
                 self.backward(initial_gradient, learning_rate=learning_rate, training=True)
-            error /= len(X)
             if epoch % callback_frequency == 0:
-                values = self._calculate_metrics(y, predictions, val_data=val_data)
+                values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
                 print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
@@ -74,20 +70,21 @@ class Model:
     
     def _round_dictionary(self, values):
         return {key: "{:0.4f}".format(value) for key, value in values.items()}
-
     
-    def _calculate_metrics(self, Y, predictions, val_data=None):
+    def _calculate_metrics(self, data=None, val_data=None):
         values = {}
+        if data:
+            X, Y = data
+            predictions = self.predict(X)
+        if val_data:
+            x_val, y_val = val_data
+            val_predictions = self.predict(x_val)
         for metric in self.metrics:
             if val_data and metric[:3] == "val":
-                x_val, y_val = val_data
                 if metric == "val_loss":
-                    val_predictions = self.predict(x_val)
                     metric_value = self.loss.loss(val_predictions, y_val).item()
                 elif metric == "val_accuracy":
-                    val_predictions = self.predict(x_val)
                     metric_value = accuracy(val_predictions, y_val)
-                    
             elif metric == "loss":
                 metric_value = self.loss.loss(predictions, Y).item()
             elif metric == "accuracy":
