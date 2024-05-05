@@ -7,6 +7,8 @@ from Layers.Regularisation.Dropout import Dropout
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
+from Optimisers.SGD import sgd
+from Optimisers.ADAM import Adam
 from Data.Preprocessing import OneHotEncoder, data_split
 from Data.Metrics import accuracy
 
@@ -42,14 +44,21 @@ model.add(Dropout(p=0.5))
 model.add(Flatten())
 model.add(Dense(50, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
-model.compile(optimiser=None, loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+model.compile(optimiser=Adam(learning_rate=0.001), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
-history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=15, batch_size=8, learning_rate=0.01)
+history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=30, batch_size=8)
+plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)
-plt.plot(history["val_loss"])
-plt.plot(history["loss"])
+plt.plot(history["val_loss"], label="validation loss")
+plt.plot(history["loss"], label="loss")
+plt.xlabel("Epoch")
+plt.ylabel("Categorical cross entropy")
+plt.legend()
 plt.subplot(1, 2, 2)
-plt.plot(history["val_accuracy"])
-plt.plot(history["accuracy"])
+plt.plot(history["val_accuracy"], label="validation accuracy")
+plt.plot(history["accuracy"], label="accuracy")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy")
+plt.legend()
 print(accuracy(model.predict(test_images), test_labels))
 plt.show()

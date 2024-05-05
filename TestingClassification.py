@@ -8,6 +8,7 @@ from Layers.Regularisation.LayerNormalisation import LayerNorm1d
 from Layers.Activations.ReLU import ReLU
 from Layers.Activations.SoftMax import SoftMax
 from Losses.CCE import cce
+from Optimisers.SGD import sgd
 from Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
 from Data.Metrics import accuracy
 
@@ -22,6 +23,7 @@ encoder = OneHotEncoder()
 scaler = MinMaxScaler()
 x = torch.tensor(iris.data, dtype=torch.float32)
 scaler.fit(x)
+encoder.fit(torch.tensor(iris.target, dtype=torch.float32))
 x = scaler.transform(x)
 y = encoder.one_hot_encode(torch.tensor(iris.target, dtype=torch.float32))
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
@@ -33,7 +35,7 @@ model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
 model.add(Dense(3, activation=SoftMax()))
-model.compile(optimiser=None, loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+model.compile(optimiser=sgd(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 
 _, ax = plt.subplots()

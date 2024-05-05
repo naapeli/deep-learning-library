@@ -4,6 +4,7 @@ from Losses.MSE import mse
 from Data.DataReader import DataReader
 from Data.Metrics import accuracy
 from Optimisers.SGD import sgd
+from Optimisers.ADAM import Adam
 
 import torch
 from math import floor
@@ -24,7 +25,7 @@ class Model:
         layer.device = self.device
         self.layers.append(layer)
 
-    def compile(self, optimiser=sgd(), loss=mse(), metrics=["loss"]):
+    def compile(self, optimiser=Adam(), loss=mse(), metrics=["loss"]):
         self.optimiser = optimiser
         parameters = [parameter for layer in self.layers for parameter in layer.get_parameters()]
         self.optimiser.initialise_parameters(parameters)
@@ -45,24 +46,24 @@ class Model:
             current = layer.forward(current, training=training)
         return current
     
-    def backward(self, initial_gradient, learning_rate=0.001, training=False):
+    def backward(self, initial_gradient, training=False):
         reversedLayers = reversed(self.layers)
         gradient = initial_gradient
         for layer in reversedLayers:
-            gradient = layer.backward(gradient, learning_rate=learning_rate, training=training) # self.optimiser.learning_rate
+            gradient = layer.backward(gradient, training=training)
 
     """
     X.shape = (data_length, input_shape)
     Y.shape = (data_length, output_shape)
     """
-    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, learning_rate=0.001, shuffle_every_epoch=True, shuffle_data=True):
+    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True):
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
                 initial_gradient = self.loss.gradient(predictions, y)
-                self.backward(initial_gradient, learning_rate=learning_rate, training=True)
+                self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
             if epoch % callback_frequency == 0:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
