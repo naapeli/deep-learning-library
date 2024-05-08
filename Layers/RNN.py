@@ -24,7 +24,7 @@ class RNN(Base):
     """
     def forward(self, input, training=False, **kwargs):
         self.input = input
-        seq_len, batch_size, _ = input.size()
+        batch_size, seq_len, _ = input.size()
         self.hiddens = [torch.zeros(batch_size, self.hidden_size)]
         self.output = torch.zeros(batch_size, seq_len, self.output_shape)
         for t in range(seq_len):
@@ -44,23 +44,23 @@ class RNN(Base):
         self.bh.grad = torch.zeros_like(self.bh)
         self.bo.grad = torch.zeros_like(self.bo)
 
-        seq_len, batch_size, _ = self.input.size()
-
-        dCdh_next = torch.zeros_like(self.hiddens[0])
+        batch_size, seq_len, _ = self.input.size()
+        # BUG WITH INDICIES OF SELF.HIDDEN (SHOULD BE DIFFERENT FOR SELF.HO AND SELF.HH ETC...)
+        dCdh_next = torch.zeros_like(self.hiddens[0]) # dCdy[:, -1] @ self.ho # batch_size, sequence_length, output_size --- self.output_shape, self.hidden_size
         dCdx = torch.zeros_like(self.input)
         for t in reversed(range(seq_len)):
-            self.ho.grad += dCdy[:, t].T @ self.hiddens[t]
+            self.ho.grad += dCdy[:, t].T @ self.hiddens[t + 1]
             self.bo.grad += torch.mean(dCdy[:, t], axis=0)
 
-            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho # batch_size, self.hidden_size
-            dCdhrec = (1 - self.hiddens[t] ** 2) * dCdh_t # batch_size, self.hidden_size
+            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho # batch_size, self.hidden_size + batch_size, output_size --- self.output_shape, self.hidden_size
+            dCdtanh = (1 - self.hiddens[t] ** 2) * dCdh_t # batch_size, self.hidden_size
 
-            self.bh.grad += torch.mean(dCdhrec, axis=0)
-            self.ih.grad = dCdhrec.T @ self.input[:, t] # batch_size, self.hidden_size --- batch_size, input_size
-            self.hh.grad = dCdhrec.T @ self.hiddens[t - 1] # batch_size, self.hidden_size --- batch_size, self.hidden_size
+            self.bh.grad += torch.mean(dCdtanh, axis=0)
+            self.ih.grad += dCdtanh.T @ self.input[:, t] # batch_size, self.hidden_size --- batch_size, input_size
+            self.hh.grad += dCdtanh.T @ self.hiddens[t] # batch_size, self.hidden_size --- batch_size, self.hidden_size
 
-            dCdh_next = self.hh @ dCdhrec.T # self.hidden_size, self.hidden_size --- batch_size, self.hidden_size
-            dCdx[:, t] = dCdhrec @ self.ih # batch_size, self.hidden_size --- self.hidden_size, self.input_shape
+            dCdh_next = dCdtanh @ self.hh.T # self.hidden_size, self.hidden_size --- batch_size, self.hidden_size
+            dCdx[:, t] = dCdtanh @ self.ih # batch_size, self.hidden_size --- self.hidden_size, self.input_shape
         return dCdx
     
     def get_parameters(self):

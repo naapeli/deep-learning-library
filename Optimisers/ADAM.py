@@ -2,7 +2,7 @@ import torch
 
 
 """
-Implements stochastic gradient descent optimiser with momentum
+Implements the ADAM optimiser
 """
 class Adam:
     def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999):

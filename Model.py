@@ -5,6 +5,7 @@ from Data.Metrics import accuracy
 from Optimisers.ADAM import Adam
 
 import torch
+from tqdm import tqdm
 from math import floor
 
 
@@ -57,7 +58,7 @@ class Model:
     def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True):
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
                 initial_gradient = self.loss.gradient(predictions, y)
@@ -67,7 +68,7 @@ class Model:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
-                print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
+                print(f"\nEpoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
         return history
     
     def _round_dictionary(self, values):
