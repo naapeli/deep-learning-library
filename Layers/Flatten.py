@@ -9,7 +9,7 @@ class Flatten(Base):
         self.name = "Flatten"
     
     def initialise_layer(self):
-        self.output_shape = np.prod(self.input_shape)
+        self.output_shape = (self.input_shape[0], np.prod(self.input_shape[1:]))
     
     def forward(self, input, **kwargs):
         self.input = input

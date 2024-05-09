@@ -17,8 +17,8 @@ class MaxPooling2D(Activation):
         if input_shape: self.initialise_layer()
 
     def initialise_layer(self):
-        input_depth, input_height, input_width = self.input_shape
-        self.output_shape = (input_depth, input_height // self.pool_size, input_width // self.pool_size)
+        batch_size, input_depth, input_height, input_width = self.input_shape
+        self.output_shape = (batch_size, input_depth, input_height // self.pool_size, input_width // self.pool_size)
     
     def generate_sections(self, image_batch):
         height, width = image_batch.shape[2] // self.pool_size, image_batch.shape[3] // self.pool_size

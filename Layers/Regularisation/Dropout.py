@@ -11,7 +11,7 @@ class Dropout(Activation):
     
     def initialise_layer(self):
         self.output_shape = self.input_shape
-        self.mask = torch.rand(size=((self.output_shape,) if isinstance(self.output_shape, int) else self.output_shape), dtype=self.data_type, device=self.device) < self.p
+        self.mask = torch.rand(size=self.output_shape[1:], dtype=self.data_type, device=self.device) < self.p
 
     def forward(self, input, training=False, **kwargs):
         self.input = input

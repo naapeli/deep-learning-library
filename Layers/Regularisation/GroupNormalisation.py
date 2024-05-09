@@ -20,11 +20,11 @@ class GroupNorm1d(Activation):
     def set_output_shape(self, output_shape):
         self.output_shape = output_shape
         self.input_shape = output_shape
-        assert self.output_shape % self.num_groups == 0, "output_shape must be divisible by the number of groups"
-        assert self.output_shape // self.num_groups > 1, "Number of elements in each group must be greater than 1"
-        self.gamma = torch.ones(self.output_shape, device=self.device, dtype=self.data_type)
-        self.beta = torch.zeros(self.output_shape, device=self.device, dtype=self.data_type)
-        self.nparams = 2 * self.output_shape
+        assert self.output_shape[1] % self.num_groups == 0, "output_shape must be divisible by the number of groups"
+        assert self.output_shape[1] // self.num_groups > 1, "Number of elements in each group must be greater than 1"
+        self.gamma = torch.ones(self.output_shape[1:], device=self.device, dtype=self.data_type)
+        self.beta = torch.zeros(self.output_shape[1:], device=self.device, dtype=self.data_type)
+        self.nparams = 2 * self.output_shape[1]
 
     def forward(self, input, **kwargs):
         self.input = input

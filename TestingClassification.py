@@ -30,11 +30,11 @@ x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-model = Model(4, data_type=torch.float32)
-model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
-model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
-model.add(Dense(20, normalisation=BatchNorm1d(), activation=ReLU()))
-model.add(Dense(3, activation=SoftMax()))
+model = Model((None, 4), data_type=torch.float32)
+model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense((None, 3), activation=SoftMax()))
 model.compile(optimiser=sgd(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 

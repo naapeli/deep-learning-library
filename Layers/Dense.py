@@ -10,9 +10,9 @@ class Dense(Base):
 
     def initialise_layer(self):
         # initialise parameters by Xavier initialisation
-        self.weights = torch.normal(mean=0, std=sqrt(1/(self.input_shape + self.output_shape)), size=(self.input_shape, self.output_shape), dtype=self.data_type, device=self.device)
-        self.biases = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
-        self.nparams = self.output_shape * self.input_shape + self.output_shape
+        self.weights = torch.normal(mean=0, std=sqrt(1/(self.input_shape[-1] + self.output_shape[-1])), size=(self.input_shape[-1], self.output_shape[-1]), dtype=self.data_type, device=self.device)
+        self.biases = torch.zeros(self.output_shape[-1], dtype=self.data_type, device=self.device)
+        self.nparams = self.output_shape[-1] * self.input_shape[-1] + self.output_shape[-1]
 
     def forward(self, input, training=False, **kwargs):
         self.input = input
