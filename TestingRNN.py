@@ -2,7 +2,7 @@ import torch
 from Layers.RNN import RNN
 from Model import Model
 from Layers.Activations.ReLU import ReLU
-from Layers.Activations.Sigmoid import Sigmoid
+from Layers.Activations.Tanh import Tanh
 import matplotlib.pyplot as plt
 
 
