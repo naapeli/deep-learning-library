@@ -1,7 +1,6 @@
 import torch
 from math import sqrt
 from Layers.Base import Base
-from Layers.Activations.Tanh import Tanh
 
 
 class RNN(Base):
@@ -11,9 +10,9 @@ class RNN(Base):
         self.hidden_size = hidden_size
 
     def initialise_layer(self):
-        self.ih = torch.normal(mean=0, std=1, size=(self.hidden_size, self.input_shape[-1]), dtype=self.data_type, device=self.device)
-        self.hh = torch.normal(mean=0, std=1, size=(self.hidden_size, self.hidden_size), dtype=self.data_type, device=self.device)
-        self.ho = torch.normal(mean=0, std=1, size=(self.output_shape[-1], self.hidden_size), dtype=self.data_type, device=self.device)
+        self.ih = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.hidden_size, self.input_shape[-1]), dtype=self.data_type, device=self.device)
+        self.hh = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.hidden_size, self.hidden_size), dtype=self.data_type, device=self.device)
+        self.ho = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.output_shape[-1], self.hidden_size), dtype=self.data_type, device=self.device)
         self.bh = torch.zeros(self.hidden_size, dtype=self.data_type, device=self.device)
         self.bo = torch.zeros(self.output_shape[-1], dtype=self.data_type, device=self.device)
         self.nparams = self.hidden_size * self.hidden_size + self.hidden_size * self.output_shape[-1] + self.hidden_size * self.input_shape[-1] + self.hidden_size + self.output_shape[-1]

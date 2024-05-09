@@ -18,11 +18,11 @@ y = torch.stack(y).reshape(len(y), 1)
 print(x.shape, y.shape)
 
 model = Model((None, None, 1))
-model.add(RNN((None, 1), 100))
+model.add(RNN((None, 1), 100, activation=Tanh()))
 model.compile()
 model.summary()
 
-model.fit(x, y, epochs=100, batch_size=1)
+model.fit(x, y, epochs=10, batch_size=1)
 
 data = torch.sin(torch.arange(size, dtype=torch.float32))
 prediction = []
