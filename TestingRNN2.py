@@ -8,10 +8,8 @@ data.retain_grad()
 # print(data.shape)
 # print(data)
 
-layer = RNN(1, 5, input_shape=1)
+layer = RNN((None, None, 1), 5, input_shape=(None, 1))
 layer.initialise_layer()
-layer.bo.requires_grad = True
-layer.bo.retain_grad()
 result = layer.forward(data)
 # print(result)
 gradient = torch.ones_like(result)
