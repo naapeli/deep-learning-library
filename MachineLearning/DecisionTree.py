@@ -15,29 +15,36 @@ class Node:
 
 
 class DecisionTreeClassifier:
-    def __init__(self, max_depth=4, min_samples_split=2):
+    def __init__(self, max_depth=10, min_samples_split=2, n_features=None):
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.root = None
+        self.n_features = n_features
     
     """
     x.shape = (n_samples, n_features)
     y.shape = (n_samples)
     """
     def fit(self, x, y):
-        self.n_features = x.shape[1]
+        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
         self.root = self._grow_tree(x, y, 0)
+    
+    def _fit_for_random_forest(self, x, y, i, q):
+        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
+        self.root = self._grow_tree(x, y, 0)
+        q.put((i, self.root, self.n_features))
 
     def _grow_tree(self, x, y, depth):
-        n_samples, _ = x.size()
+        n_samples, n_features = x.size()
         classes = torch.unique(y)
 
-        if depth > self.max_depth or len(classes) == 1 or n_samples < self.min_samples_split:
+        if depth >= self.max_depth or len(classes) == 1 or n_samples < self.min_samples_split:
             largest_class = Counter(y).most_common(1)[0][0]
             return Node(value=largest_class)
 
-        split_threshold, split_index = self._best_split(x, y)
-
+        feature_indicies = torch.randperm(n_features)[:self.n_features]
+        split_threshold, split_index = self._best_split(x, y, feature_indicies)
+        # if no split gains more information
         if split_threshold is None:
             largest_class = Counter(y).most_common(1)[0][0]
             return Node(value=largest_class)
@@ -46,14 +53,13 @@ class DecisionTreeClassifier:
         left = self._grow_tree(x[left_indicies], y[left_indicies], depth + 1)
         right = self._grow_tree(x[right_indicies], y[right_indicies], depth + 1)
         return Node(left, right, split_threshold, split_index)
-
     
-    def _best_split(self, x, y):
-        max_entropy_gain = -float("inf")
+    def _best_split(self, x, y, feature_indicies):
+        max_entropy_gain = -1
         split_index = None
         split_threshold = None
 
-        for index in range(x.shape[1]):
+        for index in feature_indicies:
             feature_values = x[:, index]
             possible_thresholds = torch.unique(feature_values)
             for threshold in possible_thresholds:
@@ -79,7 +85,9 @@ class DecisionTreeClassifier:
     
     def _entropy(self, values):
         n = len(values)
-        return sum(map(lambda value_count_tuple: value_count_tuple[1] / n, Counter(values.tolist()).most_common()))
+        data_type = values.dtype
+        p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
+        return -torch.sum(p * torch.log(p))
 
     def predict(self, x):
         assert self.root is not None, "DecisionTreeClassifier.fit() must be called before trying to predict"

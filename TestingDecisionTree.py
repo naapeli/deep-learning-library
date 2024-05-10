@@ -1,19 +1,38 @@
 import torch
 from sklearn import datasets
-from MachineLearning.DecisionTree import DecisionTreeClassifier
 from Data.Metrics import accuracy
 from Data.Preprocessing import data_split
+from MachineLearning.DecisionTree import DecisionTreeClassifier
+from MachineLearning.RandomForest import RandomForestClassifier
+from sklearn import tree
+from sklearn import ensemble
+import time
 
+if __name__ == "__main__":
+    breast_cancer = datasets.load_breast_cancer()
 
-iris = datasets.load_breast_cancer()
+    x = torch.tensor(breast_cancer.data, dtype=torch.float32)
+    y = torch.tensor(breast_cancer.target, dtype=torch.float32)
+    x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
 
-x = torch.tensor(iris.data, dtype=torch.float32)
-y = torch.tensor(iris.target, dtype=torch.float32)
-print(x.shape, y.shape)
-x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
+    model = DecisionTreeClassifier(max_depth=10)
+    model.fit(x_train, y_train)
+    predictions = model.predict(x_test)
+    print(accuracy(predictions, y_test))
 
-model = DecisionTreeClassifier(max_depth=10)
-model.fit(x_train, y_train)
+    model = tree.DecisionTreeClassifier(max_depth=10, criterion='entropy')
+    model.fit(x_train.numpy(), y_train.numpy())
+    predictions = model.predict(x_test)
+    print(accuracy(torch.tensor(predictions), y_test))
 
-predictions = model.predict(x_test)
-print(accuracy(predictions, y_test))
+    start = time.perf_counter()
+    model = RandomForestClassifier(n_trees=10, max_depth=10)
+    model.fit(x_train, y_train)
+    predictions = model.predict(x_test)
+    print(accuracy(predictions, y_test))
+    print(time.perf_counter() - start)
+
+    model = ensemble.RandomForestClassifier(n_estimators=10, max_depth=10, criterion='entropy')
+    model.fit(x_train.numpy(), y_train.numpy())
+    predictions = model.predict(x_test)
+    print(accuracy(torch.tensor(predictions), y_test))
