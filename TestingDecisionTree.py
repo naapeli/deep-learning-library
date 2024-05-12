@@ -2,7 +2,7 @@ import torch
 from sklearn import datasets
 from Data.Metrics import accuracy
 from Data.Preprocessing import data_split
-from MachineLearning.DecisionTree import DecisionTreeClassifier
+from MachineLearning.DecisionTree import DecisionTree
 from MachineLearning.RandomForest import RandomForestClassifier
 from sklearn import tree
 from sklearn import ensemble
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     y = torch.tensor(breast_cancer.target, dtype=torch.float32)
     x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
 
-    model = DecisionTreeClassifier(max_depth=10)
+    model = DecisionTree(max_depth=10)
     model.fit(x_train, y_train)
     predictions = model.predict(x_test)
     print(accuracy(predictions, y_test))

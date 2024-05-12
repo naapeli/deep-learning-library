@@ -1,7 +1,7 @@
 import torch
 from multiprocessing import Process, Queue
 from collections import Counter
-from MachineLearning.DecisionTree import DecisionTreeClassifier
+from MachineLearning.DecisionTree import DecisionTree
 
 
 class RandomForestClassifier:
@@ -9,7 +9,7 @@ class RandomForestClassifier:
         self.n_trees = n_trees
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.trees = [DecisionTreeClassifier(max_depth=max_depth, min_samples_split=min_samples_split) for _ in range(n_trees)]
+        self.trees = [DecisionTree(max_depth=max_depth, min_samples_split=min_samples_split) for _ in range(n_trees)]
 
     def fit(self, x, y):
         # for tree in self.trees:
