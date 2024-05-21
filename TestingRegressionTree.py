@@ -13,7 +13,7 @@ model.fit(x, y)
 x_test, _ = torch.rand_like(x).sort(dim=0)
 y_pred = model.predict(x_test)
 
-model2 = RandomForestRegressor(n_trees=2)
+model2 = RandomForestRegressor(n_trees=10)
 model2.fit(x, y)
 y_pred2 = model2.predict(x_test)
 
