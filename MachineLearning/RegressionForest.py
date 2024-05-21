@@ -1,7 +1,6 @@
 import torch
-from multiprocessing import Process, Queue
 from collections import Counter
-from MachineLearning.RegressionTree import RegressionTree
+from .RegressionTree import RegressionTree
 
 
 class RandomForestRegressor:

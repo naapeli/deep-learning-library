@@ -1,5 +1,5 @@
 import torch
-from MachineLearning.DecisionTree import Node
+from .DecisionTree import Node
 
 
 class RegressionTree:

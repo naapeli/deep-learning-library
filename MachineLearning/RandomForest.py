@@ -1,7 +1,7 @@
 import torch
-from multiprocessing import Process, Queue
+# from multiprocessing import Process, Queue
 from collections import Counter
-from MachineLearning.DecisionTree import DecisionTree
+from .DecisionTree import DecisionTree
 
 
 class RandomForestClassifier:
@@ -12,25 +12,25 @@ class RandomForestClassifier:
         self.trees = [DecisionTree(max_depth=max_depth, min_samples_split=min_samples_split) for _ in range(n_trees)]
 
     def fit(self, x, y):
-        # for tree in self.trees:
-        #     tree.fit(*self._bootstrap_sample(x, y))
-        try:
-            processes = []
-            q = Queue()
-            for i, tree in enumerate(self.trees):
-                process = Process(target=tree._fit_for_random_forest, args=(*self._bootstrap_sample(x, y), i, q))
-                processes.append(process)
-                process.start()
-            i = 0
-            while i < len(self.trees):
-                index, root, n_features = q.get()
-                self.trees[index].root = root
-                self.trees[index].n_features = n_features
-                i += 1
-            for p in processes:
-                p.join()
-        except Exception:
-            print("""Try putting your code in a if __name__ == "__main__": block""")
+        for tree in self.trees:
+            tree.fit(*self._bootstrap_sample(x, y))
+        # try:
+        #     processes = []
+        #     q = Queue()
+        #     for i, tree in enumerate(self.trees):
+        #         process = Process(target=tree._fit_for_random_forest, args=(*self._bootstrap_sample(x, y), i, q))
+        #         processes.append(process)
+        #         process.start()
+        #     i = 0
+        #     while i < len(self.trees):
+        #         index, root, n_features = q.get()
+        #         self.trees[index].root = root
+        #         self.trees[index].n_features = n_features
+        #         i += 1
+        #     for p in processes:
+        #         p.join()
+        # except Exception:
+        #     print("""Try putting your code in a if __name__ == "__main__": block""")
 
     def predict(self, x):
         predictions = torch.stack([tree.predict(x) for tree in self.trees]).T
