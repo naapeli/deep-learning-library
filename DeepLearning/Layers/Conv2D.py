@@ -36,17 +36,14 @@ class Conv2D(Base):
     def forward(self, input, training=False, **kwargs):
         batch_size = input.shape[0]
         self.input = input
-        self.output = torch.stack([self._forward_single(input[batch:batch+1]) for batch in range(batch_size)])
+        self.output = self.biases.clone().repeat(batch_size, 1, 1, 1)
+        for i in range(self.output_depth):
+            for j in range(self.input_depth):
+                conv_output = F.conv2d(input[:, j:j+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=[2, 3]), padding="valid")
+                self.output[:, i, :, :] += conv_output[:, 0, :, :]
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
-    
-    def _forward_single(self, datapoint):
-        output = self.biases.clone()
-        for i in range(self.output_depth):
-            for j in range(self.input_depth):
-                output[i] += F.conv2d(datapoint[:, j:j+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=[2, 3]), padding="valid")[0, 0, :, :]
-        return output
     
     def backward(self, dCdy, **kwargs):
         if self.activation: dCdy = self.activation.backward(dCdy)
@@ -54,22 +51,14 @@ class Conv2D(Base):
         kernel_gradient = torch.zeros_like(self.kernels, device=self.device, dtype=self.data_type)
         dCdx = torch.zeros_like(self.input, device=self.device, dtype=self.data_type)
         batch_size = self.input.shape[0]
-        for batch in range(batch_size):
-            dCdx_batch, kernel_gradient_batch = self._backward_single(dCdy[batch:batch+1])
-            kernel_gradient += kernel_gradient_batch
-            dCdx[batch] = dCdx_batch
+        for i in range(self.output_depth):
+            for j in range(self.input_depth):
+                kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], torch.flip(dCdy[:, i:i+1, :, :], dims=[2, 3]), padding="valid")[0, 0, :, :]
+                dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
+                
         self.biases.grad = dCdy.mean(dim=0)
         self.kernels.grad = kernel_gradient / batch_size
         return dCdx
-
-    def _backward_single(self, dCdy_batch):
-        kernel_gradient_batch = torch.zeros_like(self.kernels, device=self.device, dtype=self.data_type)
-        dCdx_batch = torch.zeros(size=self.input_shape[1:], device=self.device, dtype=self.data_type)
-        for i in range(self.output_depth):
-            for j in range(self.input_depth):
-                kernel_gradient_batch[i, j] = F.conv2d(self.input[:, j:j+1, :, :], torch.flip(dCdy_batch[:, i:i+1, :, :], dims=[2, 3]), padding="valid")[0, 0, :, :]
-                dCdx_batch[j] += F.conv2d(dCdy_batch[:, i:i+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
-        return dCdx_batch, kernel_gradient_batch
     
     def get_parameters(self):
         return (self.kernels, self.biases)
