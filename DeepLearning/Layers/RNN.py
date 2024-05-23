@@ -47,17 +47,17 @@ class RNN(Base):
         self.bo.grad = torch.zeros_like(self.bo)
 
         batch_size, seq_len, _ = self.input.size()
-        dCdh_next = torch.zeros_like(self.hiddens[0])
+        dCdh_next = torch.zeros_like(self.hiddens[0]) if len(self.output_shape) == 3 else dCdy @ self.ho
         dCdx = torch.zeros_like(self.input)
 
-        if len(dCdy.shape) == 2: self.ho.grad += dCdy.T @ self.hiddens[-1] # batch_size, output_size --- batch_size, self.hidden_size
-        if len(dCdy.shape) == 2: self.bo.grad += torch.sum(dCdy, axis=0)
-
+        if len(self.output_shape) == 2: self.ho.grad += dCdy.T @ self.hiddens[-1] # batch_size, output_size --- batch_size, self.hidden_size
+        if len(self.output_shape) == 2: self.bo.grad += torch.sum(dCdy, axis=0)
         for t in reversed(range(seq_len)):
-            if len(dCdy.shape) == 3: self.ho.grad += dCdy[:, t].T @ self.hiddens[t + 1]
-            if len(dCdy.shape) == 3: self.bo.grad += torch.sum(dCdy[:, t], axis=0)
+            if len(self.output_shape) == 3: self.ho.grad += dCdy[:, t].T @ self.hiddens[t + 1]
+            if len(self.output_shape) == 3: self.bo.grad += torch.sum(dCdy[:, t], axis=0)
 
-            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho if len(dCdy.shape) == 3 else dCdh_next # batch_size, self.hidden_size + batch_size, output_size --- self.output_shape, self.hidden_size
+            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho if len(self.output_shape) == 3 else dCdh_next # batch_size, self.hidden_size + batch_size, output_size --- self.output_shape, self.hidden_size
+
             dCdtanh = (1 - self.hiddens[t + 1] ** 2) * dCdh_t # batch_size, self.hidden_size
 
             self.bh.grad += torch.sum(dCdtanh, axis=0)

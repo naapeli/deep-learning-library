@@ -8,12 +8,11 @@ data.retain_grad()
 # print(data.shape)
 # print(data)
 
-layer = RNN((None, None, 1), 5, input_shape=(None, 1))
+layer = RNN((None, None, 1), 5, input_shape=(None, 3, 1))
 layer.initialise_layer()
 result = layer.forward(data)
 # print(result)
 gradient = torch.ones_like(result)
 result.backward(gradient)
 print(data.grad)
-
 print(layer.backward(gradient))
