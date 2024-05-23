@@ -51,6 +51,7 @@ class LinearRegression:
         plt.legend()
 
     def plot_residuals(self):
+        assert hasattr(self, "residuals"), "LinearRegression.fit(x, y) must be called before plotting"
         fig, ax = plt.subplots(1, 2, figsize=(14,7))
         ax[0].plot(self.residuals, ".")
         ax[0].axhline(y=torch.mean(self.residuals))
