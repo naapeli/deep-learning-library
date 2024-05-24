@@ -1,7 +1,10 @@
 import torch
 from DeepLearning.Layers.RNN import RNN
+from DeepLearning.Layers.LSTM import LSTM
 from DeepLearning.Model import Model
 from DeepLearning.Layers.Activations.Tanh import Tanh
+from DeepLearning.Optimisers.ADAM import Adam
+from DeepLearning.Losses.MSE import mse
 import matplotlib.pyplot as plt
 
 
@@ -18,11 +21,11 @@ y = torch.stack(y).reshape(len(y), 1)
 print(x.shape, y.shape)
 
 model = Model((None, None, 1))
-model.add(RNN((None, 1), 100, activation=Tanh()))
-model.compile()
+model.add(RNN((None, 1), 10, activation=Tanh()))
+model.compile(optimiser=Adam(), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 
-model.fit(x, y, epochs=10, batch_size=1)
+model.fit(x, y, epochs=20, batch_size=1)
 
 data = torch.sin(torch.arange(size, dtype=torch.float32))
 prediction = []
