@@ -2,18 +2,22 @@ import torch
 from DeepLearning.Layers.LSTM import LSTM
 
 torch.manual_seed(0)
-data = torch.ones(size=(6, 1), dtype=torch.float64, requires_grad=True)
+data = torch.ones(size=(5, 1), dtype=torch.float64, requires_grad=True)
 data = torch.stack([(i + 1) * data for i in range(1)])
 data.retain_grad()
 # print(data.shape)
 # print(data)
 
-layer = LSTM((None, 1), 5, input_shape=(None, None, 1), data_type=torch.float64)
+layer = LSTM((None, None, 1), 5, input_shape=(None, None, 1), data_type=torch.float64)
 layer.initialise_layer()
 result = layer.forward(data)
-print(result)
+# print(result)
 gradient = torch.rand(size=result.size(), dtype=torch.float64)
 result.backward(gradient)
-print(data.grad)
+print(layer.wc.grad)
+# print(data.grad)
 
-print(layer.backward(gradient))
+gradient = layer.backward(gradient)
+print(layer.wc.grad)
+# print(gradient)
+

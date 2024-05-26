@@ -27,6 +27,7 @@ class LSTM(Base):
         self.bo = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
         self.wy = (torch.rand(self.hidden_size, output_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
         self.by = torch.zeros((output_size), dtype=self.data_type, device=self.device)
+
         self.nparams = output_size + self.hidden_size * output_size + 4 * input_size * self.hidden_size + 4 * self.hidden_size + 4 * self.hidden_size ** 2
 
     """
@@ -34,18 +35,23 @@ class LSTM(Base):
     output.shape = (batch_size, sequence_length, output_size) or (batch_size, output_size)
     """
     def forward(self, input, training=False, **kwargs):
+        self.wc.requires_grad = True
+        self.wc.retain_grad()
         self.input = input
         self.forget_gates = {}
         self.input_gates = {}
         self.candidate_gates = {}
         self.output_gates = {}
+
         batch_size, seq_len, _ = input.size()
         self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=self.data_type, device=self.device)}
         self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=self.data_type, device=self.device)}
         if len(self.output_shape) == 3: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=self.data_type, device=self.device)
+
         for t in range(seq_len):
             x_t = input[:, t]
             h_t_prev = self.hidden_states[t - 1]
+
             self.forget_gates[t] = self._sigmoid(x_t @ self.wf + h_t_prev @ self.uf + self.bf)
             self.input_gates[t] = self._sigmoid(x_t @ self.wi + h_t_prev @ self.ui + self.bi)
             self.candidate_gates[t] = self._tanh(x_t @ self.wc + h_t_prev @ self.uc + self.bc)
@@ -81,7 +87,8 @@ class LSTM(Base):
             dCdh_t = dCdh_next + dCdy[:, t] @ self.wy.T if len(self.output_shape) == 3 else dCdh_next # hidden state
 
             dCdo = self._tanh(self.cell_states[t]) * dCdh_t # output
-            dCdc_t = self._tanh(self.cell_states[t], derivative = True) * self.output_gates[t] * dCdh_t + dCdc_next # cell state
+            # dCdc_t = self._tanh(self.cell_states[t], derivative = True) * self.output_gates[t] * dCdh_t + dCdc_next # cell state
+            dCdc_t = self._tanh(self._tanh(self.cell_states[t]), derivative = True) * self.output_gates[t] * dCdh_t + dCdc_next # cell state
 
             dCdc_next = dCdc_t * self.forget_gates[t] # next cell state
             dCdf = dCdc_t * self.cell_states[t - 1] # forget
