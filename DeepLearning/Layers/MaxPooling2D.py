@@ -42,7 +42,6 @@ class MaxPooling2D(Activation):
             batch_size, depth, h0, w0 = slice.shape
             max_vals = torch.amax(slice, dim=(2, 3), keepdim=True)
             sums = torch.sum(torch.eq(max_vals.repeat(1, 1, self.pool_size, self.pool_size), slice), dim=(2, 3), keepdim=True)
-            max_vals = max_vals
             for batch in range(batch_size):
                 for idx_h in range(h0):
                     for idx_w in range(w0):
