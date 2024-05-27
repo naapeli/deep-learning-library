@@ -32,14 +32,14 @@ Y.shape = (data_length, 1)
 """
 class OneHotEncoder:
     def fit(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
         unique_elements = torch.unique(data)
         self.element_to_index = {element.item(): i for i, element in enumerate(unique_elements)}
         self.index_to_element = {i: element for element, i in self.element_to_index.items()}
         self.one_hot_length = tuple(unique_elements.size())[0]
 
     def one_hot_encode(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
         assert hasattr(self, "one_hot_length"), "OneHotEncoder.fit(data) must be called before encoding the labels"
         label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data])
         return label_to_distribution
@@ -51,6 +51,28 @@ class OneHotEncoder:
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]
         return distribution
+
+"""
+Binary encodes the given categorical Y labels
+
+Y.shape = (data_length, 1)
+"""
+class BinaryEncoder:
+    def fit(self, data):
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
+        self.unique_elements = torch.unique(data)
+        assert len(self.unique_elements) <= 2, "There must be at most 2 distinct labels"
+        self.element_to_key = {element.item(): i for i, element in enumerate(self.unique_elements)}
+
+    def binary_encode(self, data):
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
+        assert hasattr(self, "element_to_key"), "OneHotEncoder.fit(data) must be called before encoding the labels"
+        label_to_distribution = torch.tensor([self.element_to_key[y.item()] for y in data])
+        return label_to_distribution
+    
+    def binary_decode(self, data):
+        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Input must be of shape (data_length, 1)"
+        return torch.tensor([self.unique_elements[label] for label in data])
 
 """
 Normalises the data between 0 and 1
