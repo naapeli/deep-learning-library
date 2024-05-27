@@ -1,7 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
-from MachineLearning.RegressionTree import RegressionTree
-from MachineLearning.RegressionForest import RandomForestRegressor
+from MachineLearning.RandomForests.RegressionTree import RegressionTree
+from MachineLearning.RandomForests.RegressionForest import RandomForestRegressor
 
 
 n = 100

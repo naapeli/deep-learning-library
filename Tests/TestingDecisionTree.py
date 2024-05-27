@@ -2,8 +2,8 @@ import torch
 from sklearn import datasets
 from Data.Metrics import accuracy
 from Data.Preprocessing import data_split
-from MachineLearning.DecisionTree import DecisionTree
-from MachineLearning.RandomForest import RandomForestClassifier
+from MachineLearning.RandomForests.DecisionTree import DecisionTree
+from MachineLearning.RandomForests.RandomForest import RandomForestClassifier
 from sklearn import tree
 from sklearn import ensemble
 import time
