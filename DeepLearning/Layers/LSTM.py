@@ -35,8 +35,6 @@ class LSTM(Base):
     output.shape = (batch_size, sequence_length, output_size) or (batch_size, output_size)
     """
     def forward(self, input, training=False, **kwargs):
-        self.wc.requires_grad = True
-        self.wc.retain_grad()
         self.input = input
         self.forget_gates = {}
         self.input_gates = {}
@@ -68,7 +66,6 @@ class LSTM(Base):
         return self.output
 
     def backward(self, dCdy, **kwargs):
-        # RESULT FOR dCdx DIFFERS < 5 * 10^-4 FROM THE PYTORCH AUTOGRAD RESULT AND IS THUS NOT EXACT!!!
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
