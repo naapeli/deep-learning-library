@@ -42,9 +42,9 @@ class LSTM(Base):
         self.output_gates = {}
 
         batch_size, seq_len, _ = input.size()
-        self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=self.data_type, device=self.device)}
-        self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=self.data_type, device=self.device)}
-        if len(self.output_shape) == 3: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=self.data_type, device=self.device)
+        self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
+        self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
+        if len(self.output_shape) == 3: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             x_t = input[:, t]
@@ -70,9 +70,9 @@ class LSTM(Base):
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
         self._reset_gradients()
-        dCdh_next = torch.zeros_like(self.hidden_states[0], dtype=self.data_type, device=self.device) if len(self.output_shape) == 3 else dCdy @ self.wy.T
-        dCdc_next = torch.zeros_like(self.cell_states[0], dtype=self.data_type, device=self.device)
-        dCdx = torch.zeros_like(self.input, dtype=self.data_type, device=self.device)
+        dCdh_next = torch.zeros_like(self.hidden_states[0], dtype=dCdy.dtype, device=dCdy.device) if len(self.output_shape) == 3 else dCdy @ self.wy.T
+        dCdc_next = torch.zeros_like(self.cell_states[0], dtype=dCdy.dtype, device=dCdy.device)
+        dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
         batch_size, seq_len, _ = self.input.size()
 
         if len(self.output_shape) == 2: self.wy.grad += self.hidden_states[seq_len - 1].T @ dCdy

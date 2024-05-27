@@ -17,11 +17,13 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
-train_images = torch.from_numpy(train_images).to(dtype=torch.float32).reshape(60000, 1, 28, 28)[:150]
-train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32)[:150]
-test_images = torch.from_numpy(test_images).to(dtype=torch.float32).reshape(10000, 1, 28, 28)[:100]
-test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32)[:100]
+train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:150]
+train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:150]
+test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:100]
+test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:100]
 train_images = train_images / train_images.max()
 test_images = test_images / test_images.max()
 
@@ -35,7 +37,7 @@ test_labels = label_encoder.one_hot_encode(test_labels)
 print(train_images.shape, train_labels.shape, validation_images.shape, validation_labels.shape, test_images.shape, test_labels.shape)
 print(train_labels[:2])
 
-model = Model((None, 1, 28, 28))
+model = Model((None, 1, 28, 28), device=device)
 model.add(Conv2D(kernel_size=3, output_depth=16, activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
 model.add(Conv2D(kernel_size=3, output_depth=16, activation=ReLU()))
@@ -46,7 +48,7 @@ model.add(Dense((None, 50), activation=ReLU()))
 model.add(Dense((None, 10), activation=SoftMax()))
 model.compile(optimiser=Adam(learning_rate=0.001), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
-history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=30, batch_size=8)
+history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=30, batch_size=25)
 plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)
 plt.plot(history["val_loss"], label="validation loss")

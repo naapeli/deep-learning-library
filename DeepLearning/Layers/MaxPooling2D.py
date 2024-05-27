@@ -30,13 +30,14 @@ class MaxPooling2D(Activation):
     def forward(self, input, **kwargs):
         self.input = input
         batch_size, depth, widht, height = self.input.shape
-        self.output = torch.zeros(size=(batch_size, depth, widht // self.pool_size, height // self.pool_size), device=self.device, dtype=self.data_type)
+        self.output = torch.zeros(size=(batch_size, depth, widht // self.pool_size, height // self.pool_size), device=input.device, dtype=input.dtype)
         for slice, h, w in self.generate_sections(input):
             self.output[:, :, h, w] = torch.amax(slice, dim=(2, 3))
         return self.output
     
     def backward(self, dCdy, **kwargs):
-        dCdx = torch.zeros_like(self.input, device=self.device, dtype=self.data_type)
+        # extremely slow...
+        dCdx = torch.zeros_like(self.input, device=dCdy.device, dtype=dCdy.dtype)
         for slice, h, w in self.generate_sections(self.input):
             batch_size, depth, h0, w0 = slice.shape
             max_vals = torch.amax(slice, dim=(2, 3), keepdim=True)

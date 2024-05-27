@@ -31,6 +31,8 @@ class Conv2D(Base):
         if self.activation:
             self.activation.set_output_shape(self.output_shape)
         if self.normalisation:
+            self.normalisation.data_type = self.data_type
+            self.normalisation.device = self.device
             self.normalisation.set_output_shape(self.output_shape)
     
     def forward(self, input, training=False, **kwargs):

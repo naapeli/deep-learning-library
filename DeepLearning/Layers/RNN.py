@@ -24,8 +24,8 @@ class RNN(Base):
     def forward(self, input, training=False, **kwargs):
         self.input = input
         batch_size, seq_len, _ = input.size()
-        self.hiddens = [torch.zeros(batch_size, self.hidden_size)]
-        if len(self.output_shape) == 3: self.output = torch.zeros(batch_size, seq_len, self.output_shape[2])
+        self.hiddens = [torch.zeros(batch_size, self.hidden_size, dtype=input.dtype, device=input.device)]
+        if len(self.output_shape) == 3: self.output = torch.zeros(batch_size, seq_len, self.output_shape[2], dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             self.hiddens.append(torch.tanh(self.input[:, t] @ self.ih.T + self.hiddens[-1] @ self.hh.T + self.bh))
@@ -40,15 +40,15 @@ class RNN(Base):
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
-        self.hh.grad = torch.zeros_like(self.hh)
-        self.ih.grad = torch.zeros_like(self.ih)
-        self.ho.grad = torch.zeros_like(self.ho)
-        self.bh.grad = torch.zeros_like(self.bh)
-        self.bo.grad = torch.zeros_like(self.bo)
+        self.hh.grad = torch.zeros_like(self.hh, dtype=dCdy.dtype, device=dCdy.device)
+        self.ih.grad = torch.zeros_like(self.ih, dtype=dCdy.dtype, device=dCdy.device)
+        self.ho.grad = torch.zeros_like(self.ho, dtype=dCdy.dtype, device=dCdy.device)
+        self.bh.grad = torch.zeros_like(self.bh, dtype=dCdy.dtype, device=dCdy.device)
+        self.bo.grad = torch.zeros_like(self.bo, dtype=dCdy.dtype, device=dCdy.device)
 
         batch_size, seq_len, _ = self.input.size()
-        dCdh_next = torch.zeros_like(self.hiddens[0]) if len(self.output_shape) == 3 else dCdy @ self.ho
-        dCdx = torch.zeros_like(self.input)
+        dCdh_next = torch.zeros_like(self.hiddens[0], dtype=dCdy.dtype, device=dCdy.device) if len(self.output_shape) == 3 else dCdy @ self.ho
+        dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
 
         if len(self.output_shape) == 2: self.ho.grad += dCdy.T @ self.hiddens[-1] # batch_size, output_size --- batch_size, self.hidden_size
         if len(self.output_shape) == 2: self.bo.grad += torch.sum(dCdy, axis=0)

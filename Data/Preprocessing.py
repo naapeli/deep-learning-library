@@ -15,7 +15,7 @@ def data_split(X, Y, train_split=0.8, validation_split=0.2):
     assert train_split + validation_split <= 1 and validation_split >= 0 and train_split >= 0, "Splits must be between 0 and 1 and their sum less than or equal to 1."
     axis = 0
     data_length = X.size(axis)
-    perm = torch.randperm(data_length, requires_grad=False)
+    perm = torch.randperm(data_length, requires_grad=False, device=X.device)
     x_data = X.index_select(axis, perm)
     y_data = Y.index_select(axis, perm)
     split_index1 = floor(data_length * train_split)
@@ -41,12 +41,12 @@ class OneHotEncoder:
     def one_hot_encode(self, data):
         assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
         assert hasattr(self, "one_hot_length"), "OneHotEncoder.fit(data) must be called before encoding the labels"
-        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data])
+        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data], device=data.device)
         return label_to_distribution
     
     def one_hot_decode(self, data):
         assert len(data.shape) == 2, "Input must be of shape (data_length, number_of_categories)"
-        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data])
+        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data], device=data.device)
 
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]
@@ -67,12 +67,12 @@ class BinaryEncoder:
     def binary_encode(self, data):
         assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
         assert hasattr(self, "element_to_key"), "OneHotEncoder.fit(data) must be called before encoding the labels"
-        label_to_distribution = torch.tensor([self.element_to_key[y.item()] for y in data])
+        label_to_distribution = torch.tensor([self.element_to_key[y.item()] for y in data], device=data.device)
         return label_to_distribution
     
     def binary_decode(self, data):
         assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Input must be of shape (data_length, 1)"
-        return torch.tensor([self.unique_elements[label] for label in data])
+        return torch.tensor([self.unique_elements[label] for label in data], device=data.device)
 
 """
 Normalises the data between 0 and 1

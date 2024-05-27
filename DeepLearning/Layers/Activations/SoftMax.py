@@ -19,7 +19,7 @@ class SoftMax(Activation):
 
         # same calculations as above, but faster
         datapoints_expanded = self.output.unsqueeze(1).repeat(1, n, 1)
-        identity_matrix = torch.eye(n, device=self.device, dtype=self.data_type)
+        identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype)
         matrix_diff = identity_matrix - datapoints_expanded
         dCdx = dCdy.unsqueeze(1) @ (datapoints_expanded.transpose(1, 2) * matrix_diff)
         return dCdx.squeeze(1)

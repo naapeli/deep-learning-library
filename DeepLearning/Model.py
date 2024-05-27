@@ -18,9 +18,9 @@ class Model:
 
     def add(self, layer):
         layer.input_shape = self.layers[-1].output_shape
-        layer.initialise_layer()
         layer.data_type = self.data_type
         layer.device = self.device
+        layer.initialise_layer()
         self.layers.append(layer)
 
     def compile(self, optimiser=Adam(), loss=mse(), metrics=["loss"]):
