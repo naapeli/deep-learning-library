@@ -48,6 +48,7 @@ class Conv2D(Base):
         return self.output
     
     def backward(self, dCdy, **kwargs):
+        # BUG IF INPUT OR OUTPUT DEPTHS ARE GREATER THAN 1
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
         kernel_gradient = torch.zeros_like(self.kernels, device=self.device, dtype=self.data_type)

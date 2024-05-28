@@ -1,31 +1,20 @@
 import torch
 from DeepLearning.Layers.Conv2D import Conv2D
-from DeepLearning.Layers.Activations.ReLU import ReLU
-from DeepLearning.Layers.MaxPooling2D import MaxPooling2D
-from torch.nn import MaxPool2d
+from time import perf_counter
 
 
-data = torch.tensor([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]], dtype=torch.float32)
-data = torch.stack([data, data, data])
-data = data.reshape((3, 1, 5, 4))
-target = torch.tensor([[[0], [0]], [[0], [0]]], dtype=torch.float32)
-target = torch.stack([target, target, target]) + 1
+data = torch.rand((2, 1, 10, 10), dtype=torch.float32, requires_grad=True)
 
-layer = Conv2D(2, 2, input_shape=(3, 1, 5, 4), activation=ReLU())
-layer2 = MaxPooling2D(2, input_shape=layer.output_shape)
-output1 = layer.forward(data)
-output2 = layer2.forward(output1)
-print(output1)
-print(output1.shape)
-print(target.shape)
-print(layer2.backward(target))
+layer = Conv2D(3, 1, input_shape=(2, 1, 10, 10))
+output = layer.forward(data)
+target = torch.ones_like(output)
 
-data = torch.tensor([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]], dtype=torch.float32, requires_grad=True)
-data = torch.stack([data, data, data])
-data = data.reshape((3, 1, 5, 4))
+start = perf_counter()
+output.backward(target)
+print(f"Torch.auto_grad time: {perf_counter() - start}")
 
-output1 = layer.forward(data)
-output1.retain_grad()
-output2 = layer2.forward(output1)
-output2.backward(target)
-print(output1.grad)
+start = perf_counter()
+data_grad = layer.backward(target)
+print(f"My implementation time: {perf_counter() - start}")
+
+print(f"Number of wrong numbers: {torch.sum(data.grad != data_grad).item()}")

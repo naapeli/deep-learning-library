@@ -55,7 +55,7 @@ class Model:
     Y.shape = (data_length, output_shape)
     """
     def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True):
-        history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type, device=self.device) for metric in self.metrics}
+        history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
             for x, y in data_reader.get_data():
