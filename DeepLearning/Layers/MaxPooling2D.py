@@ -36,16 +36,13 @@ class MaxPooling2D(Activation):
         return self.output
     
     def backward(self, dCdy, **kwargs):
-        # extremely slow...
         dCdx = torch.zeros_like(self.input, device=dCdy.device, dtype=dCdy.dtype)
+        sums = torch.ones_like(self.input, device=dCdy.device, dtype=dCdy.dtype)
         for slice, h, w in self.generate_sections(self.input):
-            batch_size, depth, h0, w0 = slice.shape
-            max_vals = torch.amax(slice, dim=(2, 3), keepdim=True)
-            sums = torch.sum(torch.eq(max_vals.repeat(1, 1, self.pool_size, self.pool_size), slice), dim=(2, 3), keepdim=True)
-            for batch in range(batch_size):
-                for idx_h in range(h0):
-                    for idx_w in range(w0):
-                        for idx_k in range(depth):
-                            if slice[batch, idx_k, idx_h, idx_w] == max_vals[batch, idx_k, 0, 0]:
-                                dCdx[batch, idx_k, h * self.pool_size + idx_h, w * self.pool_size + idx_w] = dCdy[batch, idx_k, h, w]
+            derivative_slice = dCdx[:, :, h * self.pool_size:h * self.pool_size + self.pool_size, w * self.pool_size:w * self.pool_size + self.pool_size]
+            max_vals = self.output[:, :, h, w].unsqueeze(-1).unsqueeze(-1)
+            selector = torch.eq(max_vals.repeat(1, 1, self.pool_size, self.pool_size), slice)
+            sums[:, :, h * self.pool_size:h * self.pool_size + self.pool_size, w * self.pool_size:w * self.pool_size + self.pool_size] = torch.sum(selector, dim=(2, 3), keepdim=True).repeat(1, 1, self.pool_size, self.pool_size)
+            derivatives = dCdy[:, :, h, w].unsqueeze(-1).unsqueeze(-1).repeat(1, 1, self.pool_size, self.pool_size)
+            dCdx[:, :, h * self.pool_size:h * self.pool_size + self.pool_size, w * self.pool_size:w * self.pool_size + self.pool_size] = torch.where(selector, derivatives, derivative_slice)
         return dCdx / sums
