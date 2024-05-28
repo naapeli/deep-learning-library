@@ -21,6 +21,7 @@ class BatchNorm1d(Activation):
         self.nparams = 2 * self.output_shape[-1]
 
     def forward(self, input, training=False, **kwargs):
+        # MODIFY TO TAKE arbitrarily shaped inputs
         self.input = input
         if training:
             mean = torch.mean(input, axis=0)
@@ -35,7 +36,7 @@ class BatchNorm1d(Activation):
             self.output = self.gamma * ((self.input - self.running_mean) / torch.sqrt(self.running_var + self.epsilon)) + self.beta
         return self.output
     
-    def backward(self, dCdy, learning_rate=0.001, **kwargs):
+    def backward(self, dCdy, **kwargs):
         batch_size = self.output.shape[0]
         dCdx_norm = dCdy * self.gamma
         dCdgamma = (dCdy * self.x_norm).sum(axis=0)
