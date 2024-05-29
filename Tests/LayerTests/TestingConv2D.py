@@ -18,4 +18,4 @@ data_grad = layer.backward(target)
 print(f"My implementation time: {perf_counter() - start}")
 
 print(f"Number of wrong numbers: {torch.sum(data.grad != data_grad).item()}")
-print(f"Norm of the difference between gradients: {torch.linalg.norm(data.grad - data_grad)}")
+# print(f"Norm of the difference between gradients: {torch.linalg.norm(data.grad - data_grad)}")
