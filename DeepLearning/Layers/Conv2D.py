@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from .Base import Base
-from math import sqrt
+from math import sqrt, ceil
 import numpy as np
 
 
@@ -41,14 +41,14 @@ class Conv2D(Base):
         self.output = self.biases.clone().repeat(batch_size, 1, 1, 1)
         for i in range(self.output_depth):
             for j in range(self.input_depth):
-                conv_output = F.conv2d(input[:, j:j+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=[2, 3]), padding="valid")
+                conv_output = F.conv2d(input[:, j:j+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding="valid")
                 self.output[:, i, :, :] += conv_output[:, 0, :, :]
+                
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
     
     def backward(self, dCdy, **kwargs):
-        # BUG IF INPUT OR OUTPUT DEPTHS ARE GREATER THAN 1
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
         kernel_gradient = torch.zeros_like(self.kernels, device=self.device, dtype=self.data_type)
@@ -56,8 +56,8 @@ class Conv2D(Base):
         batch_size = self.input.shape[0]
         for i in range(self.output_depth):
             for j in range(self.input_depth):
-                kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], torch.flip(dCdy[:, i:i+1, :, :], dims=[2, 3]), padding="valid")[0, 0, :, :]
-                dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
+                kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], dCdy[:, i:i+1, :, :], padding="valid")[0, 0, :, :]
+                dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=(2, 3)), padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
                 
         self.biases.grad = dCdy.mean(dim=0)
         self.kernels.grad = kernel_gradient / batch_size

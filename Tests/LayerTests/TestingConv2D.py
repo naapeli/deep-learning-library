@@ -3,9 +3,9 @@ from DeepLearning.Layers.Conv2D import Conv2D
 from time import perf_counter
 
 
-data = torch.rand((2, 1, 10, 10), dtype=torch.float32, requires_grad=True)
+data = torch.rand((46, 47, 48, 49), dtype=torch.float32, requires_grad=True)
 
-layer = Conv2D(3, 1, input_shape=(2, 1, 10, 10))
+layer = Conv2D(3, 1, input_shape=(46, 47, 48, 49))
 output = layer.forward(data)
 target = torch.ones_like(output)
 
@@ -18,3 +18,4 @@ data_grad = layer.backward(target)
 print(f"My implementation time: {perf_counter() - start}")
 
 print(f"Number of wrong numbers: {torch.sum(data.grad != data_grad).item()}")
+print(f"Norm of the difference between gradients: {torch.linalg.norm(data.grad - data_grad)}")
