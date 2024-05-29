@@ -2,9 +2,9 @@ from DeepLearning.Model import Model
 from DeepLearning.Layers.Dense import Dense
 from DeepLearning.Layers.Regularisation.Dropout import Dropout
 from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
-from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm1d
-from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm1d
-from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm1d
+from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
+from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
+from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
 from DeepLearning.Layers.Activations.Tanh import Tanh
 from DeepLearning.Layers.Activations.ReLU import ReLU
 from DeepLearning.Layers.Activations.Sigmoid import Sigmoid

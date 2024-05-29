@@ -1,9 +1,9 @@
-from .GroupNormalisation import GroupNorm1d
+from .GroupNormalisation import GroupNorm
 
 
-class InstanceNorm1d(GroupNorm1d):
+class InstanceNorm(GroupNorm):
     def __init__(self, output_shape=None, **kwargs):
-        super().__init__(output_shape, output_shape[1], **kwargs)
+        if output_shape: super().__init__(output_shape, output_shape[1], **kwargs)
         self.name = "Instance normalisation"
 
     def set_output_shape(self, output_shape):

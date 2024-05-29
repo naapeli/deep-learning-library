@@ -8,7 +8,7 @@ Computes the group norm of a batch along axis=1
 input.shape = (batch_size, channels, *)
 output.shape = (batch_size, channels, *)
 """
-class GroupNorm1d(Activation):
+class GroupNorm(Activation):
     def __init__(self, output_shape=None, num_groups=32, **kwargs):
         super().__init__(output_shape, **kwargs)
         self.kwargs = kwargs
@@ -27,16 +27,17 @@ class GroupNorm1d(Activation):
         self.nparams = 2 * self.output_shape[1]
 
     def forward(self, input, **kwargs):
+        elements_per_group = input.shape[1] // self.num_groups
+        assert elements_per_group > 1, "There must be more than 1 element in a group"
         self.input = input
         batch_size = input.shape[0]
-        elements_per_group = input.shape[1] // self.num_groups
         self.input = input
         self.input_reshaped = self.input.view(batch_size, self.num_groups, elements_per_group, *input.shape[2:])
         mean = 1.0 / elements_per_group * self.input_reshaped.sum(2, keepdim=True)
         self.x_centered = self.input_reshaped - mean
         self.x_centered_squared = self.x_centered ** 2
         # unbiased variance
-        self.var = 1.0 / (elements_per_group - 1) * self.x_centered_squared.sum(2, keepdim=True) if elements_per_group > 1 else torch.zeros(size=(batch_size, self.num_groups, 1), dtype=self.data_type, device=self.device)
+        self.var = 1.0 / (elements_per_group - 1) * self.x_centered_squared.sum(2, keepdim=True)
         self.inv_std = (self.var + self.epsilon) ** -0.5
         self.x_norm = self.x_centered * self.inv_std
         self.x_reshaped = self.x_norm.view(self.input.shape)
