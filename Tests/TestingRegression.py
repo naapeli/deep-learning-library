@@ -1,7 +1,7 @@
 from DeepLearning.Model import Model
 from DeepLearning.Layers.Dense import Dense
 from DeepLearning.Layers.Regularisation.Dropout import Dropout
-from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm1d
+from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
 from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm1d
 from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm1d
 from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm1d
@@ -19,10 +19,10 @@ import matplotlib.pyplot as plt
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model((None, 2), data_type=torch.float32)
-model.add(Dense((None, 6), normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense((None, 6), normalisation=BatchNorm(), activation=ReLU()))
 model.add(Dropout((None, 6), p=0.1))
 model.add(Dense((None, 6)))
-model.add(BatchNorm1d((None, 6)))
+model.add(BatchNorm((None, 6)))
 model.add(Sigmoid((None, 6)))
 model.add(Dense((None, 1)))
 model.compile(optimiser=sgd(learning_rate=0.1), loss=mse(), metrics=["loss", "val_loss"])

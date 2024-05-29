@@ -1,7 +1,7 @@
 from DeepLearning.Model import Model
 from DeepLearning.Layers.Dense import Dense
 from DeepLearning.Layers.Regularisation.Dropout import Dropout
-from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm1d
+from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
 from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm1d
 from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm1d
 from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm1d
@@ -31,9 +31,9 @@ x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 model = Model((None, 4), data_type=torch.float32)
-model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
-model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
-model.add(Dense((None, 20), normalisation=BatchNorm1d(), activation=ReLU()))
+model.add(Dense((None, 20), normalisation=BatchNorm(), activation=ReLU()))
+model.add(Dense((None, 20), normalisation=BatchNorm(), activation=ReLU()))
+model.add(Dense((None, 20), normalisation=BatchNorm(), activation=ReLU()))
 model.add(Dense((None, 3), activation=SoftMax()))
 model.compile(optimiser=sgd(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
