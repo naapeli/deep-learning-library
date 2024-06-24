@@ -2,14 +2,14 @@ import torch
 import matplotlib.pyplot as plt
 
 from MachineLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
-from MachineLearning.GaussianProcesses.Kernels import GaussianDistanceCovariance, LinearCovariance
+from MachineLearning.GaussianProcesses.Kernels import SquaredExponentialCovariance, LinearCovariance, PeriodicCovariance, WhiteGaussianCovariance
 
 
 
 X = torch.linspace(0, 1, 20, dtype=torch.float64).unsqueeze(1)
 Y = 0.1 * torch.sin(20 * X) + X ** 2
 
-model = GaussianProcessRegressor(GaussianDistanceCovariance(0.5, 0.1) + LinearCovariance() * LinearCovariance(), noise=0.01)
+model = GaussianProcessRegressor(LinearCovariance() ** 2 + PeriodicCovariance(1, 2, period=0.31) + WhiteGaussianCovariance(sigma=0.1) * LinearCovariance(), noise=0.1)
 model.fit(X, Y)
 
 
