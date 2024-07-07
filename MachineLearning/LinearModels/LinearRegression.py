@@ -10,7 +10,7 @@ class LinearRegression:
         self.X = X
         self.Y = Y
         X = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
-        self.beta = torch.inverse(X.T @ X) @ X.T @ Y
+        self.beta = torch.linalg.pinv(X.T @ X) @ X.T @ Y
         self.residuals = self.Y - self.predict(self.X)
 
     def predict(self, X):

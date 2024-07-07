@@ -1,5 +1,6 @@
 import torch
 from math import floor
+import itertools
 
 
 """
@@ -109,3 +110,23 @@ class StandardScaler:
     def inverse_transform(self, data):
         assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
         return data * self.var + self.mean
+
+"""
+Creates a matrix of data containing every possible combination of the given set of points
+
+data.shape = (data_length, input_shape)
+"""
+class PolynomialFeatures:
+    def __init__(self, degree=2):
+        self.degree = degree
+
+    def transform(self, data):
+        data_length, input_shape = data.shape
+        features = [torch.ones(data_length)]
+
+        for deg in range(1, self.degree + 1):
+            for items in itertools.combinations_with_replacement(range(input_shape), deg):
+                new_feature = torch.prod(torch.stack([data[:, i] for i in items]), axis=0)
+                features.append(new_feature)
+
+        return torch.vstack(features).T
