@@ -11,7 +11,7 @@ Y = 0.1 * torch.sin(20 * X) + X ** 2
 
 model = GaussianProcessRegressor(LinearCovariance() ** 2 + PeriodicCovariance(1, 2, period=0.31) + WhiteGaussianCovariance(sigma=0.1) * LinearCovariance(), noise=0.1)
 model.fit(X, Y)
-
+print(model.log_marginal_likelihood())
 
 x_test = torch.linspace(0, 2, 100, dtype=torch.float64).unsqueeze(1)
 mean, covariance = model.predict(x_test)

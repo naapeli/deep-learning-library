@@ -17,7 +17,8 @@ class GaussianProcessRegressor:
         assert X.shape[0] == Y.shape[0], "There must be an equal value of samples and values"
         self.X = X
         self.Y = Y
-        self.inverse_prior_covariance_matrix = torch.linalg.inv(self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X)))
+        self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X))
+        self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
 
     def predict(self, X):
         assert hasattr(self, "inverse_prior_covariance_matrix"), "GaussianProcessRegressor.fit(x, y) must be called before predicting"
@@ -31,6 +32,18 @@ class GaussianProcessRegressor:
         # is_positive_definite(self.inverse_prior_covariance_matrix)
         # is_positive_definite(posterior_covariance)
         return mean, posterior_covariance
+    
+    def log_marginal_likelihood(self):
+        assert hasattr(self, "inverse_prior_covariance_matrix"), "GaussianProcessRegressor.fit(x, y) must be called before getting the log-marginal-likelihood"
+        L = torch.linalg.cholesky(self.prior_covariance_matrix)
+        alpha = torch.cholesky_solve(self.Y, L)
+        lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi))
+        # lml = -0.5 * (self.Y - 0).T @ self.inverse_prior_covariance_matrix @ (self.Y - 0) - 0.5 * torch.log(torch.linalg.det(self.prior_covariance_matrix)) - self.X.shape[0] / 2 * torch.log(torch.tensor(2 * torch.pi))
+        return lml.item()
+    
+    def log_marginal_likelihood_derivative(self, parameter):
+        pass
+
 
 # def is_positive_definite(matrix):
 #     print("-----------------")
