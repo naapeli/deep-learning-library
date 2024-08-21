@@ -1,16 +1,17 @@
 import torch
+from DeepLearning.Optimisers.ADAM import Adam
 
 
 class GaussianProcessRegressor:
-    def __init__(self, covariance_function, noise=0, epsilon=1e-10):
+    def __init__(self, covariance_function, noise=0, epsilon=1e-5):
         self.covariance_function = covariance_function
         self.noise = noise
         self.epsilon = epsilon
 
     def _get_covariance_matrix(self, X1, X2):
-        covariance = torch.tensor([[self.covariance_function(x1, x2) for x1 in X1] for x2 in X2]).T
+        covariance = torch.tensor([[self.covariance_function(x1, x2) for x1 in X1] for x2 in X2], dtype=X1.dtype).T
         return covariance
-        
+
     def fit(self, X, Y):
         assert len(X.shape) == 2, "X must be of shape (n_samples, n_features)"
         assert (len(Y.shape) == 2 and Y.shape[1] == 1) or len(Y.shape) == 1, "Y must be of shape (n_samples,)"
@@ -38,11 +39,30 @@ class GaussianProcessRegressor:
         L = torch.linalg.cholesky(self.prior_covariance_matrix)
         alpha = torch.cholesky_solve(self.Y, L)
         lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi))
-        # lml = -0.5 * (self.Y - 0).T @ self.inverse_prior_covariance_matrix @ (self.Y - 0) - 0.5 * torch.log(torch.linalg.det(self.prior_covariance_matrix)) - self.X.shape[0] / 2 * torch.log(torch.tensor(2 * torch.pi))
         return lml.item()
     
-    def log_marginal_likelihood_derivative(self, parameter):
-        pass
+    def train_kernel(self, epochs=10, optimiser=Adam()):
+        assert hasattr(self, "X"), "GaussianProcessRegressor.fit(x, y) must be called before training"
+        optimiser.initialise_parameters(self.covariance_function.parameters())
+        for epoch in range(epochs):
+            # form the derivative function
+            def derivative(parameter_derivative):
+                derivative = 0.5 * self.Y.T @ self.inverse_prior_covariance_matrix @ parameter_derivative @ self.inverse_prior_covariance_matrix @ self.Y
+                derivative -= 0.5 * torch.trace(self.inverse_prior_covariance_matrix @ parameter_derivative)
+                # minus sign, since goal is to maximise the log_marginal_likelihood
+                return -derivative
+
+            # calculate the derivatives
+            self.covariance_function.update(derivative, self.X, noise=self.noise, epsilon=self.epsilon)
+
+            # update the parameters
+            optimiser.update_parameters()
+
+            self.prior_covariance_matrix = self._get_covariance_matrix(self.X, self.X) + (self.noise + self.epsilon) * torch.eye(len(self.X))
+            self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
+            print(f"Epoch: {epoch} - Log-marginal-likelihood: {self.log_marginal_likelihood()}")
+        
+
 
 
 # def is_positive_definite(matrix):
