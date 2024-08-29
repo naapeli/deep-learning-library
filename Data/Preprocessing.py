@@ -104,12 +104,12 @@ class StandardScaler:
         self.var = torch.var(data, dim=0)
 
     def transform(self, data):
-        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
-        return (data - self.mean) / self.var
+        assert hasattr(self, "mean"), "scaler.fit(data) must be called before transforming data"
+        return (data - self.mean) / torch.sqrt(self.var)
 
     def inverse_transform(self, data):
-        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
-        return data * self.var + self.mean
+        assert hasattr(self, "mean"), "scaler.fit(data) must be called before transforming data"
+        return data * torch.sqrt(self.var) + self.mean
 
 """
 Creates a matrix of data containing every possible combination of the given set of points
