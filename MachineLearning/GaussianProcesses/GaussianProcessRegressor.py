@@ -16,6 +16,10 @@ class GaussianProcessRegressor:
         assert len(X.shape) == 2, "X must be of shape (n_samples, n_features)"
         assert (len(Y.shape) == 2 and Y.shape[1] == 1) or len(Y.shape) == 1, "Y must be of shape (n_samples,)"
         assert X.shape[0] == Y.shape[0], "There must be an equal value of samples and values"
+        variance = torch.var(Y, dim=0)
+        mean = torch.mean(Y, dim=0)
+        assert torch.allclose(variance, torch.ones_like(variance)), "Remember to normalise Y to variance 1"
+        assert torch.allclose(mean, torch.zeros_like(mean)), "Remember to normalise Y to mean 0"
         self.X = X
         self.Y = Y
         self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X))
@@ -62,12 +66,9 @@ class GaussianProcessRegressor:
             self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
             print(f"Epoch: {epoch} - Log-marginal-likelihood: {self.log_marginal_likelihood()}")
         
-
-
-
-# def is_positive_definite(matrix):
-#     print("-----------------")
-#     if not torch.allclose(matrix, matrix.T):
-#         print(f"Matrix not symmetric: {torch.linalg.norm(matrix.T - matrix)}")
-#     eigenvalues = torch.linalg.eigvalsh(matrix)
-#     print(f"Minimum eigenvalue: {torch.min(eigenvalues).item()}")
+    # def is_positive_definite(matrix):
+    #     print("-----------------")
+    #     if not torch.allclose(matrix, matrix.T):
+    #         print(f"Matrix not symmetric: {torch.linalg.norm(matrix.T - matrix)}")
+    #     eigenvalues = torch.linalg.eigvalsh(matrix)
+    #     print(f"Minimum eigenvalue: {torch.min(eigenvalues).item()}")
