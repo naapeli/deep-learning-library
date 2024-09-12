@@ -19,18 +19,18 @@ class GaussianProcessRegressor:
         assert X.shape[0] == Y.shape[0], "There must be an equal value of samples and values"
         variance = torch.var(Y, dim=0)
         mean = torch.mean(Y, dim=0)
-        assert torch.allclose(variance, torch.ones_like(variance, device=self.device)), "Remember to normalise Y to variance 1"
-        assert torch.allclose(mean, torch.zeros_like(mean, device=self.device)), "Remember to normalise Y to mean 0"
+        assert torch.allclose(variance, torch.ones_like(variance)), "Remember to normalise Y to variance 1"
+        assert torch.allclose(mean, torch.zeros_like(mean)), "Remember to normalise Y to mean 0"
         self.X = X
         self.Y = Y
-        self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X))
+        self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
         self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
 
     def predict(self, X):
         assert hasattr(self, "inverse_prior_covariance_matrix"), "GaussianProcessRegressor.fit(x, y) must be called before predicting"
         assert X.shape[1] == self.X.shape[1], "The input dimension must match the fitted dimension"
         k_1 = self._get_covariance_matrix(self.X, X)
-        k_2 = self._get_covariance_matrix(X, X) + self.epsilon * torch.eye(len(X), device=self.device)
+        k_2 = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
         mean = k_1.T @ self.inverse_prior_covariance_matrix @ self.Y
         posterior_covariance = k_2 - k_1.T @ self.inverse_prior_covariance_matrix @ k_1
         # is_positive_definite(self._get_covariance_matrix(self.X, self.X))
@@ -49,7 +49,7 @@ class GaussianProcessRegressor:
     def train_kernel(self, epochs=10, optimiser=Adam()):
         assert hasattr(self, "X"), "GaussianProcessRegressor.fit(x, y) must be called before training"
         optimiser.initialise_parameters(self.covariance_function.parameters())
-        for epoch in range(epochs):
+        for epoch in range(1, epochs + 1):
             # form the derivative function
             def derivative(parameter_derivative):
                 derivative = 0.5 * self.Y.T @ self.inverse_prior_covariance_matrix @ parameter_derivative @ self.inverse_prior_covariance_matrix @ self.Y
