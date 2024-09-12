@@ -12,8 +12,9 @@ Y = 0.1 * torch.sin(20 * X) + X ** 2
 transformer = StandardScaler()
 transformer.fit(Y)
 Y = transformer.transform(Y)
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-model = GaussianProcessRegressor(LinearCovariance(sigma=0.2) ** 2 + PeriodicCovariance(1, 2, period=0.5), noise=0.1)
+model = GaussianProcessRegressor(LinearCovariance(sigma=0.2) ** 2 + PeriodicCovariance(1, 2, period=0.5), noise=0.1, device=device)
 model.fit(X, Y)
 print(model.log_marginal_likelihood())
 model.train_kernel(epochs=200, optimiser=Adam())  # try to comment out this line of code to see how the covariance kernel learns the correct parameters
