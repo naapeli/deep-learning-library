@@ -1,6 +1,7 @@
 import torch
-from DeepLearning.Layers.Conv2D import Conv2D
 from time import perf_counter
+
+from src.DLL.DeepLearning.Layers.Conv2D import Conv2D
 
 
 data = torch.rand((46, 47, 48, 49), dtype=torch.float32, requires_grad=True)
