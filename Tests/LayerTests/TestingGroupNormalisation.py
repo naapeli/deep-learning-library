@@ -1,11 +1,12 @@
 import torch
 from time import perf_counter
-from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm1d
+
+from src.DLL.DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
 
 
 data = torch.rand((11, 10, 12, 15, 26), dtype=torch.float32, requires_grad=True)
 
-layer = GroupNorm1d(output_shape=(11, 10, 12, 15, 26), num_groups=5)
+layer = GroupNorm(output_shape=(11, 10, 12, 15, 26), num_groups=5)
 output = layer.forward(data, training=True)
 target = torch.rand(size=output.size())
 start = perf_counter()

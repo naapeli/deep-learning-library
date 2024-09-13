@@ -1,11 +1,12 @@
 import torch
-from DeepLearning.Layers.RNN import RNN
-from DeepLearning.Layers.LSTM import LSTM
-from DeepLearning.Model import Model
-from DeepLearning.Layers.Activations.Tanh import Tanh
-from DeepLearning.Optimisers.ADAM import Adam
-from DeepLearning.Losses.MSE import mse
 import matplotlib.pyplot as plt
+
+from src.DLL.DeepLearning.Layers.RNN import RNN
+from src.DLL.DeepLearning.Layers.LSTM import LSTM
+from src.DLL.DeepLearning.Model import Model
+from src.DLL.DeepLearning.Layers.Activations.Tanh import Tanh
+from src.DLL.DeepLearning.Optimisers.ADAM import Adam
+from src.DLL.DeepLearning.Losses.MSE import mse
 
 
 size = 300
