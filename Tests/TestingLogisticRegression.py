@@ -1,9 +1,9 @@
 import torch
 from sklearn import datasets
 
-from MachineLearning.LinearModels.LogisticRegression import LogisticRegression
-from Data.Preprocessing import MinMaxScaler, BinaryEncoder, data_split
-from Data.Metrics import accuracy
+from src.DLL.MachineLearning.LinearModels.LogisticRegression import LogisticRegression
+from src.DLL.Data.Preprocessing import MinMaxScaler, BinaryEncoder, data_split
+from src.DLL.Data.Metrics import accuracy
 
 
 iris = datasets.load_iris()

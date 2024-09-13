@@ -1,12 +1,13 @@
 import torch
 from sklearn import datasets
-from Data.Metrics import accuracy
-from Data.Preprocessing import data_split
-from MachineLearning.RandomForests.DecisionTree import DecisionTree
-from MachineLearning.RandomForests.RandomForest import RandomForestClassifier
 from sklearn import tree
 from sklearn import ensemble
 import time
+
+from src.DLL.Data.Metrics import accuracy
+from src.DLL.Data.Preprocessing import data_split
+from src.DLL.MachineLearning.RandomForests.DecisionTree import DecisionTree
+from src.DLL.MachineLearning.RandomForests.RandomForest import RandomForestClassifier
 
 
 breast_cancer = datasets.load_breast_cancer()

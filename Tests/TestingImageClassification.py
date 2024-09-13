@@ -1,20 +1,20 @@
-from DeepLearning.Model import Model
-from DeepLearning.Layers.Dense import Dense
-from DeepLearning.Layers.Conv2D import Conv2D
-from DeepLearning.Layers.Flatten import Flatten
-from DeepLearning.Layers.MaxPooling2D import MaxPooling2D
-from DeepLearning.Layers.Regularisation.Dropout import Dropout
-from DeepLearning.Layers.Activations.ReLU import ReLU
-from DeepLearning.Layers.Activations.SoftMax import SoftMax
-from DeepLearning.Losses.CCE import cce
-from DeepLearning.Optimisers.SGD import sgd
-from DeepLearning.Optimisers.ADAM import Adam
-from Data.Preprocessing import OneHotEncoder, data_split
-from Data.Metrics import accuracy
-
 import torch
 import matplotlib.pyplot as plt
 import tensorflow as tf
+
+from src.DLL.DeepLearning.Model import Model
+from src.DLL.DeepLearning.Layers.Dense import Dense
+from src.DLL.DeepLearning.Layers.Conv2D import Conv2D
+from src.DLL.DeepLearning.Layers.Flatten import Flatten
+from src.DLL.DeepLearning.Layers.MaxPooling2D import MaxPooling2D
+from src.DLL.DeepLearning.Layers.Regularisation.Dropout import Dropout
+from src.DLL.DeepLearning.Layers.Activations.ReLU import ReLU
+from src.DLL.DeepLearning.Layers.Activations.SoftMax import SoftMax
+from src.DLL.DeepLearning.Losses.CCE import cce
+from src.DLL.DeepLearning.Optimisers.SGD import sgd
+from src.DLL.DeepLearning.Optimisers.ADAM import Adam
+from src.DLL.Data.Preprocessing import OneHotEncoder, data_split
+from src.DLL.Data.Metrics import accuracy
 
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
