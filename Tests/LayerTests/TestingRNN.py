@@ -1,5 +1,6 @@
 import torch
-from DeepLearning.Layers.RNN import RNN
+
+from src.DLL.DeepLearning.Layers.RNN import RNN
 
 
 data = torch.ones(size=(3, 1), dtype=torch.float32, requires_grad=True)

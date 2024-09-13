@@ -1,10 +1,10 @@
 import torch
 import matplotlib.pyplot as plt
 
-from MachineLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
-from MachineLearning.GaussianProcesses.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
-from DeepLearning.Optimisers.ADAM import Adam
-from Data.Preprocessing import StandardScaler
+from src.DLL.MachineLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
+from src.DLL.MachineLearning.GaussianProcesses.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
+from src.DLL.DeepLearning.Optimisers.ADAM import Adam
+from src.DLL.Data.Preprocessing import StandardScaler
 
 
 # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")

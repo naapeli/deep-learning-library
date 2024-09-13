@@ -1,19 +1,19 @@
-from DeepLearning.Model import Model
-from DeepLearning.Layers.Dense import Dense
-from DeepLearning.Layers.Regularisation.Dropout import Dropout
-from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
-from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
-from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
-from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
-from DeepLearning.Layers.Activations.Tanh import Tanh
-from DeepLearning.Layers.Activations.ReLU import ReLU
-from DeepLearning.Layers.Activations.Sigmoid import Sigmoid
-from DeepLearning.Losses.MSE import mse
-from DeepLearning.Optimisers.SGD import sgd
-from Data.Preprocessing import data_split
-
 import torch
 import matplotlib.pyplot as plt
+
+from src.DLL.DeepLearning.Model import Model
+from src.DLL.DeepLearning.Layers.Dense import Dense
+from src.DLL.DeepLearning.Layers.Regularisation.Dropout import Dropout
+from src.DLL.DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
+from src.DLL.DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
+from src.DLL.DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
+from src.DLL.DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
+from src.DLL.DeepLearning.Layers.Activations.Tanh import Tanh
+from src.DLL.DeepLearning.Layers.Activations.ReLU import ReLU
+from src.DLL.DeepLearning.Layers.Activations.Sigmoid import Sigmoid
+from src.DLL.DeepLearning.Losses.MSE import mse
+from src.DLL.DeepLearning.Optimisers.SGD import sgd
+from src.DLL.Data.Preprocessing import data_split
 
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
