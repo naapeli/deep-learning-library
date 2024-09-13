@@ -1,5 +1,6 @@
 import torch
-from DeepLearning.Layers.LSTM import LSTM
+
+from src.DLL.DeepLearning.Layers.LSTM import LSTM
 
 torch.manual_seed(0)
 data = torch.ones(size=(5, 1), dtype=torch.float64, requires_grad=True)

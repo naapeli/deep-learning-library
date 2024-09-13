@@ -1,16 +1,16 @@
-from DeepLearning.Model import Model
-from DeepLearning.Layers.Dense import Dense
-from DeepLearning.Layers.Regularisation.Dropout import Dropout
-from DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
-from DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
-from DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
-from DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
-from DeepLearning.Layers.Activations.ReLU import ReLU
-from DeepLearning.Layers.Activations.SoftMax import SoftMax
-from DeepLearning.Losses.CCE import cce
-from DeepLearning.Optimisers.SGD import sgd
-from Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
-from Data.Metrics import accuracy
+from src.DLL.DeepLearning.Model import Model
+from src.DLL.DeepLearning.Layers.Dense import Dense
+from src.DLL.DeepLearning.Layers.Regularisation.Dropout import Dropout
+from src.DLL.DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
+from src.DLL.DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
+from src.DLL.DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
+from src.DLL.DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
+from src.DLL.DeepLearning.Layers.Activations.ReLU import ReLU
+from src.DLL.DeepLearning.Layers.Activations.SoftMax import SoftMax
+from src.DLL.DeepLearning.Losses.CCE import cce
+from src.DLL.DeepLearning.Optimisers.SGD import sgd
+from src.DLL.Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
+from src.DLL.Data.Metrics import accuracy
 
 import torch
 import matplotlib.pyplot as plt
