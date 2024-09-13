@@ -1,8 +1,8 @@
 import torch
-from DeepLearning.Layers.MaxPooling2D import MaxPooling2D
 from torch.nn import MaxPool2d
-
 from time import perf_counter
+
+from src.DLL.DeepLearning.Layers.MaxPooling2D import MaxPooling2D
 
 
 data = torch.rand((50, 50, 50, 50), dtype=torch.float32, requires_grad=True)
