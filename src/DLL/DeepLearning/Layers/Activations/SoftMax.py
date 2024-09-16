@@ -14,7 +14,7 @@ class SoftMax(Activation):
         return self.output
     
     def backward(self, dCdy, **kwargs):
-        n = self.output_shape[1]
+        n = dCdy.shape[1]
         # dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])
 
         # same calculations as above, but faster

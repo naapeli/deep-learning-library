@@ -91,6 +91,8 @@ class Model:
                 metric_value = self.loss.loss(predictions, Y).item()
             elif metric == "accuracy":
                 metric_value = accuracy(predictions, Y)
+            else:
+                print(f"Metric {metric} not implemented")
 
             values[metric] = metric_value
         return values
