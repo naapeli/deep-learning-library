@@ -67,7 +67,7 @@ class Model:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
-                print(f"\nEpoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
+                print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
         return history
     
     def _round_dictionary(self, values):
