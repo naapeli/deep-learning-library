@@ -10,6 +10,11 @@ def accuracy(predictions, true_output):
         return torch.sum(correct).item() / correct.shape[0]
     # 2-class accuracy
     else:
-        prediction_values = predictions >= 0.5
+        if torch.any(true_output < 0):
+            # true values {-1, 1}
+            prediction_values = (predictions >= 0) * 2 - 1
+        else:
+            # true values {0, 1}
+            prediction_values = predictions >= 0.5
         correct = prediction_values == true_output
         return torch.sum(correct).item() / correct.shape[0]
