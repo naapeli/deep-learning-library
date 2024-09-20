@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 from src.DLL.MachineLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
-from src.DLL.MachineLearning.GaussianProcesses.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
+from src.DLL.MachineLearning.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
 from src.DLL.DeepLearning.Optimisers.ADAM import Adam
 from src.DLL.Data.Preprocessing import StandardScaler
 
@@ -18,7 +18,7 @@ Y = transformer.transform(Y)
 model = GaussianProcessRegressor(LinearCovariance(sigma=0.2) ** 2 + PeriodicCovariance(1, 2, period=0.5), noise=0.1, device=device)
 model.fit(X, Y)
 print(model.log_marginal_likelihood())
-model.train_kernel(epochs=5, optimiser=Adam())  # try to comment out this line of code to see how the covariance kernel learns the correct parameters
+model.train_kernel(epochs=200, optimiser=Adam())  # try to comment out this line of code to see how the covariance kernel learns the correct parameters
 
 x_test = torch.linspace(0, 2, 100, dtype=torch.float64, device=device).unsqueeze(1)
 mean, covariance = model.predict(x_test)
