@@ -10,8 +10,7 @@ class GaussianProcessRegressor:
         self.device = device
 
     def _get_covariance_matrix(self, X1, X2):
-        covariance = torch.tensor([[self.covariance_function(x1, x2) for x1 in X1] for x2 in X2], dtype=X1.dtype, device=self.device).T
-        return covariance
+        return self.covariance_function(X1, X2).to(X1.dtype).to(self.device)
 
     def fit(self, X, Y):
         assert len(X.shape) == 2, "X must be of shape (n_samples, n_features)"
@@ -33,10 +32,6 @@ class GaussianProcessRegressor:
         k_2 = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
         mean = k_1.T @ self.inverse_prior_covariance_matrix @ self.Y
         posterior_covariance = k_2 - k_1.T @ self.inverse_prior_covariance_matrix @ k_1
-        # is_positive_definite(self._get_covariance_matrix(self.X, self.X))
-        # is_positive_definite(k_2)
-        # is_positive_definite(self.inverse_prior_covariance_matrix)
-        # is_positive_definite(posterior_covariance)
         return mean, posterior_covariance
     
     def log_marginal_likelihood(self):
