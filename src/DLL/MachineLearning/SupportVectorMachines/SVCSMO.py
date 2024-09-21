@@ -4,6 +4,9 @@ import copy
 from ..Kernels import SquaredExponentialCovariance
 
 
+"""
+The support vector machine classifier with the sequential minimal optimization (SMO) quadratic programming solver.
+"""
 class SVC:
     def __init__(self, kernel=SquaredExponentialCovariance(), C=1):
         self.kernel = kernel
@@ -30,7 +33,6 @@ class SVC:
         iter_count = 0
         num_no_change_iter = 0
         while iter_count < epochs:
-            print(iter_count + 1)
             num_changed_alphas = 0
             for i in range(n):
                 E_i = self._decision_function(self.K[i, :].unsqueeze(-1)) - self.y[i]
