@@ -1,7 +1,7 @@
 import torch
 from sklearn import datasets
 
-from src.DLL.MachineLearning.LinearModels.LogisticRegression import LogisticRegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression import LogisticRegression
 from src.DLL.Data.Preprocessing import MinMaxScaler, BinaryEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
 
