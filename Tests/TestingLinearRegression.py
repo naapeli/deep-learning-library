@@ -1,7 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.LinearModels.LinearRegression import LinearRegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression import LinearRegression
 
 
 plt.style.use(["grid", "notebook"])
