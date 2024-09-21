@@ -7,11 +7,13 @@ from ..Kernels import SquaredExponentialCovariance
 from ...DeepLearning.Optimisers.ADAM import Adam
 
 
+"""
+The support vector machine classifier with the cvxopt.solver.qp quadratic programming solver. This code is mostly based on https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603 with minor modifications mainly on the multi-class methods.
+"""
 class SVC:
-    def __init__(self, kernel=SquaredExponentialCovariance(), C=1, learning_rate=0.001):
+    def __init__(self, kernel=SquaredExponentialCovariance(), C=1):
         self.kernel = kernel
         self.C = C
-        self.learning_rate = learning_rate
     
     def _kernel_matrix(self, X1, X2):
         return self.kernel(X1, X2).to(X1.dtype)
@@ -52,7 +54,7 @@ class SVC:
             for label in self.classes:
                 Xs, ys = X, copy.deepcopy(y)
                 ys[ys != label], ys[ys == label] = -1, +1
-                classifier = SVC(kernel=self.kernel, C=self.C, learning_rate=self.learning_rate)
+                classifier = SVC(kernel=self.kernel, C=self.C)
                 classifier.fit(Xs, ys)
                 self.classifiers.append(classifier)
 
@@ -72,7 +74,7 @@ class SVC:
         score = torch.sum(alpha_sv * y_sv * self._kernel_matrix(X_sv, X), dim=0) + bias
         if _from_multi:
             return score
-        return ((score + 1) / 2).to(torch.int32) if self.transform_y else score.to(torch.int32)
+        return ((torch.sign(score) + 1) / 2).to(torch.int32) if self.transform_y else torch.sign(score).to(torch.int32)
 
     def _multi_predict(self, X):
         assert hasattr(self, "flag"), "Use SVC.predict(X, y) rather than SVC._multi_predict(X, y) even if your data is multidimensional."
