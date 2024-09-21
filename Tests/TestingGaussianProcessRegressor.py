@@ -1,8 +1,8 @@
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
-from src.DLL.MachineLearning.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
+from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
 from src.DLL.DeepLearning.Optimisers.ADAM import Adam
 from src.DLL.Data.Preprocessing import StandardScaler
 
