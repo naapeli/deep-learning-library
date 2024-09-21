@@ -1,5 +1,5 @@
 import torch
-from ...DeepLearning.Optimisers.ADAM import Adam
+from ....DeepLearning.Optimisers.ADAM import Adam
 
 
 class GaussianProcessRegressor:
