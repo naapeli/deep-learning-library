@@ -1,11 +1,11 @@
-from src.DLL.MachineLearning.SupportVectorMachines.SVC import SVC, SVCSMO
-from src.DLL.MachineLearning import Kernels
-from src.DLL.Data.Preprocessing import data_split
-from src.DLL.Data.Metrics import accuracy
-
 import torch
 import matplotlib.pyplot as plt
 from sklearn import datasets
+
+from src.DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.SVC import SVC, SVCSMO
+from src.DLL.MachineLearning.SupervisedLearning import Kernels
+from src.DLL.Data.Preprocessing import data_split
+from src.DLL.Data.Metrics import accuracy
 
 
 X, y = datasets.make_blobs(n_samples=100, n_features=2, cluster_std=1, centers=4, random_state=2)

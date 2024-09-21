@@ -1,13 +1,13 @@
 import torch
 from math import floor
 
-from ...DeepLearning.Losses.BCE import bce
-from ...DeepLearning.Losses.CCE import cce
-from ...DeepLearning.Layers.Activations.Sigmoid import Sigmoid
-from ...DeepLearning.Layers.Activations.SoftMax import SoftMax
-from ...Data.Metrics import accuracy
-from ...Data.DataReader import DataReader
-from ...DeepLearning.Optimisers.ADAM import Adam
+from ....DeepLearning.Losses.BCE import bce
+from ....DeepLearning.Losses.CCE import cce
+from ....DeepLearning.Layers.Activations.Sigmoid import Sigmoid
+from ....DeepLearning.Layers.Activations.SoftMax import SoftMax
+from ....Data.Metrics import accuracy
+from ....Data.DataReader import DataReader
+from ....DeepLearning.Optimisers.ADAM import Adam
 
 
 class LogisticRegression:

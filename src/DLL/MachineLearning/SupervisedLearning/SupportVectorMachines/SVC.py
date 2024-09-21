@@ -4,7 +4,7 @@ import numpy as np
 import copy
 
 from ..Kernels import SquaredExponentialCovariance
-from ...DeepLearning.Optimisers.ADAM import Adam
+from ....DeepLearning.Optimisers.ADAM import Adam
 
 
 """
