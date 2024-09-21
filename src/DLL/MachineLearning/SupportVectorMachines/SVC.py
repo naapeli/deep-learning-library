@@ -7,6 +7,9 @@ from ..Kernels import SquaredExponentialCovariance
 from ...DeepLearning.Optimisers.ADAM import Adam
 
 
+"""
+The support vector machine classifier with the cvxopt.solver.qp quadratic programming solver. This code is mostly based on https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603 with minor modifications mainly on the multi-class methods.
+"""
 class SVC:
     def __init__(self, kernel=SquaredExponentialCovariance(), C=1):
         self.kernel = kernel
