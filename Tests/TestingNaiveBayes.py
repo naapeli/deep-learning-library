@@ -1,6 +1,5 @@
 import torch
 from sklearn import datasets
-from sklearn.preprocessing import KBinsDiscretizer
 
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy
