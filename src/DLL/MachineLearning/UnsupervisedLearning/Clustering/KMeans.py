@@ -1,5 +1,4 @@
 import torch
-from scipy.optimize import linear_sum_assignment
 
 
 class KMeansClustering:
