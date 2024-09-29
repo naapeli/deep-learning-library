@@ -4,23 +4,28 @@ import scipy.stats as stats
 import scienceplots
 
 
-class LinearRegression:
+class RidgeRegression:
+    def __init__(self, alpha=0.1):
+        self.alpha = alpha
+
     def fit(self, X, Y):
         if len(X.shape) == 1: X = X.unsqueeze(1)
         self.X = X
         self.Y = Y
         X = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
-        self.beta = torch.linalg.pinv(X.T @ X) @ X.T @ Y
+        identity = torch.eye(X.shape[1])
+        identity[0, 0] = 0
+        self.beta = torch.linalg.pinv(X.T @ X + self.alpha * identity) @ X.T @ Y
         self.residuals = self.Y - self.predict(self.X)
 
     def predict(self, X):
-        assert hasattr(self, "beta"), "LinearRegression.fit(x, y) must be called before predicting"
+        assert hasattr(self, "beta"), "RidgeRegression.fit(x, y) must be called before predicting"
         if len(X.shape) == 1: X = X.unsqueeze(1)
         X = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
         return X @ self.beta
-    
-    def plot(self, axis_labels=("x", "y", "z"), title="Linear regression", model_label="Model", scatter_label="Datapoints", model_color=None, scatter_color=None, model_opacity=None):
-        assert hasattr(self, "beta"), "LinearRegression.fit(x, y) must be called before plotting"
+
+    def plot(self, axis_labels=("x", "y", "z"), title="Ridge regression", model_label="Model", scatter_label="Datapoints", model_color=None, scatter_color=None, model_opacity=None):
+        assert hasattr(self, "beta"), "RidgeRegression.fit(x, y) must be called before plotting"
         match self.X.shape[1]:
             case 1:
                 x = self.X[:, 0]
@@ -53,7 +58,7 @@ class LinearRegression:
         plt.legend()
 
     def plot_residuals(self):
-        assert hasattr(self, "residuals"), "LinearRegression.fit(x, y) must be called before plotting"
+        assert hasattr(self, "residuals"), "RidgeRegression.fit(x, y) must be called before plotting"
         fig, ax = plt.subplots(1, 2, figsize=(14,7))
         ax[0].plot(self.residuals, ".")
         ax[0].axhline(y=torch.mean(self.residuals))
@@ -67,7 +72,7 @@ class LinearRegression:
         return tuple(round(item, decimals) for item in list)
 
     def summary(self, decimals=3):
-        assert hasattr(self, "residuals"), "LinearRegression.fit(x, y) must be called before getting a summary"
+        assert hasattr(self, "residuals"), "RidgeRegression.fit(x, y) must be called before getting a summary"
         print("======================== SUMMARY ========================")
         residual_quantiles = torch.min(self.residuals).item(), torch.quantile(self.residuals, 0.25).item(), torch.quantile(self.residuals, 0.50).item(), torch.quantile(self.residuals, 0.75).item(), torch.max(self.residuals).item()
         print(f"Residual quantiles: {self._round_tuple(residual_quantiles, decimals=decimals)}")
