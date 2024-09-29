@@ -63,11 +63,11 @@ class Model:
                 initial_gradient = self.loss.gradient(predictions, y)
                 self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
-            if epoch % callback_frequency == 0 and verbose:
+            if epoch % callback_frequency == 0:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
-                print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
+                if verbose: print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
         return history
     
     def _round_dictionary(self, values):
