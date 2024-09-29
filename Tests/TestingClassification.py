@@ -47,7 +47,7 @@ _ = ax.legend(
 )
 plt.show()
 
-errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=100, batch_size=32)
+errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=100, batch_size=32, verbose=True)
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
 

@@ -2,24 +2,26 @@ import torch
 
 
 """
-Calculates the values of different metrics based on training and validation predictions
+Calculates the values of different metrics based on training predictions and true values
 
 data = (predictions, true_output) or None
 metrics = [list of all wanted metrics]
 loss = python function for the loss
 """
-def calculate_metrics(data=None, metrics=(), loss=None):
+def calculate_metrics(data=None, metrics=(), loss=None, validation=False):
+    val = "val_" if validation else ""
     values = {}
     if data:
         predictions, Y = data
     for metric in metrics:
-        if metric == "loss" or metric == "val_loss":
+        found = True
+        if metric == (val + "loss"):
             metric_value = loss(predictions, Y).item()
-        elif metric == "accuracy" or metric == "val_accuracy":
+        elif metric == (val + "accuracy"):
             metric_value = accuracy(predictions, Y)
         else:
-            raise NotImplementedError(f"Metric {metric} not implemented")
-        values[metric] = metric_value
+            found = False
+        if found: values[metric] = metric_value
     return values
 
 def _round_dictionary(values):
