@@ -24,10 +24,12 @@ class LinearRegression:
         match self.X.shape[1]:
             case 1:
                 x = self.X[:, 0]
-                plt.plot(x, self.Y, ".", color=scatter_color, label=scatter_label)
-                plt.plot(x, self.predict(self.X), color=model_color, alpha=model_opacity, label=model_label)
-                plt.xlabel(axis_labels[0])
-                plt.ylabel(axis_labels[1])
+                fig = plt.figure()
+                ax = fig.add_subplot(111)
+                ax.plot(x, self.Y, ".", color=scatter_color, label=scatter_label)
+                ax.plot(x, self.predict(self.X), color=model_color, alpha=model_opacity, label=model_label)
+                ax.set_xlabel(axis_labels[0])
+                ax.set_ylabel(axis_labels[1])
             case 2:
                 x = self.X[:, 0]
                 y = self.X[:, 1]
@@ -41,8 +43,8 @@ class LinearRegression:
                 Y = YY.flatten()
                 X_input = torch.stack((X, Y), dim=1)
                 ax.plot_surface(XX, YY, self.predict(X_input).reshape(XX.size()), color=model_color, alpha=model_opacity if model_opacity else 0.5, label=model_label)
-                plt.xlabel(axis_labels[0])
-                plt.ylabel(axis_labels[1])
+                ax.set_xlabel(axis_labels[0])
+                ax.set_ylabel(axis_labels[1])
                 ax.set_zlabel(axis_labels[2])
             case _:
                 print("Only linear models with 1 or 2 input parameters can be plotted")

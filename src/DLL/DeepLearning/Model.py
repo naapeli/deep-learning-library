@@ -5,7 +5,7 @@ from .Layers.Input import Input
 from .Losses.MSE import mse
 from .Optimisers.ADAM import Adam
 from ..Data.DataReader import DataReader
-from ..Data.Metrics import accuracy
+from ..Data.Metrics import calculate_metrics, _round_dictionary
 
 
 class Model:
@@ -54,7 +54,7 @@ class Model:
     X.shape = (data_length, input_shape)
     Y.shape = (data_length, output_shape)
     """
-    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True):
+    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
@@ -64,35 +64,11 @@ class Model:
                 self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
             if epoch % callback_frequency == 0:
-                values = self._calculate_metrics(data=(X, Y), val_data=val_data)
+                values = calculate_metrics(data=(self.predict(X), Y), metrics=self.metrics, loss=self.loss.loss)
+                if val_data is not None:
+                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=self.metrics, loss=self.loss.loss, validation=True)
+                    values |= val_values
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
-                print(f"Epoch: {epoch + 1} - Metrics: {self._round_dictionary(values)}")
+                if verbose: print(f"Epoch: {epoch + 1} - Metrics: {_round_dictionary(values)}")
         return history
-    
-    def _round_dictionary(self, values):
-        return {key: "{:0.4f}".format(value) for key, value in values.items()}
-    
-    def _calculate_metrics(self, data=None, val_data=None):
-        values = {}
-        if data:
-            X, Y = data
-            predictions = self.predict(X)
-        if val_data:
-            x_val, y_val = val_data
-            val_predictions = self.predict(x_val)
-        for metric in self.metrics:
-            if val_data and metric[:3] == "val":
-                if metric == "val_loss":
-                    metric_value = self.loss.loss(val_predictions, y_val).item()
-                elif metric == "val_accuracy":
-                    metric_value = accuracy(val_predictions, y_val)
-            elif metric == "loss":
-                metric_value = self.loss.loss(predictions, Y).item()
-            elif metric == "accuracy":
-                metric_value = accuracy(predictions, Y)
-            else:
-                print(f"Metric {metric} not implemented")
-
-            values[metric] = metric_value
-        return values

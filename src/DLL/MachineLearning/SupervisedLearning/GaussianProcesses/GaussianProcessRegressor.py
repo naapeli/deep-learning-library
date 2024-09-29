@@ -41,7 +41,7 @@ class GaussianProcessRegressor:
         lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, device=self.device))
         return lml.item()
     
-    def train_kernel(self, epochs=10, optimiser=Adam()):
+    def train_kernel(self, epochs=10, optimiser=Adam(), verbose=False):
         assert hasattr(self, "X"), "GaussianProcessRegressor.fit(x, y) must be called before training"
         optimiser.initialise_parameters(self.covariance_function.parameters())
         for epoch in range(1, epochs + 1):
@@ -60,7 +60,7 @@ class GaussianProcessRegressor:
 
             self.prior_covariance_matrix = self._get_covariance_matrix(self.X, self.X) + (self.noise + self.epsilon) * torch.eye(len(self.X), device=self.device)
             self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
-            print(f"Epoch: {epoch} - Log-marginal-likelihood: {self.log_marginal_likelihood()}")
+            if verbose: print(f"Epoch: {epoch} - Log-marginal-likelihood: {self.log_marginal_likelihood()}")
         
     # def is_positive_definite(matrix):
     #     print("-----------------")
