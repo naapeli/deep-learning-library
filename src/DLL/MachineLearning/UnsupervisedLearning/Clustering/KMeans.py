@@ -28,6 +28,7 @@ class KMeansClustering:
                 best_centroid_index = i
             else:
                 best_centroid_index = best_centroid_index
+        self.inertia = lowest_inertia
         self.centroids = centroids[best_centroid_index]
 
     def predict(self, X):
