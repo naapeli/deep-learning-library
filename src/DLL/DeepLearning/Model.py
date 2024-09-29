@@ -54,7 +54,7 @@ class Model:
     X.shape = (data_length, input_shape)
     Y.shape = (data_length, output_shape)
     """
-    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True):
+    def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=64, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type) for metric in self.metrics}
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
         for epoch in range(epochs):
@@ -63,7 +63,7 @@ class Model:
                 initial_gradient = self.loss.gradient(predictions, y)
                 self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
-            if epoch % callback_frequency == 0:
+            if epoch % callback_frequency == 0 and verbose:
                 values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
@@ -92,7 +92,7 @@ class Model:
             elif metric == "accuracy":
                 metric_value = accuracy(predictions, Y)
             else:
-                print(f"Metric {metric} not implemented")
+                raise NotImplementedError(f"Metric {metric} not implemented")
 
             values[metric] = metric_value
         return values
