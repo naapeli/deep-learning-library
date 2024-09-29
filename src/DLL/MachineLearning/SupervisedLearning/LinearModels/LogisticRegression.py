@@ -51,7 +51,7 @@ class LogisticRegression:
             if epoch % callback_frequency == 0:
                 values = calculate_metrics(data=(self.predict(X), Y), metrics=self.metrics, loss=self.loss.loss)
                 if val_data is not None:
-                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=self.metrics, loss=self.loss.loss)
+                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=self.metrics, loss=self.loss.loss, validation=True)
                     values |= val_values
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
