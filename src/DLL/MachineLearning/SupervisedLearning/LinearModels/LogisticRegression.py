@@ -14,7 +14,7 @@ class LogisticRegression:
     def __init__(self, learning_rate=0.001):
         self.learning_rate = learning_rate
 
-    def fit(self, X, Y, val_data=None, epochs=100, optimiser=None, callback_frequency=1, metrics=["loss"], batch_size=None, shuffle_every_epoch=True, shuffle_data=True):
+    def fit(self, X, Y, val_data=None, epochs=100, optimiser=None, callback_frequency=1, metrics=["loss"], batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
         batch_size, features = X.shape
         if len(Y.shape) == 1:
             # normal logistic regression
@@ -48,7 +48,7 @@ class LogisticRegression:
                 self.weights.grad = dCdweights
                 self.bias.grad = dCdbias
                 optimiser.update_parameters()
-            if epoch % callback_frequency == 0:
+            if epoch % callback_frequency == 0 and verbose:
                     values = self._calculate_metrics(data=(X, Y), val_data=val_data)
                     for metric, value in values.items():
                         history[metric][int(epoch / callback_frequency)] = value
@@ -77,7 +77,7 @@ class LogisticRegression:
             elif metric == "accuracy":
                 metric_value = accuracy(predictions, Y)
             else:
-                print(f"Metric {metric} not implemented")
+                raise NotImplementedError(f"Metric {metric} not implemented")
 
             values[metric] = metric_value
         return values
