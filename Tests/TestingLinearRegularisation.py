@@ -5,6 +5,7 @@ import multiprocessing as mp
 
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LassoRegression import LASSORegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression import RidgeRegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels.Elasticnet import ElasticNetRegression
 
 
 n = 10
@@ -34,8 +35,12 @@ axes[0].set_ylabel("Weights")
 
 weights = []
 alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()
+LASSO = False
 for alpha in alphas:
-    model = LASSORegression(alpha=alpha, learning_rate=0.001)
+    if LASSO:
+        model = LASSORegression(alpha=alpha, learning_rate=0.001)
+    else:
+        model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5, learning_rate=0.001)
     print(alpha)
     model.fit(X, y, epochs=10000)
     weights.append([model.weights.tolist()])
@@ -45,7 +50,8 @@ weights = torch.tensor(weights).squeeze()
 
 for row in weights.T:
     axes[1].semilogx(alphas, row)
-axes[1].set_title("LASSO regression")
+title = f"{'LASSO' if LASSO else 'ElasticNet'} regression"
+axes[1].set_title(title)
 axes[1].set_xlabel("Alpha")
 axes[1].set_ylabel("Weights")
 plt.show()
