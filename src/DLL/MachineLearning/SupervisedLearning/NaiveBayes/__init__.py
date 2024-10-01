@@ -1,0 +1,3 @@
+from .BernoulliNaiveBayes import BernoulliNaiveBayes
+from .GaussianNaiveBayes import GaussianNaiveBayes
+from .MultinomialNaiveBayes import MultinomialNaiveBayes

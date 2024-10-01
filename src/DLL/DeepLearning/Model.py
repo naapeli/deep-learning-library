@@ -1,10 +1,10 @@
 import torch
 from math import floor
 
-from .Layers.Input import Input
-from .Losses.MSE import mse
-from .Optimisers.ADAM import Adam
-from ..Data.DataReader import DataReader
+from .Layers import Input
+from .Losses import mse
+from .Optimisers import Adam
+from ..Data import DataReader
 from ..Data.Metrics import calculate_metrics, _round_dictionary
 
 
