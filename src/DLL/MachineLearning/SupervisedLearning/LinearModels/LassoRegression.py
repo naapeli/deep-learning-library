@@ -11,7 +11,7 @@ from ....DeepLearning.Optimisers.ADAM import Adam
 
 
 class LASSORegression:
-    def __init__(self, alpha=0.1, learning_rate=0.01, loss=mse()):
+    def __init__(self, alpha=1.0, learning_rate=0.01, loss=mse()):
         self.alpha = alpha
         self.learning_rate = learning_rate
         self.loss = loss
@@ -104,7 +104,7 @@ class LASSORegression:
         return tuple(round(item, decimals) for item in list)
 
     def summary(self, decimals=3):
-        assert hasattr(self, "residuals"), "RidgLASSORegression.fit(x, y) must be called before getting a summary"
+        assert hasattr(self, "residuals"), "LASSORegression.fit(x, y) must be called before getting a summary"
         print("======================== SUMMARY ========================")
         residual_quantiles = torch.min(self.residuals).item(), torch.quantile(self.residuals, 0.25).item(), torch.quantile(self.residuals, 0.50).item(), torch.quantile(self.residuals, 0.75).item(), torch.max(self.residuals).item()
         print(f"Residual quantiles: {self._round_tuple(residual_quantiles, decimals=decimals)}")
