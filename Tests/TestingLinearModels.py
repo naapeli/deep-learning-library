@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression import LinearRegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression import RidgeRegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LassoRegression import LASSORegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels.Elasticnet import ElasticNetRegression
 
 
 plt.style.use(["grid", "notebook"])
@@ -17,8 +18,9 @@ X_input = torch.stack((X, Y), dim=1)
 Z = 2 * X - 5 * Y + torch.normal(0, 1, size=X.size())
 
 model1 = LinearRegression()
-model2 = RidgeRegression(alpha=0.1)
-model3 = LASSORegression(alpha=0.0, learning_rate=0.01)
+model2 = RidgeRegression(alpha=1.0)
+model3 = LASSORegression(alpha=0.1, learning_rate=0.1)
+model4 = ElasticNetRegression(alpha=0.1, l1_ratio=0.2, learning_rate=0.1)
 model1.fit(X_input, Z)
 model1.summary()
 model1.plot()
@@ -28,6 +30,9 @@ model2.plot()
 model3.fit(X_input, Z, epochs=1000)
 model3.summary()
 model3.plot()
+model4.fit(X_input, Z, epochs=1000)
+model4.summary()
+model4.plot()
 plt.show()
 
 model1.fit(torch.linspace(0, 1, 100), 2 * torch.linspace(0, 1, 100) + torch.normal(0, 0.1, size=(100,)))
@@ -39,4 +44,7 @@ model2.plot()
 model3.fit(torch.linspace(0, 1, 100), 2 * torch.linspace(0, 1, 100) + torch.normal(0, 0.1, size=(100,)), epochs=1000)
 model3.summary()
 model3.plot()
+model4.fit(torch.linspace(0, 1, 100), 2 * torch.linspace(0, 1, 100) + torch.normal(0, 0.1, size=(100,)), epochs=1000)
+model4.summary()
+model4.plot()
 plt.show()
