@@ -10,9 +10,10 @@ from ....Data.DataReader import DataReader
 from ....DeepLearning.Optimisers.ADAM import Adam
 
 
-class LASSORegression:
-    def __init__(self, alpha=1.0, learning_rate=0.01, loss=mse()):
+class ElasticNetRegression:
+    def __init__(self, alpha=1.0, l1_ratio=0.5, learning_rate=0.01, loss=mse()):
         self.alpha = alpha
+        self.l1_ratio = l1_ratio
         self.learning_rate = learning_rate
         self.loss = loss
 
@@ -35,7 +36,7 @@ class LASSORegression:
             for x, y in data_reader.get_data():
                 predictions = self.predict(x)
                 dCdy = self.loss.gradient(predictions, y)
-                dCdweights = (x.T @ dCdy) + self.alpha * torch.sign(self.weights)
+                dCdweights = (x.T @ dCdy) + self.alpha * self.l1_ratio * torch.sign(self.weights) + self.alpha * (1 - self.l1_ratio) * self.weights
                 dCdbias = dCdy.mean(dim=0, keepdim=True)
                 self.weights.grad = dCdweights
                 self.bias.grad = dCdbias
@@ -52,12 +53,12 @@ class LASSORegression:
         return history
 
     def predict(self, X):
-        assert hasattr(self, "weights"), "LASSORegression.fit(x, y) must be called before predicting"
+        assert hasattr(self, "weights"), "ElasticNetRegression.fit(x, y) must be called before predicting"
         if len(X.shape) == 1: X = X.unsqueeze(1)
         return X @ self.weights + self.bias
 
-    def plot(self, axis_labels=("x", "y", "z"), title="LASSO regression", model_label="Model", scatter_label="Datapoints", model_color=None, scatter_color=None, model_opacity=None):
-        assert hasattr(self, "weights"), "LASSORegression.fit(x, y) must be called before plotting"
+    def plot(self, axis_labels=("x", "y", "z"), title="ElasticNet regression", model_label="Model", scatter_label="Datapoints", model_color=None, scatter_color=None, model_opacity=None):
+        assert hasattr(self, "weights"), "ElasticNetRegression.fit(x, y) must be called before plotting"
         match self.X.shape[1]:
             case 1:
                 x = self.X[:, 0]
@@ -90,7 +91,7 @@ class LASSORegression:
         plt.legend()
 
     def plot_residuals(self):
-        assert hasattr(self, "residuals"), "LASSORegression.fit(x, y) must be called before plotting"
+        assert hasattr(self, "residuals"), "ElasticNetRegression.fit(x, y) must be called before plotting"
         fig, ax = plt.subplots(1, 2, figsize=(14,7))
         ax[0].plot(self.residuals, ".")
         ax[0].axhline(y=torch.mean(self.residuals))
@@ -104,7 +105,7 @@ class LASSORegression:
         return tuple(round(item, decimals) for item in list)
 
     def summary(self, decimals=3):
-        assert hasattr(self, "residuals"), "LASSORegression.fit(x, y) must be called before getting a summary"
+        assert hasattr(self, "residuals"), "ElasticNetRegression.fit(x, y) must be called before getting a summary"
         print("======================== SUMMARY ========================")
         residual_quantiles = torch.min(self.residuals).item(), torch.quantile(self.residuals, 0.25).item(), torch.quantile(self.residuals, 0.50).item(), torch.quantile(self.residuals, 0.75).item(), torch.max(self.residuals).item()
         print(f"Residual quantiles: {self._round_tuple(residual_quantiles, decimals=decimals)}")
