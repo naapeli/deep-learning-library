@@ -1,7 +1,7 @@
 from .Base import Base
 
 
-class Flatten(Base):
+class Reshape(Base):
     def __init__(self, output_shape, **kwargs):
         super().__init__(output_shape, **kwargs)
         self.name = "Reshape"
