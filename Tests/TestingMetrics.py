@@ -5,8 +5,9 @@ from src.DLL.Data.Metrics import accuracy, precision, recall, f1_score, confusio
 
 
 n = 1000
-torch_predicted = torch.randint(0, 2, (n,)) * 2 - 1
-torch_true = torch.randint(0, 2, (n,)) * 2 - 1
+# ==========================CLASSIFICATION==========================
+torch_predicted = (torch.rand(size=(n,)) > 0.7)
+torch_true = (torch.rand(size=(n,)) > 0.7)
 sk_predicted = torch_predicted.numpy()
 sk_true = torch_true.numpy()
 
@@ -16,4 +17,15 @@ print(recall(torch_predicted, torch_true), recall_score(sk_true, sk_predicted))
 print(f1_score(torch_predicted, torch_true), f1(sk_true, sk_predicted))
 print(confusion_matrix(torch_predicted, torch_true), conf_mat(sk_true, sk_predicted))
 
-print(calculate_metrics(data=(torch_predicted.to(torch.float32), torch_true.to(torch.float32)), metrics=["mse", "rmse", "mae"]))
+metrics = ["accuracy", "precision", "recall", "f1_score", "bce", "cce"]
+print(calculate_metrics(data=(torch_predicted.to(torch.float32), torch_true.to(torch.float32)), metrics=metrics))
+
+
+# ==========================REGRESSION==========================
+torch_predicted = torch.randn(size=(n,))
+torch_true = torch.randn(size=(n,))
+sk_predicted = torch_predicted.numpy()
+sk_true = torch_true.numpy()
+
+metrics = ["rmse", "mae", "mse", "huber"]
+print(calculate_metrics(data=(torch_predicted.to(torch.float32), torch_true.to(torch.float32)), metrics=metrics))
