@@ -1,1 +1,2 @@
-from .SVC import SVC, SVCSMO
+from .SVC import SVC
+from .SVCSMO import SVCSMO
