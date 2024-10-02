@@ -4,7 +4,7 @@ from sklearn import datasets
 from time import perf_counter
 from sklearn import svm
 
-from src.DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.SVC import SVC, SVCSMO
+from src.DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC, SVCSMO
 from src.DLL.MachineLearning.SupervisedLearning import Kernels
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy
