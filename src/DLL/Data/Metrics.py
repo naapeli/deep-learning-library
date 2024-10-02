@@ -1,6 +1,6 @@
 import torch
 
-from ..DeepLearning.Losses import mse, bce, cce
+from ..DeepLearning.Losses import mse, mae, bce, cce, Huber
 
 """
 Calculates the values of different metrics based on training predictions and true values
@@ -30,11 +30,13 @@ def calculate_metrics(data, metrics=(), loss=None, validation=False):
         elif metric == (val + "mae"):
             metric_value = mean_absolute_error(predictions, Y)
         elif metric == (val + "mse"):
-            metric_value = mse().loss(predictions, Y).item()
+            metric_value = mean_squared_error(predictions, Y)
         elif metric == (val + "bce"):
-            metric_value = bce().loss(predictions, Y).item()
+            metric_value = binary_cross_entropy(predictions, Y)
         elif metric == (val + "cce"):
-            metric_value = cce().loss(predictions, Y).item()
+            metric_value = categorical_cross_entropy(predictions, Y)
+        elif metric == (val + "huber"):
+            metric_value = huber_loss(predictions, Y)
         else:
             found = False
         if found: values[metric] = metric_value
@@ -64,15 +66,22 @@ def accuracy(predictions, true_output):
     return correct.to(torch.float32).mean().item()
 
 def precision(predictions, true_output):
-    numerator = torch.bitwise_and((predictions == true_output), (predictions == 1)).sum()
-    denumenator = (predictions == 1).sum()
+    assert len(torch.unique(true_output)) == 2, "The problem must be binary classification."
+    conf_mat = confusion_matrix(predictions, true_output)
+    numerator = conf_mat[1, 1]
+    denumenator = conf_mat[1, 1] + conf_mat[0, 1]
     return (numerator / denumenator).item()
 
 def recall(predictions, true_output):
-    numerator = torch.bitwise_and((predictions == true_output), (predictions == 1)).sum()
-    denumenator = (predictions == true_output).sum()
+    assert len(torch.unique(true_output)) == 2, "The problem must be binary classification."
+    conf_mat = confusion_matrix(predictions, true_output)
+    numerator = conf_mat[1, 1]
+    denumenator = conf_mat[1, 1] + conf_mat[1, 0]
     return (numerator / denumenator).item()
 
+"""
+Returns the confusion matrix of a problem with the smallest label in the top left corner.
+"""
 def confusion_matrix(predictions, true_output):
     classes = torch.unique(true_output).tolist()
     num_classes = len(classes)
@@ -88,10 +97,22 @@ def f1_score(predictions, true_output):
     _recall = recall(predictions, true_output)
     return (2 * _precision * _recall / (_precision + _recall))
 
+def categorical_cross_entropy(predictions, true_output):
+    return cce().loss(predictions, true_output).item()
+
+def binary_cross_entropy(predictions, true_output):
+    return bce().loss(predictions, true_output).item()
+
 
 # ===============================REGRESSION===============================
+def mean_squared_error(predictions, true_output):
+    return mse().loss(predictions, true_output).item()
+
 def root_mean_squared_error(predictions, true_output):
     return torch.sqrt(torch.mean((predictions - true_output) ** 2)).item()
 
 def mean_absolute_error(predictions, true_output):
-    return torch.mean(torch.abs(predictions - true_output)).item()
+    return mae().loss(predictions, true_output).item()
+
+def huber_loss(predictions, true_output):
+    return Huber().loss(predictions, true_output).item()
