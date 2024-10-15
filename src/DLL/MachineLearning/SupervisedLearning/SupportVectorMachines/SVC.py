@@ -40,7 +40,7 @@ class SVC:
         
         cvxopt.solvers.options['show_progress'] = False
         sol = cvxopt.solvers.qp(P, q, G, h, A, b)
-        self.alpha = torch.tensor(np.array(sol["x"]), )
+        self.alpha = torch.tensor(np.array(sol["x"]))
 
         self.is_sv = ((self.alpha - 1e-3 > 0) & (self.alpha <= self.C)).squeeze()
         self.margin_sv = torch.argmax(((0 < self.alpha - 1e-3) & (self.alpha < self.C - 1e-3)).to(torch.int32))
