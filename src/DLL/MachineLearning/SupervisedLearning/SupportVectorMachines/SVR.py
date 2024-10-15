@@ -13,7 +13,6 @@ class SVR:
         self.kernel = kernel
         self.C = C
         self.epsilon = epsilon
-        self.tol = 1e-5
     
     def _kernel_matrix(self, X1, X2):
         return self.kernel(X1, X2).to(X1.dtype)
