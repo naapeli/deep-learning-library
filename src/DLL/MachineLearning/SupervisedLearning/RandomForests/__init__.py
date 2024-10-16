@@ -2,3 +2,5 @@ from .DecisionTree import DecisionTree
 from .RandomForest import RandomForestClassifier
 from .RegressionForest import RandomForestRegressor
 from .RegressionTree import RegressionTree
+from .GradientBoostingRegressor import GradientBoostingRegressor
+from .GradientBoostingClassifier import GradientBoostingClassifier
