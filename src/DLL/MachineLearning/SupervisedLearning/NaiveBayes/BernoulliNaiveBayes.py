@@ -23,3 +23,17 @@ class BernoulliNaiveBayes:
             posterior = (X * torch.log(self.likelihoods[i]) + (1 - X) * torch.log(1 - self.likelihoods[i])).sum(dim=1) + prior
             posteriors[i] = posterior
         return self.classes[torch.argmax(posteriors, dim=0)]
+
+    def predict_proba(self, X):
+        assert hasattr(self, "priors"), "BernoulliNaiveBayes.fit() must be called before predicting"
+        assert set(torch.unique(X).numpy()) == {0, 1}, "The features must ba labeled 0 and 1."
+        posteriors = torch.zeros((len(self.classes), len(X)), dtype=torch.float32)
+
+        for i in range(len(self.classes)):
+            prior = torch.log(self.priors[i])
+            posterior = (X * torch.log(self.likelihoods[i]) + (1 - X) * torch.log(1 - self.likelihoods[i])).sum(dim=1) + prior
+            posteriors[i] = posterior
+        prob_normalizers = torch.logsumexp(posteriors, dim=0)
+        log_probs = posteriors - prob_normalizers
+        probs = torch.exp(log_probs).T
+        return self.classes, probs
