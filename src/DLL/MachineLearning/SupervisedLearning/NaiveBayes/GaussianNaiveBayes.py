@@ -24,6 +24,19 @@ class GaussianNaiveBayes:
             posterior = torch.log(self._pdf(X, self.means[i], self.vars[i])).sum(dim=1) + prior
             posteriors[i] = posterior
         return self.classes[torch.argmax(posteriors, dim=0)]
-    
+
+    def predict_proba(self, X):
+        assert hasattr(self, "priors"), "GaussianNaiveBayes.fit() must be called before predicting"
+        posteriors = torch.zeros((len(self.classes), len(X)), dtype=X.dtype)
+
+        for i in range(len(self.classes)):
+            prior = torch.log(self.priors[i])
+            posterior = torch.log(self._pdf(X, self.means[i], self.vars[i])).sum(dim=1) + prior
+            posteriors[i] = posterior
+        prob_normalizers = torch.logsumexp(posteriors, dim=0)
+        log_probs = posteriors - prob_normalizers
+        probs = torch.exp(log_probs).T
+        return self.classes, probs
+
     def _pdf(self, x, mean, var):
         return torch.exp(-(x - mean) ** 2 / (2 * var)) / torch.sqrt(2 * torch.pi * var)
