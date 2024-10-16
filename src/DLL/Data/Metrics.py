@@ -1,4 +1,5 @@
 import torch
+from scipy.integrate import simpson
 
 from ..DeepLearning.Losses import mse, mae, bce, cce, Huber
 
@@ -78,6 +79,25 @@ def recall(predictions, true_output):
     numerator = conf_mat[1, 1]
     denumenator = conf_mat[1, 1] + conf_mat[1, 0]
     return (numerator / denumenator).item()
+
+def roc_curve(probabilities, true_output, thresholds):
+    assert len(torch.unique(true_output)) == 2, "The problem must be binary classification."
+    tpr = torch.zeros_like(thresholds)
+    fpr = torch.zeros_like(thresholds)
+    for i, threshold in enumerate(thresholds):
+        predictions = binary_prob_to_prediction(probabilities, threshold)
+        conf_mat = confusion_matrix(predictions, true_output)
+        tpr[i] = (conf_mat[1, 1] / (conf_mat[1, 1] + conf_mat[1, 0])).item()
+        fpr[i] = (conf_mat[0, 1] / (conf_mat[0, 1] + conf_mat[0, 0])).item()
+    return fpr, tpr
+
+def auc(fpr, tpr):
+    if fpr[0] > fpr[-1]: fpr, tpr = reversed(fpr), reversed(tpr)
+    return simpson(tpr, fpr)
+
+def binary_prob_to_prediction(probabilities, threshold=0.5):
+    return (probabilities > threshold).squeeze().to(torch.int32)
+
 
 """
 Returns the confusion matrix of a problem with the smallest label in the top left corner.
