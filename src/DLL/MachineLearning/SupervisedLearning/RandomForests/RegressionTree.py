@@ -64,7 +64,7 @@ class RegressionTree:
 
     def _variance_reduction(self, y, feature_values, threshold):
         left_indicies, right_indicies = self._split(feature_values, threshold)
-        if len(left_indicies) == 0 or len(right_indicies) == 0:
+        if len(left_indicies) <= 1 or len(right_indicies) <= 1:
             return 0
         n = len(y)
         return torch.var(y) - len(left_indicies) / n * torch.var(y[left_indicies]) - len(right_indicies) / n * torch.var(y[right_indicies])
