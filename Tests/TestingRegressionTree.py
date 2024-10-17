@@ -21,11 +21,11 @@ model2.fit(x, y)
 y_pred2 = model2.predict(x_test)
 
 model3 = GradientBoostingRegressor(n_trees=10, learning_rate=0.5)
-model3.fit(x,y)
+model3.fit(x, y)
 y_pred3 = model3.predict(x_test)
 
 model4 = gbr(n_estimators=10, learning_rate=0.5)
-model4.fit(x,y)
+model4.fit(x, y.ravel())
 y_pred4 = model4.predict(x_test)
 
 plt.plot(x.numpy(), y.numpy(), color="Blue")
