@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dimensionality reduction &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom exceptions" href="DLL.Exceptions.html" />
+    <link rel="prev" title="Clustering" href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html">Clustering</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Dimensionality reduction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="DLL.html">DLL</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.html">MachineLearning</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a></li>
+      <li class="breadcrumb-item active">Dimensionality reduction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dimensionality-reduction">
+<h1>Dimensionality reduction<a class="headerlink" href="#dimensionality-reduction" title="Link to this heading"></a></h1>
+<section id="pca">
+<h2>PCA<a class="headerlink" href="#pca" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Principal Component Analysis (PCA) class for dimensionality reduction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em>) – Number of principal components to keep. The number must be a positive integer.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.components">
+<span class="sig-name descname"><span class="pre">components</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.components" title="Link to this definition"></a></dt>
+<dd><p>Principal components extracted from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.explained_variance">
+<span class="sig-name descname"><span class="pre">explained_variance</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.explained_variance" title="Link to this definition"></a></dt>
+<dd><p>Variance explained by the selected components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the PCA model to the input data by calculating the principal components.</p>
+<p>The data is always centered and if <cite>normalize=True</cite>, the data is also normalized so that the standard deviation is 1 along each axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the data before computing the PCA. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor or if the <cite>normalize</cite> parameter is not boolean.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted PCA model to the input data, transforming it into the reduced feature space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the principal component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.Exceptions.NotFittedError" title="DLL.Exceptions.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the PCA model has not been fitted yet.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html" class="btn btn-neutral float-left" title="Clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DLL.Exceptions.html" class="btn btn-neutral float-right" title="Custom exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linear models &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Naive Bayes" href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html" />
+    <link rel="prev" title="Gaussian processes" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html">Gaussian processes</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Linear models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html">Naive Bayes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Neighbors.html">Neighbors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Trees.html">Trees</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html">Support vector machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Kernels.html">Kernels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="DLL.html">DLL</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.html">MachineLearning</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a></li>
+      <li class="breadcrumb-item active">Linear models</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/DLL.MachineLearning.SupervisedLearning.LinearModels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="linear-models">
+<h1>Linear models<a class="headerlink" href="#linear-models" title="Link to this heading"></a></h1>
+<section id="linearregression">
+<h2>LinearRegression<a class="headerlink" href="#linearregression" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">LinearRegression</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Linear</span> <span class="pre">regression'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Datapoints'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.plot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.plot_residuals">
+<span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression.plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.plot_residuals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LinearRegression.html#LinearRegression.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="logisticregression">
+<h2>LogisticRegression<a class="headerlink" href="#logisticregression" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">LogisticRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LogisticRegression.html#LogisticRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LogisticRegression.html#LogisticRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LogisticRegression.html#LogisticRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lassoregression">
+<h2>LassoRegression<a class="headerlink" href="#lassoregression" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">LASSORegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss=&lt;DLL.DeepLearning.Losses.MSE.mse</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LASSO</span> <span class="pre">regression'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Datapoints'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.plot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.plot_residuals">
+<span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression.plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.plot_residuals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/LassoRegression.html#LASSORegression.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="ridgeregression">
+<h2>RidgeRegression<a class="headerlink" href="#ridgeregression" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">RidgeRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Ridge</span> <span class="pre">regression'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Datapoints'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.plot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.plot_residuals">
+<span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.plot_residuals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="elasticnet">
+<h2>Elasticnet<a class="headerlink" href="#elasticnet" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">ElasticNetRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1_ratio=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate=0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss=&lt;DLL.DeepLearning.Losses.MSE.mse</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.fit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('x',</span> <span class="pre">'y',</span> <span class="pre">'z')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ElasticNet</span> <span class="pre">regression'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Model'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Datapoints'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scatter_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_opacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.plot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.plot_residuals">
+<span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression.plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.plot_residuals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.predict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/Elasticnet.html#ElasticNetRegression.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html" class="btn btn-neutral float-left" title="Gaussian processes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html" class="btn btn-neutral float-right" title="Naive Bayes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

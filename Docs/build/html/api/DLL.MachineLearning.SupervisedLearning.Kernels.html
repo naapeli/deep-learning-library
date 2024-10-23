@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kernels &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UnsupervisedLearning" href="DLL.MachineLearning.UnsupervisedLearning.html" />
+    <link rel="prev" title="Support vector machines" href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html">Gaussian processes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.LinearModels.html">Linear models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html">Naive Bayes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Neighbors.html">Neighbors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Trees.html">Trees</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html">Support vector machines</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Kernels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="DLL.html">DLL</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.html">MachineLearning</a></li>
+          <li class="breadcrumb-item"><a href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a></li>
+      <li class="breadcrumb-item active">Kernels</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/DLL.MachineLearning.SupervisedLearning.Kernels.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-DLL.MachineLearning.SupervisedLearning.Kernels">
+<span id="kernels"></span><h1>Kernels<a class="headerlink" href="#module-DLL.MachineLearning.SupervisedLearning.Kernels" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">LinearCovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#LinearCovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Base</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma">
+<span class="sig-name descname"><span class="pre">derivative_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#LinearCovariance.derivative_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma_bias">
+<span class="sig-name descname"><span class="pre">derivative_sigma_bias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#LinearCovariance.derivative_sigma_bias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma_bias" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#LinearCovariance.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivative_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#LinearCovariance.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">PeriodicCovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Base</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_corr_len">
+<span class="sig-name descname"><span class="pre">derivative_corr_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance.derivative_corr_len"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_corr_len" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_period">
+<span class="sig-name descname"><span class="pre">derivative_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance.derivative_period"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_period" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_sigma">
+<span class="sig-name descname"><span class="pre">derivative_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance.derivative_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_sigma" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivative_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#PeriodicCovariance.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RationalQuadraticCovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Base</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_alpha">
+<span class="sig-name descname"><span class="pre">derivative_alpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance.derivative_alpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_alpha" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_corr_len">
+<span class="sig-name descname"><span class="pre">derivative_corr_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance.derivative_corr_len"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_corr_len" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_sigma">
+<span class="sig-name descname"><span class="pre">derivative_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance.derivative_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_sigma" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivative_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadraticCovariance.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">SquaredExponentialCovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cpu')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#SquaredExponentialCovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Base</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_corr_len">
+<span class="sig-name descname"><span class="pre">derivative_corr_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#SquaredExponentialCovariance.derivative_corr_len"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_corr_len" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_sigma">
+<span class="sig-name descname"><span class="pre">derivative_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#SquaredExponentialCovariance.derivative_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_sigma" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#SquaredExponentialCovariance.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivative_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#SquaredExponentialCovariance.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">WhiteGaussianCovariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussianCovariance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Base</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.derivative_sigma">
+<span class="sig-name descname"><span class="pre">derivative_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussianCovariance.derivative_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.derivative_sigma" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussianCovariance.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.parameters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derivative_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussianCovariance.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html" class="btn btn-neutral float-left" title="Support vector machines" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DLL.MachineLearning.UnsupervisedLearning.html" class="btn btn-neutral float-right" title="UnsupervisedLearning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
