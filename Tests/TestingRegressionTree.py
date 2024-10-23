@@ -2,9 +2,9 @@ import torch
 import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingRegressor as gbr
 
-from src.DLL.MachineLearning.SupervisedLearning.RandomForests import RegressionTree
-from src.DLL.MachineLearning.SupervisedLearning.RandomForests import RandomForestRegressor
-from src.DLL.MachineLearning.SupervisedLearning.RandomForests import GradientBoostingRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree
+from src.DLL.MachineLearning.SupervisedLearning.Trees import RandomForestRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingRegressor
 
 
 n = 100
