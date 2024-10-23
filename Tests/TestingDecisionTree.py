@@ -6,8 +6,8 @@ import time
 
 from src.DLL.Data.Metrics import accuracy
 from src.DLL.Data.Preprocessing import data_split
-from src.DLL.MachineLearning.SupervisedLearning.RandomForests.DecisionTree import DecisionTree
-from src.DLL.MachineLearning.SupervisedLearning.RandomForests.RandomForest import RandomForestClassifier
+from src.DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree import DecisionTree
+from src.DLL.MachineLearning.SupervisedLearning.Trees.RandomForest import RandomForestClassifier
 
 
 breast_cancer = datasets.load_breast_cancer()
