@@ -1,53 +1,82 @@
 import torch
 from collections import Counter
 
+from ....Exceptions import NotFittedError
+
 
 class Node:
-    def __init__(self, left=None, right=None, threshold=None, feature_index=None, value=None):
+    def __init__(self, left=None, right=None, threshold=None, feature_index=None, value=None, probabilities=None):
         self.left = left
         self.right = right
         self.threshold = threshold
         self.feature_index = feature_index
         self.value = value
+        self.probabilities = probabilities
 
     def is_leaf(self):
         return self.value is not None
 
 
 class DecisionTree:
-    def __init__(self, max_depth=10, min_samples_split=2, n_features=None):
+    """
+    DecisionTree implements a classification algorithm splitting the data along features yielding the maximum entropy.
+
+    Args:
+        max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.
+        min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+    Attributes:
+        n_classes (int): The number of classes. A positive integer available after calling DecisionTree.fit().
+        classes (torch.Tensor of shape (n_classes,)): The classes in an arbitrary order. Available after calling DecisionTree.fit().
+    """
+    def __init__(self, max_depth=10, min_samples_split=2):
+        if not isinstance(max_depth, int) or max_depth < 1:
+            raise ValueError("max_depth must be a positive integer.")
+        if not isinstance(min_samples_split, int) or min_samples_split < 1:
+            raise ValueError("min_samples_split must be a positive integer.")
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.root = None
-        self.n_features = n_features
     
-    """
-    x.shape = (n_samples, n_features)
-    y.shape = (n_samples)
-    """
-    def fit(self, x, y):
-        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
-        self.root = self._grow_tree(x, y, 0)
-    
-    def _fit_for_random_forest(self, x, y, i, q):
-        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
-        self.root = self._grow_tree(x, y, 0)
-        q.put((i, self.root, self.n_features))
+    def fit(self, X, y):
+        """
+        Fits the DecisionTree model to the input data by generating a tree, which splits the data appropriately.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample.
+        Returns:
+            None
+        Raises:
+            TypeError: If the input matrix or the label matrix is not a PyTorch tensor.
+            ValueError: If the input matrix or the label matrix is not the correct shape.
+        """
+        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+            raise TypeError("The input matrix and the label matrix must be a PyTorch tensor.")
+        if X.ndim != 2:
+            raise ValueError("The input matrix must be a 2 dimensional tensor.")
+        if y.ndim != 1 or y.shape[0] != X.shape[0]:
+            raise ValueError("The labels must be 1 dimensional with the same number of samples as the input data")
+        self.n_features = X.shape[1]
+        self.classes = torch.unique(y)
+        self.n_classes = len(self.classes)
+        self.root = self._grow_tree(X, y, 0)
 
     def _grow_tree(self, x, y, depth):
         n_samples, n_features = x.size()
-        classes = torch.unique(y)
+        classes, counts = torch.unique(y, return_counts=True)
 
         if depth >= self.max_depth or len(classes) == 1 or n_samples < self.min_samples_split:
-            largest_class = Counter(y).most_common(1)[0][0]
-            return Node(value=largest_class)
+            largest_class = classes[torch.argmax(counts)]
+            probabilities = torch.tensor([(counts[torch.where(classes == _class)[0]] / len(y) if _class in classes else 0) for _class in self.classes])
+            return Node(value=largest_class, probabilities=probabilities)
 
         feature_indicies = torch.randperm(n_features)[:self.n_features]
         split_threshold, split_index = self._best_split(x, y, feature_indicies)
         # if no split gains more information
         if split_threshold is None:
-            largest_class = Counter(y).most_common(1)[0][0]
-            return Node(value=largest_class)
+            largest_class = classes[torch.argmax(counts)]
+            probabilities = torch.tensor([(counts[torch.where(classes == _class)[0]] / len(y) if _class in classes else 0) for _class in self.classes])
+            return Node(value=largest_class, probabilities=probabilities)
         
         left_indicies, right_indicies = self._split(x[:, split_index], split_threshold)
         left = self._grow_tree(x[left_indicies], y[left_indicies], depth + 1)
@@ -89,16 +118,55 @@ class DecisionTree:
         p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
         return -torch.sum(p * torch.log(p))
 
-    def predict(self, x):
-        assert self.root is not None, "DecisionTreeClassifier.fit() must be called before trying to predict"
-        assert x.shape[1] == self.n_features, "DecisionTreeClassifier.fit() must be called with the same number of features"
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in x])
+    def predict(self, X):
+        """
+        Applies the fitted DecisionTree model to the input data, predicting the correct classes.
 
-    def _predict_single(self, x, current_node):
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be classified.
+        Returns:
+            labels (torch.Tensor of shape (n_samples,)): The predicted labels corresponding to each sample.
+        Raises:
+            NotFittedError: If the DecisionTree model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if self.root is None:
+            raise NotFittedError("DecisionTree.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.n_features:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
+
+    def _predict_single(self, x, current_node, proba=False):
         if current_node.is_leaf():
+            if proba:
+                return current_node.probabilities
             return current_node.value
         
         if x[current_node.feature_index] <= current_node.threshold:
-            return self._predict_single(x, current_node.left)
+            return self._predict_single(x, current_node.left, proba=proba)
         
-        return self._predict_single(x, current_node.right)
+        return self._predict_single(x, current_node.right, proba=proba)
+    
+    def predict_proba(self, X):
+        """
+        Applies the fitted DecisionTree model to the input data, predicting the probabilities of each class.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be classified.
+        Returns:
+            probabilities (torch.Tensor of shape (n_samples, n_classes)): The predicted probabilities corresponding to each sample.
+        Raises:
+            NotFittedError: If the DecisionTree model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if self.root is None:
+            raise NotFittedError("DecisionTree.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.n_features:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+        return torch.stack([self._predict_single(datapoint, self.root, proba=True) for datapoint in X])

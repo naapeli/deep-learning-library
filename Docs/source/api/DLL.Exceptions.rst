@@ -2,7 +2,7 @@ Custom exceptions
 =====================
 
 
-.. automodule:: DLL.Exceptions.Exceptions
+.. autoclass:: DLL.Exceptions.NotFittedError
    :members:
    :undoc-members:
    :show-inheritance:

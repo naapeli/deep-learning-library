@@ -1,6 +1,6 @@
 import torch
 
-from ....Exceptions.Exceptions import NotFittedError
+from ....Exceptions import NotFittedError
 
 
 class PCA:
@@ -15,6 +15,8 @@ class PCA:
     """
 
     def __init__(self, n_components=2, epsilon=1e-10):
+        if not isinstance(n_components, int) or n_components < 1:
+            raise ValueError("n_components must be a positive integer.")
         self.n_components = n_components
         self.epsilon = epsilon
 
@@ -22,7 +24,7 @@ class PCA:
         """
         Fits the PCA model to the input data by calculating the principal components.
         
-        The data is always centered and if `normalize=True`, the data is also normalized so that the standard deviation is 1 along each axis.
+        The input data is always centered and if `normalize=True`, also normalized so that the standard deviation is 1 along each axis.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
@@ -60,7 +62,7 @@ class PCA:
         Returns:
             X_new (torch.Tensor of shape (n_samples, n_components)): The data transformed into the principal component space.
         Raises:
-            NotFittedError: If the PCA model has not been fitted yet.
+            NotFittedError: If the PCA model has not been fitted before transforming.
             TypeError: If the input matrix is not a PyTorch tensor.
             ValueError: If the input matrix is not the correct shape.
         """
