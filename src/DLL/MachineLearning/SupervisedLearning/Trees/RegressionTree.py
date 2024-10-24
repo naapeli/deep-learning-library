@@ -1,26 +1,51 @@
 import torch
+
 from .DecisionTree import Node
+from ....Exceptions import NotFittedError
 
 
 class RegressionTree:
-    def __init__(self, max_depth=25, min_samples_split=2, n_features=None):
+    """
+    RegressionTree implements a regression algorithm splitting the data along features minimizing the variance.
+
+    Args:
+        max_depth (int, optional): The maximum depth of the tree. Defaults to 25. Must be a positive integer.
+        min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+    """
+    def __init__(self, max_depth=25, min_samples_split=2):
+        if not isinstance(max_depth, int) or max_depth < 1:
+            raise ValueError("max_depth must be a positive integer.")
+        if not isinstance(min_samples_split, int) or min_samples_split < 1:
+            raise ValueError("min_samples_split must be a positive integer.")
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.root = None
-        self.n_features = n_features
     
     """
     x.shape = (n_samples, n_features)
     y.shape = (n_samples)
     """
-    def fit(self, x, y):
-        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
-        self.root = self._grow_tree(x, y, 0)
-    
-    def _fit_for_random_forest(self, x, y, i, q):
-        self.n_features = x.shape[1] if self.n_features is None else min(x.shape[1], self.n_features)
-        self.root = self._grow_tree(x, y, 0)
-        q.put((i, self.root, self.n_features))
+    def fit(self, X, y):
+        """
+        Fits the RegressionTree model to the input data by generating a tree, which splits the data appropriately.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+        Returns:
+            None
+        Raises:
+            TypeError: If the input matrix or the target matrix is not a PyTorch tensor.
+            ValueError: If the input matrix or the target matrix is not the correct shape.
+        """
+        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+            raise TypeError("The input matrix and the target matrix must be a PyTorch tensor.")
+        if X.ndim != 2:
+            raise ValueError("The input matrix must be a 2 dimensional tensor.")
+        if y.ndim != 1 or y.shape[0] != X.shape[0]:
+            raise ValueError("The target must be 1 dimensional with the same number of samples as the input data")
+        self.n_features = X.shape[1]
+        self.root = self._grow_tree(X, y, 0)
 
     def _grow_tree(self, x, y, depth):
         n_samples, n_features = x.size()
@@ -69,10 +94,26 @@ class RegressionTree:
         n = len(y)
         return torch.var(y) - len(left_indicies) / n * torch.var(y[left_indicies]) - len(right_indicies) / n * torch.var(y[right_indicies])
 
-    def predict(self, x):
-        assert self.root is not None, "DecisionTreeClassifier.fit() must be called before trying to predict"
-        assert x.shape[1] == self.n_features, "DecisionTreeClassifier.fit() must be called with the same number of features"
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in x])
+    def predict(self, X):
+        """
+        Applies the fitted RegressionTree model to the input data, predicting the correct values.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be regressed.
+        Returns:
+            target values (torch.Tensor of shape (n_samples,)): The predicted values corresponding to each sample.
+        Raises:
+            NotFittedError: If the RegressionTree model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if self.root is None:
+            raise NotFittedError("RegressionTree.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.n_features:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
 
     def _predict_single(self, x, current_node):
         if current_node.is_leaf():

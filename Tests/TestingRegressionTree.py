@@ -10,6 +10,7 @@ from src.DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingReg
 n = 100
 x = torch.linspace(0, 1, n).unsqueeze(-1)
 y = x * x + torch.normal(mean=0, std=0.05, size=(n, 1))
+y = y.squeeze()
 
 model = RegressionTree()
 model.fit(x, y)
