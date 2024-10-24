@@ -84,7 +84,7 @@ def roc_curve(probabilities, true_output, thresholds):
     assert len(torch.unique(true_output)) == 2, "The problem must be binary classification."
     tpr = torch.zeros_like(thresholds)
     fpr = torch.zeros_like(thresholds)
-    for i, threshold in enumerate(thresholds):
+    for i, threshold in enumerate(reversed(thresholds)):
         predictions = binary_prob_to_prediction(probabilities, threshold)
         conf_mat = confusion_matrix(predictions, true_output)
         tpr[i] = (conf_mat[1, 1] / (conf_mat[1, 1] + conf_mat[1, 0])).item()
@@ -92,8 +92,13 @@ def roc_curve(probabilities, true_output, thresholds):
     return fpr, tpr
 
 def auc(fpr, tpr):
-    if fpr[0] > fpr[-1]: fpr, tpr = reversed(fpr), reversed(tpr)
+    if fpr[0] > fpr[-1]:
+        fpr, tpr = reversed(fpr), reversed(tpr)
     return simpson(tpr, fpr)
+
+def roc_auc(probabilities, true_output, thresholds):
+    fpr, tpr = roc_curve(probabilities, true_output, thresholds)
+    return auc(fpr, tpr)
 
 def binary_prob_to_prediction(probabilities, threshold=0.5):
     return (probabilities > threshold).squeeze().to(torch.int32)
