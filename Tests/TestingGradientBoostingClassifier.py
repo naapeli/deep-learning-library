@@ -10,15 +10,16 @@ from src.DLL.Data.Metrics import accuracy, roc_curve, auc
 
 
 np.random.seed(0)
-X, y = datasets.make_blobs(n_features=2, n_samples=1000, centers=2)
+X, y = datasets.make_blobs(n_features=2, n_samples=1000, centers=2, cluster_std=2)
 plt.scatter(X[:, 0], X[:, 1], c=y)
 
 x_train, y_train, _, _, x_test, y_test = data_split(torch.from_numpy(X).to(dtype=torch.float32), torch.from_numpy(y), train_split=0.7, validation_split=0.0)
 
-model = GradientBoostingClassifier(n_trees=10, learning_rate=0.5)
+model = GradientBoostingClassifier(n_trees=10, learning_rate=0.5, loss="exponential")
 model.fit(x_train, y_train)
 y_pred = model.predict_proba(x_test)
-print(model.predict(x_test)[:10], y_test[:10])
+print(model.predict(x_test)[:20])
+print(y_test[:20])
 print(accuracy(y_pred, y_test))
 
 thresholds = torch.linspace(0, 1, 100)
