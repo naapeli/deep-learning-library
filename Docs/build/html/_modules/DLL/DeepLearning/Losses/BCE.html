@@ -77,16 +77,16 @@
 <span class="sd">Calculates the binary cross entropy and the gradient between a prediction vector as well as intended outputs</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="bce">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.bce">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce">[docs]</a>
 <span class="k">class</span> <span class="nc">bce</span><span class="p">:</span>
 <div class="viewcode-block" id="bce.loss">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.bce.loss">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce.loss">[docs]</a>
     <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
         <span class="k">return</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prediction</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prediction</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="bce.gradient">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.bce.gradient">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce.gradient">[docs]</a>
     <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">prediction</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">)</span></div>
 </div>

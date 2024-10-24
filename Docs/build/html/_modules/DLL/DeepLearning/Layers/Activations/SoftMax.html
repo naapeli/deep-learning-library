@@ -75,14 +75,14 @@
 
 
 <div class="viewcode-block" id="SoftMax">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.SoftMax">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax">[docs]</a>
 <span class="k">class</span> <span class="nc">SoftMax</span><span class="p">(</span><span class="n">Activation</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Softmax&quot;</span>
 
 <div class="viewcode-block" id="SoftMax.forward">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.SoftMax.forward">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
         <span class="n">exponential_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
@@ -91,7 +91,7 @@
 
     
 <div class="viewcode-block" id="SoftMax.backward">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.SoftMax.backward">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.backward">[docs]</a>
     <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dCdy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])</span>

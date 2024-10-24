@@ -71,15 +71,30 @@
              
   <h1>Source code for DLL.MachineLearning.SupervisedLearning.Trees.RandomForest</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="c1"># from multiprocessing import Process, Queue</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
 <span class="kn">from</span> <span class="nn">.DecisionTree</span> <span class="kn">import</span> <span class="n">DecisionTree</span>
+<span class="kn">from</span> <span class="nn">....Exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
 
 
 <div class="viewcode-block" id="RandomForestClassifier">
 <a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier">[docs]</a>
 <span class="k">class</span> <span class="nc">RandomForestClassifier</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RandomForestClassifier implements a classification algorithm fitting many :class:`DecisionTrees &lt;DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree&gt;` to bootstrapped data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_trees (int, optional): The number of trees used for predictiong. Defaults to 10. Must be a positive integer.</span>
+<span class="sd">        max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.</span>
+<span class="sd">        min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_trees</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_trees</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">n_trees</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_trees must be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">max_depth</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_depth must be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_samples_split</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">min_samples_split</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;min_samples_split must be a positive integer.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_trees</span> <span class="o">=</span> <span class="n">n_trees</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">max_depth</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_samples_split</span> <span class="o">=</span> <span class="n">min_samples_split</span>
@@ -87,38 +102,81 @@
 
 <div class="viewcode-block" id="RandomForestClassifier.fit">
 <a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.fit">[docs]</a>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span>
-            <span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_sample</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span></div>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fits the RandomForestClassifier model to the input data by generating trees, which split the data appropriately.</span>
 
-        <span class="c1"># try:</span>
-        <span class="c1">#     processes = []</span>
-        <span class="c1">#     q = Queue()</span>
-        <span class="c1">#     for i, tree in enumerate(self.trees):</span>
-        <span class="c1">#         process = Process(target=tree._fit_for_random_forest, args=(*self._bootstrap_sample(x, y), i, q))</span>
-        <span class="c1">#         processes.append(process)</span>
-        <span class="c1">#         process.start()</span>
-        <span class="c1">#     i = 0</span>
-        <span class="c1">#     while i &lt; len(self.trees):</span>
-        <span class="c1">#         index, root, n_features = q.get()</span>
-        <span class="c1">#         self.trees[index].root = root</span>
-        <span class="c1">#         self.trees[index].n_features = n_features</span>
-        <span class="c1">#         i += 1</span>
-        <span class="c1">#     for p in processes:</span>
-        <span class="c1">#         p.join()</span>
-        <span class="c1"># except Exception:</span>
-        <span class="c1">#     print(&quot;&quot;&quot;Try putting your code in a if __name__ == &quot;__main__&quot;: block&quot;&quot;&quot;)</span>
+<span class="sd">        Args:</span>
+<span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.</span>
+<span class="sd">            y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matrix or the label matrix is not a PyTorch tensor.</span>
+<span class="sd">            ValueError: If the input matrix or the label matrix is not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matrix and the label matrix must be a PyTorch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a 2 dimensional tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The labels must be 1 dimensional with the same number of samples as the input data&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">:</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_sample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span></div>
+
 
 <div class="viewcode-block" id="RandomForestClassifier.predict">
 <a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.predict">[docs]</a>
-    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the fitted RandomForestClassifier model to the input data, predicting the correct classes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data to be classified.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            labels (torch.Tensor of shape (n_samples,)): The predicted labels corresponding to each sample.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotFittedError: If the RandomForestClassifier model has not been fitted before predicting.</span>
+<span class="sd">            TypeError: If the input matrix is not a PyTorch tensor.</span>
+<span class="sd">            ValueError: If the input matrix is not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s2">&quot;RandomForestClassifier.fit() must be called before predicting.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a PyTorch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n_features</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.&quot;</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">Counter</span><span class="p">(</span><span class="n">sample_prediction</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">sample_prediction</span> <span class="ow">in</span> <span class="n">predictions</span><span class="p">])</span></div>
 
     
-    <span class="k">def</span> <span class="nf">_bootstrap_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomForestClassifier.predict_proba">
+<a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.predict_proba">[docs]</a>
+    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the fitted RandomForestClassifier model to the input data, predicting the probabilities of each class. Is calculated as the average of each individual trees predicted probabilities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data to be classified.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            probabilities (torch.Tensor of shape (n_samples, n_classes)): The predicted probabilities corresponding to each sample.</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotFittedError: If the RandomForestClassifier model has not been fitted before predicting.</span>
+<span class="sd">            TypeError: If the input matrix is not a PyTorch tensor.</span>
+<span class="sd">            ValueError: If the input matrix is not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s2">&quot;RandomForestClassifier.fit() must be called before predicting.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a PyTorch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n_features</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tree</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trees</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_bootstrap_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">high</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span></div>
 
 </pre></div>
 

@@ -74,14 +74,14 @@
 
 
 <div class="viewcode-block" id="InstanceNorm">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNormalisation.InstanceNorm">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNorm">[docs]</a>
 <span class="k">class</span> <span class="nc">InstanceNorm</span><span class="p">(</span><span class="n">GroupNorm</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">output_shape</span><span class="p">:</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Instance normalisation&quot;</span>
 
 <div class="viewcode-block" id="InstanceNorm.set_output_shape">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNormalisation.InstanceNorm.set_output_shape">[docs]</a>
+<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNorm.set_output_shape">[docs]</a>
     <span class="k">def</span> <span class="nf">set_output_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_groups</span> <span class="o">=</span> <span class="n">output_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">set_output_shape</span><span class="p">(</span><span class="n">output_shape</span><span class="p">)</span></div>

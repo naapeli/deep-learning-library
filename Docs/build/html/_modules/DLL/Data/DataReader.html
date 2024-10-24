@@ -74,7 +74,7 @@
 
 
 <div class="viewcode-block" id="DataReader">
-<a class="viewcode-back" href="../../../api/DLL.Data.DataReader.html#DLL.Data.DataReader.DataReader">[docs]</a>
+<a class="viewcode-back" href="../../../api/DLL.Data.DataReader.html#DLL.Data.DataReader">[docs]</a>
 <span class="k">class</span> <span class="nc">DataReader</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shuffle_every_epoch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_length</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -90,7 +90,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
 
 <div class="viewcode-block" id="DataReader.get_data">
-<a class="viewcode-back" href="../../../api/DLL.Data.DataReader.html#DLL.Data.DataReader.DataReader.get_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/DLL.Data.DataReader.html#DLL.Data.DataReader.get_data">[docs]</a>
     <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="n">iteration</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_length</span><span class="p">:</span>

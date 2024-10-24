@@ -85,7 +85,7 @@
 <span class="sd">output.shape = (batch_size, output_depth, input_height - kernel_size + 1, input_widht - kernel_size + 1)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Conv2D">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.Conv2D">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D">[docs]</a>
 <span class="k">class</span> <span class="nc">Conv2D</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">output_depth</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalisation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span> <span class="n">normalisation</span><span class="o">=</span><span class="n">normalisation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -96,7 +96,7 @@
         <span class="k">if</span> <span class="n">input_shape</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Conv2D.initialise_layer">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.Conv2D.initialise_layer">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.initialise_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_depth</span> <span class="o">=</span> <span class="n">input_depth</span>
@@ -114,7 +114,7 @@
 
     
 <div class="viewcode-block" id="Conv2D.forward">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.Conv2D.forward">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">batch_size</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
@@ -130,7 +130,7 @@
 
     
 <div class="viewcode-block" id="Conv2D.backward">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.Conv2D.backward">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.backward">[docs]</a>
     <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dCdy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">:</span> <span class="n">dCdy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dCdy</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalisation</span><span class="p">:</span> <span class="n">dCdy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalisation</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dCdy</span><span class="p">)</span>
@@ -148,7 +148,7 @@
 
     
 <div class="viewcode-block" id="Conv2D.get_parameters">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.Conv2D.get_parameters">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.get_parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">biases</span><span class="p">)</span></div>
 </div>

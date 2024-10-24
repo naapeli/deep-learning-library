@@ -74,16 +74,16 @@
 
 
 <div class="viewcode-block" id="mae">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.mae">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae">[docs]</a>
 <span class="k">class</span> <span class="nc">mae</span><span class="p">:</span>
 <div class="viewcode-block" id="mae.loss">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.mae.loss">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.loss">[docs]</a>
     <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="mae.gradient">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.mae.gradient">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.gradient">[docs]</a>
     <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span></div>
 </div>
