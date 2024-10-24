@@ -10,7 +10,7 @@ class RandomForestClassifier:
     RandomForestClassifier implements a classification algorithm fitting many :class:`DecisionTrees <DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree>` to bootstrapped data.
 
     Args:
-        n_trees (int, optional): The number of trees used for predictiong. Defaults to 10. Must be a positive integer.
+        n_trees (int, optional): The number of trees used for predicting. Defaults to 10. Must be a positive integer.
         max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
     """
