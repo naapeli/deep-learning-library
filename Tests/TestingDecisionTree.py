@@ -19,6 +19,8 @@ x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, valid
 model = DecisionTree(max_depth=10)
 model.fit(x_train, y_train)
 predictions = model.predict(x_test)
+probas = model.predict_proba(x_test)
+print(probas, probas.shape)
 print(accuracy(predictions, y_test))
 
 model = tree.DecisionTreeClassifier(max_depth=10, criterion='entropy')
@@ -30,6 +32,8 @@ start = time.perf_counter()
 model = RandomForestClassifier(n_trees=10, max_depth=10)
 model.fit(x_train, y_train)
 predictions = model.predict(x_test)
+probas = model.predict_proba(x_test)
+print(probas, probas.shape)
 print(accuracy(predictions, y_test))
 print(time.perf_counter() - start)
 
