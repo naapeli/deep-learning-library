@@ -1,29 +1,107 @@
 import torch
+
 from .RegressionTree import RegressionTree
+from ....DeepLearning.Losses import mse, mae, Huber
+from ....Exceptions import NotFittedError
 
 
 class GradientBoostingRegressor:
-    def __init__(self, n_trees=10, learning_rate=0.1, max_depth=25, min_samples_split=2):
+    """
+    GradientBoostingRegressor implements a regression algorithm fitting many consecutive :class:`RegressionTrees <DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree>` to residuals of the model.
+
+    Args:
+        n_trees (int, optional): The number of trees used for predicting. Defaults to 10. Must be a positive integer.
+        learning_rate (float, optional): The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.
+        max_depth (int, optional): The maximum depth of the tree. Defaults to 25. Must be a positive integer.
+        min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+        loss (string, optional): The loss function used in calculations of the residuals. Must be in ["mse", "mae", "huber"]. Defaults to "mse".
+    Attributes:
+        n_features (int): The number of features. Available after fitting.
+    """
+    def __init__(self, n_trees=10, learning_rate=0.5, max_depth=25, min_samples_split=2, loss="mse"):
+        if not isinstance(n_trees, int) or n_trees < 1:
+            raise ValueError("n_trees must be a positive integer.")
+        if not isinstance(learning_rate, float) or learning_rate <= 0 or learning_rate >= 1:
+            raise ValueError("learning_rate must be a float in range (0, 1).")
+        if not isinstance(max_depth, int) or max_depth < 1:
+            raise ValueError("max_depth must be a positive integer.")
+        if not isinstance(min_samples_split, int) or min_samples_split < 1:
+            raise ValueError("min_samples_split must be a positive integer.")
+        if loss not in ["mse", "mae", "huber"]:
+            raise ValueError('loss must be one of ["mse", "mae", "huber"]')
         self.n_trees = n_trees
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.trees = []
+        self.trees = None
+        self.loss_ = loss
+        self._get_activation_and_loss()
+    
+    def _get_activation_and_loss(self):
+        if self.loss_ == "mse":
+            self.loss = mse(reduction="sum")
+        elif self.loss_ == "mae":
+            self.loss = mae(reduction="sum")
+        elif self.loss_ == "huber":
+            self.loss = Huber(reduction="sum")
 
     def fit(self, X, y):
+        """
+        Fits the GradientBoostingRegressor model to the input data by fitting trees to the errors made by previous trees.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+        Returns:
+            None
+        Raises:
+            TypeError: If the input matrix or the target vector is not a PyTorch tensor.
+            ValueError: If the input matrix or the target vector is not the correct shape.
+        """
+        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+            raise TypeError("The input matrix and the target matrix must be a PyTorch tensor.")
+        if X.ndim != 2:
+            raise ValueError("The input matrix must be a 2 dimensional tensor.")
+        if y.ndim != 1 or y.shape[0] != X.shape[0]:
+            raise ValueError("The target must be 1 dimensional with the same number of samples as the input data")
+        
+        self.n_features = X.shape[1]
         self.initial_pred = y.mean()
-        residual = (y - self.initial_pred).squeeze()
+        pred = torch.full(y.shape, self.initial_pred)
+        trees = []
 
         for _ in range(self.n_trees):
+            residual = -self.loss.gradient(pred, y)
+
             tree = RegressionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
             tree.fit(X, residual)
-            pred = tree.predict(X)
+            prediction = tree.predict(X)
 
-            residual -= self.learning_rate * pred
-            self.trees.append(tree)
+            pred += self.learning_rate * prediction
+            trees.append(tree)
+
+        self.trees = trees
 
     def predict(self, X):
-        assert hasattr(self, "initial_pred"), "GradientBoostingRegressor.fit(X, y) has to be called before predicting."
+        """
+        Applies the fitted GradientBoostingRegressor model to the input data, predicting the target values.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be classified.
+        Returns:
+            targets (torch.Tensor of shape (n_samples,)): The predicted target values corresponding to each sample.
+        Raises:
+            NotFittedError: If the GradientBoostingRegressor model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if not hasattr(self, "initial_pred"):
+            raise NotFittedError("GradientBoostingRegressor.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.n_features:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+
         pred = torch.full((X.shape[0],), self.initial_pred)
         
         for tree in self.trees:

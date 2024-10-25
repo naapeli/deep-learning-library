@@ -76,8 +76,10 @@
 <div class="viewcode-block" id="Huber">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber">[docs]</a>
 <span class="k">class</span> <span class="nc">Huber</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="c1"># reduction in [&quot;mean&quot;, &quot;sum&quot;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
 
 <div class="viewcode-block" id="Huber.loss">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber.loss">[docs]</a>
@@ -86,7 +88,9 @@
         <span class="n">abs_error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
         <span class="n">quadratic</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">error</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">linear</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">*</span> <span class="p">(</span><span class="n">abs_error</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">abs_error</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">,</span> <span class="n">linear</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">abs_error</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">,</span> <span class="n">linear</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">abs_error</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">quadratic</span><span class="p">,</span> <span class="n">linear</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="Huber.gradient">
@@ -96,6 +100,8 @@
         <span class="n">abs_error</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
         <span class="n">quadratic_grad</span> <span class="o">=</span> <span class="n">error</span>
         <span class="n">linear_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">abs_error</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">quadratic_grad</span><span class="p">,</span> <span class="n">linear_grad</span><span class="p">)</span> <span class="o">/</span> <span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">abs_error</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span> <span class="n">quadratic_grad</span><span class="p">,</span> <span class="n">linear_grad</span><span class="p">)</span></div>
 </div>
 
