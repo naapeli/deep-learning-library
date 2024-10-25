@@ -129,7 +129,7 @@
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the PCA model to the input data by calculating the principal components.</p>
-<p>The data is always centered and if <cite>normalize=True</cite>, the data is also normalized so that the standard deviation is 1 along each axis.</p>
+<p>The input data is always centered and if <cite>normalize=True</cite>, also normalized so that the standard deviation is 1 along each axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -165,7 +165,7 @@
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.Exceptions.NotFittedError" title="DLL.Exceptions.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the PCA model has not been fitted yet.</p></li>
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the PCA model has not been fitted before transforming.</p></li>
 <li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
 <li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
 </ul>

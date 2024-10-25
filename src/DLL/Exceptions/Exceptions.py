@@ -1,6 +1,6 @@
 class NotFittedError(Exception):
     """
-    Exception raised when transform is called before the model is fitted.
+    Exception raised when an action is called before the model is fitted.
 
     Args:
         message (string): The message which is passed to the Exception class.

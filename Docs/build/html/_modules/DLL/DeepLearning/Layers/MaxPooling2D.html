@@ -82,7 +82,7 @@
 <span class="sd">output.shape = (batch_size, depth, input_height // self.kernel_size, input_width // self.kernel_size)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MaxPooling2D">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.MaxPooling2D">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D">[docs]</a>
 <span class="k">class</span> <span class="nc">MaxPooling2D</span><span class="p">(</span><span class="n">Activation</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_size</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -92,14 +92,14 @@
         <span class="k">if</span> <span class="n">input_shape</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">()</span>
 
 <div class="viewcode-block" id="MaxPooling2D.initialise_layer">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.MaxPooling2D.initialise_layer">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.initialise_layer">[docs]</a>
     <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">)</span></div>
 
     
 <div class="viewcode-block" id="MaxPooling2D.generate_sections">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.MaxPooling2D.generate_sections">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.generate_sections">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_batch</span><span class="p">):</span>
         <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span>
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
@@ -109,7 +109,7 @@
 
     
 <div class="viewcode-block" id="MaxPooling2D.forward">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.MaxPooling2D.forward">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">widht</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">shape</span>
@@ -120,7 +120,7 @@
 
     
 <div class="viewcode-block" id="MaxPooling2D.backward">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.MaxPooling2D.backward">[docs]</a>
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.backward">[docs]</a>
     <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dCdy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">dCdx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">sums</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
