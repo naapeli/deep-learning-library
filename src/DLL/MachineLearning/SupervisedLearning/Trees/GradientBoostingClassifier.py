@@ -38,7 +38,7 @@ class GradientBoostingClassifier:
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.trees = []
+        self.trees = None
         self.loss_ = loss
     
     def _get_activation_and_loss(self, classes):
@@ -46,20 +46,20 @@ class GradientBoostingClassifier:
         self.n_classes = len(classes)
         if self.loss_ == "log_loss":
             if self.n_classes == 2:
-                self.loss = bce()
+                self.loss = bce(reduction="sum")
                 self.activation = Sigmoid()
             else:
-                self.loss = cce()
+                self.loss = cce(reduction="sum")
                 self.activation = SoftMax()
         elif self.loss_ == "exponential":
             if self.n_classes != 2:
                 raise ValueError("The exponential loss is only applicable in binary classification. Use log_loss for multiclass classification instead.")
-            self.loss = exponential()
+            self.loss = exponential(reduction="sum")
             self.activation = Sigmoid()
 
     def fit(self, X, y):
         """
-        Fits the GradientBoostingClassifier model to the input data by fitting trees too the errors made by previous trees.
+        Fits the GradientBoostingClassifier model to the input data by fitting trees to the errors made by previous trees.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
@@ -93,6 +93,7 @@ class GradientBoostingClassifier:
         positive_ratio = y.mean()
         self.initial_log_odds = torch.log(positive_ratio / (1 - positive_ratio))
         pred = torch.full(y.shape, self.initial_log_odds)
+        trees = []
 
         for _ in range(self.n_trees):
             prob = self.activation.forward(pred)
@@ -103,7 +104,9 @@ class GradientBoostingClassifier:
             prediction = tree.predict(X)
             pred += self.learning_rate * prediction
 
-            self.trees.append(tree)
+            trees.append(tree)
+        
+        self.trees = trees
     
     def _multi_fit(self, X, y):
         encoder = OneHotEncoder()
@@ -112,6 +115,7 @@ class GradientBoostingClassifier:
         
         self.initial_log_odds = 0.0
         pred = torch.full(y.shape, self.initial_log_odds)
+        trees = []
 
         for class_index in range(self.n_classes):
             class_trees = []
@@ -125,7 +129,9 @@ class GradientBoostingClassifier:
                 pred[:, class_index] += self.learning_rate * prediction
 
                 class_trees.append(tree)
-            self.trees.append(class_trees)
+            trees.append(class_trees)
+        
+        self.trees = trees
     
     def predict_proba(self, X):
         """
@@ -155,7 +161,7 @@ class GradientBoostingClassifier:
         for tree in self.trees:
             prediction = tree.predict(X)
             pred += self.learning_rate * prediction
-        
+
         return self.activation.forward(pred)
 
     def predict(self, X):
