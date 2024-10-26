@@ -85,7 +85,7 @@ def roc_curve(probabilities, true_output, thresholds):
     tpr = torch.zeros_like(thresholds)
     fpr = torch.zeros_like(thresholds)
     for i, threshold in enumerate(reversed(thresholds)):
-        predictions = binary_prob_to_prediction(probabilities, threshold)
+        predictions = _binary_prob_to_prediction(probabilities, threshold)
         conf_mat = confusion_matrix(predictions, true_output)
         tpr[i] = (conf_mat[1, 1] / (conf_mat[1, 1] + conf_mat[1, 0])).item()
         fpr[i] = (conf_mat[0, 1] / (conf_mat[0, 1] + conf_mat[0, 0])).item()
@@ -100,8 +100,17 @@ def roc_auc(probabilities, true_output, thresholds):
     fpr, tpr = roc_curve(probabilities, true_output, thresholds)
     return auc(fpr, tpr)
 
-def binary_prob_to_prediction(probabilities, threshold=0.5):
+def _binary_prob_to_prediction(probabilities, threshold=0.5):
     return (probabilities > threshold).squeeze().to(torch.int32)
+
+def _one_hot_to_prediction(probabilities):
+    return probabilities.argmax(dim=1)
+
+def prob_to_pred(probabilities):
+    if probabilities.ndim == 2:
+        return _one_hot_to_prediction(probabilities)
+    return _binary_prob_to_prediction(probabilities)
+
 
 
 """
