@@ -52,7 +52,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.accuracy"><code class="docutils literal notranslate"><span class="pre">accuracy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.auc"><code class="docutils literal notranslate"><span class="pre">auc()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.binary_cross_entropy"><code class="docutils literal notranslate"><span class="pre">binary_cross_entropy()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.binary_prob_to_prediction"><code class="docutils literal notranslate"><span class="pre">binary_prob_to_prediction()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.calculate_metrics"><code class="docutils literal notranslate"><span class="pre">calculate_metrics()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.categorical_cross_entropy"><code class="docutils literal notranslate"><span class="pre">categorical_cross_entropy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.confusion_matrix"><code class="docutils literal notranslate"><span class="pre">confusion_matrix()</span></code></a></li>
@@ -61,6 +60,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.mean_absolute_error"><code class="docutils literal notranslate"><span class="pre">mean_absolute_error()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.mean_squared_error"><code class="docutils literal notranslate"><span class="pre">mean_squared_error()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.precision"><code class="docutils literal notranslate"><span class="pre">precision()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.prob_to_pred"><code class="docutils literal notranslate"><span class="pre">prob_to_pred()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.recall"><code class="docutils literal notranslate"><span class="pre">recall()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.roc_auc"><code class="docutils literal notranslate"><span class="pre">roc_auc()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.roc_curve"><code class="docutils literal notranslate"><span class="pre">roc_curve()</span></code></a></li>
@@ -121,11 +121,6 @@
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="DLL.Data.Metrics.binary_prob_to_prediction">
-<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">binary_prob_to_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#binary_prob_to_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.binary_prob_to_prediction" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.calculate_metrics">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">calculate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#calculate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.calculate_metrics" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -163,6 +158,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.precision">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.precision" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DLL.Data.Metrics.prob_to_pred">
+<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">prob_to_pred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#prob_to_pred"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.prob_to_pred" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
