@@ -77,6 +77,7 @@
 <span class="kn">from</span> <span class="nn">....DeepLearning.Losses</span> <span class="kn">import</span> <span class="n">bce</span><span class="p">,</span> <span class="n">cce</span><span class="p">,</span> <span class="n">exponential</span>
 <span class="kn">from</span> <span class="nn">....Data.Preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
 <span class="kn">from</span> <span class="nn">....Exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
+<span class="kn">from</span> <span class="nn">....Data.Metrics</span> <span class="kn">import</span> <span class="n">calculate_metrics</span>
 
 
 
@@ -95,7 +96,6 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        n_features (int): The number of features. Available after fitting.</span>
 <span class="sd">        n_classes (int): The number of classes. 2 for binary classification. Available after fitting.</span>
-<span class="sd">        classes (torch.Tensor of shape (n_classes,)): The classes used as labels. Available after fitting. Contains integers [0, ..., n_classes - 1].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_trees</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;log_loss&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_trees</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">n_trees</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -116,7 +116,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">loss_</span> <span class="o">=</span> <span class="n">loss</span>
     
     <span class="k">def</span> <span class="nf">_get_activation_and_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_</span> <span class="o">==</span> <span class="s2">&quot;log_loss&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -133,17 +132,18 @@
 
 <div class="viewcode-block" id="GradientBoostingClassifier.fit">
 <a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.fit">[docs]</a>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fits the GradientBoostingClassifier model to the input data by fitting trees to the errors made by previous trees.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.</span>
 <span class="sd">            y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].</span>
+<span class="sd">            metrics (dict[str, torch.Tensor]): Contains the metrics that will be calculated between fitting each tree and returned. Only available for binary classification.</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            None</span>
+<span class="sd">            metrics if binary classification else None</span>
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the input matrix or the label vector is not a PyTorch tensor.</span>
+<span class="sd">            TypeError: If the input matrix or the label vector is not a PyTorch tensor or if the problem is binary and metrics is not a list or a tuple.</span>
 <span class="sd">            ValueError: If the input matrix or the label vector is not the correct shape or the label vector contains wrong values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
@@ -161,18 +161,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_binary_fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;metrics must be a list or tuple containing the shorthand names of each wanted metric.&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_binary_fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_multi_fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_binary_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_binary_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]):</span>
         <span class="n">positive_ratio</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_log_odds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">positive_ratio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">positive_ratio</span><span class="p">))</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_log_odds</span><span class="p">)</span>
         <span class="n">trees</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="n">metric</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_trees</span><span class="p">)</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">}</span>
 
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_trees</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_trees</span><span class="p">):</span>
             <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
             <span class="n">residual</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 
@@ -182,8 +186,13 @@
             <span class="n">pred</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="n">prediction</span>
 
             <span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+            <span class="n">values</span> <span class="o">=</span> <span class="n">calculate_metrics</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">pred</span><span class="p">),</span> <span class="n">y</span><span class="p">),</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">loss</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">trees</span> <span class="o">=</span> <span class="n">trees</span>
+        <span class="k">return</span> <span class="n">history</span>
     
     <span class="k">def</span> <span class="nf">_multi_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
@@ -269,7 +278,7 @@
         <span class="n">prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">prob</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">[</span><span class="n">prob</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span></div>
+        <span class="k">return</span> <span class="n">prob</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
     
     <span class="k">def</span> <span class="nf">_multi_predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
