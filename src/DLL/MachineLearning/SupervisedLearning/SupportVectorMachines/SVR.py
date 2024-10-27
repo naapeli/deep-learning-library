@@ -13,7 +13,7 @@ class SVR:
     Args:
         kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to SquaredExponentialCovariance.
         C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.
-        epsilon (float or int, optional): The width of the tube of no penalty in epsilon-SVR. Must be a positive real number
+        epsilon (float or int, optional): The width of the tube of no penalty in epsilon-SVR. Must be a positive real number.
     Attributes:
         n_features (int): The number of features. Available after fitting.
         alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.
