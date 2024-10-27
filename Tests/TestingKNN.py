@@ -11,11 +11,14 @@ from src.DLL.MachineLearning.SupervisedLearning.Neighbors.KNearestNeighborsRegre
 iris = datasets.load_iris()
 X = torch.tensor(iris.data, dtype=torch.float32)
 y = torch.tensor(iris.target, dtype=torch.float32)
+# X = X[y != 2]
+# y = y[y != 2]
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
 
-model = KNNClassifier(k=5, metric="manhattan")
+model = KNNClassifier(k=50, metric="manhattan")
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 
 
