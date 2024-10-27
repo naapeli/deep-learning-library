@@ -102,20 +102,100 @@
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">BernoulliNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The BernoulliNaiveBayes classifier model. Applies the Bayes theorem to classify samples with binary features.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.n_classes">
+<span class="sig-name descname"><span class="pre">n_classes</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.n_classes" title="Link to this definition"></a></dt>
+<dd><p>The number of classes. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Fits the BernoulliNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature. Must contain only binary values.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> | </em><em>int</em>) – Laplacian smoothing parameter. Must be non-negative. For no smoothing, alpha is set to zero. Defaults to 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix or the label matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix or the label matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted BernoulliNaiveBayes model to the input data, predicting the labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the BernoulliNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict_proba">
 <span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted BernoulliNaiveBayes model to the input data, predicting the labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the BernoulliNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -126,20 +206,99 @@
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">GaussianNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The GaussianNaiveBayes classifier model. Applies the Bayes theorem to classify samples with real number features.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_classes">
+<span class="sig-name descname"><span class="pre">n_classes</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_classes" title="Link to this definition"></a></dt>
+<dd><p>The number of classes. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Fits the GaussianNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix or the label matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix or the label matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted GaussianNaiveBayes model to the input data, predicting the labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the GaussianNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict_proba">
 <span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted GaussianNaiveBayes model to the input data, predicting the probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the GaussianNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -150,20 +309,100 @@
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">MultinomialNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The MultinomialNaiveBayes classifier model. Applies the Bayes theorem to classify samples with positive integer features.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_classes">
+<span class="sig-name descname"><span class="pre">n_classes</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_classes" title="Link to this definition"></a></dt>
+<dd><p>The number of classes. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Fits the MultinomialNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature. Must contain only non-negative integers.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em> | </em><em>int</em>) – Laplacian smoothing parameter. Must be non-negative. For no smoothing, alpha is set to zero. Defaults to 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix or the label matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix or the label matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted MultinomialNaiveBayes model to the input data, predicting the labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the MultinomialNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict_proba">
 <span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Applies the fitted MultinomialNaiveBayes model to the input data, predicting the labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the MultinomialNaiveBayes model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

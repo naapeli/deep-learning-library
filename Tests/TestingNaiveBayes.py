@@ -11,12 +11,15 @@ from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes
 iris = datasets.load_iris()
 X = torch.tensor(iris.data, dtype=torch.float32)
 y = torch.tensor(iris.target, dtype=torch.float32)
+# X = X[y != 2]
+# y = y[y != 2]
 
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y, train_split=0.8, validation_split=0.2)
 
 model = GaussianNaiveBayes()
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+# print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 
 
@@ -27,6 +30,7 @@ X_train, y_train, X_test, y_test, _, _ = data_split(X_bernoulli, y_bernoulli, tr
 model = BernoulliNaiveBayes()
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+# print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 
 
@@ -39,4 +43,5 @@ X_train, y_train, X_test, y_test, _, _ = data_split(X_multinomial, y_multinomial
 model = MultinomialNaiveBayes()
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+# print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
