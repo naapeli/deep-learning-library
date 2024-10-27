@@ -1,7 +1,18 @@
 import torch
 
+from ....Exceptions import NotFittedError
+
 
 class KNNRegressor:
+    """
+    The k-nearest neighbors regressor model. Looks for the k closest samples with respect to a distance metric and calculates the average according to some weight function.
+    
+    Args:
+        k (int, optional): The number of closest samples considered for the predictions. Must be a positive integer. Defaults to 3.
+        metric (str, optional): A distance metric for thee closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
+        weight (str, optional): A weight function that decides how important are the nearest k samples. Must be in ["uniform", "distance", "gaussian"]. Defaults to "gaussian".
+    """
+
     _metrics = {
         "euclidian": lambda X1, X2: ((X1 - X2) ** 2).sum(dim=2).sqrt(),
         "manhattan": lambda X1, X2: torch.abs(X1 - X2).sum(dim=2),
@@ -14,17 +25,60 @@ class KNNRegressor:
     }
 
     def __init__(self, k=3, metric="euclidian", weight="gaussian"):
+        if not isinstance(k, int) or k <= 0:
+            raise ValueError("k must be a positive integer.")
+        if metric not in ["euclidian", "manhattan"]:
+            raise ValueError('metric must be on of "euclidian" or "manhattan".')
+        if weight not in ["uniform", "distance", "gaussian"]:
+            raise ValueError('weight must be in ["uniform", "distance", "gaussian"].')
+
         self.k = k
         self.metric = KNNRegressor._metrics[metric] if isinstance(metric, str) else metric
         self.weight = KNNRegressor._weights[weight] if isinstance(weight, str) else weight
 
     def fit(self, X, y):
-        assert len(X.shape) == 2 and len(y.shape) == 1, "X has to have dimensions (n, m) and y (n,)."
+        """
+        Fits the KNNRegressor model to the input data by storing the input and target matricies.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+        Returns:
+            None
+        Raises:
+            TypeError: If the input matrix or the target matrix is not a PyTorch tensor.
+            ValueError: If the input matrix or the target matrix is not the correct shape.
+        """
+        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+            raise TypeError("The input matrix and the target matrix must be PyTorch tensors.")
+        if X.ndim != 2:
+            raise ValueError("The input matrix must be a 2 dimensional tensor.")
+        if y.ndim != 1 or y.shape[0] != X.shape[0]:
+            raise ValueError("The target values must be 1 dimensional with the same number of samples as the input data")
+
         self.X = X
         self.y = y
 
     def predict(self, X):
-        assert hasattr(self, "X"), "KNNRegressor.fit() must be called before predicting."
+        """
+        Applies the fitted KNNRegressor model to the input data, predicting the target values.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be regressed.
+        Returns:
+            targets (torch.Tensor of shape (n_samples,)): The predicted target values corresponding to each sample.
+        Raises:
+            NotFittedError: If the KNNRegressor model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if not hasattr(self, "X"):
+            raise NotFittedError("KNNRegressor.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.X.shape[1]:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+        
         distances: torch.Tensor = self.metric(self.X.unsqueeze(0), X.unsqueeze(1)) # (len(X), len(self.X))
         indicies = distances.topk(self.k, largest=False).indices
         k_values = self.y[indicies]
