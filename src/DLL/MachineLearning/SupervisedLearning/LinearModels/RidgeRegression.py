@@ -5,6 +5,15 @@ import scienceplots
 
 
 class RidgeRegression:
+    """
+    The RidgeRegression implements a linear regression model with L2 regularization.
+    
+    Args:
+        alpha (int | float, optional): The regularization parameter. Larger alpha will force the weights to be lower. Must be a positive real number. Defaults to 1.
+
+    Attributes:
+        residuals (torch.Tensor of shape (n_samples,)): The fitted residuals.
+    """
     def __init__(self, alpha=1.0):
         self.alpha = alpha
 
