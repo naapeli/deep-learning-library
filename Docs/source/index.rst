@@ -6,10 +6,15 @@
 Deep learning library documentation
 ===================================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+DLL is a deep learning library inspired by TensorFlow, PyTorch, and scikit-learn. It encompasses a wide range of deep learning and machine learning methods and includes numerous examples and tests to demonstrate their usage.
 
+This library is intended as an educational project. While it offers a variety of functionalities, its performance and efficiency may not match those of the aforementioned libraries. Therefore, for production-level applications, it is recommended to use TensorFlow, PyTorch, or scikit-learn. However, DLL aims to provide greater clarity and ease of understanding compared to other libraries.
+
+
+Note for the reader
+--------------------
+
+DLL and its documentation are still in progress. As a result, documentation for some methods may be incomplete. I will work on adding the missing parts as soon as possible.
 
 .. toctree::
    :maxdepth: 1
