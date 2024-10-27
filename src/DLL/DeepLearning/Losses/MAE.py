@@ -9,7 +9,7 @@ class mae:
     def loss(self, prediction, true_output):
         if self.reduction == "mean":
             return torch.abs(prediction - true_output.reshape(prediction.shape)).mean()
-        torch.abs(prediction - true_output.reshape(prediction.shape)).sum()
+        return torch.abs(prediction - true_output.reshape(prediction.shape)).sum()
         
 
     def gradient(self, prediction, true_output):
