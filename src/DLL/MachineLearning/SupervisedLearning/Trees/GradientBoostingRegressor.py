@@ -3,6 +3,7 @@ import torch
 from .RegressionTree import RegressionTree
 from ....DeepLearning.Losses import mse, mae, Huber
 from ....Exceptions import NotFittedError
+from ....Data.Metrics import calculate_metrics
 
 
 class GradientBoostingRegressor:
@@ -45,15 +46,16 @@ class GradientBoostingRegressor:
         elif self.loss_ == "huber":
             self.loss = Huber(reduction="sum")
 
-    def fit(self, X, y):
+    def fit(self, X, y, metrics=["loss"]):
         """
         Fits the GradientBoostingRegressor model to the input data by fitting trees to the errors made by previous trees.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+            metrics (dict[str, torch.Tensor]): Contains the metrics that will be calculated between fitting each tree and returned.
         Returns:
-            None
+            metrics (dict[str, torch.Tensor]): The calculated metrics.
         Raises:
             TypeError: If the input matrix or the target vector is not a PyTorch tensor.
             ValueError: If the input matrix or the target vector is not the correct shape.
@@ -64,13 +66,16 @@ class GradientBoostingRegressor:
             raise ValueError("The input matrix must be a 2 dimensional tensor.")
         if y.ndim != 1 or y.shape[0] != X.shape[0]:
             raise ValueError("The target must be 1 dimensional with the same number of samples as the input data")
+        if not isinstance(metrics, list | tuple):
+            raise ValueError("metrics must be a list or tuple containing the shorthand names of each wanted metric.")
         
         self.n_features = X.shape[1]
         self.initial_pred = y.mean()
         pred = torch.full(y.shape, self.initial_pred)
         trees = []
+        history = {metric: torch.zeros(self.n_trees) for metric in metrics}
 
-        for _ in range(self.n_trees):
+        for i in range(self.n_trees):
             residual = -self.loss.gradient(pred, y)
 
             tree = RegressionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
@@ -80,7 +85,12 @@ class GradientBoostingRegressor:
             pred += self.learning_rate * prediction
             trees.append(tree)
 
+            values = calculate_metrics(data=(pred, y), metrics=metrics, loss=self.loss.loss)
+            for metric, value in values.items():
+                history[metric][i] = value
+
         self.trees = trees
+        return history
 
     def predict(self, X):
         """

@@ -5,6 +5,7 @@ from ....DeepLearning.Layers.Activations import Sigmoid, SoftMax
 from ....DeepLearning.Losses import bce, cce, exponential
 from ....Data.Preprocessing import OneHotEncoder
 from ....Exceptions import NotFittedError
+from ....Data.Metrics import calculate_metrics
 
 
 
@@ -21,7 +22,6 @@ class GradientBoostingClassifier:
     Attributes:
         n_features (int): The number of features. Available after fitting.
         n_classes (int): The number of classes. 2 for binary classification. Available after fitting.
-        classes (torch.Tensor of shape (n_classes,)): The classes used as labels. Available after fitting. Contains integers [0, ..., n_classes - 1].
     """
     def __init__(self, n_trees=10, learning_rate=0.5, max_depth=25, min_samples_split=2, loss="log_loss"):
         if not isinstance(n_trees, int) or n_trees < 1:
@@ -42,7 +42,6 @@ class GradientBoostingClassifier:
         self.loss_ = loss
     
     def _get_activation_and_loss(self, classes):
-        self.classes = classes
         self.n_classes = len(classes)
         if self.loss_ == "log_loss":
             if self.n_classes == 2:
@@ -57,17 +56,18 @@ class GradientBoostingClassifier:
             self.loss = exponential(reduction="sum")
             self.activation = Sigmoid()
 
-    def fit(self, X, y):
+    def fit(self, X, y, metrics=["loss"]):
         """
         Fits the GradientBoostingClassifier model to the input data by fitting trees to the errors made by previous trees.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].
+            metrics (dict[str, torch.Tensor]): Contains the metrics that will be calculated between fitting each tree and returned. Only available for binary classification.
         Returns:
-            None
+            metrics if binary classification else None
         Raises:
-            TypeError: If the input matrix or the label vector is not a PyTorch tensor.
+            TypeError: If the input matrix or the label vector is not a PyTorch tensor or if the problem is binary and metrics is not a list or a tuple.
             ValueError: If the input matrix or the label vector is not the correct shape or the label vector contains wrong values.
         """
         if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
@@ -85,17 +85,21 @@ class GradientBoostingClassifier:
         self.n_features = X.shape[1]
 
         if self.n_classes == 2:
-            self._binary_fit(X, y)
+            if not isinstance(metrics, list | tuple):
+                raise ValueError("metrics must be a list or tuple containing the shorthand names of each wanted metric.")
+
+            return self._binary_fit(X, y, metrics=metrics)
         else:
             self._multi_fit(X, y)
 
-    def _binary_fit(self, X, y):
+    def _binary_fit(self, X, y, metrics=["loss"]):
         positive_ratio = y.mean()
         self.initial_log_odds = torch.log(positive_ratio / (1 - positive_ratio))
         pred = torch.full(y.shape, self.initial_log_odds)
         trees = []
+        history = {metric: torch.zeros(self.n_trees) for metric in metrics}
 
-        for _ in range(self.n_trees):
+        for i in range(self.n_trees):
             prob = self.activation.forward(pred)
             residual = -self.activation.backward(self.loss.gradient(prob, y))
 
@@ -105,8 +109,13 @@ class GradientBoostingClassifier:
             pred += self.learning_rate * prediction
 
             trees.append(tree)
+
+            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss)
+            for metric, value in values.items():
+                history[metric][i] = value
         
         self.trees = trees
+        return history
     
     def _multi_fit(self, X, y):
         encoder = OneHotEncoder()
@@ -187,7 +196,7 @@ class GradientBoostingClassifier:
         prob = self.predict_proba(X)
         if self.n_classes == 2:
             return (prob >= 0.5).to(torch.int32)
-        return self.classes[prob.argmax(dim=1)]
+        return prob.argmax(dim=1)
     
     def _multi_predict_proba(self, X):
         pred = torch.full((X.shape[0], self.n_classes), self.initial_log_odds)

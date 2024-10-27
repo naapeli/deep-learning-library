@@ -468,34 +468,24 @@
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.classes">
-<span class="sig-name descname"><span class="pre">classes</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.classes" title="Link to this definition"></a></dt>
-<dd><p>The classes used as labels. Available after fitting. Contains integers [0, …, n_classes - 1].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_classes,)</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/GradientBoostingClassifier.html#GradientBoostingClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/GradientBoostingClassifier.html#GradientBoostingClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the GradientBoostingClassifier model to the input data by fitting trees to the errors made by previous trees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+<li><p><strong>metrics</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Contains the metrics that will be calculated between fitting each tree and returned. Only available for binary classification.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>metrics if binary classification else None</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>TypeError</strong> – If the input matrix or the label vector is not a PyTorch tensor.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix or the label vector is not a PyTorch tensor or if the problem is binary and metrics is not a list or a tuple.</p></li>
 <li><p><strong>ValueError</strong> – If the input matrix or the label vector is not the correct shape or the label vector contains wrong values.</p></li>
 </ul>
 </dd>
@@ -584,20 +574,24 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/GradientBoostingRegressor.html#GradientBoostingRegressor.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/GradientBoostingRegressor.html#GradientBoostingRegressor.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the GradientBoostingRegressor model to the input data by fitting trees to the errors made by previous trees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
+<li><p><strong>metrics</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Contains the metrics that will be calculated between fitting each tree and returned.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p>The calculated metrics.</p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>metrics (dict[str, torch.Tensor])</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – If the input matrix or the target vector is not a PyTorch tensor.</p></li>
 <li><p><strong>ValueError</strong> – If the input matrix or the target vector is not the correct shape.</p></li>
 </ul>
