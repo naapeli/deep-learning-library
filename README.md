@@ -3,7 +3,7 @@
 DLL is a deep learning library inspired by TensorFlow and PyTorch. This is my largest project to date, featuring thousands of lines of code. It encompasses a wide range of deep learning and machine learning methods, and includes numerous examples and tests to demonstrate their usage.
 
 ## Documentation:
-Checkout the unfinished documentation [here](https://naapeli.github.io/deep-learning-library/).
+Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning-library/).
 
 ## Upcoming topics:
 - finishing the documentation (and making the error handling good)
