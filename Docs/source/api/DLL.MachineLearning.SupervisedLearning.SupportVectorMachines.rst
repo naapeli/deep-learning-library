@@ -9,14 +9,6 @@ SVC
    :undoc-members:
    :show-inheritance:
 
-SVCSMO
---------------------------------------------------------------------------
-
-.. autoclass:: DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.SVCSMO
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 SVR
 -----------------------------------------------------------------------
 
