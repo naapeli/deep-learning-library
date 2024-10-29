@@ -42,6 +42,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: Docs/build/html
+          name: sphinx-docs
 
 
   deploy:
