@@ -37,6 +37,10 @@ jobs:
           cd Docs
           make html
           cd ..
+
+      - name: Debug - List build directory contents
+        run: |
+          ls Docs/build/html
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
