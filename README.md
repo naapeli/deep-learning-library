@@ -3,9 +3,11 @@
 DLL is a deep learning library inspired by TensorFlow and PyTorch. This is my largest project to date, featuring thousands of lines of code. It encompasses a wide range of deep learning and machine learning methods, and includes numerous examples and tests to demonstrate their usage.
 
 ## Documentation:
+
 Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning-library/).
 
 ## Upcoming topics:
+
 - finishing the documentation (and making the error handling good)
 - other optimizers
 - saving a model
@@ -16,9 +18,11 @@ Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning
 - early stopping and other callbacks???
 
 ## Running Tests
+
 To run the tests, navigate to the deep-learning-library-folder and use eg. the following command:
+
 ```
-python -m Tests.TestingDecisionTree
+python -m Tests.TestingSupportVectorClassification
 ```
 
 Feel free to explore the code and apply it to new problems!
