@@ -189,6 +189,23 @@
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">RidgeRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The RidgeRegression implements a linear regression model with L2 regularization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>alpha</strong> (<em>int</em><em> | </em><em>float</em><em>, </em><em>optional</em>) – The regularization parameter. Larger alpha will force the weights to be lower. Must be a positive real number. Defaults to 1.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.residuals">
+<span class="sig-name descname"><span class="pre">residuals</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.residuals" title="Link to this definition"></a></dt>
+<dd><p>The fitted residuals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/RidgeRegression.html#RidgeRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit" title="Link to this definition"></a></dt>
