@@ -53,6 +53,12 @@ jobs:
     needs: build
     
     steps:
+      - name: List artifacts
+        run: |
+          echo "Available artifacts:"
+          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               "https://api.github.com/repos/${{ github.repository }}/actions/artifacts"
+    
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
