@@ -58,6 +58,9 @@ jobs:
           echo "Available artifacts:"
           curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
                "https://api.github.com/repos/${{ github.repository }}/actions/artifacts"
+               
+      - name: Wait before deployment
+        run: sleep 2
     
       - name: Deploy to GitHub Pages
         id: deployment
