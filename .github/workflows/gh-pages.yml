@@ -31,6 +31,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install sphinx sphinx_rtd_theme
+          pip install torch
 
       - name: Build Sphinx documentation
         run: |
@@ -53,15 +54,6 @@ jobs:
     needs: build
     
     steps:
-      - name: List artifacts
-        run: |
-          echo "Available artifacts:"
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               "https://api.github.com/repos/${{ github.repository }}/actions/artifacts"
-               
-      - name: Wait before deployment
-        run: sleep 2
-    
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
