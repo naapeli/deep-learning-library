@@ -31,6 +31,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install sphinx sphinx_rtd_theme
+          pip install torch
 
       - name: Build Sphinx documentation
         run: |
@@ -42,6 +43,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: Docs/build/html
+          name: sphinx-docs
 
 
   deploy:
@@ -54,4 +56,6 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: sphinx-docs
