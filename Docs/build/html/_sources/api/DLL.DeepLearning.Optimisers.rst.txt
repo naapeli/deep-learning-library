@@ -1,3 +1,5 @@
+.. _optimisers_section_label:
+
 Optimisers
 ===================================
 

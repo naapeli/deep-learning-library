@@ -72,17 +72,22 @@
   <h1>Source code for DLL.DeepLearning.Optimisers.SGD</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
 
+<span class="kn">from</span> <span class="nn">.BaseOptimiser</span> <span class="kn">import</span> <span class="n">BaseOptimiser</span>
+
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Implements stochastic gradient descent optimiser with momentum</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="sgd">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd">[docs]</a>
-<span class="k">class</span> <span class="nc">sgd</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">sgd</span><span class="p">(</span><span class="n">BaseOptimiser</span><span class="p">):</span>
+<div class="viewcode-block" id="sgd.__init__">
+<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
         <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">momentum</span> <span class="ow">and</span> <span class="n">momentum</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;momentum should be in range [0, 1)&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="n">momentum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="n">momentum</span></div>
+
     
 <div class="viewcode-block" id="sgd.initialise_parameters">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd.initialise_parameters">[docs]</a>

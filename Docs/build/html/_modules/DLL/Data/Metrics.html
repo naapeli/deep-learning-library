@@ -270,6 +270,25 @@
 <span class="k">def</span> <span class="nf">huber_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">Huber</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
+
+<div class="viewcode-block" id="r2_score">
+<a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.r2_score">[docs]</a>
+<span class="k">def</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">true_output</span> <span class="o">-</span> <span class="n">predictions</span>
+    <span class="n">SSE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">SST</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">true_output</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">r_squared</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">SSE</span> <span class="o">/</span> <span class="n">SST</span>
+    <span class="k">return</span> <span class="n">r_squared</span></div>
+
+
+<div class="viewcode-block" id="adjusted_r2_score">
+<a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.adjusted_r2_score">[docs]</a>
+<span class="k">def</span> <span class="nf">adjusted_r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">,</span> <span class="n">n_features</span><span class="p">):</span>
+    <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span>
+    <span class="n">adjusted_r_squared</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_squared</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="n">n_features</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">adjusted_r_squared</span></div>
+
 </pre></div>
 
            </div>
