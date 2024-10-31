@@ -1,7 +1,9 @@
 import torch
 
+from .BaseLoss import BaseLoss
 
-class mae:
+
+class mae(BaseLoss):
     def __init__(self, reduction="mean"):
         # reduction in ["mean", "sum"]
         self.reduction = reduction

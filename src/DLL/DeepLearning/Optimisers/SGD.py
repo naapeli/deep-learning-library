@@ -1,10 +1,12 @@
 import torch
 
+from .BaseOptimiser import BaseOptimiser
+
 
 """
 Implements stochastic gradient descent optimiser with momentum
 """
-class sgd:
+class sgd(BaseOptimiser):
     def __init__(self, learning_rate=0.001, momentum=0.9):
         assert 0 <= momentum and momentum < 1, "momentum should be in range [0, 1)"
         self.learning_rate = learning_rate
