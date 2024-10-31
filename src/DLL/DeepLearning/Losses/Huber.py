@@ -1,7 +1,9 @@
 import torch
 
+from .BaseLoss import BaseLoss
 
-class Huber:
+
+class Huber(BaseLoss):
     def __init__(self, delta=1.0, reduction="mean"):
         self.delta = delta
         # reduction in ["mean", "sum"]

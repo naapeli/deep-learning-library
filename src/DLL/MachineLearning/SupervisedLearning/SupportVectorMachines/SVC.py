@@ -13,7 +13,7 @@ class SVC:
     Args:
         kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to SquaredExponentialCovariance.
         C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.
-        opt_method (str, optional): The method that will be used in the optimization step. Must be in ["cvxopt", "smo", "coord_ascent"]. Defaults to "smo". For optimal results one should experiment with every optimization method, but as a rule of thumb, "coord_ascent" is the most efficient.
+        opt_method (str, optional): The method that will be used in the optimization step. Must be in ["cvxopt", "smo", "coord_ascent"]. Defaults to "coord_ascent". For optimal results one should experiment with every optimization method, but as a rule of thumb, "coord_ascent" is the most efficient.
     Attributes:
         n_features (int): The number of features. Available after fitting.
         alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.

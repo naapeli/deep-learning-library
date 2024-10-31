@@ -9,7 +9,7 @@ class KNNRegressor:
     
     Args:
         k (int, optional): The number of closest samples considered for the predictions. Must be a positive integer. Defaults to 3.
-        metric (str, optional): A distance metric for thee closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
+        metric (str, optional): A distance metric for the closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
         weight (str, optional): A weight function that decides how important are the nearest k samples. Must be in ["uniform", "distance", "gaussian"]. Defaults to "gaussian".
     """
 
