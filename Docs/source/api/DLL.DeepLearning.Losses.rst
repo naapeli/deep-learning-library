@@ -1,3 +1,5 @@
+.. _losses_section_label:
+
 Losses
 ===============================
 

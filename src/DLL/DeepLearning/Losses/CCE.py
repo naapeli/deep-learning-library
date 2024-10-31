@@ -1,10 +1,12 @@
 import torch
 
+from .BaseLoss import BaseLoss
+
 
 """
 Calculates the categorical cross entropy and the gradient between a prediction vector as well as intended outputs
 """
-class cce:
+class cce(BaseLoss):
     def __init__(self, reduction="mean"):
         # reduction in ["mean", "sum"]
         self.reduction = reduction

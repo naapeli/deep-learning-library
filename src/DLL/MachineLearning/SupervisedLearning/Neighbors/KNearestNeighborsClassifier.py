@@ -9,7 +9,7 @@ class KNNClassifier:
     
     Args:
         k (int, optional): The number of closest samples considered for the predictions. Must be a positive integer. Defaults to 3.
-        metric (str, optional): A distance metric for thee closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
+        metric (str, optional): A distance metric for the closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
     """
 
     _metrics = {

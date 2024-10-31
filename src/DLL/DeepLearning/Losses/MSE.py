@@ -1,10 +1,12 @@
 import torch
 
+from .BaseLoss import BaseLoss
+
 
 """
 Calculates the mean squared error and the gradient between a prediction vector as well as intended outputs
 """
-class mse:
+class mse(BaseLoss):
     def __init__(self, reduction="mean"):
         # reduction in ["mean", "sum"]
         self.reduction = reduction

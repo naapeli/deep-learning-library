@@ -150,3 +150,16 @@ def mean_absolute_error(predictions, true_output):
 
 def huber_loss(predictions, true_output):
     return Huber().loss(predictions, true_output).item()
+
+def r2_score(predictions, true_output):
+    residuals = true_output - predictions
+    SSE = torch.sum(residuals ** 2).item()
+    SST = torch.sum((true_output - torch.mean(true_output)) ** 2).item()
+    r_squared = 1 - SSE / SST
+    return r_squared
+
+def adjusted_r2_score(predictions, true_output, n_features):
+    r_squared = r2_score(predictions, true_output)
+    n_samples = len(true_output)
+    adjusted_r_squared = 1 - (1 - r_squared) * (n_samples - 1) / (n_samples - n_features - 1)
+    return adjusted_r_squared
