@@ -1,11 +1,13 @@
 import torch
 
+from .BaseLoss import BaseLoss
+
 
 """
 Calculates the exponential loss and the gradient between a prediction vector as well as intended outputs. Meant for binary classification.
 https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/_loss/loss.py#L268 - ExponentialLoss
 """
-class exponential:
+class exponential(BaseLoss):
     def __init__(self, reduction="mean"):
         # reduction in ["mean", "sum"]
         self.reduction = reduction

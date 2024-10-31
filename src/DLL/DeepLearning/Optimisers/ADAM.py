@@ -1,10 +1,12 @@
 import torch
 
+from .BaseOptimiser import BaseOptimiser
+
 
 """
 Implements the ADAM optimiser
 """
-class Adam:
+class Adam(BaseOptimiser):
     def __init__(self, learning_rate=0.001, beta1=0.9, beta2=0.999):
         assert 0 <= beta1 and beta1 < 1, "beta1 should be in range [0, 1)"
         assert 0 <= beta2 and beta2 < 1, "beta2 should be in range [0, 1)"
