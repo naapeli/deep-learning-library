@@ -54,7 +54,7 @@ class LASSORegression:
             shuffle_data (bool, optional): If True, shuffles data before the training.
             verbose (bool, optional): If True, prints info of the chosen metrics during training. Defaults to False.
         Returns:
-            history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency epochs.
+            history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency.
         Raises:
             TypeError: If the input matrix or the target matrix is not a PyTorch tensor or if other parameters are of wrong type.
             ValueError: If the input matrix or the target matrix is not the correct shape or if other parameters have incorrect values.
@@ -71,6 +71,8 @@ class LASSORegression:
             raise ValueError("val_data must contain both X_val and y_val.")
         if isinstance(val_data, tuple) and len(val_data) == 2 and (val_data[0].ndim != 2 or val_data[1].ndim != 1 or val_data[0].shape[1] != X.shape[1] or len(val_data[0]) != len(val_data[1])):
             raise ValueError("X_val and y_val must be of correct shape.")
+        if not isinstance(epochs, int) or epochs <= 0:
+            raise ValueError("epochs must be a positive integer.")
         if not isinstance(optimiser, BaseOptimiser) and optimiser is not None:
             raise TypeError("optimiser must be from DLL.DeepLearning.Optimisers")
         if not isinstance(callback_frequency, int) or callback_frequency <= 0:
@@ -94,7 +96,8 @@ class LASSORegression:
 
         self.weights = torch.randn((self.n_features,))
         self.bias = torch.zeros((1,))
-        optimiser = Adam(self.learning_rate) if optimiser is None else optimiser
+        optimiser = Adam() if optimiser is None else optimiser
+        optimiser.learning_rate = self.learning_rate
         optimiser.initialise_parameters([self.weights, self.bias])
 
         for epoch in range(epochs):
