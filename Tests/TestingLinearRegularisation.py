@@ -1,7 +1,6 @@
 import torch
 import matplotlib.pyplot as plt
 from math import log10
-import multiprocessing as mp
 
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LassoRegression import LASSORegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression import RidgeRegression
@@ -17,7 +16,7 @@ X = torch.stack((XX1.flatten(), XX2.flatten(), XX3.flatten()), dim=1)
 y = 2 * XX1.flatten() - 5 * XX2.flatten() + 1 * XX3.flatten() + 0.1 * torch.normal(0, 1, size=XX1.flatten().size())
 
 weights = []
-alphas = torch.logspace(log10(1e-1), log10(1e5), 20)
+alphas = torch.logspace(log10(1e-1), log10(1e5), 20).tolist()
 for alpha in alphas:
     model = RidgeRegression(alpha=alpha)
     model.fit(X, y)

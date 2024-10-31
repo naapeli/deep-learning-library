@@ -5,7 +5,7 @@ from ....DeepLearning.Layers.Activations import Sigmoid, SoftMax
 from ....DeepLearning.Losses import bce, cce, exponential
 from ....Data.Preprocessing import OneHotEncoder
 from ....Exceptions import NotFittedError
-from ....Data.Metrics import calculate_metrics
+from ....Data.Metrics import calculate_metrics, prob_to_pred
 
 
 
@@ -194,9 +194,7 @@ class GradientBoostingClassifier:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
         
         prob = self.predict_proba(X)
-        if self.n_classes == 2:
-            return (prob >= 0.5).to(torch.int32)
-        return prob.argmax(dim=1)
+        return prob_to_pred(prob)
     
     def _multi_predict_proba(self, X):
         pred = torch.full((X.shape[0], self.n_classes), self.initial_log_odds)
