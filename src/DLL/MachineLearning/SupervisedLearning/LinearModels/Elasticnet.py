@@ -58,7 +58,7 @@ class ElasticNetRegression:
             shuffle_data (bool, optional): If True, shuffles data before the training.
             verbose (bool, optional): If True, prints info of the chosen metrics during training. Defaults to False.
         Returns:
-            history (dict[str, torch.Tensor]): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency epochs.
+            history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency epochs.
         Raises:
             TypeError: If the input matrix or the target matrix is not a PyTorch tensor or if other parameters are of wrong type.
             ValueError: If the input matrix or the target matrix is not the correct shape or if other parameters have incorrect values.
