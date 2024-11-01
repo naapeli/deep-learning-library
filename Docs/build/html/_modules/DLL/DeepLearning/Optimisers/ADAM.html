@@ -81,15 +81,12 @@
 <div class="viewcode-block" id="Adam">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam">[docs]</a>
 <span class="k">class</span> <span class="nc">Adam</span><span class="p">(</span><span class="n">BaseOptimiser</span><span class="p">):</span>
-<div class="viewcode-block" id="Adam.__init__">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.999</span><span class="p">):</span>
         <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">beta1</span> <span class="ow">and</span> <span class="n">beta1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;beta1 should be in range [0, 1)&quot;</span>
         <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">beta2</span> <span class="ow">and</span> <span class="n">beta2</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;beta2 should be in range [0, 1)&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">=</span> <span class="n">beta1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">=</span> <span class="n">beta2</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">=</span> <span class="n">beta2</span>
     
 <div class="viewcode-block" id="Adam.initialise_parameters">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam.initialise_parameters">[docs]</a>
