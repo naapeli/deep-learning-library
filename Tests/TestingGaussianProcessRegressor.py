@@ -2,13 +2,13 @@ import torch
 import matplotlib.pyplot as plt
 
 from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
-from src.DLL.MachineLearning.SupervisedLearning.Kernels import SquaredExponentialCovariance, LinearCovariance, WhiteGaussianCovariance, PeriodicCovariance, RationalQuadraticCovariance
+from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGaussian, Periodic, RationalQuadratic
 from src.DLL.DeepLearning.Optimisers.ADAM import Adam
 from src.DLL.Data.Preprocessing import StandardScaler
 
 
 # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-device = torch.device("cpu")  # cpu seems to perform faster for some reason
+device = torch.device("cpu")
 X = torch.linspace(0, 1, 20, dtype=torch.float64, device=device).unsqueeze(1)
 Y = 0.1 * torch.sin(20 * X) + X ** 2# + torch.randn_like(X) * 0.5
 transformer = StandardScaler()
@@ -17,16 +17,15 @@ Y = transformer.transform(Y).squeeze(dim=1)
 
 train_kernel = True  # try to changing this line of code to see how the covariance kernel learns the correct parameters
 
-model = GaussianProcessRegressor(LinearCovariance(sigma=0.2) ** 2 + PeriodicCovariance(1, 2, period=0.5), noise=0.1, device=device)
+model = GaussianProcessRegressor(Linear(sigma=0.2) ** 2 + Periodic(1, 2, period=0.5), noise=0.1, device=device)
 model.fit(X, Y)
 print(model.log_marginal_likelihood())
 if train_kernel:
-    history = model.train_kernel(epochs=500, optimiser=Adam(), verbose=True)
+    history = model.train_kernel(epochs=2000, optimiser=Adam(), verbose=True)
     plt.plot(history["log marginal likelihood"])
     plt.xlabel("epoch")
     plt.ylabel("log marginal likelihood")
     plt.title("The change in log marginal likelihood during kernel training")
-print([round(param.item(), 3) for param in model.covariance_function.parameters()])
 
 x_test = torch.linspace(0, 2, 100, dtype=torch.float64, device=device).unsqueeze(1)
 mean, covariance = model.predict(x_test)
