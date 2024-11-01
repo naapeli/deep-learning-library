@@ -50,8 +50,6 @@ class _Compound(_Base):
         return self.kernel_1.parameters() | self.kernel_2.parameters()
 
 class RBF(_Base):
-    instance = 0
-
     """
     The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another.
 
@@ -59,6 +57,12 @@ class RBF(_Base):
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         correlation_length (float, optional): The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number. Defaults to 1.
     """
+
+    instance = 0
+    """
+    :meta private:
+    """
+
     def __init__(self, sigma=1, correlation_length=1):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
@@ -74,13 +78,16 @@ class RBF(_Base):
     def __call__(self, X1, X2):
         """
         :meta public:
+
         Yields the kernel matrix between two vectors.
 
         Args:
             X1 (torch.Tensor of shape (n_samples_1, n_features))
             X2 (torch.Tensor of shape (n_samples_2, n_features))
+
         Returns:
             kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
         Raises:
             TypeError: If the input matricies are not a PyTorch tensors.
             ValueError: If the input matricies are not the correct shape.
@@ -130,14 +137,17 @@ class RBF(_Base):
         return {("rbf_sigma" + "_" + str(self.number)): self.sigma, ("rbf_corr_len" + "_" + str(self.number)): self.correlation_length}
 
 class Linear(_Base):
-    instance = 0
-
     """
     The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. For the polynomial kernel of degree n, one should use Linear() ** n.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         sigma_bias (float, optional): The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.
+    """
+
+    instance = 0
+    """
+    :meta private:
     """
     def __init__(self, sigma=1, sigma_bias=0):
         if not isinstance(sigma, int | float) or sigma <= 0:
@@ -154,13 +164,16 @@ class Linear(_Base):
     def __call__(self, X1, X2):
         """
         :meta public:
+
         Yields the kernel matrix between two vectors.
 
         Args:
             X1 (torch.Tensor of shape (n_samples_1, n_features))
             X2 (torch.Tensor of shape (n_samples_2, n_features))
+
         Returns:
             kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
         Raises:
             TypeError: If the input matricies are not a PyTorch tensors.
             ValueError: If the input matricies are not the correct shape.
@@ -208,13 +221,16 @@ class Linear(_Base):
         return {("linear_sigma" + "_" + str(self.number)): self.sigma, ("linear_sigma_bias" + "_" + str(self.number)): self.sigma_bias}
 
 class WhiteGaussian(_Base):
-    instance = 0
-
     """
     The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
+    """
+
+    instance = 0
+    """
+    :meta private:
     """
     def __init__(self, sigma=1):
         if not isinstance(sigma, int | float) or sigma <= 0:
@@ -228,13 +244,16 @@ class WhiteGaussian(_Base):
     def __call__(self, X1, X2):
         """
         :meta public:
+
         Yields the kernel matrix between two vectors.
 
         Args:
             X1 (torch.Tensor of shape (n_samples_1, n_features))
             X2 (torch.Tensor of shape (n_samples_2, n_features))
+        
         Returns:
             kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
         Raises:
             TypeError: If the input matricies are not a PyTorch tensors.
             ValueError: If the input matricies are not the correct shape.
@@ -275,8 +294,6 @@ class WhiteGaussian(_Base):
         return {("white_gaussian_sigma" + "_" + str(self.number)): self.sigma}
 
 class Periodic(_Base):
-    instance = 0
-
     """
     The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles.
 
@@ -285,6 +302,12 @@ class Periodic(_Base):
         correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
         period (float, optional): The period of the kernel, indicating the distance over which the function repeats. Must be a positive real number. Defaults to 1.
     """
+
+    instance = 0
+    """
+    :meta private:
+    """
+
     def __init__(self, sigma=1, correlation_length=1, period=1):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
@@ -303,13 +326,16 @@ class Periodic(_Base):
     def __call__(self, X1, X2):
         """
         :meta public:
+
         Yields the kernel matrix between two vectors.
 
         Args:
             X1 (torch.Tensor of shape (n_samples_1, n_features))
             X2 (torch.Tensor of shape (n_samples_2, n_features))
+        
         Returns:
             kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
         Raises:
             TypeError: If the input matricies are not a PyTorch tensors.
             ValueError: If the input matricies are not the correct shape.
@@ -373,8 +399,6 @@ class Periodic(_Base):
         return {("periodic_sigma" + "_" + str(self.number)): self.sigma, ("periodic_corr_len" + "_" + str(self.number)): self.correlation_length, ("periodic_period" + "_" + str(self.number)): self.period}
 
 class RationalQuadratic(_Base):
-    instance = 0
-
     """
     The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships.
 
@@ -383,6 +407,12 @@ class RationalQuadratic(_Base):
         correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
         alpha (float, optional): Controls the relative weighting of large-scale and small-scale variations. Higher values make the kernel behave more like a squared exponential (Gaussian) kernel, while lower values allow for more flexibility. Must be a positive real number. Defaults to 1.
     """
+
+    instance = 0
+    """
+    :meta private:
+    """
+
     def __init__(self, sigma=1, correlation_length=1, alpha=1):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
@@ -401,13 +431,16 @@ class RationalQuadratic(_Base):
     def __call__(self, X1, X2):
         """
         :meta public:
+        
         Yields the kernel matrix between two vectors.
 
         Args:
             X1 (torch.Tensor of shape (n_samples_1, n_features))
             X2 (torch.Tensor of shape (n_samples_2, n_features))
+        
         Returns:
             kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
         Raises:
             TypeError: If the input matricies are not a PyTorch tensors.
             ValueError: If the input matricies are not the correct shape.
