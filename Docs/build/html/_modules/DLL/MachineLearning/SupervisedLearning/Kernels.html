@@ -221,11 +221,21 @@
 <a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Linear">[docs]</a>
 <span class="k">class</span> <span class="nc">Linear</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. For the polynomial kernel of degree n, one should use Linear() ** n.</span>
+<span class="sd">    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
 <span class="sd">        sigma_bias (float, optional): The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.</span>
+<span class="sd">    </span>
+<span class="sd">    Example:</span>
+<span class="sd">        The commonly used polynomial kernel can be used as follows:</span>
+
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">        </span>
+<span class="sd">            from DLL.MachineLearning.SupervisedLearning.Kernels import Linear</span>
+
+<span class="sd">            linear_kernel = Linear()</span>
+<span class="sd">            polynomial_kernel_degree_d = linear_kernel ** d</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
