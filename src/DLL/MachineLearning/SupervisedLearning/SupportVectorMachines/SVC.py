@@ -2,7 +2,7 @@ import torch
 import cvxopt
 import numpy as np
 
-from ..Kernels import SquaredExponentialCovariance, _Base
+from ..Kernels import RBF, _Base
 from ....Exceptions import NotFittedError
 
 
@@ -11,14 +11,14 @@ class SVC:
     The support vector machine classifier. "cvxopt"-optimization method's implementation is largly based on `this article <https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603>`_. The "smo"-optimization algorithm is based on `this paper <https://www.microsoft.com/en-us/research/uploads/prod/1998/04/sequential-minimal-optimization.pdf>`_.
 
     Args:
-        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to SquaredExponentialCovariance.
+        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to RBF.
         C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.
         opt_method (str, optional): The method that will be used in the optimization step. Must be in ["cvxopt", "smo", "coord_ascent"]. Defaults to "coord_ascent". For optimal results one should experiment with every optimization method, but as a rule of thumb, "coord_ascent" is the most efficient.
     Attributes:
         n_features (int): The number of features. Available after fitting.
         alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.
     """
-    def __init__(self, kernel=SquaredExponentialCovariance(), C=1, opt_method="coord_ascent"):
+    def __init__(self, kernel=RBF(), C=1, opt_method="coord_ascent"):
         if not isinstance(kernel, _Base):
             raise ValueError("kernel must be from DLL.MachineLearning.SupervisedLearning.Kernels")
         if not isinstance(C, float | int) or C <= 0:
