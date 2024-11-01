@@ -5,6 +5,7 @@ from ..Kernels import _Base
 from ....DeepLearning.Optimisers import Adam
 from ....DeepLearning.Optimisers.BaseOptimiser import BaseOptimiser
 from ....Exceptions import NotFittedError
+from ....Data.Metrics import _round_dictionary
 
 
 class GaussianProcessRegressor:
@@ -66,9 +67,9 @@ class GaussianProcessRegressor:
         variance = torch.var(y)
         mean = torch.mean(y)
         if not torch.allclose(variance, torch.ones_like(variance)):
-            raise ValueError("y must have one variance.")
+            raise ValueError("y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
         if not torch.allclose(mean, torch.zeros_like(mean)):
-            raise ValueError("y must have zero mean.")
+            raise ValueError("y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
 
         self.n_features = X.shape[1]
         self.X = X
@@ -146,7 +147,7 @@ class GaussianProcessRegressor:
 
         optimiser = optimiser if optimiser is not None else Adam()
         optimiser.learning_rate = self.learning_rate
-        optimiser.initialise_parameters(self.covariance_function.parameters())
+        optimiser.initialise_parameters(list(self.covariance_function.parameters().values()))
 
         history = {"log marginal likelihood": torch.zeros(floor(epochs / callback_frequency))}
 
@@ -169,7 +170,7 @@ class GaussianProcessRegressor:
             if epoch % callback_frequency == 0:
                 lml = self.log_marginal_likelihood()
                 history["log marginal likelihood"][int(epoch / callback_frequency)] = lml
-                if verbose: print(f"Epoch: {epoch + 1} - Log marginal likelihood: {lml}")
+                if verbose: print(f"Epoch: {epoch + 1} - Log marginal likelihood: {lml} - Parameters: { {key: round(param.item(), 3) for key, param in self.covariance_function.parameters().items()} }")
         return history
         
     # def is_positive_definite(matrix):
