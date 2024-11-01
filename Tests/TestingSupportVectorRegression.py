@@ -4,7 +4,7 @@ from sklearn import svm
 
 from src.DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVR
 from src.DLL.Data.Preprocessing import data_split
-from src.DLL.MachineLearning.SupervisedLearning.Kernels import LinearCovariance
+from src.DLL.MachineLearning.SupervisedLearning.Kernels import Linear
 
 
 torch.manual_seed(10)
@@ -18,7 +18,7 @@ X_input = torch.stack((X, Y), dim=1)
 Z = 2 * X ** 2 - 5 * Y ** 2 + torch.normal(0, 1, size=X.size())
 x_train, y_train, x_test, y_test, _, _ = data_split(X_input, Z, train_split=0.8, validation_split=0.2)
 
-# model = SVR(kernel=LinearCovariance())
+# model = SVR(kernel=Linear())
 model = SVR()
 model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
