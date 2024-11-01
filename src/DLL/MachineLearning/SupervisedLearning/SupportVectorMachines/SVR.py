@@ -2,7 +2,7 @@ import torch
 import cvxopt
 import numpy as np
 
-from ..Kernels import SquaredExponentialCovariance, _Base
+from ..Kernels import RBF, _Base
 from ....Exceptions import NotFittedError
 
 
@@ -11,7 +11,7 @@ class SVR:
     The support vector machine regressor with a quadratic programming solver.
     
     Args:
-        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to SquaredExponentialCovariance.
+        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to RBF.
         C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.
         epsilon (float or int, optional): The width of the tube of no penalty in epsilon-SVR. Must be a positive real number.
     Attributes:
@@ -19,7 +19,7 @@ class SVR:
         alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.
         alpha_star (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.
     """
-    def __init__(self, kernel=SquaredExponentialCovariance(), C=1, epsilon=0.1):
+    def __init__(self, kernel=RBF(), C=1, epsilon=0.1):
         if not isinstance(kernel, _Base):
             raise ValueError("kernel must be from DLL.MachineLearning.SupervisedLearning.Kernels")
         if not isinstance(C, float | int) or C <= 0:
