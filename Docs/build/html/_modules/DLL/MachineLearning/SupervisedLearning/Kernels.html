@@ -119,259 +119,505 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">kernel_2</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kernel_2_derivative</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_1</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_2</span><span class="o">.</span><span class="n">parameters</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_1</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_2</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SquaredExponentialCovariance">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance">[docs]</a>
-<span class="k">class</span> <span class="nc">SquaredExponentialCovariance</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">correlation_length</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">correlation_length</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<div class="viewcode-block" id="RBF">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RBF">[docs]</a>
+<span class="k">class</span> <span class="nc">RBF</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another.</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        correlation_length (float, optional): The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">correlation_length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be a positive real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">correlation_length</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">correlation_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;correlation_length must be a positive real number.&quot;</span><span class="p">)</span>
+
+        <span class="n">RBF</span><span class="o">.</span><span class="n">instance</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">RBF</span><span class="o">.</span><span class="n">instance</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">correlation_length</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RBF.__call__">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RBF.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta public:</span>
+
+<span class="sd">        Yields the kernel matrix between two vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1 (torch.Tensor of shape (n_samples_1, n_features))</span>
+<span class="sd">            X2 (torch.Tensor of shape (n_samples_2, n_features))</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matricies are not a PyTorch tensors.</span>
+<span class="sd">            ValueError: If the input matricies are not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be PyTorch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be 2 dimensional tensors.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
         <span class="n">dists_squared</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dists_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dists_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="SquaredExponentialCovariance.derivative_sigma">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_sigma">[docs]</a>
+
     <span class="k">def</span> <span class="nf">derivative_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>
 
-
-<div class="viewcode-block" id="SquaredExponentialCovariance.derivative_corr_len">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.derivative_corr_len">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_corr_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dists_squared</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dists_squared</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dists_squared</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span>
 
-
-<div class="viewcode-block" id="SquaredExponentialCovariance.update">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">derivative_function</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derivative_covariance_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_corr_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_corr_len</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_corr_len</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_corr_len</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="SquaredExponentialCovariance.parameters">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.SquaredExponentialCovariance.parameters">[docs]</a>
+<div class="viewcode-block" id="RBF.parameters">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RBF.parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. &quot;rbf_sigma_1&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;rbf_sigma&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;rbf_corr_len&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">}</span></div>
 </div>
 
 
-<div class="viewcode-block" id="LinearCovariance">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance">[docs]</a>
-<span class="k">class</span> <span class="nc">LinearCovariance</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<div class="viewcode-block" id="Linear">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Linear">[docs]</a>
+<span class="k">class</span> <span class="nc">Linear</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. For the polynomial kernel of degree n, one should use Linear() ** n.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        sigma_bias (float, optional): The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma_bias</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be a positive real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma_bias</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;sigma_bias must be a real number.&quot;</span><span class="p">)</span>
+
+        <span class="n">Linear</span><span class="o">.</span><span class="n">instance</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">Linear</span><span class="o">.</span><span class="n">instance</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma_bias</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
+<div class="viewcode-block" id="Linear.__call__">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Linear.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta public:</span>
+
+<span class="sd">        Yields the kernel matrix between two vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1 (torch.Tensor of shape (n_samples_1, n_features))</span>
+<span class="sd">            X2 (torch.Tensor of shape (n_samples_2, n_features))</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matricies are not a PyTorch tensors.</span>
+<span class="sd">            ValueError: If the input matricies are not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be PyTorch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be 2 dimensional tensors.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">X1</span> <span class="o">@</span> <span class="n">X2</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">X1</span> <span class="o">@</span> <span class="n">X2</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="LinearCovariance.derivative_sigma">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma">[docs]</a>
+
     <span class="k">def</span> <span class="nf">derivative_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">X1</span> <span class="o">@</span> <span class="n">X2</span><span class="o">.</span><span class="n">T</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">X1</span> <span class="o">@</span> <span class="n">X2</span><span class="o">.</span><span class="n">T</span>
 
-
-<div class="viewcode-block" id="LinearCovariance.derivative_sigma_bias">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.derivative_sigma_bias">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_sigma_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="LinearCovariance.update">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">derivative_function</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derivative_covariance_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_sigma_bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma_bias</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma_bias</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma_bias</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="LinearCovariance.parameters">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.LinearCovariance.parameters">[docs]</a>
+<div class="viewcode-block" id="Linear.parameters">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Linear.parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. &quot;linear_sigma_1&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;linear_sigma&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;linear_sigma_bias&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_bias</span><span class="p">}</span></div>
 </div>
 
 
-<div class="viewcode-block" id="WhiteGaussianCovariance">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance">[docs]</a>
-<span class="k">class</span> <span class="nc">WhiteGaussianCovariance</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<div class="viewcode-block" id="WhiteGaussian">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian">[docs]</a>
+<span class="k">class</span> <span class="nc">WhiteGaussian</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be a positive real number.&quot;</span><span class="p">)</span>
+
+        <span class="n">WhiteGaussian</span><span class="o">.</span><span class="n">instance</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">WhiteGaussian</span><span class="o">.</span><span class="n">instance</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
+<div class="viewcode-block" id="WhiteGaussian.__call__">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta public:</span>
+
+<span class="sd">        Yields the kernel matrix between two vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1 (torch.Tensor of shape (n_samples_1, n_features))</span>
+<span class="sd">            X2 (torch.Tensor of shape (n_samples_2, n_features))</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matricies are not a PyTorch tensors.</span>
+<span class="sd">            ValueError: If the input matricies are not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be PyTorch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be 2 dimensional tensors.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
-        <span class="c1"># Create an identity-like matrix using a vectorized equality check</span>
         <span class="n">covariance_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">X1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="n">X2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">X1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        
-        <span class="c1"># Multiply by sigma^2</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">covariance_matrix</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">covariance_matrix</span></div>
 
-<div class="viewcode-block" id="WhiteGaussianCovariance.derivative_sigma">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.derivative_sigma">[docs]</a>
+
     <span class="k">def</span> <span class="nf">derivative_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="c1"># Derivative of the covariance matrix with respect to sigma</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">covariance_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">X1</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="n">X2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">X1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">covariance_matrix</span></div>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">*</span> <span class="n">covariance_matrix</span>
 
-
-<div class="viewcode-block" id="WhiteGaussianCovariance.update">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">derivative_function</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
-        <span class="c1"># Compute the derivative covariance matrix in a vectorized way</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derivative_covariance_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
-        <span class="c1"># Update the gradient of sigma</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="WhiteGaussianCovariance.parameters">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussianCovariance.parameters">[docs]</a>
+<div class="viewcode-block" id="WhiteGaussian.parameters">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian.parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. &quot;white_gaussian_sigma_1&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;white_gaussian_sigma&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">}</span></div>
 </div>
 
 
-<div class="viewcode-block" id="PeriodicCovariance">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance">[docs]</a>
-<span class="k">class</span> <span class="nc">PeriodicCovariance</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<div class="viewcode-block" id="Periodic">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Periodic">[docs]</a>
+<span class="k">class</span> <span class="nc">Periodic</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        period (float, optional): The period of the kernel, indicating the distance over which the function repeats. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">correlation_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be a positive real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">correlation_length</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">correlation_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;correlation_length must be a real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">period</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;period must be a real number.&quot;</span><span class="p">)</span>
+
+        <span class="n">Periodic</span><span class="o">.</span><span class="n">instance</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">Periodic</span><span class="o">.</span><span class="n">instance</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">correlation_length</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">period</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
+<div class="viewcode-block" id="Periodic.__call__">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Periodic.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta public:</span>
+
+<span class="sd">        Yields the kernel matrix between two vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1 (torch.Tensor of shape (n_samples_1, n_features))</span>
+<span class="sd">            X2 (torch.Tensor of shape (n_samples_2, n_features))</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matricies are not a PyTorch tensors.</span>
+<span class="sd">            ValueError: If the input matricies are not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be PyTorch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be 2 dimensional tensors.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
-        <span class="c1"># Calculate the periodic covariance matrix in a vectorized way</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># L1 distance (Manhattan distance) between points</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
         <span class="n">periodic_term</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">covariance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">periodic_term</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">covariance_matrix</span>
+        <span class="k">return</span> <span class="n">covariance_matrix</span></div>
 
-<div class="viewcode-block" id="PeriodicCovariance.derivative_sigma">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_sigma">[docs]</a>
+
     <span class="k">def</span> <span class="nf">derivative_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="c1"># Derivative with respect to sigma</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>
 
-
-<div class="viewcode-block" id="PeriodicCovariance.derivative_corr_len">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_corr_len">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_corr_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
         <span class="n">periodic_term</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">periodic_term</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">periodic_term</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span>
 
-
-<div class="viewcode-block" id="PeriodicCovariance.derivative_period">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.derivative_period">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
         <span class="n">periodic_term</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">periodic_term</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">periodic_term</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">norm</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
 
-
-<div class="viewcode-block" id="PeriodicCovariance.update">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">derivative_function</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
-        <span class="c1"># Vectorized computation of derivative covariance matrices</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derivative_covariance_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_corr_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_corr_len</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_period</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_period</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
-        <span class="c1"># Update gradients for sigma, correlation length, and period</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_corr_len</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_period</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_period</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="PeriodicCovariance.parameters">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.PeriodicCovariance.parameters">[docs]</a>
+<div class="viewcode-block" id="Periodic.parameters">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Periodic.parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. &quot;periodic_sigma_1&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;periodic_sigma&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;periodic_corr_len&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;periodic_period&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">period</span><span class="p">}</span></div>
 </div>
 
 
-<div class="viewcode-block" id="RationalQuadraticCovariance">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance">[docs]</a>
-<span class="k">class</span> <span class="nc">RationalQuadraticCovariance</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<div class="viewcode-block" id="RationalQuadratic">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic">[docs]</a>
+<span class="k">class</span> <span class="nc">RationalQuadratic</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">        alpha (float, optional): Controls the relative weighting of large-scale and small-scale variations. Higher values make the kernel behave more like a squared exponential (Gaussian) kernel, while lower values allow for more flexibility. Must be a positive real number. Defaults to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">instance</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">correlation_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;sigma must be a positive real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">correlation_length</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">correlation_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;correlation_length must be a real number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;alpha must be a real number.&quot;</span><span class="p">)</span>
+
+        <span class="n">RationalQuadratic</span><span class="o">.</span><span class="n">instance</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">RationalQuadratic</span><span class="o">.</span><span class="n">instance</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">sigma</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">correlation_length</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">alpha</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
+<div class="viewcode-block" id="RationalQuadratic.__call__">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta public:</span>
+<span class="sd">        </span>
+<span class="sd">        Yields the kernel matrix between two vectors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            X1 (torch.Tensor of shape (n_samples_1, n_features))</span>
+<span class="sd">            X2 (torch.Tensor of shape (n_samples_2, n_features))</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the input matricies are not a PyTorch tensors.</span>
+<span class="sd">            ValueError: If the input matricies are not the correct shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be PyTorch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X1</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">X2</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matricies must be 2 dimensional tensors.&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">X1</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         
         <span class="n">norm_squared</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span></div>
 
-<div class="viewcode-block" id="RationalQuadraticCovariance.derivative_sigma">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_sigma">[docs]</a>
+
     <span class="k">def</span> <span class="nf">derivative_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>
 
-
-<div class="viewcode-block" id="RationalQuadraticCovariance.derivative_corr_len">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_corr_len">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_corr_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">norm_squared</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> 
                 <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
-                <span class="p">(</span><span class="o">-</span><span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)))</span></div>
+                <span class="p">(</span><span class="o">-</span><span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)))</span>
 
-
-<div class="viewcode-block" id="RationalQuadraticCovariance.derivative_alpha">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.derivative_alpha">[docs]</a>
     <span class="k">def</span> <span class="nf">derivative_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">norm_squared</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span> <span class="o">*</span>
                 <span class="p">(</span><span class="n">norm_squared</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">norm_squared</span><span class="p">)</span> <span class="o">-</span>
-                 <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">term</span><span class="p">)))</span></div>
+                 <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">term</span><span class="p">)))</span>
 
-
-<div class="viewcode-block" id="RationalQuadraticCovariance.update">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">derivative_function</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">derivative_covariance_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_sigma</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_corr_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_corr_len</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">derivative_covariance_alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivative_alpha</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">noise</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_corr_len</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_alpha</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">derivative_function</span><span class="p">(</span><span class="n">derivative_covariance_alpha</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="RationalQuadraticCovariance.parameters">
-<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadraticCovariance.parameters">[docs]</a>
+<div class="viewcode-block" id="RationalQuadratic.parameters">
+<a class="viewcode-back" href="../../../../api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic.parameters">[docs]</a>
     <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. &quot;rational_quadratic_sigma_1&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{(</span><span class="s2">&quot;rational_quadratic_sigma&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;rational_quadratic_corr_len&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_length</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;rational_quadratic_alpha&quot;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">}</span></div>
 </div>
 
 </pre></div>

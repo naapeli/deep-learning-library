@@ -74,7 +74,7 @@
 <span class="kn">import</span> <span class="nn">cvxopt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">..Kernels</span> <span class="kn">import</span> <span class="n">SquaredExponentialCovariance</span><span class="p">,</span> <span class="n">_Base</span>
+<span class="kn">from</span> <span class="nn">..Kernels</span> <span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">_Base</span>
 <span class="kn">from</span> <span class="nn">....Exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
 
 
@@ -85,7 +85,7 @@
 <span class="sd">    The support vector machine regressor with a quadratic programming solver.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to SquaredExponentialCovariance.</span>
+<span class="sd">        kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to RBF.</span>
 <span class="sd">        C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.</span>
 <span class="sd">        epsilon (float or int, optional): The width of the tube of no penalty in epsilon-SVR. Must be a positive real number.</span>
 <span class="sd">    Attributes:</span>
@@ -93,7 +93,7 @@
 <span class="sd">        alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.</span>
 <span class="sd">        alpha_star (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">SquaredExponentialCovariance</span><span class="p">(),</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">RBF</span><span class="p">(),</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kernel</span><span class="p">,</span> <span class="n">_Base</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;kernel must be from DLL.MachineLearning.SupervisedLearning.Kernels&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">C</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
