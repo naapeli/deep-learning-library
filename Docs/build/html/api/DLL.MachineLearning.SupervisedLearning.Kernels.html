@@ -96,6 +96,8 @@
              
   <section id="kernels">
 <span id="kernel-section-label"></span><h1>Kernels<a class="headerlink" href="#kernels" title="Link to this heading"></a></h1>
+<section id="available-kernels">
+<h2>Available kernels<a class="headerlink" href="#available-kernels" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RBF">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RBF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RBF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RBF" title="Link to this definition"></a></dt>
@@ -155,7 +157,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Linear">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Linear" title="Link to this definition"></a></dt>
-<dd><p>The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. For the polynomial kernel of degree n, one should use Linear() ** n.</p>
+<dd><p>The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -164,6 +166,14 @@
 </ul>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p>The commonly used polynomial kernel can be used as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">DLL.MachineLearning.SupervisedLearning.Kernels</span> <span class="kn">import</span> <span class="n">Linear</span>
+
+<span class="n">linear_kernel</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">()</span>
+<span class="n">polynomial_kernel_degree_d</span> <span class="o">=</span> <span class="n">linear_kernel</span> <span class="o">**</span> <span class="n">d</span>
+</pre></div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Linear.__call__">
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Linear.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Linear.__call__" title="Link to this definition"></a></dt>
@@ -375,6 +385,26 @@
 
 </dd></dl>
 
+</section>
+<section id="combining-kernels">
+<h2>Combining kernels<a class="headerlink" href="#combining-kernels" title="Link to this heading"></a></h2>
+<p>Kernels can be combined in many ways. These ways are showcased in the example below:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">DLL.MachineLearning.SupervisedLearning.Kernels</span> <span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">RBF</span>
+
+<span class="n">linear_kernel</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">()</span>
+<span class="n">rbf_kernel</span> <span class="o">=</span> <span class="n">RBF</span><span class="p">()</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># new kernels include:</span>
+<span class="n">sum_kernel</span> <span class="o">=</span> <span class="n">linear_kernel</span> <span class="o">+</span> <span class="n">rbf_kernel</span>  <span class="c1"># sums</span>
+<span class="n">product_kernel</span> <span class="o">=</span> <span class="n">linear_kernel</span> <span class="o">*</span> <span class="n">rbf_kernel</span>  <span class="c1"># products</span>
+<span class="n">exponent_kernel</span> <span class="o">=</span> <span class="n">linear_kernel</span> <span class="o">**</span> <span class="n">d</span>  <span class="c1"># exponents</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
 </section>
 
 

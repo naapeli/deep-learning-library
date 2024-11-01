@@ -138,11 +138,21 @@ class RBF(_Base):
 
 class Linear(_Base):
     """
-    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. For the polynomial kernel of degree n, one should use Linear() ** n.
+    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         sigma_bias (float, optional): The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.
+    
+    Example:
+        The commonly used polynomial kernel can be used as follows:
+
+        .. code-block:: python
+        
+            from DLL.MachineLearning.SupervisedLearning.Kernels import Linear
+
+            linear_kernel = Linear()
+            polynomial_kernel_degree_d = linear_kernel ** d
     """
 
     instance = 0
