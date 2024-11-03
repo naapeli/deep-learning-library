@@ -21,6 +21,9 @@ Available kernels
 .. autoclass:: DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic
    :members: __call__, parameters
 
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Kernels.Matern
+   :members: __call__, parameters
+
 Combining kernels
 -------------------------
 Kernels can be combined in many ways. These ways are showcased in the example below:
