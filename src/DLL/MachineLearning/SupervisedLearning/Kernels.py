@@ -609,7 +609,7 @@ class RationalQuadratic(_Base):
     
 class Matern(_Base):
     """
-    The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness comtrolled by nu.
+    The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness controlled by nu.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -726,7 +726,7 @@ class Matern(_Base):
         Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.
 
         Returns:
-            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. "rational_quadratic_sigma_1".
+            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. "matern_sigma_1".
         """
         return {("matern_sigma" + "_" + str(self.number)): self.sigma, ("matern_corr_len" + "_" + str(self.number)): self.correlation_length}
     
