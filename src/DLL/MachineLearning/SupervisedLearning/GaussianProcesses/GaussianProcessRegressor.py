@@ -160,7 +160,7 @@ class GaussianProcessRegressor:
                 return -derivative
 
             # calculate the derivatives
-            self.covariance_function.update(derivative, self.X, noise=self.noise, epsilon=self.epsilon)
+            self.covariance_function.update(derivative, self.X)
 
             # update the parameters
             optimiser.update_parameters()
