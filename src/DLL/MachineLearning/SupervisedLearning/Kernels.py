@@ -1,4 +1,6 @@
 import torch
+from scipy.special import gamma, kv
+from math import sqrt
 
 
 class _Base:
@@ -10,44 +12,58 @@ class _Base:
     def __mul__(self, other):
         if not isinstance(other, _Base):
             raise NotImplementedError()
-        return _Compound(self, other, add=False)
+        return _Compound(self, other, multiply=True)
     
     def __pow__(self, power):
         if not isinstance(power, int) or power < 2:
-            raise NotImplementedError()
-        kernel = _Compound(self, self, add=False)
-        for _ in range(power - 1):
-            kernel = _Compound(kernel, self, add=False)
+            raise ValueError("The exponent must be an integer greater than 1.")
+        kernel = _Exponent(self, power=power)
         return kernel
 
 class _Compound(_Base):
-    def __init__(self, kernel_1, kernel_2, add):
+    def __init__(self, kernel_1, kernel_2, add=False, multiply=False):
         self.kernel_1 = kernel_1
         self.kernel_2 = kernel_2
         self.add = add
+        self.multiply = multiply
 
     def __call__(self, X1, X2):
         if self.add:
             return self.kernel_1(X1, X2) + self.kernel_2(X1, X2)
-        else:
+        elif self.multiply:
             return self.kernel_1(X1, X2) * self.kernel_2(X1, X2)
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         if self.add:
-            self.kernel_1.update(derivative_function, X, noise=noise, epsilon=epsilon)
-            self.kernel_2.update(derivative_function, X, noise=noise, epsilon=epsilon)
-        else:
-            kernel_1_covariance = self.kernel_1(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-            kernel_2_covariance = self.kernel_2(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+            self.kernel_1.update(derivative_function, X)
+            self.kernel_2.update(derivative_function, X)
+        elif self.multiply:
+            kernel_1_covariance = self.kernel_1(X, X)
+            kernel_2_covariance = self.kernel_2(X, X)
 
-            kernel_1_derivative = lambda parameter_derivative: derivative_function(parameter_derivative @ kernel_2_covariance)
-            kernel_2_derivative = lambda parameter_derivative: derivative_function(kernel_1_covariance @ parameter_derivative)
+            kernel_1_derivative = lambda parameter_derivative: derivative_function(parameter_derivative * kernel_2_covariance)
+            kernel_2_derivative = lambda parameter_derivative: derivative_function(kernel_1_covariance * parameter_derivative)
 
-            self.kernel_1.update(kernel_1_derivative, X, noise=0, epsilon=epsilon)
-            self.kernel_2.update(kernel_2_derivative, X, noise=0, epsilon=epsilon)
+            self.kernel_1.update(kernel_1_derivative, X)
+            self.kernel_2.update(kernel_2_derivative, X)
 
     def parameters(self):
         return self.kernel_1.parameters() | self.kernel_2.parameters()
+
+class _Exponent(_Base):
+    def __init__(self, kernel, power):
+        self.kernel = kernel
+        self.power = power
+    
+    def __call__(self, X1, X2):
+        return self.kernel(X1, X2) ** self.power
+    
+    def update(self, derivative_function, X):
+        kernel_derivative = lambda parameter_derivative: derivative_function(self.power * self.kernel(X, X) ** (self.power - 1) * parameter_derivative)
+        self.kernel.update(kernel_derivative, X)
+    
+    def parameters(self):
+        return self.kernel.parameters()
 
 class RBF(_Base):
     """
@@ -108,21 +124,35 @@ class RBF(_Base):
         """
         :meta private:
         """
-        return 2 * self(X1, X2) / self.sigma
+        val = 2 * self(X1, X2) / self.sigma
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
     def derivative_corr_len(self, X1, X2):
         """
         :meta private:
         """
         dists_squared = torch.cdist(X1, X2, p=2) ** 2
-        return self(X1, X2) * (dists_squared / (self.correlation_length ** 3))
+        val = self(X1, X2) * (dists_squared / (self.correlation_length ** 3))
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.correlation_length += eps
+        # descrete += self(X1, X2)
+        # self.correlation_length -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         """
         :meta private:
         """
-        derivative_covariance_sigma = self.derivative_sigma(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_corr_len = self.derivative_corr_len(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
+        derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         
         self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
         self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
@@ -203,20 +233,34 @@ class Linear(_Base):
         """
         :meta private:
         """
-        return 2 * self.sigma * X1 @ X2.T
+        val = 2 * self.sigma * X1 @ X2.T
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[10] / eps, val[10])
+        return val
 
     def derivative_sigma_bias(self, X1, X2):
         """
         :meta private:
         """
-        return (2 * self.sigma_bias).to(X1.dtype)
+        val = (2 * self.sigma_bias).to(X1.dtype)
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma_bias += eps
+        # descrete += self(X1, X2)
+        # self.sigma_bias -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         """
         :meta private:
         """
-        derivative_covariance_sigma = self.derivative_sigma(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_sigma_bias = self.derivative_sigma_bias(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
+        derivative_covariance_sigma_bias = self.derivative_sigma_bias(X, X)
         
         self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
         self.sigma_bias.grad = derivative_function(derivative_covariance_sigma_bias).to(dtype=self.sigma_bias.dtype).squeeze(0)
@@ -284,13 +328,20 @@ class WhiteGaussian(_Base):
         :meta private:
         """
         covariance_matrix = (X1[:, None] == X2).all(-1).to(dtype=X1.dtype)
-        return 2 * self.sigma * covariance_matrix
+        val = 2 * self.sigma * covariance_matrix
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         """
         :meta private:
         """
-        derivative_covariance_sigma = self.derivative_sigma(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
         
         self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
 
@@ -369,7 +420,14 @@ class Periodic(_Base):
         """
         :meta private:
         """
-        return 2 * self(X1, X2) / self.sigma
+        val = 2 * self(X1, X2) / self.sigma
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
     def derivative_corr_len(self, X1, X2):
         """
@@ -377,7 +435,14 @@ class Periodic(_Base):
         """
         norm = torch.cdist(X1, X2)
         periodic_term = torch.sin(torch.pi * norm / self.period) ** 2
-        return 4 * self(X1, X2) * (periodic_term / (self.correlation_length ** 3))
+        val = 4 * self(X1, X2) * (periodic_term / (self.correlation_length ** 3))
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.correlation_length += eps
+        # descrete += self(X1, X2)
+        # self.correlation_length -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
     def derivative_period(self, X1, X2):
         """
@@ -385,15 +450,22 @@ class Periodic(_Base):
         """
         norm = torch.cdist(X1, X2)
         periodic_term = torch.sin(torch.pi * norm / self.period)
-        return 4 * self(X1, X2) * (periodic_term * torch.cos(torch.pi * norm / self.period) * (torch.pi * norm / self.period ** 2) / (self.correlation_length ** 2))
+        val = 4 * self(X1, X2) * (periodic_term * torch.cos(torch.pi * norm / self.period) * (torch.pi * norm / self.period ** 2) / (self.correlation_length ** 2))
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.period += eps
+        # descrete += self(X1, X2)
+        # self.period -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         """
         :meta private:
         """
-        derivative_covariance_sigma = self.derivative_sigma(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_corr_len = self.derivative_corr_len(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_period = self.derivative_period(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
+        derivative_covariance_corr_len = self.derivative_corr_len(X, X)
+        derivative_covariance_period = self.derivative_period(X, X)
 
         self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
         self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
@@ -472,16 +544,30 @@ class RationalQuadratic(_Base):
         """
         :meta private:
         """
-        return 2 * self(X1, X2) / self.sigma
+        val = 2 * self(X1, X2) / self.sigma
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
     def derivative_corr_len(self, X1, X2):
         """
         :meta private:
         """
         norm_squared = torch.cdist(X1, X2) ** 2
-        return (self.sigma ** 2 * 
+        val = (self.sigma ** 2 * 
                 (1 + norm_squared / (2 * self.alpha * self.correlation_length ** 2)) ** (-self.alpha - 1) *
-                (-norm_squared / (self.correlation_length ** 3)))
+                (norm_squared / (self.correlation_length ** 3)))
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.correlation_length += eps
+        # descrete += self(X1, X2)
+        # self.correlation_length -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
     def derivative_alpha(self, X1, X2):
         """
@@ -489,17 +575,24 @@ class RationalQuadratic(_Base):
         """
         norm_squared = torch.cdist(X1, X2) ** 2
         term = 1 + norm_squared / (2 * self.alpha * self.correlation_length ** 2)
-        return (self(X1, X2) *
+        val = (self(X1, X2) *
                 (norm_squared / (2 * self.alpha * self.correlation_length ** 2 + norm_squared) -
                  torch.log(term)))
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.alpha += eps
+        # descrete += self(X1, X2)
+        # self.alpha -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
 
-    def update(self, derivative_function, X, noise=0, epsilon=1e-5):
+    def update(self, derivative_function, X):
         """
         :meta private:
         """
-        derivative_covariance_sigma = self.derivative_sigma(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_corr_len = self.derivative_corr_len(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
-        derivative_covariance_alpha = self.derivative_alpha(X, X) + (noise + epsilon) * torch.eye(len(X), device=X.device)
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
+        derivative_covariance_corr_len = self.derivative_corr_len(X, X)
+        derivative_covariance_alpha = self.derivative_alpha(X, X)
 
         self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
         self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
@@ -513,3 +606,127 @@ class RationalQuadratic(_Base):
             parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. "rational_quadratic_sigma_1".
         """
         return {("rational_quadratic_sigma" + "_" + str(self.number)): self.sigma, ("rational_quadratic_corr_len" + "_" + str(self.number)): self.correlation_length, ("rational_quadratic_alpha" + "_" + str(self.number)): self.alpha}
+    
+class Matern(_Base):
+    """
+    The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness comtrolled by nu.
+
+    Args:
+        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
+        correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
+        nu (float, optional): Controls the smoothness of the kernel. Important values of nu include 0.5 for the rbf kernel with the l1 norm modelling non differentiable functions, 1.5 for once differentiable functions and 2.5 for twice differentiable functions. If is set to float("inf"), the kernel is equivalent to the RBF kernel. Must be a positive real number. Defaults to 1.5.
+    """
+
+    instance = 0
+    """
+    :meta private:
+    """
+
+    def __new__(cls, sigma=1, correlation_length=1, nu=1.5):
+        # if nu is infinite, the kernel is equivalent to the RBF kernel
+        if nu == float("inf"):
+            return RBF(sigma, correlation_length)
+        return super().__new__(cls)
+
+    def __init__(self, sigma=1, correlation_length=1, nu=1, zero_d_eps=1e-5):
+        if not isinstance(sigma, int | float) or sigma <= 0:
+            raise ValueError("sigma must be a positive real number.")
+        if not isinstance(correlation_length, int | float) or correlation_length <= 0:
+            raise TypeError("correlation_length must be a real number.")
+        if not isinstance(nu, int | float) or nu <= 0:
+            raise TypeError("nu must be a real number.")
+
+        RationalQuadratic.instance += 1
+        self.number = RationalQuadratic.instance
+
+        self.sigma = torch.tensor([sigma], dtype=torch.float32)
+        self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
+        self.nu = torch.tensor([nu], dtype=torch.float32)
+
+        self.zero_d_eps = zero_d_eps
+        self._gamma_val = gamma(nu)
+
+    def __call__(self, X1, X2):
+        """
+        :meta public:
+        
+        Yields the kernel matrix between two vectors.
+
+        Args:
+            X1 (torch.Tensor of shape (n_samples_1, n_features))
+            X2 (torch.Tensor of shape (n_samples_2, n_features))
+        
+        Returns:
+            kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2)): The pairwise kernel values between samples from X1 and X2.
+        
+        Raises:
+            TypeError: If the input matricies are not a PyTorch tensors.
+            ValueError: If the input matricies are not the correct shape.
+        """
+        if not isinstance(X1, torch.Tensor) or not isinstance(X2, torch.Tensor):
+            raise TypeError("The input matricies must be PyTorch tensors.")
+        if X1.ndim != 2 or X2.ndim != 2:
+            raise ValueError("The input matricies must be 2 dimensional tensors.")
+
+        if self.sigma.device != X1.device:
+            self.sigma = self.sigma.to(X1.device)
+            self.correlation_length = self.correlation_length.to(X1.device)
+            self.nu = self.nu.to(X1.device)
+        
+        norm = torch.cdist(X1, X2)
+        y = torch.sqrt(2 * self.nu) * norm / self.correlation_length + self.zero_d_eps
+        bessel_factor = kv(self.nu, y)
+        constant_factor = 2 ** (1 - self.nu) / self._gamma_val
+        other_factor = y ** self.nu
+        return self.sigma ** 2 * constant_factor * other_factor * bessel_factor
+
+    def derivative_sigma(self, X1, X2):
+        """
+        :meta private:
+        """
+        val = 2 * self(X1, X2) / self.sigma
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.sigma += eps
+        # descrete += self(X1, X2)
+        # self.sigma -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
+    
+    def derivative_corr_len(self, X1, X2):
+        """
+        :meta private:
+        """
+        #  derivatives from wolfram mathematica
+        norm = torch.cdist(X1, X2)
+        y = torch.sqrt(2 * self.nu) * norm / self.correlation_length + self.zero_d_eps
+        val = -((2 ** (-self.nu / 2) * (norm * torch.sqrt(self.nu) / self.correlation_length) ** self.nu * torch.sqrt(self.nu) * self.sigma ** 2 *
+            (-sqrt(2) * norm * kv(self.nu - 1, y) + 2 * self.correlation_length * kv(self.nu, y) - sqrt(2) * norm * kv(self.nu + 1, y))
+        )) / (self.correlation_length ** 2 * self._gamma_val)
+        # descrete = -self(X1, X2)
+        # eps = 1e-6
+        # self.correlation_length += eps
+        # descrete += self(X1, X2)
+        # self.correlation_length -= eps
+        # print(descrete[0] / eps, val[0])
+        return val
+
+    def update(self, derivative_function, X):
+        """
+        :meta private:
+        """
+        derivative_covariance_sigma = self.derivative_sigma(X, X)
+        derivative_covariance_corr_len = self.derivative_corr_len(X, X)
+
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
+        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
+
+    def parameters(self):
+        """
+        Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.
+
+        Returns:
+            parameters (dict[str, torch.Tensor]): The parameters as a dictionary. The key of the parameter is eg. "rational_quadratic_sigma_1".
+        """
+        return {("matern_sigma" + "_" + str(self.number)): self.sigma, ("matern_corr_len" + "_" + str(self.number)): self.correlation_length}
+    
