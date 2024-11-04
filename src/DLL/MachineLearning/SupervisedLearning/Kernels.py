@@ -71,7 +71,7 @@ class RBF(_Base):
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
-        correlation_length (float, optional): The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number. Defaults to 1.
+        correlation_length (float | torch.Tensor, optional): The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number or a torch.Tensor of shape (n_features,). Defaults to 1.
         train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
         train_correlation_length (bool, optional): Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.
     """
@@ -84,8 +84,8 @@ class RBF(_Base):
     def __init__(self, sigma=1, correlation_length=1, train_sigma=True, train_correlation_length=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
-        if not isinstance(correlation_length, int | float) or correlation_length <= 0:
-            raise ValueError("correlation_length must be a positive real number.")
+        if (not isinstance(correlation_length, int | float) or correlation_length <= 0) and (not isinstance(correlation_length, torch.Tensor) or torch.any(correlation_length < 0) or correlation_length.ndim != 1):
+            raise ValueError("correlation_length must be a positive real number or a torch.Tensor of shape (n_features,).")
         if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool):
             raise TypeError("train_sigma andtrain_correlation_length must be boolean values. ")
 
@@ -93,7 +93,7 @@ class RBF(_Base):
         self.number = RBF.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
-        self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
+        self.correlation_length = correlation_length if isinstance(correlation_length, torch.Tensor) else torch.tensor([correlation_length], dtype=torch.float32)
 
         self.train_sigma = train_sigma
         self.train_correlation_length = train_correlation_length
@@ -119,13 +119,17 @@ class RBF(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
+        if len(self.correlation_length) != 1 and X1.shape[1] != len(self.correlation_length):
+            raise ValueError("correlation_length must be of length n_features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
             self.correlation_length = self.correlation_length.to(X1.device)
         
-        dists_squared = torch.cdist(X1, X2, p=2) ** 2
-        return self.sigma ** 2 * torch.exp(-dists_squared / (2 * (self.correlation_length ** 2)))
+        dists_squared = torch.cdist(X1 / self.correlation_length, X2 / self.correlation_length, p=2) ** 2
+        return self.sigma ** 2 * torch.exp(-dists_squared / 2)
 
     def derivative_sigma(self, X1, X2):
         """
@@ -145,9 +149,13 @@ class RBF(_Base):
         """
         :meta private:
         """
-        if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
-        dists_squared = torch.cdist(X1, X2, p=2) ** 2
-        val = self(X1, X2) * (dists_squared / (self.correlation_length ** 3))
+        if len(self.correlation_length) != 1:
+            if not self.train_correlation_length: return torch.zeros((len(self.correlation_length), len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
+            val = self(X1, X2).unsqueeze(0) * ((X1[torch.newaxis, :, :] - X2[:, torch.newaxis, :]) ** 2 / self.correlation_length ** 3).permute((2, 0, 1))
+        else:
+            if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
+            dists_squared = torch.cdist(X1, X2, p=2) ** 2
+            val = self(X1, X2) * (dists_squared / (self.correlation_length ** 3))
         # descrete = -self(X1, X2)
         # eps = 1e-6
         # self.correlation_length += eps
@@ -163,8 +171,8 @@ class RBF(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
 
     def parameters(self):
         """
@@ -238,6 +246,8 @@ class Linear(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
@@ -280,8 +290,8 @@ class Linear(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_sigma_bias = self.derivative_sigma_bias(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
-        self.sigma_bias.grad = derivative_function(derivative_covariance_sigma_bias).to(dtype=self.sigma_bias.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.sigma_bias.grad = derivative_function(derivative_covariance_sigma_bias).to(dtype=self.sigma_bias.dtype)
 
     def parameters(self):
         """
@@ -338,6 +348,8 @@ class WhiteGaussian(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
@@ -366,7 +378,7 @@ class WhiteGaussian(_Base):
         """
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
 
     def parameters(self):
         """
@@ -398,8 +410,8 @@ class Periodic(_Base):
     def __init__(self, sigma=1, correlation_length=1, period=1, train_sigma=True, train_correlation_length=True, train_period=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
-        if not isinstance(correlation_length, int | float) or correlation_length <= 0:
-            raise TypeError("correlation_length must be a real number.")
+        if (not isinstance(correlation_length, int | float) or correlation_length <= 0):
+            raise ValueError("correlation_length must be a positive real number.")
         if not isinstance(period, int | float) or period <= 0:
             raise TypeError("period must be a real number.")
         if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool) or not isinstance(train_period, bool):
@@ -410,7 +422,7 @@ class Periodic(_Base):
         self.number = Periodic.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
-        self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
+        self.correlation_length = correlation_length if isinstance(correlation_length, torch.Tensor) else torch.tensor([correlation_length], dtype=torch.float32)
         self.period = torch.tensor([period], dtype=torch.float32)
 
         self.train_sigma = train_sigma
@@ -438,6 +450,8 @@ class Periodic(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
@@ -503,9 +517,9 @@ class Periodic(_Base):
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         derivative_covariance_period = self.derivative_period(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
-        self.period.grad = derivative_function(derivative_covariance_period).to(dtype=self.period.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.period.grad = derivative_function(derivative_covariance_period).to(dtype=self.period.dtype)
 
     def parameters(self):
         """
@@ -576,6 +590,8 @@ class RationalQuadratic(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
@@ -642,9 +658,9 @@ class RationalQuadratic(_Base):
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         derivative_covariance_alpha = self.derivative_alpha(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
-        self.alpha.grad = derivative_function(derivative_covariance_alpha).to(dtype=self.alpha.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.alpha.grad = derivative_function(derivative_covariance_alpha).to(dtype=self.alpha.dtype)
 
     def parameters(self):
         """
@@ -722,6 +738,8 @@ class Matern(_Base):
             raise TypeError("The input matricies must be PyTorch tensors.")
         if X1.ndim != 2 or X2.ndim != 2:
             raise ValueError("The input matricies must be 2 dimensional tensors.")
+        if X1.shape[1] != X2.shape[1]:
+            raise ValueError("X1 and X2 must have the same number of features.")
 
         if self.sigma.device != X1.device:
             self.sigma = self.sigma.to(X1.device)
@@ -775,8 +793,8 @@ class Matern(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype).squeeze(0)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype).squeeze(0)
+        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
 
     def parameters(self):
         """
