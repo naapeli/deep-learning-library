@@ -49,7 +49,7 @@ class GaussianProcessRegressor:
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
-            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Must be normalized to zero mean and one variance.
+            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Should be normalized to zero mean and one variance.
         Returns:
             None
         Raises:
@@ -64,12 +64,12 @@ class GaussianProcessRegressor:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
         if len(y) < 2:
             raise ValueError("There must be atleast 2 samples.")
-        variance = torch.var(y)
-        mean = torch.mean(y)
-        if not torch.allclose(variance, torch.ones_like(variance)):
-            raise ValueError("y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
-        if not torch.allclose(mean, torch.zeros_like(mean)):
-            raise ValueError("y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
+        # variance = torch.var(y)
+        # mean = torch.mean(y)
+        # if not torch.allclose(variance, torch.ones_like(variance)):
+        #     raise ValueError("y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
+        # if not torch.allclose(mean, torch.zeros_like(mean)):
+        #     raise ValueError("y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
 
         self.n_features = X.shape[1]
         self.X = X
@@ -84,7 +84,7 @@ class GaussianProcessRegressor:
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data to be regressed.
         Returns:
-            target values (torch.Tensor of shape (n_samples,)): The predicted values corresponding to each sample.
+            mean, covariance (tuple[torch.Tensor of shape (n_samples,), torch.Tensor of shape (n_samples, n_samples)): A tuple containing the posterior mean and posterior covariance. As the prediction, one should use the mean.
         Raises:
             NotFittedError: If the GaussianProcessRegressor model has not been fitted before predicting.
             TypeError: If the input matrix is not a PyTorch tensor.
@@ -155,7 +155,13 @@ class GaussianProcessRegressor:
             # form the derivative function
             def derivative(parameter_derivative):
                 derivative = 0.5 * self.Y.T @ self.inverse_prior_covariance_matrix @ parameter_derivative @ self.inverse_prior_covariance_matrix @ self.Y
-                derivative -= 0.5 * torch.trace(self.inverse_prior_covariance_matrix @ parameter_derivative)
+
+                if parameter_derivative.ndim == 2:
+                    derivative = derivative.squeeze(1)
+                    derivative -= 0.5 * torch.trace(self.inverse_prior_covariance_matrix @ parameter_derivative)
+                else:
+                    derivative = derivative.squeeze((1, 2))
+                    derivative -= 0.5 * (self.inverse_prior_covariance_matrix @ parameter_derivative).diagonal(dim1=1, dim2=2).sum(dim=-1)
                 # minus sign, since goal is to maximise the log_marginal_likelihood
                 return -derivative
 
@@ -170,9 +176,17 @@ class GaussianProcessRegressor:
             if epoch % callback_frequency == 0:
                 lml = self.log_marginal_likelihood()
                 history["log marginal likelihood"][int(epoch / callback_frequency)] = lml
-                if verbose: print(f"Epoch: {epoch + 1} - Log marginal likelihood: {lml} - Parameters: { {key: round(param.item(), 3) for key, param in self.covariance_function.parameters().items()} }")
+                if verbose:
+                    params = {}
+                    for key, param in self.covariance_function.parameters().items():
+                        if len(param) == 1:
+                            params[key] = round(param.item(), 3)
+                            continue
+                        for i, param_ in enumerate(param):
+                            params[key + "_" + str(i + 1)] = round(param_.item(), 3)
+                    print(f"Epoch: {epoch + 1} - Log marginal likelihood: {lml} - Parameters: {params}")
         return history
-        
+
     # def is_positive_definite(matrix):
     #     print("-----------------")
     #     if not torch.allclose(matrix, matrix.T):
