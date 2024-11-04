@@ -72,6 +72,8 @@ class RBF(_Base):
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         correlation_length (float, optional): The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number. Defaults to 1.
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
+        train_correlation_length (bool, optional): Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.
     """
 
     instance = 0
@@ -79,17 +81,22 @@ class RBF(_Base):
     :meta private:
     """
 
-    def __init__(self, sigma=1, correlation_length=1):
+    def __init__(self, sigma=1, correlation_length=1, train_sigma=True, train_correlation_length=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
         if not isinstance(correlation_length, int | float) or correlation_length <= 0:
             raise ValueError("correlation_length must be a positive real number.")
+        if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool):
+            raise TypeError("train_sigma andtrain_correlation_length must be boolean values. ")
 
         RBF.instance += 1
         self.number = RBF.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
         self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
+
+        self.train_sigma = train_sigma
+        self.train_correlation_length = train_correlation_length
 
     def __call__(self, X1, X2):
         """
@@ -124,6 +131,7 @@ class RBF(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = 2 * self(X1, X2) / self.sigma
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -137,6 +145,7 @@ class RBF(_Base):
         """
         :meta private:
         """
+        if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         dists_squared = torch.cdist(X1, X2, p=2) ** 2
         val = self(X1, X2) * (dists_squared / (self.correlation_length ** 3))
         # descrete = -self(X1, X2)
@@ -173,7 +182,9 @@ class Linear(_Base):
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         sigma_bias (float, optional): The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.
-    
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
+        train_sigma_bias (bool, optional): Determines, wheter or not the sigma_bias parameter should be changed during training the kernel. Defaults to True.
+        
     Example:
         The commonly used polynomial kernel can be used as follows:
 
@@ -189,17 +200,22 @@ class Linear(_Base):
     """
     :meta private:
     """
-    def __init__(self, sigma=1, sigma_bias=0):
+    def __init__(self, sigma=1, sigma_bias=0, train_sigma=True, train_sigma_bias=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
         if not isinstance(sigma_bias, int | float):
             raise TypeError("sigma_bias must be a real number.")
+        if not isinstance(train_sigma, bool) or not isinstance(train_sigma_bias, bool):
+            raise TypeError("train_sigma and train_sigma_bias must be boolean values.")
 
         Linear.instance += 1
         self.number = Linear.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
         self.sigma_bias = torch.tensor([sigma_bias], dtype=torch.float32)
+
+        self.train_sigma = train_sigma
+        self.train_sigma_bias = train_sigma_bias
 
     def __call__(self, X1, X2):
         """
@@ -233,6 +249,7 @@ class Linear(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = 2 * self.sigma * X1 @ X2.T
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -246,6 +263,7 @@ class Linear(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma_bias: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = (2 * self.sigma_bias).to(X1.dtype)
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -280,20 +298,24 @@ class WhiteGaussian(_Base):
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
     """
 
     instance = 0
     """
     :meta private:
     """
-    def __init__(self, sigma=1):
+    def __init__(self, sigma=1, train_sigma=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
+        if not isinstance(train_sigma, bool):
+            raise TypeError("train_sigma must be a boolean value.")
 
         WhiteGaussian.instance += 1
         self.number = WhiteGaussian.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
+        self.train_sigma = train_sigma
 
     def __call__(self, X1, X2):
         """
@@ -327,6 +349,7 @@ class WhiteGaussian(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         covariance_matrix = (X1[:, None] == X2).all(-1).to(dtype=X1.dtype)
         val = 2 * self.sigma * covariance_matrix
         # descrete = -self(X1, X2)
@@ -362,6 +385,9 @@ class Periodic(_Base):
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
         period (float, optional): The period of the kernel, indicating the distance over which the function repeats. Must be a positive real number. Defaults to 1.
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
+        train_correlation_length (bool, optional): Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.
+        train_period (bool, optional): Determines, wheter or not the period parameter should be changed during training the kernel. Defaults to True.
     """
 
     instance = 0
@@ -369,13 +395,16 @@ class Periodic(_Base):
     :meta private:
     """
 
-    def __init__(self, sigma=1, correlation_length=1, period=1):
+    def __init__(self, sigma=1, correlation_length=1, period=1, train_sigma=True, train_correlation_length=True, train_period=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
         if not isinstance(correlation_length, int | float) or correlation_length <= 0:
             raise TypeError("correlation_length must be a real number.")
         if not isinstance(period, int | float) or period <= 0:
             raise TypeError("period must be a real number.")
+        if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool) or not isinstance(train_period, bool):
+            raise TypeError("train_sigma, train_correlation_length and train_period must be boolean values.")
+        
 
         Periodic.instance += 1
         self.number = Periodic.instance
@@ -383,6 +412,10 @@ class Periodic(_Base):
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
         self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
         self.period = torch.tensor([period], dtype=torch.float32)
+
+        self.train_sigma = train_sigma
+        self.train_correlation_length = train_correlation_length
+        self.train_period = train_period
 
     def __call__(self, X1, X2):
         """
@@ -420,6 +453,7 @@ class Periodic(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = 2 * self(X1, X2) / self.sigma
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -433,6 +467,7 @@ class Periodic(_Base):
         """
         :meta private:
         """
+        if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         norm = torch.cdist(X1, X2)
         periodic_term = torch.sin(torch.pi * norm / self.period) ** 2
         val = 4 * self(X1, X2) * (periodic_term / (self.correlation_length ** 3))
@@ -448,6 +483,7 @@ class Periodic(_Base):
         """
         :meta private:
         """
+        if not self.train_period: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         norm = torch.cdist(X1, X2)
         periodic_term = torch.sin(torch.pi * norm / self.period)
         val = 4 * self(X1, X2) * (periodic_term * torch.cos(torch.pi * norm / self.period) * (torch.pi * norm / self.period ** 2) / (self.correlation_length ** 2))
@@ -488,6 +524,9 @@ class RationalQuadratic(_Base):
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
         alpha (float, optional): Controls the relative weighting of large-scale and small-scale variations. Higher values make the kernel behave more like a squared exponential (Gaussian) kernel, while lower values allow for more flexibility. Must be a positive real number. Defaults to 1.
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
+        train_correlation_length (bool, optional): Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.
+        train_alpha (bool, optional): Determines, wheter or not the alpha parameter should be changed during training the kernel. Defaults to True.
     """
 
     instance = 0
@@ -495,13 +534,15 @@ class RationalQuadratic(_Base):
     :meta private:
     """
 
-    def __init__(self, sigma=1, correlation_length=1, alpha=1):
+    def __init__(self, sigma=1, correlation_length=1, alpha=1, train_sigma=True, train_correlation_length=True, train_alpha=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
         if not isinstance(correlation_length, int | float) or correlation_length <= 0:
             raise TypeError("correlation_length must be a real number.")
         if not isinstance(alpha, int | float) or alpha <= 0:
             raise TypeError("alpha must be a real number.")
+        if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool) or not isinstance(train_alpha, bool):
+            raise TypeError("train_sigma, train_correlation_length and train_alpha must be boolean values.")
 
         RationalQuadratic.instance += 1
         self.number = RationalQuadratic.instance
@@ -509,6 +550,10 @@ class RationalQuadratic(_Base):
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
         self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32)
         self.alpha = torch.tensor([alpha], dtype=torch.float32)
+
+        self.train_sigma = train_sigma
+        self.train_correlation_length = train_correlation_length
+        self.train_alpha = train_alpha
 
     def __call__(self, X1, X2):
         """
@@ -544,6 +589,7 @@ class RationalQuadratic(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = 2 * self(X1, X2) / self.sigma
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -557,6 +603,7 @@ class RationalQuadratic(_Base):
         """
         :meta private:
         """
+        if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         norm_squared = torch.cdist(X1, X2) ** 2
         val = (self.sigma ** 2 * 
                 (1 + norm_squared / (2 * self.alpha * self.correlation_length ** 2)) ** (-self.alpha - 1) *
@@ -573,6 +620,7 @@ class RationalQuadratic(_Base):
         """
         :meta private:
         """
+        if not self.train_alpha: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         norm_squared = torch.cdist(X1, X2) ** 2
         term = 1 + norm_squared / (2 * self.alpha * self.correlation_length ** 2)
         val = (self(X1, X2) *
@@ -614,7 +662,9 @@ class Matern(_Base):
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
         correlation_length (float, optional): Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.
-        nu (float, optional): Controls the smoothness of the kernel. Important values of nu include 0.5 for the rbf kernel with the l1 norm modelling non differentiable functions, 1.5 for once differentiable functions and 2.5 for twice differentiable functions. If is set to float("inf"), the kernel is equivalent to the RBF kernel. Must be a positive real number. Defaults to 1.5.
+        nu (float, optional): Controls the smoothness of the kernel. Important values of nu include 0.5 for the rbf kernel with the l1 norm modelling non differentiable functions, 1.5 for once differentiable functions and 2.5 for twice differentiable functions. If is set to float("inf"), the kernel is equivalent to the RBF kernel. It is not possible to train nu. Must be a positive real number. Defaults to 1.5.
+        train_sigma (bool, optional): Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.
+        train_correlation_length (bool, optional): Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.
     """
 
     instance = 0
@@ -622,19 +672,21 @@ class Matern(_Base):
     :meta private:
     """
 
-    def __new__(cls, sigma=1, correlation_length=1, nu=1.5):
+    def __new__(cls, sigma=1, correlation_length=1, nu=1.5, train_sigma=True, train_correlation_length=True):
         # if nu is infinite, the kernel is equivalent to the RBF kernel
         if nu == float("inf"):
-            return RBF(sigma, correlation_length)
+            return RBF(sigma, correlation_length, train_sigma, train_correlation_length)
         return super().__new__(cls)
 
-    def __init__(self, sigma=1, correlation_length=1, nu=1, zero_d_eps=1e-5):
+    def __init__(self, sigma=1, correlation_length=1, nu=1, zero_d_eps=1e-5, train_sigma=True, train_correlation_length=True):
         if not isinstance(sigma, int | float) or sigma <= 0:
             raise ValueError("sigma must be a positive real number.")
         if not isinstance(correlation_length, int | float) or correlation_length <= 0:
             raise TypeError("correlation_length must be a real number.")
         if not isinstance(nu, int | float) or nu <= 0:
             raise TypeError("nu must be a real number.")
+        if not isinstance(train_sigma, bool) or not isinstance(train_correlation_length, bool):
+            raise TypeError("train_sigma and train_correlation_length must be boolean values.")
 
         RationalQuadratic.instance += 1
         self.number = RationalQuadratic.instance
@@ -645,6 +697,9 @@ class Matern(_Base):
 
         self.zero_d_eps = zero_d_eps
         self._gamma_val = gamma(nu)
+
+        self.train_sigma = train_sigma
+        self.train_correlation_length = train_correlation_length
 
     def __call__(self, X1, X2):
         """
@@ -684,6 +739,7 @@ class Matern(_Base):
         """
         :meta private:
         """
+        if not self.train_sigma: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         val = 2 * self(X1, X2) / self.sigma
         # descrete = -self(X1, X2)
         # eps = 1e-6
@@ -697,6 +753,7 @@ class Matern(_Base):
         """
         :meta private:
         """
+        if not self.train_correlation_length: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         #  derivatives from wolfram mathematica
         norm = torch.cdist(X1, X2)
         y = torch.sqrt(2 * self.nu) * norm / self.correlation_length + self.zero_d_eps
