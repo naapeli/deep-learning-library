@@ -17,7 +17,7 @@ transformer = StandardScaler()
 transformer.fit(Y)
 Y = transformer.transform(Y).squeeze(dim=1)
 
-train_kernel = True  # try to changing this line of code to see how the covariance kernel learns the correct parameters
+train_kernel = False  # try to changing this line of code to see how the covariance kernel learns the correct parameters
 
 model = GaussianProcessRegressor(Linear(sigma=0.2, sigma_bias=1) ** 2 + Periodic(1, 2, period=0.5), noise=0.1, device=device)
 sk_model = GPR(ConstantKernel(constant_value=0.2) * DotProduct(sigma_0=1) ** 2 + ExpSineSquared())
