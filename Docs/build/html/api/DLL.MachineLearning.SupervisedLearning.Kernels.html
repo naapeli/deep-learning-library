@@ -17,6 +17,7 @@
       <script src="../_static/documentation_options.js?v=8d563738"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -100,13 +101,18 @@
 <h2>Available kernels<a class="headerlink" href="#available-kernels" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RBF">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RBF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RBF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RBF" title="Link to this definition"></a></dt>
-<dd><p>The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RBF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RBF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RBF" title="Link to this definition"></a></dt>
+<dd><p>The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 \exp\left(-\frac{(x_i - x_j)^2}{2 l^2}\right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the the Euclidian metric and <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(l\)</span> are the sigma and the correlation_length parameters respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
-<li><p><strong>correlation_length</strong> (<em>float</em><em>, </em><em>optional</em>) – The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>correlation_length</strong> (<em>float</em><em> | </em><em>torch.Tensor</em><em>, </em><em>optional</em>) – The length scale of the kernel. Determines how quickly the similarity decays as points become further apart. Must be a positive real number or a torch.Tensor of shape (n_features,). Defaults to 1.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_correlation_length</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -156,13 +162,18 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Linear">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Linear" title="Link to this definition"></a></dt>
-<dd><p>The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Linear" title="Link to this definition"></a></dt>
+<dd><p>The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 x_ix_j+\sigma_{bias},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(\sigma_{bias}\)</span> are the sigma and the sigma_bias parameters respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
 <li><p><strong>sigma_bias</strong> (<em>float</em><em>, </em><em>optional</em>) – The constant term of the kernel, sometimes called the bias or intercept. It allows the kernel function to handle non-zero means. Must be a real number. Defaults to 0.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_sigma_bias</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma_bias parameter should be changed during training the kernel. Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -220,14 +231,20 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Periodic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Periodic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Periodic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Periodic" title="Link to this definition"></a></dt>
-<dd><p>The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Periodic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Periodic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Periodic" title="Link to this definition"></a></dt>
+<dd><p>The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 \exp\left(-\frac{2\sin^2(\frac{\pi d(x_i, x_j)}{p})}{l^2}\right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the Euclidian metric and <span class="math notranslate nohighlight">\(\sigma\)</span>, <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(p\)</span> are the sigma, the correlation_length and the period parameters respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
 <li><p><strong>correlation_length</strong> (<em>float</em><em>, </em><em>optional</em>) – Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.</p></li>
 <li><p><strong>period</strong> (<em>float</em><em>, </em><em>optional</em>) – The period of the kernel, indicating the distance over which the function repeats. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_correlation_length</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_period</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the period parameter should be changed during training the kernel. Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -277,11 +294,17 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">WhiteGaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian" title="Link to this definition"></a></dt>
-<dd><p>The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">WhiteGaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#WhiteGaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian" title="Link to this definition"></a></dt>
+<dd><p>The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 \mathbb{1}\{x_i = x_j\},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbb{1}\)</span> is the indicator function and <span class="math notranslate nohighlight">\(\sigma\)</span> is the sigma parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
@@ -330,14 +353,20 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RationalQuadratic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadratic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic" title="Link to this definition"></a></dt>
-<dd><p>The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">RationalQuadratic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#RationalQuadratic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic" title="Link to this definition"></a></dt>
+<dd><p>The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 \left(1 + \frac{d(x_i, x_j)^2}{2\alpha l^2} \right)^{-\alpha},\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the Euclidian metric and <span class="math notranslate nohighlight">\(\sigma\)</span>, <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> are the sigma, correlation_length and alpha parameters respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
 <li><p><strong>correlation_length</strong> (<em>float</em><em>, </em><em>optional</em>) – Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.</p></li>
 <li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Controls the relative weighting of large-scale and small-scale variations. Higher values make the kernel behave more like a squared exponential (Gaussian) kernel, while lower values allow for more flexibility. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_correlation_length</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_alpha</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the alpha parameter should be changed during training the kernel. Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -376,6 +405,68 @@
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The parameters as a dictionary. The key of the parameter is eg. “rational_quadratic_sigma_1”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>parameters (dict[str, torch.Tensor])</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Matern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Kernels.</span></span><span class="sig-name descname"><span class="pre">Matern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_correlation_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Matern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Matern" title="Link to this definition"></a></dt>
+<dd><p>The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness controlled by nu. The used equation is:</p>
+<div class="math notranslate nohighlight">
+\[k(x_i, x_j) = \sigma^2 \frac{2^{1-\nu}}{\Gamma(\nu)} \left(\sqrt{2\nu}\frac{d(x_i, x_j)}{l}\right)^\nu K_\nu\left(\sqrt{2\nu}\frac{d(x_i, x_j)}{l}\right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the Euclidian metric, <span class="math notranslate nohighlight">\(\Gamma\)</span> is the <a class="reference external" href="https://en.wikipedia.org/wiki/Gamma_function">gamma function</a>, <span class="math notranslate nohighlight">\(K_\nu\)</span> is the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html">modified Bessel function of the second kind</a> and <span class="math notranslate nohighlight">\(\sigma\)</span>, <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> are the sigma, correlation_length and nu parameters respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>correlation_length</strong> (<em>float</em><em>, </em><em>optional</em>) – Controls how quickly the similarity decays as points move further apart in the input space. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>nu</strong> (<em>float</em><em>, </em><em>optional</em>) – Controls the smoothness of the kernel. Important values of nu include 0.5 for the rbf kernel with the l1 norm modelling non differentiable functions, 1.5 for once differentiable functions and 2.5 for twice differentiable functions. If is set to float(“inf”), the kernel is equivalent to the RBF kernel. It is not possible to train nu. Must be a positive real number. Defaults to 1.5.</p></li>
+<li><p><strong>train_sigma</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the sigma parameter should be changed during training the kernel. Defaults to True.</p></li>
+<li><p><strong>train_correlation_length</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines, wheter or not the correlation_length parameter should be changed during training the kernel. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Matern.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Matern.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Matern.__call__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+<p>Yields the kernel matrix between two vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X1</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples_1</em><em>, </em><em>n_features</em><em>)</em>)</p></li>
+<li><p><strong>X2</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples_2</em><em>, </em><em>n_features</em><em>)</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pairwise kernel values between samples from X1 and X2.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kernel_matrix (torch.Tensor of shape (n_samples_1, n_samples_2))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matricies are not a PyTorch tensors.</p></li>
+<li><p><strong>ValueError</strong> – If the input matricies are not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Kernels.Matern.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Kernels.html#Matern.parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Kernels.Matern.parameters" title="Link to this definition"></a></dt>
+<dd><p>Yields the parameters of the kernel as a dictionary. If one uses a combination of the kernels, the parameters of each of the child kernels are returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parameters as a dictionary. The key of the parameter is eg. “matern_sigma_1”.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>parameters (dict[str, torch.Tensor])</p>
