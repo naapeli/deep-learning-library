@@ -125,7 +125,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.</span>
-<span class="sd">            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Must be normalized to zero mean and one variance.</span>
+<span class="sd">            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Should be normalized to zero mean and one variance.</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            None</span>
 <span class="sd">        Raises:</span>
@@ -140,12 +140,12 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The targets must be 1 dimensional with the same number of samples as the input data&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There must be atleast 2 samples.&quot;</span><span class="p">)</span>
-        <span class="n">variance</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">variance</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">variance</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mean</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.&quot;</span><span class="p">)</span>
+        <span class="c1"># variance = torch.var(y)</span>
+        <span class="c1"># mean = torch.mean(y)</span>
+        <span class="c1"># if not torch.allclose(variance, torch.ones_like(variance)):</span>
+        <span class="c1">#     raise ValueError(&quot;y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.&quot;)</span>
+        <span class="c1"># if not torch.allclose(mean, torch.zeros_like(mean)):</span>
+        <span class="c1">#     raise ValueError(&quot;y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.&quot;)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span>
@@ -163,7 +163,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            X (torch.Tensor of shape (n_samples, n_features)): The input data to be regressed.</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            target values (torch.Tensor of shape (n_samples,)): The predicted values corresponding to each sample.</span>
+<span class="sd">            mean, covariance (tuple[torch.Tensor of shape (n_samples,), torch.Tensor of shape (n_samples, n_samples)): A tuple containing the posterior mean and posterior covariance. As the prediction, one should use the mean.</span>
 <span class="sd">        Raises:</span>
 <span class="sd">            NotFittedError: If the GaussianProcessRegressor model has not been fitted before predicting.</span>
 <span class="sd">            TypeError: If the input matrix is not a PyTorch tensor.</span>
@@ -240,12 +240,18 @@
             <span class="c1"># form the derivative function</span>
             <span class="k">def</span> <span class="nf">derivative</span><span class="p">(</span><span class="n">parameter_derivative</span><span class="p">):</span>
                 <span class="n">derivative</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_prior_covariance_matrix</span> <span class="o">@</span> <span class="n">parameter_derivative</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse_prior_covariance_matrix</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">Y</span>
-                <span class="n">derivative</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_prior_covariance_matrix</span> <span class="o">@</span> <span class="n">parameter_derivative</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">parameter_derivative</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">derivative</span> <span class="o">=</span> <span class="n">derivative</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">derivative</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_prior_covariance_matrix</span> <span class="o">@</span> <span class="n">parameter_derivative</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">derivative</span> <span class="o">=</span> <span class="n">derivative</span><span class="o">.</span><span class="n">squeeze</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+                    <span class="n">derivative</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inverse_prior_covariance_matrix</span> <span class="o">@</span> <span class="n">parameter_derivative</span><span class="p">)</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim2</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
                 <span class="c1"># minus sign, since goal is to maximise the log_marginal_likelihood</span>
                 <span class="k">return</span> <span class="o">-</span><span class="n">derivative</span>
 
             <span class="c1"># calculate the derivatives</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">covariance_function</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">derivative</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">noise</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">covariance_function</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">derivative</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 
             <span class="c1"># update the parameters</span>
             <span class="n">optimiser</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">()</span>
@@ -255,11 +261,19 @@
             <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="n">callback_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">lml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_marginal_likelihood</span><span class="p">()</span>
                 <span class="n">history</span><span class="p">[</span><span class="s2">&quot;log marginal likelihood&quot;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span> <span class="o">/</span> <span class="n">callback_frequency</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lml</span>
-                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> - Log marginal likelihood: </span><span class="si">{</span><span class="n">lml</span><span class="si">}</span><span class="s2"> - Parameters: </span><span class="si">{</span><span class="w"> </span><span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="nb">round</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">covariance_function</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span><span class="w"> </span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_function</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+                            <span class="k">continue</span>
+                        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+                            <span class="n">params</span><span class="p">[</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">param_</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> - Log marginal likelihood: </span><span class="si">{</span><span class="n">lml</span><span class="si">}</span><span class="s2"> - Parameters: </span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">history</span></div>
 </div>
 
-        
+
     <span class="c1"># def is_positive_definite(matrix):</span>
     <span class="c1">#     print(&quot;-----------------&quot;)</span>
     <span class="c1">#     if not torch.allclose(matrix, matrix.T):</span>
