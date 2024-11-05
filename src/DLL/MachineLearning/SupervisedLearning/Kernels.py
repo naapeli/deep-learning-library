@@ -71,9 +71,9 @@ class RBF(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{(x_i - x_j)^2}{2 l^2}\\right),
+        k(x_i, x_j) = \\sigma^2 \\exp\\left(-\\frac{(x_i - x_j)^2}{2 l^2}\\right),
     
-    where :math:`d` is the the Euclidian metric and :math:`\sigma` and :math:`l` are the sigma and the correlation_length parameters respectively.
+    where :math:`d` is the the Euclidian metric and :math:`\\sigma` and :math:`l` are the sigma and the correlation_length parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -195,9 +195,9 @@ class Linear(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 x_ix_j+\sigma_{bias},
+        k(x_i, x_j) = \\sigma^2 x_ix_j+\\sigma_{bias},
     
-    where :math:`\sigma` and :math:`\sigma_{bias}` are the sigma and the sigma_bias parameters respectively.
+    where :math:`\\sigma` and :math:`\\sigma_{bias}` are the sigma and the sigma_bias parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -320,9 +320,9 @@ class WhiteGaussian(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 \mathbb{1}\{x_i = x_j\},
+        k(x_i, x_j) = \\sigma^2 \mathbb{1}\{x_i = x_j\},
     
-    where :math:`\mathbb{1}` is the indicator function and :math:`\sigma` is the sigma parameter.
+    where :math:`\mathbb{1}` is the indicator function and :math:`\\sigma` is the sigma parameter.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -413,9 +413,9 @@ class Periodic(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{2\sin^2(\\frac{\pi d(x_i, x_j)}{p})}{l^2}\\right),
+        k(x_i, x_j) = \\sigma^2 \\exp\\left(-\\frac{2\\sin^2(\\frac{\pi d(x_i, x_j)}{p})}{l^2}\\right),
 
-    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`p` are the sigma, the correlation_length and the period parameters respectively.
+    where :math:`d` is the Euclidian metric and :math:`\\sigma`, :math:`l` and :math:`p` are the sigma, the correlation_length and the period parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -560,9 +560,9 @@ class RationalQuadratic(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 \left(1 + \\frac{d(x_i, x_j)^2}{2\\alpha l^2} \\right)^{-\\alpha},
+        k(x_i, x_j) = \\sigma^2 \\left(1 + \\frac{d(x_i, x_j)^2}{2\\alpha l^2} \\right)^{-\\alpha},
 
-    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`\\alpha` are the sigma, correlation_length and alpha parameters respectively.
+    where :math:`d` is the Euclidian metric and :math:`\\sigma`, :math:`l` and :math:`\\alpha` are the sigma, correlation_length and alpha parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -707,9 +707,9 @@ class Matern(_Base):
 
     .. math::
         
-        k(x_i, x_j) = \sigma^2 \\frac{2^{1-\\nu}}{\Gamma(\\nu)} \left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right)^\\nu K_\\nu\left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right),
+        k(x_i, x_j) = \\sigma^2 \\frac{2^{1-\\nu}}{\Gamma(\\nu)} \\left(\\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right)^\\nu K_\\nu\\left(\\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right),
 
-    where :math:`d` is the Euclidian metric, :math:`\Gamma` is the `gamma function <https://en.wikipedia.org/wiki/Gamma_function>`_, :math:`K_\\nu` is the `modified Bessel function of the second kind <https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html>`_ and :math:`\sigma`, :math:`l` and :math:`\\nu` are the sigma, correlation_length and nu parameters respectively.
+    where :math:`d` is the Euclidian metric, :math:`\Gamma` is the `gamma function <https://en.wikipedia.org/wiki/Gamma_function>`_, :math:`K_\\nu` is the `modified Bessel function of the second kind <https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html>`_ and :math:`\\sigma`, :math:`l` and :math:`\\nu` are the sigma, correlation_length and nu parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
