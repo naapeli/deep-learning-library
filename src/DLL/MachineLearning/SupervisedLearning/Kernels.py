@@ -67,7 +67,13 @@ class _Exponent(_Base):
 
 class RBF(_Base):
     """
-    The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another.
+    The commonly used radial basis function (rbf) kernel. Yields high values for samples close to one another. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{(x_i - x_j)^2}{2 l^2}\\right),
+    
+    where :math:`d` is the the Euclidian metric and :math:`\sigma` and :math:`l` are the sigma and the correlation_length parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -185,7 +191,13 @@ class RBF(_Base):
 
 class Linear(_Base):
     """
-    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs.
+    The linear kernel, often used as a baseline in kernel-based learning methods, representing a linear relationship between inputs. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 x_ix_j+\sigma_{bias},
+    
+    where :math:`\sigma` and :math:`\sigma_{bias}` are the sigma and the sigma_bias parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -304,7 +316,13 @@ class Linear(_Base):
 
 class WhiteGaussian(_Base):
     """
-    The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values.
+    The white Gaussian kernel, commonly used to capture Gaussian noise in data. This kernel models purely random noise without dependencies on input values. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 \mathbb{1}\{x_i = x_j\},
+    
+    where :math:`\mathbb{1}` is the indicator function and :math:`\sigma` is the sigma parameter.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -391,7 +409,13 @@ class WhiteGaussian(_Base):
 
 class Periodic(_Base):
     """
-    The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles.
+    The periodic kernel, commonly used to capture periodic relationships in data, such as seasonal patterns or repeating cycles. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{2\sin^2(\\frac{\pi d(x_i, x_j)}{p})}{l^2}\\right),
+
+    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`p` are the sigma, the correlation_length and the period parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -532,7 +556,13 @@ class Periodic(_Base):
 
 class RationalQuadratic(_Base):
     """
-    The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships.
+    The rational quadratic kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. It can be seen as a scale mixture of the squared exponential kernel, allowing flexibility between linear and non-linear relationships. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 \left(1 + \\frac{d(x_i, x_j)^2}{2\\alpha l^2} \\right)^{-\\alpha},
+
+    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`\\alpha` are the sigma, correlation_length and alpha parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
@@ -673,7 +703,13 @@ class RationalQuadratic(_Base):
     
 class Matern(_Base):
     """
-    The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness controlled by nu.
+    The Matern kernel, a versatile kernel often used in Gaussian Processes for modeling data with varying degrees of smoothness. Is a generalization of the RBF kernel with varying levels of smoothness controlled by nu. The used equation is:
+
+    .. math::
+        
+        k(x_i, x_j) = \sigma^2 \\frac{2^{1-\\nu}}{\Gamma(\\nu)} \left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right)^\\nu K_\\nu\left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right),
+
+    where :math:`d` is the Euclidian metric, :math:`\Gamma` is the `gamma function <https://en.wikipedia.org/wiki/Gamma_function>`_, :math:`K_\\nu` is the `modified Bessel function of the second kind <https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html>`_ and :math:`\sigma`, :math:`l` and :math:`\\nu` are the sigma, correlation_length and nu parameters respectively.
 
     Args:
         sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.
