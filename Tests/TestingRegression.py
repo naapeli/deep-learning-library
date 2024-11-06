@@ -2,17 +2,11 @@ import torch
 import matplotlib.pyplot as plt
 
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers.Dense import Dense
-from src.DLL.DeepLearning.Layers.Regularisation.Dropout import Dropout
-from src.DLL.DeepLearning.Layers.Regularisation.BatchNormalisation import BatchNorm
-from src.DLL.DeepLearning.Layers.Regularisation.GroupNormalisation import GroupNorm
-from src.DLL.DeepLearning.Layers.Regularisation.InstanceNormalisation import InstanceNorm
-from src.DLL.DeepLearning.Layers.Regularisation.LayerNormalisation import LayerNorm
-from src.DLL.DeepLearning.Layers.Activations.Tanh import Tanh
-from src.DLL.DeepLearning.Layers.Activations.ReLU import ReLU
-from src.DLL.DeepLearning.Layers.Activations.Sigmoid import Sigmoid
-from src.DLL.DeepLearning.Losses.MSE import mse
-from src.DLL.DeepLearning.Optimisers.SGD import sgd
+from src.DLL.DeepLearning.Layers import Dense
+from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, GroupNorm, InstanceNorm, LayerNorm, Dropout
+from src.DLL.DeepLearning.Layers.Activations import Tanh, Sigmoid, ReLU
+from src.DLL.DeepLearning.Losses import mse
+from src.DLL.DeepLearning.Optimisers import sgd
 from src.DLL.Data.Preprocessing import data_split
 
 
@@ -31,9 +25,10 @@ n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
+y = y.unsqueeze(1)
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
-errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=100, batch_size=64, verbose=True)
+errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=10, batch_size=64, verbose=True)
 plt.plot(errors["loss"], label="loss")
 plt.plot(errors["val_loss"], label="val_loss")
 plt.legend()

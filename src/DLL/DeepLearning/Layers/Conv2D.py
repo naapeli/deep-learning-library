@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from math import sqrt, ceil
 import numpy as np
 
-from .Base import Base
+from .BaseLayer import BaseLayer
 
 
 """
@@ -12,7 +12,7 @@ Convolutional layer
 input.shape = (batch_size, input_depth, input_height, input_widht)
 output.shape = (batch_size, output_depth, input_height - kernel_size + 1, input_widht - kernel_size + 1)
 """
-class Conv2D(Base):
+class Conv2D(BaseLayer):
     def __init__(self, kernel_size, output_depth, input_shape=None, activation=None, normalisation=None, **kwargs):
         super().__init__(output_shape=None, activation=activation, normalisation=normalisation, **kwargs)
         self.input_shape = input_shape

@@ -1,9 +1,9 @@
 import numpy as np
 
-from .Base import Base
+from .BaseLayer import BaseLayer
 
 
-class Flatten(Base):
+class Flatten(BaseLayer):
     def __init__(self, **kwargs):
         super().__init__(None, **kwargs)
         self.name = "Flatten"
