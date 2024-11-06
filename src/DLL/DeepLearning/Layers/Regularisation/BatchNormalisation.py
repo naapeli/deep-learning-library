@@ -10,16 +10,7 @@ class BatchNorm(BaseRegularisation):
         self.patience = patience
         self.epsilon = 1e-6
         self.name = "Batch normalisation"
-        if output_shape is not None: self.initialise_layer(output_shape, kwargs.get("data_type", None), kwargs.get("device", None))
-    
-    # def set_output_shape(self, output_shape):
-    #     self.output_shape = output_shape
-    #     self.input_shape = output_shape
-    #     self.gamma = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
-    #     self.beta = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
-    #     self.running_var = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
-    #     self.running_mean = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
-    #     self.nparams = 2 * np.prod(self.output_shape)
+        if self.output_shape is not None: self.initialise_layer(self.output_shape, self.data_type, self.device)
     
     def initialise_layer(self, input_shape, data_type, device):
         super().initialise_layer(input_shape, data_type, device)

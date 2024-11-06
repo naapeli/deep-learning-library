@@ -11,21 +11,25 @@ class Dense(BaseLayer):
     The basic dense linear layer.
 
     Args:
-        output_shape (tuple): The output_shape of the model not containing the batch_size dimension. Must be a tuple of length 0 or 1. If is length 0, the returned tensor is of shape (n_samples,) and if is length 1, the returned tensor is of shape (n_samples, layer.output_shape[0]).
+        output_shape (int): The output_shape of the model not containing the batch_size dimension. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) and if positive, the returned tensor is of shape (n_samples, output_shape).
+        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used fter this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         **kwargs
     """
-    def __init__(self, output_shape, activation=None, normalisation=None, **kwargs):
-        if not isinstance(output_shape, tuple | list) or len(output_shape) > 1:
-            raise ValueError("output_shape must be a tuple of length 1 or 0.")
+    def __init__(self, output_shape, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
+        if not isinstance(output_shape, int) or output_shape < 0:
+            raise ValueError("output_shape must be a non-negative integer.")
+        if initialiser not in ["Xavier_norm", "Xavier_uniform", "He_norm", "He_uniform"]:
+            raise ValueError('initialiser must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform".')
         if not isinstance(activation, Activation) and activation is not None:
             raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
         if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
             raise ValueError("normalisation must be from DLL.DeepLearning.Layers.Regularisation or None.")
 
-        super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
+        super().__init__((output_shape,), activation=activation, normalisation=normalisation, **kwargs)
         self.name = "Dense"
+        self.initialiser = initialiser
 
     def initialise_layer(self, input_shape, data_type, device):
         """
@@ -39,10 +43,20 @@ class Dense(BaseLayer):
             raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
 
         super().initialise_layer(input_shape, data_type, device)
-        # initialise parameters by Xavier initialisation
-        output_dim = self.output_shape[0] if len(self.output_shape) == 1 else 1
+        
         input_dim = input_shape[0]
-        self.weights = torch.normal(mean=0, std=sqrt(1/(input_dim + output_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        output_dim = self.output_shape[0] if self.output_shape[0] > 1 else 1
+        if self.initialiser == "Xavier_norm":
+            self.weights = torch.normal(mean=0, std=2/(input_dim + output_dim), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        elif self.initialiser == "Xavier_uniform":
+            a = sqrt(6/(input_dim + output_dim))
+            self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+        elif self.initialiser == "He_norm":
+            self.weights = torch.normal(mean=0, std=sqrt(6/(input_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        elif self.initialiser == "He_uniform":
+            a = sqrt(6/input_dim)
+            self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+
         self.biases = torch.zeros(output_dim, dtype=self.data_type, device=self.device)
         self.nparams = output_dim * input_dim + output_dim
 
@@ -77,7 +91,7 @@ class Dense(BaseLayer):
         output = self.input @ self.weights + self.biases
         if self.normalisation: output = self.normalisation.forward(output, training=training)
         if self.activation: output = self.activation.forward(output)
-        if len(self.output_shape) == 0: output = output.squeeze(dim=1)  # If the output_shape is a 1d tensor, remove the last dimension
+        if self.output_shape[0] == 0: output = output.squeeze(dim=1)  # If the output_shape is a 1d tensor, remove the last dimension
         return output
 
     def backward(self, dCdy, **kwargs):
@@ -93,10 +107,10 @@ class Dense(BaseLayer):
         """
         if not isinstance(dCdy, torch.Tensor):
             raise TypeError("dCdy must be a torch.Tensor.")
-        if dCdy.shape[1:] != self.output_shape:
+        if dCdy.shape[1:] != self.output_shape and not (dCdy.ndim == 1 and self.output_shape[0] == 0):
             raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output_shape}).")
         
-        if len(self.output_shape) == 0: dCdy = dCdy.unsqueeze(dim=1)  # If the output shape was a 1d tensor, add an extra dimension to the end
+        if self.output_shape[0] == 0: dCdy = dCdy.unsqueeze(dim=1)  # If the output shape was a 1d tensor, add an extra dimension to the end
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
         dCdx = dCdy @ self.weights.T

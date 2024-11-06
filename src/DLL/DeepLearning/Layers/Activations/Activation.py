@@ -3,6 +3,7 @@ from ..BaseLayer import BaseLayer
 
 class Activation(BaseLayer):
     def __init__(self, output_shape=None, **kwargs):
+        output_shape = (output_shape,) if output_shape is not None else output_shape
         super().__init__(output_shape, output_shape, **kwargs)
         assert self.activation is None, "Activation layer must not have an activation function"
         assert self.normalisation is None, "Activation layer must not have a normalisation layer"
