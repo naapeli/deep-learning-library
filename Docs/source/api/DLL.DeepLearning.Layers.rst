@@ -1,3 +1,5 @@
+.. _layers_section_label:
+
 Core layers
 ============
 
