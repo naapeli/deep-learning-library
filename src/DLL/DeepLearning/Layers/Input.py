@@ -1,7 +1,7 @@
-from .Base import Base
+from .BaseLayer import BaseLayer
 
 
-class Input(Base):
+class Input(BaseLayer):
     def __init__(self, output_shape, **kwargs):
         super().__init__(output_shape, output_shape, **kwargs)
         self.name = "Input"

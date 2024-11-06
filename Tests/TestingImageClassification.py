@@ -3,16 +3,11 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers.Dense import Dense
-from src.DLL.DeepLearning.Layers.Conv2D import Conv2D
-from src.DLL.DeepLearning.Layers.Flatten import Flatten
-from src.DLL.DeepLearning.Layers.MaxPooling2D import MaxPooling2D
-from src.DLL.DeepLearning.Layers.Regularisation.Dropout import Dropout
-from src.DLL.DeepLearning.Layers.Activations.ReLU import ReLU
-from src.DLL.DeepLearning.Layers.Activations.SoftMax import SoftMax
-from src.DLL.DeepLearning.Losses.CCE import cce
-from src.DLL.DeepLearning.Optimisers.SGD import sgd
-from src.DLL.DeepLearning.Optimisers.ADAM import Adam
+from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D
+from src.DLL.DeepLearning.Layers.Regularisation import Dropout
+from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
+from src.DLL.DeepLearning.Losses import cce
+from src.DLL.DeepLearning.Optimisers import sgd, Adam
 from src.DLL.Data.Preprocessing import OneHotEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
 

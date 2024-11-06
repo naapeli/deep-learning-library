@@ -1,10 +1,10 @@
 import torch
 from math import sqrt
 
-from .Base import Base
+from .BaseLayer import BaseLayer
 
 
-class RNN(Base):
+class RNN(BaseLayer):
     def __init__(self, output_shape, hidden_size, activation=None, normalisation=None, **kwargs):
         super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
         self.name = "RNN"
