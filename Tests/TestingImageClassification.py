@@ -15,10 +15,10 @@ from src.DLL.Data.Metrics import accuracy
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
-train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)
-train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)
-test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)
-test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)
+train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:100]
+train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:100]
+test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:100]
+test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:100]
 train_images = train_images / train_images.max()
 test_images = test_images / test_images.max()
 
