@@ -11,7 +11,6 @@ class Dropout(BaseRegularisation):
     
     def initialise_layer(self, **kwargs):
         super().initialise_layer(**kwargs)
-        self.output_shape = self.input_shape
         self.mask = torch.rand(size=self.output_shape, dtype=self.data_type, device=self.device) < self.p
 
     def forward(self, input, training=False, **kwargs):

@@ -17,18 +17,19 @@ class Model:
     The base model for a sequantial deep learning model. Uses a linear stack of layers to do forward- and backpropagation.
 
     Args:
-        input_shape (tuple[int]): A tuple containing the input shape of the model. The batch size should not be given as the first member of the tuple. For instance, if the input is of shape (n_sample, n_features), the input_shape should be (n_features,) or if the input is of shape (n_samples, n_channels, width, heigth), the input_shape should be (n_channels, width, heigth).
+        input_shape (tuple[int] | int): A tuple or an int containing the input shape of the model. The batch size should not be given as the first member of the tuple. For instance, if the input is of shape (n_sample, n_features), the input_shape should be n_features or if the input is of shape (n_samples, n_channels, width, heigth), the input_shape should be (n_channels, width, heigth).
         data_type (torch.dtype, optional): The data type used by the model. Defaults to torch.float32.
         device (torch.device, optional): The device of the model. Determines if the computation is made using the gpu or the cpu. Defaults to torch.device("cpu").
     """
     def __init__(self, input_shape, data_type=torch.float32, device=torch.device("cpu")):
-        if not isinstance(input_shape, tuple):
-            raise TypeError("input_shape must be a tuple of ints. See documentation for examples.")
+        if not isinstance(input_shape, tuple | int):
+            raise TypeError("input_shape must be a tuple of ints or an int. See documentation for examples.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype.")
         if not isinstance(device, torch.device):
             raise TypeError('device must be either torch.device("cpu") or torch.device("cuda").')
 
+        input_shape = (input_shape,) if isinstance(input_shape, int) else input_shape
         self.layers = [Input(input_shape, device=device, data_type=data_type)]
         self.optimiser = None
         self.loss = None
@@ -138,8 +139,8 @@ class Model:
             raise TypeError("The input matrix and the target matrix must be a PyTorch tensor.")
         if X.shape[1:] != self.layers[0].input_shape:
             raise ValueError("The input matrix must have the same shape as input_shape.")
-        if len(Y) != len(X) or Y.shape[1:] != self.layers[-1].output_shape:
-            raise ValueError("The targets must have the same shape as the output_shape of the last layer with the same number of samples as the input data")
+        if len(Y) != len(X) or (Y.shape[1:] != self.layers[-1].output_shape and not (Y.ndim == 1 and self.layers[-1].output_shape[0] == 0)):
+            raise ValueError(f"The targets must have the same shape as the output_shape of the last layer with the same number of samples as the input data {Y.shape[1:], self.layers[-1].output_shape}.")
         if not isinstance(val_data, list | tuple) and val_data is not None:
             raise TypeError("val_data must either be a tuple containing validation samples or None.")
         if isinstance(val_data, list | tuple) and len(val_data) != 2:

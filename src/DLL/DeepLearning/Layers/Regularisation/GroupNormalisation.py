@@ -15,16 +15,7 @@ class GroupNorm(BaseRegularisation):
         self.num_groups = num_groups
         self.epsilon = 1e-6
         self.name = "Group normalisation"
-        if output_shape is not None: self.initialise_layer(output_shape, kwargs.get("data_type", None), kwargs.get("device", None))
-
-    # def set_output_shape(self, output_shape):
-    #     self.output_shape = output_shape
-    #     self.input_shape = output_shape
-    #     assert self.output_shape[0] % self.num_groups == 0, "output_shape must be divisible by the number of groups"
-    #     assert self.output_shape[0] // self.num_groups > 1, "Number of elements in each group must be greater than 1"
-    #     self.gamma = torch.ones(self.output_shape, device=self.device, dtype=self.data_type)
-    #     self.beta = torch.zeros(self.output_shape, device=self.device, dtype=self.data_type)
-    #     self.nparams = 2 * self.output_shape[0]
+        if self.output_shape is not None: self.initialise_layer(self.output_shape, self.data_type, self.device)
     
     def initialise_layer(self, input_shape, data_type, device):
         super().initialise_layer(input_shape, data_type, device)
