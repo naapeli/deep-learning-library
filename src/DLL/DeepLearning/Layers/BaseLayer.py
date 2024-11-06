@@ -1,7 +1,7 @@
 import torch
 
 
-class Base:
+class BaseLayer:
     def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu")):
         self.input_shape = input_shape
         self.output_shape = output_shape
