@@ -14,17 +14,14 @@ class BaseLayer:
         self.device = device
         self.data_type = data_type
         if self.activation:
-            self.activation.set_output_shape(output_shape)
+            self.activation.initialise_layer(output_shape, data_type, device)
         if self.normalisation:
-            self.normalisation.data_type = self.data_type
-            self.normalisation.device = self.device
-            self.normalisation.set_output_shape(output_shape)
-    
-    """
-    Initialises a layer. Can be called after the layer knows its input and output shapes.
-    """
-    def initialise_layer(self):
-        pass
+            self.normalisation.initialise_layer(output_shape, data_type, device)
+
+    def initialise_layer(self, input_shape, data_type, device):
+        self.input_shape = input_shape
+        self.data_type = data_type
+        self.device = device
 
     def summary(self):
         return f"{self.name} - (Input, Output): ({self.input_shape}, {self.output_shape}) - Parameters: {self.nparams}" + (" - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else "") + (" - Activation: " + self.activation.name if self.activation else "")

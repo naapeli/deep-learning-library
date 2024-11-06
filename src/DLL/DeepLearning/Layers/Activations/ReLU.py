@@ -9,8 +9,8 @@ class ReLU(Activation):
 
     def forward(self, input, **kwargs):
         self.input = input
-        self.output = torch.maximum(self.input, torch.zeros_like(self.input, device=self.input.device, dtype=self.input.dtype))
-        return self.output
+        output = torch.maximum(self.input, torch.zeros_like(self.input, device=self.input.device, dtype=self.input.dtype))
+        return output
     
     def backward(self, dCdy, **kwargs):
         dCdx = dCdy * (self.input > 0)
