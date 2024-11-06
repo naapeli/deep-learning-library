@@ -69,10 +69,7 @@ class Model:
         if not isinstance(layer, BaseLayer):
             raise TypeError("layer must be from DLL.Deeplearning.Layers")
 
-        layer.input_shape = self.layers[-1].output_shape
-        layer.data_type = self.data_type
-        layer.device = self.device
-        layer.initialise_layer()
+        layer.initialise_layer(input_shape=self.layers[-1].output_shape, data_type=self.data_type, device=self.device)
         self.layers.append(layer)
     
     def summary(self):
@@ -139,9 +136,9 @@ class Model:
         """
         if not isinstance(X, torch.Tensor) or not isinstance(Y, torch.Tensor):
             raise TypeError("The input matrix and the target matrix must be a PyTorch tensor.")
-        if X.shape[1:] != self.layers[0].input_shape[1:]:
+        if X.shape[1:] != self.layers[0].input_shape:
             raise ValueError("The input matrix must have the same shape as input_shape.")
-        if len(Y) != len(X) or Y.shape[1:] != self.layers[-1].output_shape[1:]:
+        if len(Y) != len(X) or Y.shape[1:] != self.layers[-1].output_shape:
             raise ValueError("The targets must have the same shape as the output_shape of the last layer with the same number of samples as the input data")
         if not isinstance(val_data, list | tuple) and val_data is not None:
             raise TypeError("val_data must either be a tuple containing validation samples or None.")
