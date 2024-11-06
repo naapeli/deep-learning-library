@@ -1,25 +1,34 @@
 import torch
 import numpy as np
-from ..Activations.Activation import Activation
+from .BaseRegularisation import BaseRegularisation
 
 
-class BatchNorm(Activation):
+class BatchNorm(BaseRegularisation):
     def __init__(self, output_shape=None, patience=0.9, **kwargs):
         super().__init__(output_shape, **kwargs)
         assert 0 < patience and patience < 1, "Patience must be strictly between 0 and 1"
         self.patience = patience
         self.epsilon = 1e-6
         self.name = "Batch normalisation"
-        if output_shape is not None: self.set_output_shape(output_shape)
+        if output_shape is not None: self.initialise_layer(output_shape, kwargs.get("data_type", None), kwargs.get("device", None))
     
-    def set_output_shape(self, output_shape):
-        self.output_shape = output_shape
-        self.input_shape = output_shape
-        self.gamma = torch.ones(self.output_shape[1:], dtype=self.data_type, device=self.device)
-        self.beta = torch.zeros(self.output_shape[1:], dtype=self.data_type, device=self.device)
-        self.running_var = torch.ones(self.output_shape[1:], dtype=self.data_type, device=self.device)
-        self.running_mean = torch.zeros(self.output_shape[1:], dtype=self.data_type, device=self.device)
-        self.nparams = 2 * np.prod(self.output_shape[1:])
+    # def set_output_shape(self, output_shape):
+    #     self.output_shape = output_shape
+    #     self.input_shape = output_shape
+    #     self.gamma = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
+    #     self.beta = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
+    #     self.running_var = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
+    #     self.running_mean = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
+    #     self.nparams = 2 * np.prod(self.output_shape)
+    
+    def initialise_layer(self, input_shape, data_type, device):
+        super().initialise_layer(input_shape, data_type, device)
+
+        self.gamma = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
+        self.beta = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
+        self.running_var = torch.ones(self.output_shape, dtype=self.data_type, device=self.device)
+        self.running_mean = torch.zeros(self.output_shape, dtype=self.data_type, device=self.device)
+        self.nparams = 2 * np.prod(self.output_shape)
 
     def forward(self, input, training=False, **kwargs):
         assert input.shape[0] > 1, "Batch size must be greater than one"

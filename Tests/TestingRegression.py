@@ -12,20 +12,19 @@ from src.DLL.Data.Preprocessing import data_split
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-model = Model((None, 2), data_type=torch.float32)
-model.add(Dense((None, 6), normalisation=BatchNorm(), activation=ReLU()))
-model.add(Dropout((None, 6), p=0.1))
-model.add(Dense((None, 6)))
-model.add(BatchNorm((None, 6)))
-model.add(Sigmoid((None, 6)))
-model.add(Dense((None, 1)))
+model = Model((2,), data_type=torch.float32)
+model.add(Dense((6,), normalisation=BatchNorm(), activation=ReLU()))
+model.add(Dropout((6,), p=0.1))
+model.add(Dense((6,)))
+model.add(BatchNorm((6,)))
+model.add(Sigmoid((6,)))
+model.add(Dense(()))
 model.compile(optimiser=sgd(learning_rate=0.1), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
-y = y.unsqueeze(1)
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=10, batch_size=64, verbose=True)
