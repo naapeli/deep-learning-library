@@ -1,10 +1,10 @@
 import torch
 from math import sqrt
 
-from .Base import Base
+from .BaseLayer import BaseLayer
 
 
-class Dense(Base):
+class Dense(BaseLayer):
     def __init__(self, output_shape, activation=None, normalisation=None, **kwargs):
         super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
         self.name = "Dense"

@@ -1,7 +1,7 @@
-from ..Base import Base
+from ..BaseLayer import BaseLayer
 
 
-class Activation(Base):
+class Activation(BaseLayer):
     def __init__(self, output_shape=None, **kwargs):
         super().__init__(output_shape, output_shape, **kwargs)
         assert self.activation is None, "Activation layer must not have an activation function"
