@@ -15,7 +15,6 @@ class Dense(BaseLayer):
         initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used fter this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
-        **kwargs
     """
     def __init__(self, output_shape, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
         if not isinstance(output_shape, int) or output_shape < 0:
@@ -47,14 +46,14 @@ class Dense(BaseLayer):
         input_dim = input_shape[0]
         output_dim = self.output_shape[0] if self.output_shape[0] > 1 else 1
         if self.initialiser == "Xavier_norm":
-            self.weights = torch.normal(mean=0, std=2/(input_dim + output_dim), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+            self.weights = torch.normal(mean=0, std=sqrt(2/(input_dim + output_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
         elif self.initialiser == "Xavier_uniform":
             a = sqrt(6/(input_dim + output_dim))
             self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
         elif self.initialiser == "He_norm":
             self.weights = torch.normal(mean=0, std=sqrt(6/(input_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
         elif self.initialiser == "He_uniform":
-            a = sqrt(6/input_dim)
+            a = sqrt(12/(input_dim + output_dim))  # sqrt(6/input_dim)
             self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
 
         self.biases = torch.zeros(output_dim, dtype=self.data_type, device=self.device)
@@ -66,19 +65,20 @@ class Dense(BaseLayer):
 
         .. math::
         
-            y_{lin} = xW + b,
-            y_{reg} = f(y_{lin}),
-            y_{activ} = g(y_{reg}),
+            \\begin{align*}
+                y_{lin} = xW + b,\\\\
+                y_{reg} = f(y_{lin}),\\\\
+                y_{activ} = g(y_{reg}),
+            \\end{align*}
         
         where :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
 
         Args:
             input (torch.Tensor of shape (n_samples, n_features)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
             training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
-            **kwargs
             
         Returns:
-            torch.Tensor of shape (n_samples,) if len(layer.output_shape) == 0 else (n_samples, layer.output_shape[0]): The output tensor after the transformations with the spesified shape.
+            torch.Tensor of shape (n_samples,) if layer.output_shape[0] == 0 else (n_samples, layer.output_shape[0]): The output tensor after the transformations with the spesified shape.
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
@@ -99,8 +99,7 @@ class Dense(BaseLayer):
         Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.
 
         Args:
-            dCdy (torch.Tensor of shape (n_samples,) if len(layer.output_shape) == 0 else (n_samples, layer.output_shape[0])): The gradient given by the next layer.
-            **kwargs
+            dCdy (torch.Tensor of shape (n_samples,) if layer.output_shape[0] == 0 else (n_samples, layer.output_shape[0])): The gradient given by the next layer.
             
         Returns:
             torch.Tensor of shape (n_samples, layer.input_shape[0]): The new gradient after backpropagation through the layer.

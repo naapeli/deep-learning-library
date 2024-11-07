@@ -2,9 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingRegressor as gbr
 
-from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree
-from src.DLL.MachineLearning.SupervisedLearning.Trees import RandomForestRegressor
-from src.DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor
 from src.DLL.Data.Preprocessing import data_split
 
 
@@ -22,11 +20,10 @@ model2 = RandomForestRegressor(n_trees=10)
 model2.fit(x, y)
 y_pred2 = model2.predict(x_test)
 
-model3 = GradientBoostingRegressor(n_trees=10, learning_rate=0.5, loss="mse", max_depth=3)  # test with huber and mae (mae produces bad results for the 1d graph)
-history = model3.fit(x, y, metrics=["rmse"])
+model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss="mae", max_depth=3)
+history = model3.fit(x, y, metrics=["loss"])
 y_pred3 = model3.predict(x_test)
-# plt.plot(history["loss"])
-plt.plot(history["rmse"])
+plt.plot(history["loss"])
 plt.ylabel("Loss")
 plt.xlabel("Tree")
 plt.title("Gradient boosting regressor loss as a function of fitted trees")
