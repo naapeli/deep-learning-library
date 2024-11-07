@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D
+from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D, Reshape
 from src.DLL.DeepLearning.Layers.Regularisation import Dropout
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import cce
@@ -39,6 +39,7 @@ model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_uniform", activ
 model.add(MaxPooling2D(pool_size=2))
 model.add(Dropout(p=0.5))
 model.add(Flatten())
+# model.add(Reshape(800))
 model.add(Dense(200, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
 model.compile(optimiser=Adam(learning_rate=0.001), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])

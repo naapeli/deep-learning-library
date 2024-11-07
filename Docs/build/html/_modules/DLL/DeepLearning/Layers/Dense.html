@@ -88,8 +88,7 @@
 <span class="sd">        output_shape (int): The output_shape of the model not containing the batch_size dimension. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) and if positive, the returned tensor is of shape (n_samples, output_shape).</span>
 <span class="sd">        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of &quot;Xavier_norm&quot;, &quot;Xavier_uniform&quot;, &quot;He_norm&quot; or &quot;He_uniform&quot;. Defaults to &quot;Xavier_uniform&quot;.</span>
 <span class="sd">        activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.</span>
-<span class="sd">        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used fter this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.</span>
-<span class="sd">        **kwargs</span>
+<span class="sd">        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">,</span> <span class="n">initialiser</span><span class="o">=</span><span class="s2">&quot;Xavier_uniform&quot;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalisation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">output_shape</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -153,7 +152,6 @@
 <span class="sd">        Args:</span>
 <span class="sd">            input (torch.Tensor of shape (n_samples, n_features)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</span>
 <span class="sd">            training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.</span>
-<span class="sd">            **kwargs</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor of shape (n_samples,) if layer.output_shape[0] == 0 else (n_samples, layer.output_shape[0]): The output tensor after the transformations with the spesified shape.</span>
@@ -181,7 +179,6 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            dCdy (torch.Tensor of shape (n_samples,) if layer.output_shape[0] == 0 else (n_samples, layer.output_shape[0])): The gradient given by the next layer.</span>
-<span class="sd">            **kwargs</span>
 <span class="sd">            </span>
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor of shape (n_samples, layer.input_shape[0]): The new gradient after backpropagation through the layer.</span>

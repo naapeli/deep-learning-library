@@ -46,9 +46,12 @@ class BaseLayer:
         if not hasattr(self, "input_shape"):
             raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
 
-        input_shape = self.input_shape if len(self.input_shape) > 1 else self.input_shape[0]
-        output_shape = self.output_shape[0] if len(self.output_shape) <= 1 else self.output_shape
-        return f"{self.name} - (Input, Output): ({input_shape}, {output_shape}) - Parameters: {self.nparams}" + (" - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else "") + (" - Activation: " + self.activation.name if self.activation else "")
+        input_shape = self.input_shape[0] if len(self.input_shape) == 1 else self.input_shape
+        output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
+        params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
+        normalisation_summary = " - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else ""
+        activation_summary = " - Activation: " + self.activation.name if self.activation else ""
+        return f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary
 
     def forward(self, input, **kwargs):
         if not isinstance(input, torch.Tensor):

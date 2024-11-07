@@ -64,10 +64,6 @@ class GroupNorm(BaseRegularisation):
         dCdinput_reshaped += 1.0 / elements_per_group * torch.ones_like(self.input_reshaped, device=self.device, dtype=self.data_type) * dCdmean
         dCdx = dCdinput_reshaped.view(self.output.shape)
         return dCdx.view(self.output.shape)
-    
-    def summary(self):
-        return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
 
     def get_parameters(self):
         return (self.gamma, self.beta)
-    

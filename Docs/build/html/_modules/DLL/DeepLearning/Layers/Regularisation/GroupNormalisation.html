@@ -147,12 +147,6 @@
         <span class="n">dCdx</span> <span class="o">=</span> <span class="n">dCdinput_reshaped</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dCdx</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-    
-<div class="viewcode-block" id="GroupNorm.summary">
-<a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.GroupNorm.summary">[docs]</a>
-    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - Output: (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="si">}</span><span class="s2">) - Parameters: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nparams</span><span class="si">}</span><span class="s2">&quot;</span></div>
-
 
 <div class="viewcode-block" id="GroupNorm.get_parameters">
 <a class="viewcode-back" href="../../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.GroupNorm.get_parameters">[docs]</a>
@@ -160,7 +154,6 @@
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span></div>
 </div>
 
-    
 </pre></div>
 
            </div>

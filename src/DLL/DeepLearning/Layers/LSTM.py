@@ -7,7 +7,7 @@ from .BaseLayer import BaseLayer
 class LSTM(BaseLayer):
     def __init__(self, output_shape, hidden_size, activation=None, normalisation=None, **kwargs):
         super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
-        self.name = "RNN"
+        self.name = "LSTM"
         self.hidden_size = hidden_size
 
     def initialise_layer(self):
