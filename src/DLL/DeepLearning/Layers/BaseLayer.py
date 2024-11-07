@@ -24,10 +24,6 @@ class BaseLayer:
         self.normalisation = normalisation
         self.device = device
         self.data_type = data_type
-        if self.activation:
-            self.activation.initialise_layer(output_shape, data_type, device)
-        if self.normalisation:
-            self.normalisation.initialise_layer(output_shape, data_type, device)
 
     def initialise_layer(self, input_shape, data_type, device):
         if not isinstance(input_shape, tuple) and input_shape is not None:
@@ -40,6 +36,11 @@ class BaseLayer:
         self.input_shape = input_shape
         self.data_type = data_type
         self.device = device
+
+        if self.activation:
+            self.activation.initialise_layer(self.output_shape, data_type, device)
+        if self.normalisation:
+            self.normalisation.initialise_layer(self.output_shape, data_type, device)
 
     def summary(self):
         if not hasattr(self, "input_shape"):
