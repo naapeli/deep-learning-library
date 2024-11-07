@@ -50,9 +50,6 @@ class BatchNorm(BaseRegularisation):
         self.beta.grad = dCdbeta
         return dCdx
     
-    def summary(self):
-        return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
-    
     def get_parameters(self):
         return (self.gamma, self.beta)
     

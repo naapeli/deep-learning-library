@@ -14,7 +14,7 @@ class Dense(BaseLayer):
         output_shape (int): The output_shape of the model not containing the batch_size dimension. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) and if positive, the returned tensor is of shape (n_samples, output_shape).
         initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
-        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used fter this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     """
     def __init__(self, output_shape, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
         if not isinstance(output_shape, int) or output_shape < 0:
