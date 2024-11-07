@@ -5,12 +5,46 @@ from .BaseLayer import BaseLayer
 
 
 class RNN(BaseLayer):
-    def __init__(self, output_shape, hidden_size, activation=None, normalisation=None, **kwargs):
-        super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
+    """
+    The recurrent neural network layer.
+
+    Args:
+        output_shape (int): The output length of the model not containing the batch_size or the sequence_length dimension. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) or (n_samples, sequence_length) and if positive, the returned tensor is of shape (n_samples, output_shape) or (n_samples, sequence_length, output_shape).
+        hidden_size (int): The number of features in the hidden state vector. Must be a positive integer.
+        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
+        activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+    """
+    def __init__(self, output_shape, hidden_size, return_last=True, activation=None, normalisation=None, **kwargs):
+        super().__init__((output_shape,), activation=activation, normalisation=normalisation, **kwargs)
         self.name = "RNN"
         self.hidden_size = hidden_size
+        self.return_last = return_last
 
-    def initialise_layer(self):
+    def initialise_layer(self, input_shape, data_type, device):
+        """
+        :meta private:
+        """
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
+            raise ValueError("input_shape must be a tuple of length 2.")
+        if not isinstance(data_type, torch.dtype):
+            raise TypeError("data_type must be an instance of torch.dtype")
+        if not isinstance(device, torch.device):
+            raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
+
+        super().initialise_layer(input_shape, data_type, device)
+
+        # if self.initialiser == "Xavier_norm":
+        #     self.weights = torch.normal(mean=0, std=sqrt(2/(input_dim + output_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        # elif self.initialiser == "Xavier_uniform":
+        #     a = sqrt(6/(input_dim + output_dim))
+        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+        # elif self.initialiser == "He_norm":
+        #     self.weights = torch.normal(mean=0, std=sqrt(6/(input_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        # elif self.initialiser == "He_uniform":
+        #     a = sqrt(12/(input_dim + output_dim))  # sqrt(6/input_dim)
+        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+
         self.ih = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.hidden_size, self.input_shape[-1]), dtype=self.data_type, device=self.device)
         self.hh = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.hidden_size, self.hidden_size), dtype=self.data_type, device=self.device)
         self.ho = torch.normal(mean=0, std=1 / sqrt(self.input_shape[-1] + self.output_shape[-1]), size=(self.output_shape[-1], self.hidden_size), dtype=self.data_type, device=self.device)
@@ -20,24 +54,81 @@ class RNN(BaseLayer):
 
     """
     input.shape = (batch_size, sequence_length, input_size)
-    output.shape = (batch_size, sequence_length, output_size) or (batch_size, output_size)
+    output.shape = (batch_size, sequence_length, output_size) or (batch_size, output_size) or (batch_size, sequence_length) or (batch_size,)
     """
     def forward(self, input, training=False, **kwargs):
+        """
+        Calculates the forward propagation of the model using the equation
+
+        .. math::
+        
+            \\begin{align*}
+                h_t = \\text{tanh}(x_tW_{ih}^T + h_{t - 1}W_{hh}^T + b_h),\\\\
+                y_{t} = h_tW_o^T + b_o,\\\\
+                y_{reg} = f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
+                y_{activ} = g(y_{reg}),
+            \\end{align*}
+
+        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x_t` is the input, :math:`h_t` is the hidden state, :math:`W_{ih}` is the input to hidden weights, :math:`W_{hh}` is the hidden to hidden weights, :math:`b_h` is the hidden bias, :math:`W_o` is the output weights, :math:`b_o` is the output bias, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
+
+        Args:
+            input (torch.Tensor of shape (n_samples, n_features)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
+            training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
+            
+        Returns:
+            torch.Tensor: The output tensor after the transformations with the spesified shape.
+            
+            .. list-table:: The return shapes of the method depending on the parameters.
+                :widths: 10 25
+                :header-rows: 1
+
+                * - Parameter
+                  - Return Shape
+                * - RNN.output_shape[0] == 0 and RNN.return_last
+                  - (n_samples,)
+                * - RNN.output_shape[0] > 0 and RNN.return_last
+                  - (n_samples, RNN.output_shape[0])
+                * - RNN.output_shape[0] == 0 and not RNN.return_last
+                  - (n_samples, sequence_length)
+                * - RNN.output_shape[0] > 0 and not RNN.return_last
+                  - (n_samples, sequence_length, RNN.output_shape[0])
+        """
+        if not isinstance(input, torch.Tensor):
+            raise TypeError("input must be a torch.Tensor.")
+        if input.shape[1:] != self.input_shape:
+            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+        if not isinstance(training, bool):
+            raise TypeError("training must be a boolean.")
+
         self.input = input
         batch_size, seq_len, _ = input.size()
         self.hiddens = [torch.zeros(batch_size, self.hidden_size, dtype=input.dtype, device=input.device)]
-        if len(self.output_shape) == 3: self.output = torch.zeros(batch_size, seq_len, self.output_shape[2], dtype=input.dtype, device=input.device)
+        if not self.return_last: self.output = torch.zeros(batch_size, seq_len, self.output_shape[2], dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             self.hiddens.append(torch.tanh(self.input[:, t] @ self.ih.T + self.hiddens[-1] @ self.hh.T + self.bh))
-            if len(self.output_shape) == 3: self.output[:, t] = self.hiddens[-1] @ self.ho.T + self.bo
+            if not self.return_last: self.output[:, t] = self.hiddens[-1] @ self.ho.T + self.bo
 
-        if len(self.output_shape) == 2: self.output = self.hiddens[-1] @ self.ho.T + self.bo
+        if self.return_last: self.output = self.hiddens[-1] @ self.ho.T + self.bo
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
 
     def backward(self, dCdy, **kwargs):
+        """
+        Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.
+
+        Args:
+            dCdy (torch.Tensor of the same shape as returned from the forward method): The gradient given by the next layer.
+            
+        Returns:
+            torch.Tensor of shape (n_samples, layer.input_shape[0]): The new gradient after backpropagation through the layer.
+        """
+        if not isinstance(dCdy, torch.Tensor):
+            raise TypeError("dCdy must be a torch.Tensor.")
+        if dCdy.shape[1:] != self.output.shape[1:]:
+            raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output.shape[1:]}).")
+        
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
@@ -48,16 +139,16 @@ class RNN(BaseLayer):
         self.bo.grad = torch.zeros_like(self.bo, dtype=dCdy.dtype, device=dCdy.device)
 
         batch_size, seq_len, _ = self.input.size()
-        dCdh_next = torch.zeros_like(self.hiddens[0], dtype=dCdy.dtype, device=dCdy.device) if len(self.output_shape) == 3 else dCdy @ self.ho
+        dCdh_next = torch.zeros_like(self.hiddens[0], dtype=dCdy.dtype, device=dCdy.device) if not self.return_last else dCdy @ self.ho
         dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
 
-        if len(self.output_shape) == 2: self.ho.grad += dCdy.T @ self.hiddens[-1] # batch_size, output_size --- batch_size, self.hidden_size
-        if len(self.output_shape) == 2: self.bo.grad += torch.sum(dCdy, axis=0)
+        if self.return_last: self.ho.grad += dCdy.T @ self.hiddens[-1] # batch_size, output_size --- batch_size, self.hidden_size
+        if self.return_last: self.bo.grad += torch.sum(dCdy, axis=0)
         for t in reversed(range(seq_len)):
-            if len(self.output_shape) == 3: self.ho.grad += dCdy[:, t].T @ self.hiddens[t + 1]
-            if len(self.output_shape) == 3: self.bo.grad += torch.sum(dCdy[:, t], axis=0)
+            if not self.return_last: self.ho.grad += dCdy[:, t].T @ self.hiddens[t + 1]
+            if not self.return_last: self.bo.grad += torch.sum(dCdy[:, t], axis=0)
 
-            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho if len(self.output_shape) == 3 else dCdh_next # batch_size, self.hidden_size + batch_size, output_size --- self.output_shape, self.hidden_size
+            dCdh_t = dCdh_next + dCdy[:, t] @ self.ho if not self.return_last else dCdh_next # batch_size, self.hidden_size + batch_size, output_size --- self.output_shape, self.hidden_size
 
             dCdtanh = (1 - self.hiddens[t + 1] ** 2) * dCdh_t # batch_size, self.hidden_size
 
@@ -70,4 +161,7 @@ class RNN(BaseLayer):
         return dCdx
     
     def get_parameters(self):
+        """
+        :meta private:
+        """
         return (self.hh, self.ih, self.ho, self.bh, self.bo)

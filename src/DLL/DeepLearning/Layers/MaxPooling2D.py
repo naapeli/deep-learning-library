@@ -99,9 +99,3 @@ class MaxPooling2D(Activation):
             derivatives = dCdy[:, :, h, w].unsqueeze(-1).unsqueeze(-1).repeat(1, 1, self.pool_size, self.pool_size)
             dCdx[:, :, h * self.pool_size:h * self.pool_size + self.pool_size, w * self.pool_size:w * self.pool_size + self.pool_size] = torch.where(selector, derivatives, derivative_slice)
         return dCdx / sums
-
-    def summary(self):
-        """
-        :meta private:
-        """
-        return f"{self.name} - (Input, Output): ({self.input_shape}, {self.output_shape}) - Parameters: {self.nparams}"

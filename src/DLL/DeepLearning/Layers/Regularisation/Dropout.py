@@ -27,4 +27,5 @@ class Dropout(BaseRegularisation):
         return dCdx
     
     def summary(self):
-        return f"{self.name} - Output: ({self.output_shape}) - Keep probability: {self.p}"
+        output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
+        return f"{self.name} - Output: ({output_shape}) - Keep probability: {self.p}"
