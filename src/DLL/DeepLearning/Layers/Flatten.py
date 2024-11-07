@@ -8,8 +8,9 @@ class Flatten(BaseLayer):
         super().__init__(None, **kwargs)
         self.name = "Flatten"
     
-    def initialise_layer(self):
-        self.output_shape = (self.input_shape[0], np.prod(self.input_shape[1:]))
+    def initialise_layer(self, input_shape, data_type, device):
+        super().initialise_layer(input_shape, data_type, device)
+        self.output_shape = (np.prod(self.input_shape),)
     
     def forward(self, input, **kwargs):
         self.input = input

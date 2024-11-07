@@ -70,12 +70,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for DLL.DeepLearning.Layers.Reshape</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">.Base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span></span><span class="kn">from</span> <span class="nn">.BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
 
 
 <div class="viewcode-block" id="Reshape">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Reshape">[docs]</a>
-<span class="k">class</span> <span class="nc">Reshape</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Reshape</span><span class="p">(</span><span class="n">BaseLayer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Reshape&quot;</span>

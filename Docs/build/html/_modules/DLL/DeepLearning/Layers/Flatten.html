@@ -72,20 +72,21 @@
   <h1>Source code for DLL.DeepLearning.Layers.Flatten</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">.Base</span> <span class="kn">import</span> <span class="n">Base</span>
+<span class="kn">from</span> <span class="nn">.BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
 
 
 <div class="viewcode-block" id="Flatten">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Flatten">[docs]</a>
-<span class="k">class</span> <span class="nc">Flatten</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Flatten</span><span class="p">(</span><span class="n">BaseLayer</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Flatten&quot;</span>
     
 <div class="viewcode-block" id="Flatten.initialise_layer">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Flatten.initialise_layer">[docs]</a>
-    <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
+    <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">),)</span></div>
 
     
 <div class="viewcode-block" id="Flatten.forward">
