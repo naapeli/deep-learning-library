@@ -2,6 +2,8 @@ import torch
 from math import sqrt
 
 from .BaseLayer import BaseLayer
+from .Activations.Activation import Activation
+from .Regularisation.BaseRegularisation import BaseRegularisation
 
 
 class RNN(BaseLayer):
@@ -9,17 +11,28 @@ class RNN(BaseLayer):
     The recurrent neural network layer.
 
     Args:
-        output_shape (int): The output length of the model not containing the batch_size or the sequence_length dimension. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) or (n_samples, sequence_length) and if positive, the returned tensor is of shape (n_samples, output_shape) or (n_samples, sequence_length, output_shape).
+        output_shape (int): The number of output features. Must be a non-negative int. If is zero, the returned tensor is of shape (n_samples,) or (n_samples, sequence_length) and if positive, the returned tensor is of shape (n_samples, output_shape) or (n_samples, sequence_length, output_shape).
         hidden_size (int): The number of features in the hidden state vector. Must be a positive integer.
+        return_last (bool): Determines if only the last element or the whole sequence is returned.
         initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     """
-    def __init__(self, output_shape, hidden_size, return_last=True, activation=None, normalisation=None, **kwargs):
+    def __init__(self, output_shape, hidden_size, return_last=True, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
+        if not isinstance(output_shape, int) or output_shape < 0:
+            raise ValueError("output_shape must be a non-negative integer.")
+        if initialiser not in ["Xavier_norm", "Xavier_uniform", "He_norm", "He_uniform"]:
+            raise ValueError('initialiser must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform".')
+        if not isinstance(activation, Activation) and activation is not None:
+            raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
+        if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
+            raise ValueError("normalisation must be from DLL.DeepLearning.Layers.Regularisation or None.")
+
         super().__init__((output_shape,), activation=activation, normalisation=normalisation, **kwargs)
         self.name = "RNN"
         self.hidden_size = hidden_size
         self.return_last = return_last
+        self.initialiser = initialiser
 
     def initialise_layer(self, input_shape, data_type, device):
         """
@@ -63,16 +76,16 @@ class RNN(BaseLayer):
         .. math::
         
             \\begin{align*}
-                h_t = \\text{tanh}(x_tW_{ih}^T + h_{t - 1}W_{hh}^T + b_h),\\\\
-                y_{t} = h_tW_o^T + b_o,\\\\
-                y_{reg} = f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
-                y_{activ} = g(y_{reg}),
+                h_t &= \\text{tanh}(x_tW_{ih}^T + h_{t - 1}W_{hh}^T + b_h),\\\\
+                y_{t} &= h_tW_o^T + b_o,\\\\
+                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
+                y_{activ} &= g(y_{reg}),
             \\end{align*}
 
-        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x_t` is the input, :math:`h_t` is the hidden state, :math:`W_{ih}` is the input to hidden weights, :math:`W_{hh}` is the hidden to hidden weights, :math:`b_h` is the hidden bias, :math:`W_o` is the output weights, :math:`b_o` is the output bias, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
+        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W_{ih}` is the input to hidden weights, :math:`W_{hh}` is the hidden to hidden weights, :math:`b_h` is the hidden bias, :math:`W_o` is the output weights, :math:`b_o` is the output bias, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
 
         Args:
-            input (torch.Tensor of shape (n_samples, n_features)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
+            input (torch.Tensor of shape (batch_size, sequence_length, input_size)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
             training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
             
         Returns:
@@ -122,7 +135,7 @@ class RNN(BaseLayer):
             dCdy (torch.Tensor of the same shape as returned from the forward method): The gradient given by the next layer.
             
         Returns:
-            torch.Tensor of shape (n_samples, layer.input_shape[0]): The new gradient after backpropagation through the layer.
+            torch.Tensor of shape (n_samples, sequence_length, input_size): The new gradient after backpropagation through the layer.
         """
         if not isinstance(dCdy, torch.Tensor):
             raise TypeError("dCdy must be a torch.Tensor.")
@@ -138,7 +151,7 @@ class RNN(BaseLayer):
         self.bh.grad = torch.zeros_like(self.bh, dtype=dCdy.dtype, device=dCdy.device)
         self.bo.grad = torch.zeros_like(self.bo, dtype=dCdy.dtype, device=dCdy.device)
 
-        batch_size, seq_len, _ = self.input.size()
+        _, seq_len, _ = self.input.size()
         dCdh_next = torch.zeros_like(self.hiddens[0], dtype=dCdy.dtype, device=dCdy.device) if not self.return_last else dCdy @ self.ho
         dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
 
@@ -159,7 +172,7 @@ class RNN(BaseLayer):
             dCdh_next = dCdtanh @ self.hh # self.hidden_size, self.hidden_size --- batch_size, self.hidden_size
             dCdx[:, t] = dCdtanh @ self.ih # batch_size, self.hidden_size --- self.hidden_size, self.input_shape
         return dCdx
-    
+
     def get_parameters(self):
         """
         :meta private:

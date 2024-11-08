@@ -9,7 +9,7 @@ from src.DLL.DeepLearning.Losses import mse
 
 
 size = 300
-sequence_length = 10
+sequence_length = 20
 data = torch.sin(torch.arange(size, dtype=torch.float32))
 x = []
 y = []
@@ -20,8 +20,8 @@ x = torch.stack(x).reshape(len(x), sequence_length, 1)
 y = torch.stack(y).reshape(len(y), 1)
 print(x.shape, y.shape)
 
-model = Model((10, 1))
-model.add(RNN(1, 10, activation=Tanh()))
+model = Model((sequence_length, 1))
+model.add(LSTM(1, 10, activation=Tanh()))
 model.compile(optimiser=Adam(), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 
