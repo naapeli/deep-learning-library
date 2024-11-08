@@ -1,16 +1,15 @@
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.DeepLearning.Layers.RNN import RNN
-from src.DLL.DeepLearning.Layers.LSTM import LSTM
+from src.DLL.DeepLearning.Layers import RNN, LSTM
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers.Activations.Tanh import Tanh
-from src.DLL.DeepLearning.Optimisers.ADAM import Adam
-from src.DLL.DeepLearning.Losses.MSE import mse
+from src.DLL.DeepLearning.Layers.Activations import Tanh
+from src.DLL.DeepLearning.Optimisers import Adam
+from src.DLL.DeepLearning.Losses import mse
 
 
 size = 300
-sequence_length = 10
+sequence_length = 20
 data = torch.sin(torch.arange(size, dtype=torch.float32))
 x = []
 y = []
@@ -21,8 +20,8 @@ x = torch.stack(x).reshape(len(x), sequence_length, 1)
 y = torch.stack(y).reshape(len(y), 1)
 print(x.shape, y.shape)
 
-model = Model((None, None, 1))
-model.add(RNN((None, 1), 10, activation=Tanh()))
+model = Model((sequence_length, 1))
+model.add(LSTM(1, 10, activation=Tanh()))
 model.compile(optimiser=Adam(), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
 

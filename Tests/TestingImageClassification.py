@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D
+from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D, Reshape
 from src.DLL.DeepLearning.Layers.Regularisation import Dropout
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import cce
@@ -15,10 +15,10 @@ from src.DLL.Data.Metrics import accuracy
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
-train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)
-train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)
-test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)
-test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)
+train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:100]
+train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:100]
+test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:100]
+test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:100]
 train_images = train_images / train_images.max()
 test_images = test_images / test_images.max()
 
@@ -32,15 +32,16 @@ test_labels = label_encoder.one_hot_encode(test_labels)
 print(train_images.shape, train_labels.shape, validation_images.shape, validation_labels.shape, test_images.shape, test_labels.shape)
 print(train_labels[:2])
 
-model = Model((None, 1, 28, 28), device=device)
-model.add(Conv2D(kernel_size=3, output_depth=32, activation=ReLU()))
+model = Model((1, 28, 28), device=device)
+model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_norm", activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
-model.add(Conv2D(kernel_size=3, output_depth=32, activation=ReLU()))
+model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_uniform", activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
 model.add(Dropout(p=0.5))
 model.add(Flatten())
-model.add(Dense((None, 200), activation=ReLU()))
-model.add(Dense((None, 10), activation=SoftMax()))
+# model.add(Reshape(800))
+model.add(Dense(200, activation=ReLU()))
+model.add(Dense(10, activation=SoftMax()))
 model.compile(optimiser=Adam(learning_rate=0.001), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=10, batch_size=4096, verbose=True)
