@@ -6,7 +6,7 @@ class InstanceNorm(GroupNorm):
         if output_shape: super().__init__(output_shape, output_shape[1], **kwargs)
         self.name = "Instance normalisation"
 
-    def set_output_shape(self, output_shape):
-        self.num_groups = output_shape[1]
-        super().set_output_shape(output_shape)
+    def initialise_layer(self, input_shape, data_type, device):
+        self.num_groups = input_shape[1]
+        super().initialise_layer(input_shape, data_type, device)
         

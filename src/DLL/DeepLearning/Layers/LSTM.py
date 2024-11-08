@@ -2,17 +2,65 @@ import torch
 from math import sqrt
 
 from .BaseLayer import BaseLayer
+from .Activations.Activation import Activation
+from .Regularisation.BaseRegularisation import BaseRegularisation
 
 
 class LSTM(BaseLayer):
-    def __init__(self, output_shape, hidden_size, activation=None, normalisation=None, **kwargs):
-        super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
-        self.name = "RNN"
-        self.hidden_size = hidden_size
+    """
+    The long short-term memory layer for neural networks.
 
-    def initialise_layer(self):
-        input_size = self.input_shape[2]
-        output_size = self.input_shape[-1]
+    Args:
+        output_shape (int): The number of output features. Must be a non-negative int. If is zero, the returned tensor is of shape (batch_size,) or (batch_size, sequence_length) and if positive, the returned tensor is of shape (batch_size, output_size) or (batch_size, sequence_length, output_size).
+        hidden_size (int): The number of features in the hidden state vector. Must be a positive integer.
+        return_last (bool): Determines if only the last element or the whole sequence is returned.
+        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
+        activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+        normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+    """
+    def __init__(self, output_shape, hidden_size, return_last=True, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
+        if not isinstance(output_shape, int) or output_shape < 0:
+            raise ValueError("output_shape must be a non-negative integer.")
+        if initialiser not in ["Xavier_norm", "Xavier_uniform", "He_norm", "He_uniform"]:
+            raise ValueError('initialiser must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform".')
+        if not isinstance(activation, Activation) and activation is not None:
+            raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
+        if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
+            raise ValueError("normalisation must be from DLL.DeepLearning.Layers.Regularisation or None.")
+
+        super().__init__((output_shape,), activation=activation, normalisation=normalisation, **kwargs)
+        self.name = "LSTM"
+        self.hidden_size = hidden_size
+        self.return_last = return_last
+        self.initialiser = initialiser
+
+    def initialise_layer(self, input_shape, data_type, device):
+        """
+        :meta private:
+        """
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
+            raise ValueError("input_shape must be a tuple of length 2.")
+        if not isinstance(data_type, torch.dtype):
+            raise TypeError("data_type must be an instance of torch.dtype")
+        if not isinstance(device, torch.device):
+            raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
+
+        super().initialise_layer(input_shape, data_type, device)
+
+        input_size = self.input_shape[1]
+        output_size = self.output_shape[0]
+
+        # if self.initialiser == "Xavier_norm":
+        #     self.weights = torch.normal(mean=0, std=sqrt(2/(input_dim + output_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        # elif self.initialiser == "Xavier_uniform":
+        #     a = sqrt(6/(input_dim + output_dim))
+        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+        # elif self.initialiser == "He_norm":
+        #     self.weights = torch.normal(mean=0, std=sqrt(6/(input_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
+        # elif self.initialiser == "He_uniform":
+        #     a = sqrt(12/(input_dim + output_dim))  # sqrt(6/input_dim)
+        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
+
         self.wf = (torch.rand(input_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
         self.uf = (torch.rand(self.hidden_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
         self.bf = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
@@ -30,21 +78,65 @@ class LSTM(BaseLayer):
 
         self.nparams = output_size + self.hidden_size * output_size + 4 * input_size * self.hidden_size + 4 * self.hidden_size + 4 * self.hidden_size ** 2
 
-    """
-    input.shape = (batch_size, sequence_length, input_size)
-    output.shape = (batch_size, sequence_length, output_size) or (batch_size, output_size)
-    """
     def forward(self, input, training=False, **kwargs):
-        self.input = input
-        self.forget_gates = {}
-        self.input_gates = {}
-        self.candidate_gates = {}
-        self.output_gates = {}
+        """
+        Calculates the forward propagation of the model using the equations
+
+        .. math::
+        
+            \\begin{align*}
+                f_t &= \\sigma(W_fx_t + U_fh_{t - 1} + b_f),\\\\
+                i_t &= \\sigma(W_ix_t + U_ih_{t - 1} + b_i),\\\\
+                o_t &= \\sigma(W_ox_t + U_oh_{t - 1} + b_o),\\\\
+                \\widetilde{c}_t &= \\text{tanh}(W_cx_t + U_ch_{t - 1} + b_c),\\\\
+                c_t &= f_t\\odot c_{t - 1} + i_t\\odot\\widetilde{c}_t,\\\\
+                h_t &= o_t\\odot\\text{tanh}(c_t),\\\\
+                y_t &= W_yh_t + b_y,\\\\
+                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
+                y_{activ} &= g(y_{reg}),
+            \\end{align*}
+
+        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W` and :math:`U` are the weight matricies, :math:`b` are the biases, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. Also :math:`\\odot` represents the hadamard or the element-wise product and :math:`\\sigma` represents the sigmoid function.
+
+        Args:
+            input (torch.Tensor of shape (batch_size, sequence_length, input_size)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
+            training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
+            
+        Returns:
+            torch.Tensor: The output tensor after the transformations with the spesified shape.
+            
+            .. list-table:: The return shapes of the method depending on the parameters.
+                :widths: 10 25
+                :header-rows: 1
+
+                * - Parameter
+                  - Return Shape
+                * - LSTM.output_shape[0] == 0 and LSTM.return_last
+                  - (batch_size,)
+                * - LSTM.output_shape[0] > 0 and LSTM.return_last
+                  - (batch_size, output_size)
+                * - LSTM.output_shape[0] == 0 and not LSTM.return_last
+                  - (batch_size, sequence_length)
+                * - LSTM.output_shape[0] > 0 and not LSTM.return_last
+                  - (batch_size, sequence_length, output_size)
+        """
+        if not isinstance(input, torch.Tensor):
+            raise TypeError("input must be a torch.Tensor.")
+        if input.shape[1:] != self.input_shape:
+            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+        if not isinstance(training, bool):
+            raise TypeError("training must be a boolean.")
 
         batch_size, seq_len, _ = input.size()
+        self.input = input
+        self.forget_gates = [0] * seq_len
+        self.input_gates = [0] * seq_len
+        self.candidate_gates = [0] * seq_len
+        self.output_gates = [0] * seq_len
+
         self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
         self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
-        if len(self.output_shape) == 3: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=input.dtype, device=input.device)
+        if not self.return_last: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             x_t = input[:, t]
@@ -58,30 +150,44 @@ class LSTM(BaseLayer):
             self.cell_states[t] = self.forget_gates[t] * self.cell_states[t - 1] + self.input_gates[t] * self.candidate_gates[t]
             self.hidden_states[t] = self.output_gates[t] * self._tanh(self.cell_states[t])
 
-            if len(self.output_shape) == 3: self.output[:, t] = self.hidden_states[t] @ self.wy + self.by
+            if not self.return_last: self.output[:, t] = self.hidden_states[t] @ self.wy + self.by
         
-        if len(self.output_shape) == 2: self.output = self.hidden_states[seq_len - 1] @ self.wy + self.by
+        if self.return_last: self.output = self.hidden_states[seq_len - 1] @ self.wy + self.by
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
         return self.output
 
     def backward(self, dCdy, **kwargs):
+        """
+        Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.
+
+        Args:
+            dCdy (torch.Tensor of the same shape as returned from the forward method): The gradient given by the next layer.
+            
+        Returns:
+            torch.Tensor of shape (batch_size, sequence_length, input_size): The new gradient after backpropagation through the layer.
+        """
+        if not isinstance(dCdy, torch.Tensor):
+            raise TypeError("dCdy must be a torch.Tensor.")
+        if dCdy.shape[1:] != self.output.shape[1:]:
+            raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output.shape[1:]}).")
+        
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
         self._reset_gradients()
-        dCdh_next = torch.zeros_like(self.hidden_states[0], dtype=dCdy.dtype, device=dCdy.device) if len(self.output_shape) == 3 else dCdy @ self.wy.T
+        dCdh_next = torch.zeros_like(self.hidden_states[0], dtype=dCdy.dtype, device=dCdy.device) if not self.return_last else dCdy @ self.wy.T
         dCdc_next = torch.zeros_like(self.cell_states[0], dtype=dCdy.dtype, device=dCdy.device)
         dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
         batch_size, seq_len, _ = self.input.size()
 
-        if len(self.output_shape) == 2: self.wy.grad += self.hidden_states[seq_len - 1].T @ dCdy
-        if len(self.output_shape) == 2: self.by.grad += torch.mean(dCdy, axis=0)
+        if self.return_last: self.wy.grad += self.hidden_states[seq_len - 1].T @ dCdy
+        if self.return_last: self.by.grad += torch.mean(dCdy, axis=0)
 
         for t in reversed(range(seq_len)):
-            if len(self.output_shape) == 3: self.wy.grad += self.hidden_states[t].T @ dCdy[:, t]
-            if len(self.output_shape) == 3: self.by.grad += torch.mean(dCdy[:, t], axis=0)
-            dCdh_t = dCdh_next + dCdy[:, t] @ self.wy.T if len(self.output_shape) == 3 else dCdh_next # hidden state
+            if not self.return_last: self.wy.grad += self.hidden_states[t].T @ dCdy[:, t]
+            if not self.return_last: self.by.grad += torch.mean(dCdy[:, t], axis=0)
+            dCdh_t = dCdh_next + dCdy[:, t] @ self.wy.T if not self.return_last else dCdh_next # hidden state
 
             dCdo = self._tanh(self.cell_states[t]) * dCdh_t # output
             # dCdc_t = self._tanh(self.cell_states[t], derivative = True) * self.output_gates[t] * dCdh_t + dCdc_next # cell state
@@ -154,6 +260,9 @@ class LSTM(BaseLayer):
         self.by.grad = torch.zeros_like(self.by, dtype=self.data_type, device=self.device)
     
     def get_parameters(self):
+        """
+        :meta private:
+        """
         return (self.wy, self.wo, self.wc, self.wi, self.wf,
                 self.uo, self.uc, self.ui, self.uf,
                 self.by, self.bo, self.bc, self.bi, self.bf)
