@@ -9,8 +9,8 @@ class Tanh(Activation):
 
     def forward(self, input, **kwargs):
         self.input = input
-        self.output = torch.tanh(input)
-        return self.output
+        output = torch.tanh(input)
+        return output
     
     def backward(self, dCdy, **kwargs):
         dCdx = dCdy * (1 - torch.tanh(self.input) ** 2)

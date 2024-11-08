@@ -1,5 +1,5 @@
 import torch
-from ..Activations.Activation import Activation
+from .BaseRegularisation import BaseRegularisation
 
 
 """
@@ -8,23 +8,23 @@ Computes the group norm of a batch along axis=1
 input.shape = (batch_size, channels, *)
 output.shape = (batch_size, channels, *)
 """
-class GroupNorm(Activation):
+class GroupNorm(BaseRegularisation):
     def __init__(self, output_shape=None, num_groups=32, **kwargs):
         super().__init__(output_shape, **kwargs)
         self.kwargs = kwargs
         self.num_groups = num_groups
         self.epsilon = 1e-6
         self.name = "Group normalisation"
-        if output_shape is not None: self.set_output_shape(output_shape)
-
-    def set_output_shape(self, output_shape):
-        self.output_shape = output_shape
-        self.input_shape = output_shape
-        assert self.output_shape[1] % self.num_groups == 0, "output_shape must be divisible by the number of groups"
-        assert self.output_shape[1] // self.num_groups > 1, "Number of elements in each group must be greater than 1"
-        self.gamma = torch.ones(self.output_shape[1:], device=self.device, dtype=self.data_type)
-        self.beta = torch.zeros(self.output_shape[1:], device=self.device, dtype=self.data_type)
-        self.nparams = 2 * self.output_shape[1]
+        if self.output_shape is not None: self.initialise_layer(self.output_shape, self.data_type, self.device)
+    
+    def initialise_layer(self, input_shape, data_type, device):
+        super().initialise_layer(input_shape, data_type, device)
+        assert self.output_shape[0] % self.num_groups == 0, "output_shape must be divisible by the number of groups"
+        assert self.output_shape[0] // self.num_groups > 1, "Number of elements in each group must be greater than 1"
+        
+        self.gamma = torch.ones(self.output_shape, device=self.device, dtype=self.data_type)
+        self.beta = torch.zeros(self.output_shape, device=self.device, dtype=self.data_type)
+        self.nparams = 2 * self.output_shape[0]
 
     def forward(self, input, **kwargs):
         elements_per_group = input.shape[1] // self.num_groups
@@ -64,10 +64,6 @@ class GroupNorm(Activation):
         dCdinput_reshaped += 1.0 / elements_per_group * torch.ones_like(self.input_reshaped, device=self.device, dtype=self.data_type) * dCdmean
         dCdx = dCdinput_reshaped.view(self.output.shape)
         return dCdx.view(self.output.shape)
-    
-    def summary(self):
-        return f"{self.name} - Output: ({self.output_shape}) - Parameters: {self.nparams}"
 
     def get_parameters(self):
         return (self.gamma, self.beta)
-    

@@ -1,17 +1,17 @@
 import torch
-from ..Activations.Activation import Activation
+from .BaseRegularisation import BaseRegularisation
 
 
-class Dropout(Activation):
+class Dropout(BaseRegularisation):
     def __init__(self, output_shape=None, p=0.5, **kwargs):
         super().__init__(output_shape, **kwargs)
         assert 0 <= p and p <= 1, "Dropout probability must be between 0 and 1"
         self.p = 1 - p
         self.name = "Dropout"
     
-    def initialise_layer(self):
-        self.output_shape = self.input_shape
-        self.mask = torch.rand(size=self.output_shape[1:], dtype=self.data_type, device=self.device) < self.p
+    def initialise_layer(self, **kwargs):
+        super().initialise_layer(**kwargs)
+        self.mask = torch.rand(size=self.output_shape, dtype=self.data_type, device=self.device) < self.p
 
     def forward(self, input, training=False, **kwargs):
         self.input = input
@@ -27,4 +27,5 @@ class Dropout(Activation):
         return dCdx
     
     def summary(self):
-        return f"{self.name} - Output: ({self.output_shape}) - Keep probability: {self.p}"
+        output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
+        return f"{self.name} - Output: ({output_shape}) - Keep probability: {self.p}"

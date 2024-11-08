@@ -67,6 +67,8 @@ Reshape
    :undoc-members:
    :show-inheritance:
 
+.. _activations_section_label:
+
 Activation layers
 ==================
 
@@ -102,6 +104,7 @@ Tanh
    :undoc-members:
    :show-inheritance:
 
+.. _regularisation_layers_section_label:
 
 Regularisation layers
 ======================

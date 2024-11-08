@@ -145,9 +145,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{(x_i - x_j)^2}{2 l^2}\\right),</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 \\exp\\left(-\\frac{(x_i - x_j)^2}{2 l^2}\\right),</span>
 <span class="sd">    </span>
-<span class="sd">    where :math:`d` is the the Euclidian metric and :math:`\sigma` and :math:`l` are the sigma and the correlation_length parameters respectively.</span>
+<span class="sd">    where :math:`d` is the the Euclidian metric and :math:`\\sigma` and :math:`l` are the sigma and the correlation_length parameters respectively.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
@@ -278,9 +278,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 x_ix_j+\sigma_{bias},</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 x_ix_j+\\sigma_{bias},</span>
 <span class="sd">    </span>
-<span class="sd">    where :math:`\sigma` and :math:`\sigma_{bias}` are the sigma and the sigma_bias parameters respectively.</span>
+<span class="sd">    where :math:`\\sigma` and :math:`\\sigma_{bias}` are the sigma and the sigma_bias parameters respectively.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
@@ -412,9 +412,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 \mathbb{1}\{x_i = x_j\},</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 \mathbb{1}\{x_i = x_j\},</span>
 <span class="sd">    </span>
-<span class="sd">    where :math:`\mathbb{1}` is the indicator function and :math:`\sigma` is the sigma parameter.</span>
+<span class="sd">    where :math:`\mathbb{1}` is the indicator function and :math:`\\sigma` is the sigma parameter.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
@@ -514,9 +514,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 \exp\left(-\\frac{2\sin^2(\\frac{\pi d(x_i, x_j)}{p})}{l^2}\\right),</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 \\exp\\left(-\\frac{2\\sin^2(\\frac{\pi d(x_i, x_j)}{p})}{l^2}\\right),</span>
 
-<span class="sd">    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`p` are the sigma, the correlation_length and the period parameters respectively.</span>
+<span class="sd">    where :math:`d` is the Euclidian metric and :math:`\\sigma`, :math:`l` and :math:`p` are the sigma, the correlation_length and the period parameters respectively.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
@@ -670,9 +670,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 \left(1 + \\frac{d(x_i, x_j)^2}{2\\alpha l^2} \\right)^{-\\alpha},</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 \\left(1 + \\frac{d(x_i, x_j)^2}{2\\alpha l^2} \\right)^{-\\alpha},</span>
 
-<span class="sd">    where :math:`d` is the Euclidian metric and :math:`\sigma`, :math:`l` and :math:`\\alpha` are the sigma, correlation_length and alpha parameters respectively.</span>
+<span class="sd">    where :math:`d` is the Euclidian metric and :math:`\\sigma`, :math:`l` and :math:`\\alpha` are the sigma, correlation_length and alpha parameters respectively.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>
@@ -826,9 +826,9 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        </span>
-<span class="sd">        k(x_i, x_j) = \sigma^2 \\frac{2^{1-\\nu}}{\Gamma(\\nu)} \left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right)^\\nu K_\\nu\left(\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right),</span>
+<span class="sd">        k(x_i, x_j) = \\sigma^2 \\frac{2^{1-\\nu}}{\Gamma(\\nu)} \\left(\\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right)^\\nu K_\\nu\\left(\\sqrt{2\\nu}\\frac{d(x_i, x_j)}{l}\\right),</span>
 
-<span class="sd">    where :math:`d` is the Euclidian metric, :math:`\Gamma` is the `gamma function &lt;https://en.wikipedia.org/wiki/Gamma_function&gt;`_, :math:`K_\\nu` is the `modified Bessel function of the second kind &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html&gt;`_ and :math:`\sigma`, :math:`l` and :math:`\\nu` are the sigma, correlation_length and nu parameters respectively.</span>
+<span class="sd">    where :math:`d` is the Euclidian metric, :math:`\Gamma` is the `gamma function &lt;https://en.wikipedia.org/wiki/Gamma_function&gt;`_, :math:`K_\\nu` is the `modified Bessel function of the second kind &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.kv.html&gt;`_ and :math:`\\sigma`, :math:`l` and :math:`\\nu` are the sigma, correlation_length and nu parameters respectively.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sigma (float, optional): The overall scale factor of the variance. Controls the amplitude of the kernel. Must be a positive real number. Defaults to 1.</span>

@@ -84,33 +84,65 @@
 <div class="viewcode-block" id="MaxPooling2D">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D">[docs]</a>
 <span class="k">class</span> <span class="nc">MaxPooling2D</span><span class="p">(</span><span class="n">Activation</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_size</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The max pooling layer for a neural network.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pool_size (int): The pooling size used for the model. The pooling kernel is automatically square. Must be a positive integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pool_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pool_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pool_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pool_size must be a positive integer. Currently </span><span class="si">{</span><span class="n">pool_size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span> <span class="o">=</span> <span class="n">pool_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;MaxPooling2D&quot;</span>
-        <span class="k">if</span> <span class="n">input_shape</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">()</span>
 
-<div class="viewcode-block" id="MaxPooling2D.initialise_layer">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.initialise_layer">[docs]</a>
-    <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">batch_size</span><span class="p">,</span> <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">initialise_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;input_shape must be a tuple of length 3.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data_type must be an instance of torch.dtype&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;device must be one of torch.device(&quot;cpu&quot;) or torch.device(&quot;cuda&quot;)&#39;</span><span class="p">)</span>
 
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_depth</span><span class="p">,</span> <span class="n">input_height</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">input_width</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">)</span>
     
-<div class="viewcode-block" id="MaxPooling2D.generate_sections">
-<a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.generate_sections">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_sections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_batch</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;image_batch should be 4 dimensional.&quot;</span><span class="p">)</span>
+
         <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span>
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
                 <span class="nb">slice</span> <span class="o">=</span> <span class="n">image_batch</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">):(</span><span class="n">h</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">),</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">):(</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">)]</span>
-                <span class="k">yield</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span></div>
-
+                <span class="k">yield</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span>
     
 <div class="viewcode-block" id="MaxPooling2D.forward">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.forward">[docs]</a>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the max pooling transformation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input (torch.Tensor of shape (n_samples, input_depth, height, width)): The input to the layer. Must be a torch.Tensor of the spesified shape.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor of shape (n_samples, output_depth, height // layer.pool_size, width // layer.pool_size): The output tensor after the transformations with the spesified shape.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;input must be a torch.Tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input is not the same shape as the spesified input_shape (</span><span class="si">{</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">input_shape</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">widht</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">widht</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="n">height</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_size</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">input</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -122,6 +154,20 @@
 <div class="viewcode-block" id="MaxPooling2D.backward">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.MaxPooling2D.backward">[docs]</a>
     <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dCdy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the gradient of the loss function with respect to the input of the layer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dCdy (torch.Tensor of shape (n_samples, output_depth, output_height, output_width) : The gradient given by the next layer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor of shape (n_samples, input_depth, input_height, input_width): The new gradient after backpropagation through the layer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dCdy</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;dCdy must be a torch.Tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dCdy is not the same shape as the spesified output_shape (</span><span class="si">{</span><span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
+
         <span class="n">dCdx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">sums</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">for</span> <span class="nb">slice</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_sections</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">):</span>
