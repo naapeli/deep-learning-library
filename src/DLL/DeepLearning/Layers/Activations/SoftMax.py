@@ -3,8 +3,8 @@ from .Activation import Activation
 
 
 class SoftMax(Activation):
-    def __init__(self, output_shape=None, **kwargs):
-        super().__init__(output_shape, **kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.name = "Softmax"
 
     def forward(self, input, **kwargs):

@@ -1,16 +1,16 @@
 import torch
 
-from src.DLL.DeepLearning.Layers.RNN import RNN
+from src.DLL.DeepLearning.Layers import RNN
 
 
-data = torch.ones(size=(3, 1), dtype=torch.float32, requires_grad=True)
+data = torch.rand(size=(3, 1), dtype=torch.float32, requires_grad=True)
 data = torch.stack([(i + 1) * data for i in range(2)])
 data.retain_grad()
 # print(data.shape)
 # print(data)
 
-layer = RNN((None, None, 1), 5, input_shape=(None, 3, 1))
-layer.initialise_layer()
+layer = RNN(1, 5)
+layer.initialise_layer((3, 1), data_type=torch.float32, device=torch.device("cpu"))
 result = layer.forward(data)
 # print(result)
 gradient = torch.ones_like(result)
