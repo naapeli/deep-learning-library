@@ -38,9 +38,9 @@ class GroupNorm(BaseRegularisation):
         Normalises the input to have zero mean and one variance accross self.num_groups groups accross the channel dimension with the following equation:
         
         .. math::
-            y = \\gamma\\frac{x - \\\mathbb{E}[x]}{\\sqrt{\\text{var}(x) + \\epsilon}} + \\beta,
+            y = \\gamma\\frac{x - \\mathbb{E}[x]}{\\sqrt{\\text{var}(x) + \\epsilon}} + \\beta,
         
-        where :math:`x` is the input, :math:`\\\mathbb{E}[x]` is the expected value or the mean accross each group, :math:`\\text{var}(x)` is the variance accross the variance accross each group, :math:`\\epsilon` is a small constant and :math:`\\gamma` and :math:`\\beta` are trainable parameters.
+        where :math:`x` is the input, :math:`\\mathbb{E}[x]` is the expected value or the mean accross each group, :math:`\\text{var}(x)` is the variance accross the variance accross each group, :math:`\\epsilon` is a small constant and :math:`\\gamma` and :math:`\\beta` are trainable parameters.
 
         Args:
             input (torch.Tensor of shape (batch_size, channels, ...)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.

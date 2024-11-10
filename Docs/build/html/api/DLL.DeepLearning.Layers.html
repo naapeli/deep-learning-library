@@ -599,17 +599,44 @@
 <h2>ReLU<a class="headerlink" href="#relu" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.ReLU">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">ReLU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/ReLU.html#ReLU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.ReLU" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">ReLU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/ReLU.html#ReLU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.ReLU" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Activation</span></code></p>
+<p>The basic rectified linear unit activation function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.ReLU.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/ReLU.html#ReLU.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.ReLU.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.ReLU.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/ReLU.html#ReLU.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.ReLU.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the following function for every element of the input matrix:</p>
+<div class="math notranslate nohighlight">
+\[\text{ReLU}(x) = \text{max}(0, x).\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of any shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after applying the activation function of the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -618,17 +645,44 @@
 <h2>Sigmoid<a class="headerlink" href="#sigmoid" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Sigmoid">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">Sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Sigmoid.html#Sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Sigmoid" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">Sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Sigmoid.html#Sigmoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Sigmoid" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Activation</span></code></p>
+<p>The sigmoid activation function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Sigmoid.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Sigmoid.html#Sigmoid.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Sigmoid.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Sigmoid.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Sigmoid.html#Sigmoid.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Sigmoid.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the following function for every element of the input matrix:</p>
+<div class="math notranslate nohighlight">
+\[\text{\sigma}(x) = \frac{1}{1 + e^{-x}}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of any shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after applying the activation function of the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -637,17 +691,45 @@
 <h2>SoftMax<a class="headerlink" href="#softmax" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.SoftMax">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">SoftMax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/SoftMax.html#SoftMax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.SoftMax" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">SoftMax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/SoftMax.html#SoftMax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.SoftMax" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Activation</span></code></p>
+<p>The softmax activation function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.SoftMax.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/SoftMax.html#SoftMax.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.SoftMax.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_features)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.SoftMax.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/SoftMax.html#SoftMax.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.SoftMax.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the following function for every element of the input matrix:</p>
+<div class="math notranslate nohighlight">
+\[\text{Softmax}(x)_i = \frac{e^{x_i}}{\sum_{j=1}^{K} e^{x_j}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(K\)</span> is the number of features of the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after applying the activation function of the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -656,17 +738,42 @@
 <h2>Tanh<a class="headerlink" href="#tanh" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Tanh">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">Tanh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Tanh.html#Tanh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Tanh" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Activations.</span></span><span class="sig-name descname"><span class="pre">Tanh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Tanh.html#Tanh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Tanh" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Activation</span></code></p>
+<p>The hyperbolic tangent activation function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Tanh.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Tanh.html#Tanh.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Tanh.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Activations.Tanh.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Activations/Tanh.html#Tanh.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Activations.Tanh.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the hyperbolic tangent function for every element of the input matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of any shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after applying the activation function of the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -678,27 +785,50 @@
 <h2>Dropout<a class="headerlink" href="#dropout" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.Dropout">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">Dropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">Dropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRegularisation</span></code></p>
+<p>The dropout layer for neural networks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>float</em><em>, </em><em>optional</em>) – The probability of a node being dropped out. Must be strictly between 0 and 1. Defaults to 0.5.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.Dropout.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, channels, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.Dropout.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.Dropout.initialise_layer">
-<span class="sig-name descname"><span class="pre">initialise_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout.initialise_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout.initialise_layer" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.Dropout.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/Dropout.html#Dropout.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.Dropout.summary" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sets some values of the input to zero with probability p.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>channels</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</p></li>
+<li><p><strong>training</strong> (<em>bool</em><em>, </em><em>optional</em>) – The boolean flag deciding if the model is in training mode. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after the transformation with the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -707,27 +837,53 @@
 <h2>BatchNormalisation<a class="headerlink" href="#batchnormalisation" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.BatchNorm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">BatchNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">BatchNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRegularisation</span></code></p>
+<p>The batch normalisation layer for neural networks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>patience</strong> (<em>float</em><em>, </em><em>optional</em>) – The number deciding how fast the mean and variance in training. Must be strictly between 0 and 1. Defaults to 0.9.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.BatchNorm.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, channels, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.BatchNorm.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.BatchNorm.get_parameters">
-<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm.get_parameters" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.BatchNorm.initialise_layer">
-<span class="sig-name descname"><span class="pre">initialise_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/BatchNormalisation.html#BatchNorm.initialise_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.BatchNorm.initialise_layer" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Normalises the input to have zero mean and one variance with the following equation:</p>
+<div class="math notranslate nohighlight">
+\[y = \gamma\frac{x - \mathbb{E}[x]}{\sqrt{\text{var}(x) + \epsilon}} + \beta,\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the input, <span class="math notranslate nohighlight">\(\mathbb{E}[x]\)</span> is the expected value or the mean accross the batch dimension, <span class="math notranslate nohighlight">\(\text{var}(x)\)</span> is the variance accross the variance accross the batch dimension, <span class="math notranslate nohighlight">\(\epsilon\)</span> is a small constant and <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are trainable parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>channels</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</p></li>
+<li><p><strong>training</strong> (<em>bool</em><em>, </em><em>optional</em>) – The boolean flag deciding if the model is in training mode. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after the normalisation with the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -736,27 +892,53 @@
 <h2>GroupNormalisation<a class="headerlink" href="#groupnormalisation" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.GroupNorm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">GroupNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">GroupNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRegularisation</span></code></p>
+<p>The group normalisation layer for neural networks. Computes the group norm of a batch along axis=1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>num_groups</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of groups used in the normalisation. Must be a positive integer. Defaults to 32. The number of channels must be evenly divisible by num_groups. If is set to 1, is identical to layer normalisation and if batch_size, is identical to the instance normalisation.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.GroupNorm.backward">
 <span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm.backward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, channels, …)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.GroupNorm.forward">
 <span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm.forward" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.GroupNorm.get_parameters">
-<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm.get_parameters" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.GroupNorm.initialise_layer">
-<span class="sig-name descname"><span class="pre">initialise_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/GroupNormalisation.html#GroupNorm.initialise_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm.initialise_layer" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Normalises the input to have zero mean and one variance accross self.num_groups groups accross the channel dimension with the following equation:</p>
+<div class="math notranslate nohighlight">
+\[y = \gamma\frac{x - \mathbb{E}[x]}{\sqrt{\text{var}(x) + \epsilon}} + \beta,\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the input, <span class="math notranslate nohighlight">\(\mathbb{E}[x]\)</span> is the expected value or the mean accross each group, <span class="math notranslate nohighlight">\(\text{var}(x)\)</span> is the variance accross the variance accross each group, <span class="math notranslate nohighlight">\(\epsilon\)</span> is a small constant and <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are trainable parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>channels</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</p></li>
+<li><p><strong>training</strong> (<em>bool</em><em>, </em><em>optional</em>) – The boolean flag deciding if the model is in training mode. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after the normalisation with the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -765,12 +947,45 @@
 <h2>InstanceNormalisation<a class="headerlink" href="#instancenormalisation" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.InstanceNorm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">InstanceNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/InstanceNormalisation.html#InstanceNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.InstanceNorm" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">InstanceNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/InstanceNormalisation.html#InstanceNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.InstanceNorm" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm" title="DLL.DeepLearning.Layers.Regularisation.GroupNormalisation.GroupNorm"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupNorm</span></code></a></p>
+<p>The instance normalisation layer for neural networks. Computes the group norm of a batch along axis=1 with the same number of groups as channels.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.InstanceNorm.initialise_layer">
-<span class="sig-name descname"><span class="pre">initialise_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/InstanceNormalisation.html#InstanceNorm.initialise_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.InstanceNorm.initialise_layer" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.InstanceNorm.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/InstanceNormalisation.html#InstanceNorm.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.InstanceNorm.backward" title="Link to this definition"></a></dt>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, channels, …)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.InstanceNorm.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/InstanceNormalisation.html#InstanceNorm.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.InstanceNorm.forward" title="Link to this definition"></a></dt>
+<dd><p>Normalises the input to have zero mean and one variance accross the channel dimension with the following equation:</p>
+<div class="math notranslate nohighlight">
+\[y = \gamma\frac{x - \mathbb{E}[x]}{\sqrt{\text{var}(x) + \epsilon}} + \beta,\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the input, <span class="math notranslate nohighlight">\(\mathbb{E}[x]\)</span> is the expected value or the mean accross the channel dimension, <span class="math notranslate nohighlight">\(\text{var}(x)\)</span> is the variance accross the variance accross the channel dimension, <span class="math notranslate nohighlight">\(\epsilon\)</span> is a small constant and <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are trainable parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>channels</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after the normalisation with the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -779,8 +994,45 @@
 <h2>LayerNormalisation<a class="headerlink" href="#layernormalisation" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.LayerNorm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">LayerNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/LayerNormalisation.html#LayerNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.LayerNorm" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Layers.Regularisation.</span></span><span class="sig-name descname"><span class="pre">LayerNorm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/LayerNormalisation.html#LayerNorm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.LayerNorm" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#DLL.DeepLearning.Layers.Regularisation.GroupNorm" title="DLL.DeepLearning.Layers.Regularisation.GroupNormalisation.GroupNorm"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupNorm</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.LayerNorm.backward">
+<span class="sig-name descname"><span class="pre">backward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dCdy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/LayerNormalisation.html#LayerNorm.backward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.LayerNorm.backward" title="Link to this definition"></a></dt>
+<dd><p>Calculates the gradient of the loss function with respect to the input of the layer. Also calculates the gradients of the loss function with respect to the model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dCdy</strong> (<em>torch.Tensor</em><em> of </em><em>the same shape as returned from the forward method</em>) – The gradient given by the next layer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new gradient after backpropagation through the layer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (batch_size, channels, …)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Layers.Regularisation.LayerNorm.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Layers/Regularisation/LayerNormalisation.html#LayerNorm.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Layers.Regularisation.LayerNorm.forward" title="Link to this definition"></a></dt>
+<dd><p>Normalises the input to have zero mean and one variance accross the channel dimension with the following equation:</p>
+<div class="math notranslate nohighlight">
+\[y = \gamma\frac{x - \mathbb{E}[x]}{\sqrt{\text{var}(x) + \epsilon}} + \beta,\]</div>
+<p>where <span class="math notranslate nohighlight">\(x\)</span> is the input, <span class="math notranslate nohighlight">\(\mathbb{E}[x]\)</span> is the expected value or the mean accross the channel dimension, <span class="math notranslate nohighlight">\(\text{var}(x)\)</span> is the variance accross the variance accross the channel dimension, <span class="math notranslate nohighlight">\(\epsilon\)</span> is a small constant and <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are trainable parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>batch_size</em><em>, </em><em>channels</em><em>, </em><em>...</em><em>)</em>) – The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output tensor after the normalisation with the same shape as the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
