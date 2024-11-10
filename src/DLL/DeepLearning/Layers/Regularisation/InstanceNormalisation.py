@@ -13,8 +13,8 @@ class InstanceNorm(GroupNorm):
         """
         :meta private:
         """
-        if "input_shape" not in kwargs or not isinstance(kwargs.get("input_shape"), tuple) and kwargs.get("input_shape") is not None:
-            raise ValueError(f"input_shape must be a tuple or None. Currently {kwargs.get('input_shape', -1)}.")
+        if "input_shape" not in kwargs or not isinstance(kwargs.get("input_shape"), tuple | list):
+            raise ValueError(f"input_shape must be passed as a key word argument to layer.initialise_layer as a tuple or a list. Currently {kwargs.get('input_shape', None)}.")
 
         self.num_groups = kwargs.get("input_shape")[0]
         super().initialise_layer(**kwargs)
