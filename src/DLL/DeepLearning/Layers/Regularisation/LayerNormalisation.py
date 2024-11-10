@@ -22,7 +22,7 @@ class LayerNorm(GroupNorm):
             torch.Tensor: The output tensor after the normalisation with the same shape as the input.
         """
 
-        super().forward(input, **kwargs)
+        return super().forward(input, **kwargs)
     
     def backward(self, dCdy, **kwargs):
         """
@@ -34,4 +34,4 @@ class LayerNorm(GroupNorm):
         Returns:
             torch.Tensor of shape (batch_size, channels, ...): The new gradient after backpropagation through the layer.
         """
-        super().backward(dCdy, **kwargs)
+        return super().backward(dCdy, **kwargs)

@@ -13,6 +13,8 @@ class InstanceNorm(GroupNorm):
         """
         :meta private:
         """
+        if "input_shape" not in kwargs or not isinstance(kwargs.get("input_shape"), tuple) and kwargs.get("input_shape") is not None:
+            raise ValueError(f"input_shape must be a tuple or None. Currently {kwargs.get('input_shape', -1)}.")
 
         self.num_groups = kwargs.get("input_shape")[0]
         super().initialise_layer(**kwargs)
@@ -33,7 +35,7 @@ class InstanceNorm(GroupNorm):
             torch.Tensor: The output tensor after the normalisation with the same shape as the input.
         """
 
-        super().forward(input, **kwargs)
+        return super().forward(input, **kwargs)
     
     def backward(self, dCdy, **kwargs):
         """
@@ -45,4 +47,4 @@ class InstanceNorm(GroupNorm):
         Returns:
             torch.Tensor of shape (batch_size, channels, ...): The new gradient after backpropagation through the layer.
         """
-        super().backward(dCdy, **kwargs)
+        return super().backward(dCdy, **kwargs)

@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 
 from .BaseRegularisation import BaseRegularisation
 
@@ -54,9 +53,6 @@ class GroupNorm(BaseRegularisation):
             raise TypeError("input must be a torch.Tensor.")
         if input.shape[1:] != self.input_shape:
             raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
-        print(np.prod(input.shape) // self.num_groups)
-        if np.prod(input.shape) // self.num_groups <= 1:
-            raise ValueError("The number of elements in each group must be greater than 1.")
 
         elements_per_group = input.shape[1] // self.num_groups
         self.input = input
@@ -67,7 +63,7 @@ class GroupNorm(BaseRegularisation):
 
         self.x_centered = self.input_reshaped - mean
         self.x_centered_squared = self.x_centered ** 2
-        self.var = 1.0 / (elements_per_group - 1) * self.x_centered_squared.sum(2, keepdim=True)  # unbiased variance
+        self.var = 1.0 / elements_per_group * self.x_centered_squared.sum(2, keepdim=True)  # biased variance
 
         self.inv_std = (self.var + self.epsilon) ** -0.5
         self.x_norm = self.x_centered * self.inv_std
@@ -102,7 +98,7 @@ class GroupNorm(BaseRegularisation):
         dCdx_centered = dCdx_norm * self.inv_std
         dCdinv_std = (dCdx_norm * self.x_centered).sum(2, keepdim=True)
         dCdvar = -0.5 * ((self.var + self.epsilon) ** -1.5) * dCdinv_std
-        dCdx_centered_squared = 1.0 / (elements_per_group - 1) * torch.ones_like(self.x_centered_squared, device=self.device, dtype=self.data_type) * dCdvar
+        dCdx_centered_squared = 1.0 / elements_per_group * torch.ones_like(self.x_centered_squared, device=self.device, dtype=self.data_type) * dCdvar
         dCdx_centered += 2 * self.x_centered * dCdx_centered_squared
         dCdinput_reshaped = dCdx_centered.clone()
         dCdmean = -(dCdx_centered).sum(2, keepdim=True)
