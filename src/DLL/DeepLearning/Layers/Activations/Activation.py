@@ -4,9 +4,14 @@ from ..BaseLayer import BaseLayer
 class Activation(BaseLayer):
     def __init__(self, **kwargs):
         super().__init__(None, None, **kwargs)
-        assert self.output_shape == None, "The output_shape should be None for activation layers."
-        assert self.activation is None, "Activation layer must not have an activation function"
-        assert self.normalisation is None, "Activation layer must not have a normalisation layer"
+
+        if self.output_shape is not None:
+            raise ValueError("The output_shape should be None for activation layers.")
+        if self.activation is not None:
+            raise ValueError("Activation layer must not have an activation function.")
+        if self.normalisation is not None:
+            raise ValueError("Activation layer must not have a normalisation layer.")
+
         self.name = "Activation"
 
     def initialise_layer(self, input_shape, data_type, device):
