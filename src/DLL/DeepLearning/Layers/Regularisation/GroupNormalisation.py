@@ -89,8 +89,8 @@ class GroupNorm(BaseRegularisation):
         batch_size = dCdy.shape[0]
         elements_per_group = self.output.shape[1] // self.num_groups
         dCdx_reshaped = dCdy * self.gamma
-        dCdgamma = (dCdy * self.x_reshaped).sum(axis=0)
-        dCdbeta = dCdy.sum(axis=0)
+        dCdgamma = (dCdy * self.x_reshaped).mean(axis=0)
+        dCdbeta = dCdy.mean(axis=0)
         self.gamma.grad = dCdgamma
         self.beta.grad = dCdbeta
 

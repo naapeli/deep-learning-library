@@ -89,11 +89,11 @@ class BatchNorm(BaseRegularisation):
         
         batch_size = self.output.shape[0]
         dCdx_norm = dCdy * self.gamma
-        dCdgamma = (dCdy * self.x_norm).sum(axis=0)
-        dCdbeta = dCdy.sum(axis=0)
+        dCdgamma = (dCdy * self.x_norm).mean(axis=0)
+        dCdbeta = dCdy.mean(axis=0)
         dCdvar = (dCdx_norm * self.x_centered * -self.std**(-3) / 2).sum(axis=0)
         dCdmean = -((dCdx_norm / self.std).sum(axis=0) + dCdvar * (2 / batch_size) * self.x_centered.sum(axis=0))
-        dCdx = dCdx_norm / self.std + (dCdvar * 2 * self.x_centered + dCdmean) / batch_size
+        dCdx = dCdx_norm / self.std + dCdvar * 2 * self.x_centered / (batch_size - 1) + dCdmean / batch_size
 
         self.gamma.grad = dCdgamma
         self.beta.grad = dCdbeta

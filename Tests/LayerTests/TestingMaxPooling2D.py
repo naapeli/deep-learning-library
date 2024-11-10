@@ -2,7 +2,7 @@ import torch
 from torch.nn import MaxPool2d
 from time import perf_counter
 
-from src.DLL.DeepLearning.Layers.MaxPooling2D import MaxPooling2D
+from src.DLL.DeepLearning.Layers import MaxPooling2D
 
 
 data = torch.rand((50, 50, 50, 50), dtype=torch.float32, requires_grad=True)
@@ -11,7 +11,8 @@ data = torch.where(data == data[0, 0, 0, 1], torch.tensor(2), data)
 data.retain_grad()
 #print(data)
 
-layer = MaxPooling2D(3, input_shape=(50, 50, 50, 50))
+layer = MaxPooling2D(3)
+layer.initialise_layer((50, 50, 50), data_type=torch.float32, device=torch.device("cpu"))
 output = layer.forward(data)
 target = torch.ones_like(output)
 start = perf_counter()
