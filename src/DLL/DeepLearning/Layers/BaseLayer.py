@@ -38,9 +38,9 @@ class BaseLayer:
         self.device = device
 
         if self.activation:
-            self.activation.initialise_layer(self.output_shape, data_type, device)
+            self.activation.initialise_layer(input_shape=self.output_shape, data_type=data_type, device=device)
         if self.normalisation:
-            self.normalisation.initialise_layer(self.output_shape, data_type, device)
+            self.normalisation.initialise_layer(input_shape=self.output_shape, data_type=data_type, device=device)
 
     def summary(self):
         if not hasattr(self, "input_shape"):
