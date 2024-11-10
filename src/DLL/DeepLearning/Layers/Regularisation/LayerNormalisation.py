@@ -11,9 +11,9 @@ class LayerNorm(GroupNorm):
         Normalises the input to have zero mean and one variance accross the channel dimension with the following equation:
         
         .. math::
-            y = \\gamma\\frac{x - \\mathcal{E}[x]}{\\sqrt{\\text{var}(x) + \\epsilon}} + \\beta,
+            y = \\gamma\\frac{x - \\\mathbb{E}[x]}{\\sqrt{\\text{var}(x) + \\epsilon}} + \\beta,
         
-        where :math:`x` is the input, :math:`\\mathcal{E}[x]` is the expected value or the mean accross the channel dimension, :math:`\\text{var}(x)` is the variance accross the variance accross the channel dimension, :math:`\\epsilon` is a small constant and :math:`\\gamma` and :math:`\\beta` are trainable parameters.
+        where :math:`x` is the input, :math:`\\\mathbb{E}[x]` is the expected value or the mean accross the channel dimension, :math:`\\text{var}(x)` is the variance accross the variance accross the channel dimension, :math:`\\epsilon` is a small constant and :math:`\\gamma` and :math:`\\beta` are trainable parameters.
 
         Args:
             input (torch.Tensor of shape (batch_size, channels, ...)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
