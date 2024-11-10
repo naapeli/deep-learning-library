@@ -20,7 +20,7 @@ class MaxPooling2D(Activation):
         if not isinstance(pool_size, int) or pool_size <= 0:
             raise ValueError(f"pool_size must be a positive integer. Currently {pool_size}.")
 
-        super().__init__(output_shape=None, **kwargs)
+        super().__init__(**kwargs)
         self.pool_size = pool_size
         self.name = "MaxPooling2D"
 
