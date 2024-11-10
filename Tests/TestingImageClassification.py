@@ -4,7 +4,7 @@ import tensorflow as tf
 
 from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D, Reshape
-from src.DLL.DeepLearning.Layers.Regularisation import Dropout
+from src.DLL.DeepLearning.Layers.Regularisation import Dropout, BatchNorm, GroupNorm, InstanceNorm, LayerNorm
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import cce
 from src.DLL.DeepLearning.Optimisers import sgd, Adam
@@ -35,8 +35,13 @@ print(train_labels[:2])
 model = Model((1, 28, 28), device=device)
 model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_norm", activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
+model.add(LayerNorm())
+# model.add(BatchNorm())
 model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_uniform", activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
+# model.add(InstanceNorm())
+model.add(LayerNorm())
+# model.add(GroupNorm(num_groups=16))
 model.add(Dropout(p=0.5))
 model.add(Flatten())
 # model.add(Reshape(800))
