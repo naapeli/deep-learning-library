@@ -16,7 +16,7 @@ class Sigmoid(Activation):
 
         .. math::
         
-            \\text{\\sigma}(x) = \\frac{1}{1 + e^{-x}}.
+            \\sigma(x) = \\frac{1}{1 + e^{-x}}.
 
         Args:
             input (torch.Tensor of shape (batch_size, ...)): The input to the layer. Must be a torch.Tensor of any shape.
