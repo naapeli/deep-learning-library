@@ -6,7 +6,7 @@ from src.DLL.DeepLearning.Layers import Dense
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import Tanh, Sigmoid, ReLU
 from src.DLL.DeepLearning.Losses import mse
-from src.DLL.DeepLearning.Optimisers import sgd
+from src.DLL.DeepLearning.Optimisers import sgd, LBFGS
 from src.DLL.Data.Preprocessing import data_split
 
 
@@ -20,7 +20,9 @@ model.add(BatchNorm())
 model.add(Sigmoid())
 model.add(Dense(0, initialiser="Xavier_norm"))
 model.compile(optimiser=sgd(learning_rate=0.1), loss=mse(), metrics=["loss", "val_loss"])
+# model.compile(optimiser=LBFGS(lambda: model.loss.loss(model.predict(x_train), y_train)), loss=mse(), metrics=["loss", "val_loss"])
 model.summary()
+
 n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
