@@ -30,7 +30,7 @@ class LBFGS(BaseOptimiser):
                 self.s_history[i].append(s)  # automatically pops the oldest values as maxlen is spesified for the deque
                 self.y_history[i].append(y)  # automatically pops the oldest values as maxlen is spesified for the deque
 
-            Bs = self._recursion_two_loops(i)  # Bs as in torch source code.
+            Bs = self._recursion_two_loops(i)
 
             learning_rate = self._line_search(param, Bs)
             param -= learning_rate * Bs.view_as(param)
@@ -56,10 +56,8 @@ class LBFGS(BaseOptimiser):
             Hk_0 = 1
         r = Hk_0 * q
 
-        # for j in range(len(self.s_history[i])):
         for j, (s, y) in enumerate(zip(self.s_history[i], self.y_history[i])):
             s, y = s.flatten(), y.flatten()
-            # s, y = self.s_history[i][j].flatten(), self.y_history[i][j].flatten()
             beta = rhos[j] * (y @ r)
             r += (alphas[j] - beta) * s
         return r
@@ -76,6 +74,8 @@ class LBFGS(BaseOptimiser):
             param.data = new_param_value
             new_func_value = self.loss()
             
+            # Does not include the other wolfe condition as it requires us to calculate the gradient of the parameter
+            # at the new point, which is only possible to calculate using finite differences with current architecture.
             if new_func_value <= initial_func_value + c * step * grad_dot_direction:
                 break
             else:
