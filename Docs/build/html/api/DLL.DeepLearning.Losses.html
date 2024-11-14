@@ -17,6 +17,7 @@
       <script src="../_static/documentation_options.js?v=8d563738"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -103,15 +104,57 @@
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.bce">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Losses.</span></span><span class="sig-name descname"><span class="pre">bce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/BCE.html#bce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.bce" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoss</span></code></p>
+<p>The binary cross entropy loss. Used in binary classification. Identical to categorical cross entropy with 2 classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reduction</strong> (<em>str</em><em>, </em><em>optional</em>) – The reduction method. Must be one of “mean” or “sum”. Defaults to “mean”.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.bce.gradient">
 <span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/BCE.html#bce.gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.bce.gradient" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the binary categorical cross entropy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values in range [0, 1]. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values labeled with 0 or 1. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the same shape as the inputs containing the gradients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.bce.loss">
 <span class="sig-name descname"><span class="pre">loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/BCE.html#bce.loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.bce.loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the binary categorical cross entropy with the equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    l_i &amp;= y_i\cdot\text{ln}(f(x_i)) + (1 - y_i)\cdot\text{ln}(1 - f(x_i)),\\
+    L_{sum} &amp;= \sum_{i=1}^n l_i \text{ or } L_{mean} = \frac{1}{n}\sum_{i=1}^n l_i,
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(x_i)\)</span> is the predicted value and <span class="math notranslate nohighlight">\(y_i\)</span> is the true value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values in range [0, 1]. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values labeled with 0 or 1. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor containing a single value with the loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -122,15 +165,57 @@
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.cce">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Losses.</span></span><span class="sig-name descname"><span class="pre">cce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/CCE.html#cce"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.cce" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoss</span></code></p>
+<p>The categorical cross entropy loss. Used in multi-class classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reduction</strong> (<em>str</em><em>, </em><em>optional</em>) – The reduction method. Must be one of “mean” or “sum”. Defaults to “mean”.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.cce.gradient">
 <span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/CCE.html#cce.gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.cce.gradient" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the categorical categorical cross entropy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values as a probability distribution. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A one-hot encoded tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the same shape as the inputs containing the gradients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.cce.loss">
 <span class="sig-name descname"><span class="pre">loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/CCE.html#cce.loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.cce.loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the categorical categorical cross entropy with the equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    l_i &amp;= y_i\cdot\text{ln}(f(x_i)),\\
+    L_{sum} &amp;= \sum_{i=1}^n l_i \text{ or } L_{mean} = \frac{1}{n}\sum_{i=1}^n l_i,
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(x_i)\)</span> is the predicted value and <span class="math notranslate nohighlight">\(y_i\)</span> is the true value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values as a probability distribution. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A one-hot encoded tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor containing a single value with the loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -141,15 +226,57 @@
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mse">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Losses.</span></span><span class="sig-name descname"><span class="pre">mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MSE.html#mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mse" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoss</span></code></p>
+<p>The squared error loss. Used for regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reduction</strong> (<em>str</em><em>, </em><em>optional</em>) – The reduction method. Must be one of “mean” or “sum”.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mse.gradient">
 <span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MSE.html#mse.gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mse.gradient" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the huber loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the same shape as the inputs containing the gradients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mse.loss">
 <span class="sig-name descname"><span class="pre">loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MSE.html#mse.loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mse.loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the absolute error loss with the equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    l_i &amp;= (y_i - f(x_i))^2,\\
+    L_{sum} &amp;= \sum_{i=1}^n l_i \text{ or } L_{mean} = \frac{1}{n}\sum_{i=1}^n l_i,
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(x_i)\)</span> is the predicted value and <span class="math notranslate nohighlight">\(y_i\)</span> is the true value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor containing a single value with the loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -160,15 +287,57 @@
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mae">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Losses.</span></span><span class="sig-name descname"><span class="pre">mae</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MAE.html#mae"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mae" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoss</span></code></p>
+<p>The absolute error loss. Used for regression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reduction</strong> (<em>str</em><em>, </em><em>optional</em>) – The reduction method. Must be one of “mean” or “sum”.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mae.gradient">
 <span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MAE.html#mae.gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mae.gradient" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the huber loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the same shape as the inputs containing the gradients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.mae.loss">
 <span class="sig-name descname"><span class="pre">loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/MAE.html#mae.loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.mae.loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the absolute error loss with the equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    l_i &amp;= |y_i - f(x_i)|,\\
+    L_{sum} &amp;= \sum_{i=1}^n l_i \text{ or } L_{mean} = \frac{1}{n}\sum_{i=1}^n l_i,
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(x_i)\)</span> is the predicted value and <span class="math notranslate nohighlight">\(y_i\)</span> is the true value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor containing a single value with the loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -179,15 +348,63 @@
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.Huber">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Losses.</span></span><span class="sig-name descname"><span class="pre">Huber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/Huber.html#Huber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.Huber" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseLoss</span></code></p>
+<p>The huber loss. Used for regression. Is a combination of squared error and absolute error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delta</strong> (<em>int</em><em> | </em><em>float</em><em>, </em><em>optional</em>) – The radius around the true value that uses the squared error. If the difference is larger than delta, the absolute error is used. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>reduction</strong> (<em>str</em><em>, </em><em>optional</em>) – The reduction method. Must be one of “mean” or “sum”.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.Huber.gradient">
 <span class="sig-name descname"><span class="pre">gradient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/Huber.html#Huber.gradient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.Huber.gradient" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the gradient of the huber loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the same shape as the inputs containing the gradients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Losses.Huber.loss">
 <span class="sig-name descname"><span class="pre">loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Losses/Huber.html#Huber.loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Losses.Huber.loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the huber loss with the equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align*}
+    l_i &amp;= \begin{cases}
+        \frac{1}{2}(y_i - f(x_i))^2 &amp; \text{if } |y_i - f(x_i)| \leq \delta,\\
+        \delta|y_i - f(x_i)| - \frac{1}{2}\delta^2 &amp; \text{otherwise},
+    \end{cases}\\
+    L_{sum} &amp;= \sum_{i=1}^n l_i \text{ or } L_{mean} = \frac{1}{n}\sum_{i=1}^n l_i,
+\end{align*}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(x_i)\)</span> is the predicted value and <span class="math notranslate nohighlight">\(y_i\)</span> is the true value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>torch.Tensor</em>) – A tensor of predicted values. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor containing a single value with the loss.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
