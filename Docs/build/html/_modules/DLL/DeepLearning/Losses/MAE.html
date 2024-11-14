@@ -78,25 +78,72 @@
 <div class="viewcode-block" id="mae">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae">[docs]</a>
 <span class="k">class</span> <span class="nc">mae</span><span class="p">(</span><span class="n">BaseLoss</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The absolute error loss. Used for regression.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        reduction (str, optional): The reduction method. Must be one of &quot;mean&quot; or &quot;sum&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">):</span>
-        <span class="c1"># reduction in [&quot;mean&quot;, &quot;sum&quot;]</span>
+        <span class="k">if</span> <span class="n">reduction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;reduction must be in [&quot;mean&quot;, &quot;sum&quot;].&#39;</span><span class="p">)</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
 
 <div class="viewcode-block" id="mae.loss">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.loss">[docs]</a>
     <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the absolute error loss with the equations:</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">        </span>
+<span class="sd">            \\begin{align*}</span>
+<span class="sd">                l_i &amp;= |y_i - f(x_i)|,\\\\</span>
+<span class="sd">                L_{sum} &amp;= \\sum_{i=1}^n l_i \\text{ or } L_{mean} = \\frac{1}{n}\\sum_{i=1}^n l_i,</span>
+<span class="sd">            \\end{align*}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`f(x_i)` is the predicted value and :math:`y_i` is the true value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.</span>
+<span class="sd">            true_output (torch.Tensor): A tensor of true values. Must be the same shape as the prediction.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: A tensor containing a single value with the loss.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;prediction and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prediction</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;prediction and true_output must have the same shape.&quot;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
         
 
 <div class="viewcode-block" id="mae.gradient">
 <a class="viewcode-back" href="../../../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.gradient">[docs]</a>
     <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the gradient of the huber loss.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.</span>
+<span class="sd">            true_output (torch.Tensor): A tensor of true values. Must be the same shape as the prediction.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            torch.Tensor: A tensor of the same shape as the inputs containing the gradients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;prediction and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prediction</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;prediction and true_output must have the same shape.&quot;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span> <span class="o">/</span> <span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span></div>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span> <span class="o">/</span> <span class="n">prediction</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
