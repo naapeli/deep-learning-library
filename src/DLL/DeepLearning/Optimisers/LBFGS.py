@@ -5,11 +5,39 @@ from .BaseOptimiser import BaseOptimiser
 
 
 class LBFGS(BaseOptimiser):
-    def __init__(self, loss, history_size=10):
+    """
+    Limited-memory Broyden-Fletcher-Goldfarb-Shanno optimiser. A second order method and approximates the hessian matrix using changes in position and gradient. Hence, requires more memory than first order methods.
+
+    Args:
+        loss (Callable[[], float]): The target function. For a deep learning model, one could use eg. lambda: model.loss.loss(model.predict(x_train), y_train).
+        learning_rate (float, optional): The learning rate of the optimiser. Must be positive. Defaults to 0.001.
+        history_size (int, optional): The number of old changes in position and gradient stored. Must be a non-negative integer. Defaults to 10.
+        maxiterls (int, optional): The maximum number of iterations in the line search. Must be a non-negative integer. Defaults to 20.
+    """
+    def __init__(self, loss, learning_rate=0.001, history_size=10, maxiterls=20):
+        if not isinstance(learning_rate, int | float) or learning_rate <= 0:
+            raise ValueError("learning_rate must be a positive real number.")
+        if not isinstance(history_size, int) or history_size < 0:
+            raise ValueError("history_size must be a non-negative integer.")
+        if not isinstance(maxiterls, int) or maxiterls < 0:
+            raise ValueError("maxiterls must be a non-negative integer.")
+        
         self.loss = loss
+        self.learning_rate = learning_rate
         self.history_size = history_size
+        self.maxiterls = maxiterls
     
     def initialise_parameters(self, model_parameters):
+        """
+        Initialises the optimiser with the parameters that need to be optimised.
+
+        Args:
+            model_parameters (list[torch.Tensor]): The parameters that will be optimised. Must be a list or a tuple of torch tensors.
+        """
+
+        if not isinstance(model_parameters, list | tuple):
+            raise TypeError("model_parameters must be a list or a tuple of torch tensors.")
+
         self.model_parameters = model_parameters
         self.s_history = [deque([], maxlen=self.history_size) for _ in model_parameters]
         self.y_history = [deque([], maxlen=self.history_size) for _ in model_parameters]
@@ -17,6 +45,10 @@ class LBFGS(BaseOptimiser):
         self.prev_Bs = [torch.ones_like(param.flatten()) for param in model_parameters]
     
     def update_parameters(self):
+        """
+        Takes a step towards the optimum for each parameter.
+        """
+
         for i, param in enumerate(self.model_parameters):
             if param.grad is None:
                 continue
@@ -30,7 +62,7 @@ class LBFGS(BaseOptimiser):
                 self.s_history[i].append(s)  # automatically pops the oldest values as maxlen is spesified for the deque
                 self.y_history[i].append(y)  # automatically pops the oldest values as maxlen is spesified for the deque
 
-            Bs = self._recursion_two_loops(i)
+            Bs = self.learning_rate * self._recursion_two_loops(i)
 
             learning_rate = self._line_search(param, Bs)
             param -= learning_rate * Bs.view_as(param)
@@ -69,7 +101,8 @@ class LBFGS(BaseOptimiser):
         orig_param = param.clone()
         c = 1e-4
         
-        while True:
+        iter = 0
+        while iter < self.maxiterls:
             new_param_value = orig_param - step * direction.view_as(orig_param)
             param.data = new_param_value
             new_func_value = self.loss()
@@ -80,6 +113,8 @@ class LBFGS(BaseOptimiser):
                 break
             else:
                 step *= 0.5
+            
+            iter += 1
         
         param.data = orig_param.data
         return step
