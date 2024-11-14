@@ -5,7 +5,7 @@ from sklearn.gaussian_process.kernels import DotProduct, ExpSineSquared, Constan
 
 from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
 from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGaussian, Periodic, RationalQuadratic, Matern
-from src.DLL.DeepLearning.Optimisers.ADAM import Adam
+from src.DLL.DeepLearning.Optimisers import Adam, LBFGS
 from src.DLL.Data.Preprocessing import StandardScaler
 
 
@@ -17,7 +17,7 @@ transformer = StandardScaler()
 transformer.fit(Y)
 Y = transformer.transform(Y).squeeze(dim=1)
 
-train_kernel = False  # try to changing this line of code to see how the covariance kernel learns the correct parameters
+train_kernel = True  # try to changing this line of code to see how the covariance kernel learns the correct parameters
 
 model = GaussianProcessRegressor(Linear(sigma=0.2, sigma_bias=1) ** 2 + Periodic(1, 2, period=0.5), noise=0.1, device=device)
 sk_model = GPR(ConstantKernel(constant_value=0.2) * DotProduct(sigma_0=1) ** 2 + ExpSineSquared())
@@ -28,7 +28,8 @@ sk_model = GPR(ConstantKernel(constant_value=0.2) * DotProduct(sigma_0=1) ** 2 +
 model.fit(X, Y)
 print(model.log_marginal_likelihood())
 if train_kernel:
-    history = model.train_kernel(epochs=2000, optimiser=Adam(), verbose=True)
+    # history = model.train_kernel(epochs=2000, optimiser=Adam(), verbose=True)
+    history = model.train_kernel(epochs=30, optimiser=LBFGS(model.log_marginal_likelihood, learning_rate=0.1), verbose=True)
     plt.plot(history["log marginal likelihood"])
     plt.xlabel("epoch")
     plt.ylabel("log marginal likelihood")
