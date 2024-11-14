@@ -16,7 +16,6 @@ class LASSORegression:
     
     Args:
         alpha (int | float, optional): The regularization parameter. Larger alpha will force the l1 norm of the weights to be lower. Must be a positive real number. Defaults to 1.
-        learning_rate (float, optional): The step size towards the negative gradient. Must be a positive real number. Defaults to 0.01.
         loss (:ref:`losses_section_label`, optional): A loss function used for training the model. Defaults to the mean squared error.
 
     Attributes:
@@ -25,16 +24,13 @@ class LASSORegression:
         bias (torch.Tensor of shape (1,)): The constant of the model. Available after fitting.
         residuals (torch.Tensor of shape (n_samples,)): The residuals of the fitted model. For a good fit, the residuals should be normally distributed with zero mean and constant variance. Available after fitting.
     """
-    def __init__(self, alpha=1.0, learning_rate=0.01, loss=mse()):
+    def __init__(self, alpha=1.0, loss=mse()):
         if not isinstance(alpha, int | float) or alpha < 0:
             raise ValueError("alpha must be a non-negative real number.")
-        if not isinstance(learning_rate, float) or learning_rate <= 0:
-            raise ValueError("learning_rate must be a positive real number.")
         if not isinstance(loss, BaseLoss):
             raise TypeError("loss must be an instance of DLL.DeepLearning.Losses.")
 
         self.alpha = alpha
-        self.learning_rate = learning_rate
         self.loss = loss
 
     def fit(self, X, y, val_data=None, epochs=100, optimiser=None, callback_frequency=1, metrics=["loss"], batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
@@ -97,7 +93,6 @@ class LASSORegression:
         self.weights = torch.randn((self.n_features,))
         self.bias = torch.zeros((1,))
         optimiser = Adam() if optimiser is None else optimiser
-        optimiser.learning_rate = self.learning_rate
         optimiser.initialise_parameters([self.weights, self.bias])
 
         for epoch in range(epochs):

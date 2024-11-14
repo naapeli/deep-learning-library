@@ -3,6 +3,14 @@
 Optimisers
 ===================================
 
+SGD
+--------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Optimisers.sgd
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ADAM
 ---------------------------------------
 
@@ -11,10 +19,10 @@ ADAM
    :undoc-members:
    :show-inheritance:
 
-SGD
---------------------------------------
+LBFGS
+---------------------------------------
 
-.. autoclass:: DLL.DeepLearning.Optimisers.sgd
+.. autoclass:: DLL.DeepLearning.Optimisers.LBFGS
    :members:
    :undoc-members:
    :show-inheritance:

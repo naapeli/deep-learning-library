@@ -16,28 +16,24 @@ class GaussianProcessRegressor:
         covariance_function (:ref:`kernel_section_label`, optional): The kernel function expressing how similar are different samples.
         noise (int | float, optional): The artificially added noise to the model. Is added as variance to each sample. Must be non-negative. Defaults to 0.
         epsilon (float, optional): Implemented similarly to noise. Makes sure the covariance matrix is positive definite and hence invertible. Must be positive. Defaults to 1e-5. If one gets a RunTimeError for a matrix not being invertible, one should increase this parameter.
-        learning_rate (float, optional): The step size towards the negative gradient. Must be a positive real number. Defaults to 0.001.
         device (torch.device, optional): The device of all matricies. Defaults to torch.device("cpu").
         
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, covariance_function, noise=0, epsilon=1e-5, learning_rate=0.001, device=torch.device("cpu")):
+    def __init__(self, covariance_function, noise=0, epsilon=1e-5, device=torch.device("cpu")):
         if not isinstance(covariance_function, _Base):
             raise TypeError("covariance_function must be from DLL.MachineLearning.Supervisedlearning.Kernels.")
         if not isinstance(noise, int | float) or noise < 0:
             raise ValueError("noise must b non-negative.")
         if not isinstance(epsilon, int | float) or epsilon <= 0:
             raise ValueError("epsilon must be positive.")
-        if not isinstance(learning_rate, float) or learning_rate <= 0:
-            raise ValueError("learning_rate must be a positive real number.")
         if not isinstance(device, torch.device):
             raise TypeError("device must be an instance of torch.device.")
 
         self.covariance_function = covariance_function
         self.noise = noise
         self.epsilon = epsilon
-        self.learning_rate = learning_rate
         self.device = device
 
     def _get_covariance_matrix(self, X1, X2):
@@ -145,8 +141,7 @@ class GaussianProcessRegressor:
         if not isinstance(verbose, bool):
             raise TypeError("verbose must be a boolean.")
 
-        optimiser = optimiser if optimiser is not None else Adam()
-        optimiser.learning_rate = self.learning_rate
+        optimiser = Adam() if optimiser is None else optimiser
         optimiser.initialise_parameters(list(self.covariance_function.parameters().values()))
 
         history = {"log marginal likelihood": torch.zeros(floor(epochs / callback_frequency))}
