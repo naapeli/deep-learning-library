@@ -18,7 +18,7 @@ initial_point = [-0.11, 2.5]
 x1 = torch.tensor(initial_point, dtype=torch.float32)
 x2 = torch.tensor(initial_point, dtype=torch.float32)
 x3 = torch.tensor(initial_point, dtype=torch.float32)
-optimiser1 = LBFGS(lambda: f(x1), history_size=10)
+optimiser1 = LBFGS(lambda: f(x1), history_size=10, maxiterls=20)
 optimiser2 = sgd(learning_rate=0.001)
 optimiser3 = Adam(learning_rate=1)
 optimiser1.initialise_parameters([x1])
