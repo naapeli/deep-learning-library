@@ -119,8 +119,7 @@ class GradientBoostingClassifier:
     
     def _multi_fit(self, X, y):
         encoder = OneHotEncoder()
-        encoder.fit(y)
-        y = encoder.one_hot_encode(y)
+        y = encoder.fit_encode(y)
         
         self.initial_log_odds = 0.0
         pred = torch.full(y.shape, self.initial_log_odds)
