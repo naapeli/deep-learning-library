@@ -14,8 +14,7 @@ device = torch.device("cpu")
 X = torch.linspace(0, 1, 20, dtype=torch.float64, device=device).unsqueeze(1)
 Y = torch.sin(3 * 2 * torch.pi * X) + 3 * X ** 2# + torch.randn_like(X) * 0.5
 transformer = StandardScaler()
-transformer.fit(Y)
-Y = transformer.transform(Y).squeeze(dim=1)
+Y = transformer.fit_transform(Y).squeeze(dim=1)
 
 train_kernel = True  # try to changing this line of code to see how the covariance kernel learns the correct parameters
 
