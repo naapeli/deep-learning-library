@@ -26,9 +26,9 @@ train_images, train_labels, validation_images, validation_labels, _, _ = data_sp
 
 label_encoder = OneHotEncoder()
 label_encoder.fit(train_labels)
-train_labels = label_encoder.one_hot_encode(train_labels)
-validation_labels = label_encoder.one_hot_encode(validation_labels)
-test_labels = label_encoder.one_hot_encode(test_labels)
+train_labels = label_encoder.encode(train_labels)
+validation_labels = label_encoder.encode(validation_labels)
+test_labels = label_encoder.encode(test_labels)
 print(train_images.shape, train_labels.shape, validation_images.shape, validation_labels.shape, test_images.shape, test_labels.shape)
 print(train_labels[:2])
 
