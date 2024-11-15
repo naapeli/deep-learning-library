@@ -3,27 +3,23 @@ from sklearn import datasets
 import matplotlib.pyplot as plt
 
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression import LogisticRegression
-from src.DLL.Data.Preprocessing import MinMaxScaler, BinaryEncoder, data_split
+from src.DLL.Data.Preprocessing import MinMaxScaler, CategoricalEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
 
 
 iris = datasets.load_iris()
 
-scaler = MinMaxScaler()
-encoder = BinaryEncoder()
 binary = False
 if binary:
     x = torch.tensor(iris.data[iris.target != 2], dtype=torch.float32)
-    scaler.fit(x)
-    x = scaler.transform(x)
     y = torch.tensor(iris.target[iris.target != 2], dtype=torch.float32)
-    encoder.fit(y)
-    y = encoder.binary_encode(y)
 else:
     x = torch.tensor(iris.data, dtype=torch.float32)
-    scaler.fit(x)
-    x = scaler.transform(x)
     y = torch.tensor(iris.target, dtype=torch.float32)
+scaler = MinMaxScaler()
+encoder = CategoricalEncoder()
+x = scaler.fit_transform(x)
+y = encoder.fit_encode(y)
 x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.7, validation_split=0.0)
 
 model = LogisticRegression(learning_rate=0.001)
