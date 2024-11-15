@@ -6,3 +6,8 @@ Custom exceptions
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. autoclass:: DLL.Exceptions.NotCompiledError
+   :members:
+   :undoc-members:
+   :show-inheritance:

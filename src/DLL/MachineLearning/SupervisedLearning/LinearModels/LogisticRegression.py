@@ -93,8 +93,7 @@ class LogisticRegression:
         elif len(vals) > 2:
             # multiple logistic regression
             encoder = OneHotEncoder()
-            encoder.fit(y)
-            y = encoder.one_hot_encode(y)
+            y = encoder.fit_encode(y)
             self.multiclass = True
             self.loss = cce()
             self.activation = SoftMax()

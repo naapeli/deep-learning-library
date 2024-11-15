@@ -1,24 +1,37 @@
 import torch
 from math import floor
-import itertools
+from itertools import combinations_with_replacement
+
+from ..Exceptions import NotCompiledError
 
 
-"""
-Splits the data into train, validation and test sets
-
-X.shape = (data_length, input_shape)
-Y.shape = (data_length, output_shape)
-train_split = precentage of train data
-validation_split = precentage of validation data
-1 - train_split - validation_split = precentage of test data
-"""
 def data_split(X, Y, train_split=0.8, validation_split=0.2):
-    assert train_split + validation_split <= 1 and validation_split >= 0 and train_split >= 0, "Splits must be between 0 and 1 and their sum less than or equal to 1."
-    axis = 0
-    data_length = X.size(axis)
+    """
+    Splits the data into train, validation and test sets.
+
+    Args:
+        X (torch.Tensor of shape (n_samples, ...)): The input values.
+        Y (torch.Tensor of shape (n_samples, ...)): The target values.
+        train_split (float, optional): The precentage of train data of the whole data. Must be a real number in range (0, 1]. Defaults to 0.8.
+        validation_split (float, optional): The precentage of validation data of the whole data. Must be a real number in range [0, 1). Defaults to 0.2.
+    
+    Returns:
+        x_train, y_train, x_val, y_val, x_test, y_test (tuple[torch.Tensor]): The original data shuffled and split according to train and validation splits.
+    
+    Note:
+        The sum of train_split and validation_split must be less than or equal to 1. The remaining samples are returned as the test data.
+    """
+    if not isinstance(train_split, float | int) or train_split <= 0 or train_split > 1:
+        raise ValueError("train_split must be a real number in range (0, 1].")
+    if not isinstance(validation_split, float | int) or validation_split < 0 or validation_split >= 1:
+        raise ValueError("validation_split must be a real number in range [0, 1).")
+    if train_split + validation_split > 1:
+        raise ValueError("The sum of train_split and validation_split must be less than or equal to 1.")
+
+    data_length = X.size(0)
     perm = torch.randperm(data_length, requires_grad=False, device=X.device)
-    x_data = X.index_select(axis, perm)
-    y_data = Y.index_select(axis, perm)
+    x_data = X.index_select(0, perm)
+    y_data = Y.index_select(0, perm)
     split_index1 = floor(data_length * train_split)
     split_index2 = floor(data_length * (train_split + validation_split))
     x_train, y_train = x_data[:split_index1], y_data[:split_index1]
@@ -26,89 +39,286 @@ def data_split(X, Y, train_split=0.8, validation_split=0.2):
     x_test, y_test = x_data[split_index2:], y_data[split_index2:]
     return x_train, y_train, x_val, y_val, x_test, y_test
 
-"""
-one-hot encodes the given categorical Y labels
 
-Y.shape = (data_length, 1)
-"""
 class OneHotEncoder:
+    """
+    The one-hot encoder.
+    """
     def fit(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
+        """
+        Finds the classes in the data.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+
         unique_elements = torch.unique(data)
         self.element_to_index = {element.item(): i for i, element in enumerate(unique_elements)}
         self.index_to_element = {i: element for element, i in self.element_to_index.items()}
         self.one_hot_length = tuple(unique_elements.size())[0]
 
-    def one_hot_encode(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
-        assert hasattr(self, "one_hot_length"), "OneHotEncoder.fit(data) must be called before encoding the labels"
+    def encode(self, data):
+        """
+        One-hot encodes the data. OneHotEncoder.fit() must be called before encoding.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not hasattr(self, "one_hot_length"):
+            raise NotCompiledError("OneHotEncoder.fit() must be called before encoding.")
+
         label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data], device=data.device)
         return label_to_distribution
     
-    def one_hot_decode(self, data):
-        assert len(data.shape) == 2, "Input must be of shape (data_length, number_of_categories)"
+    def fit_encode(self, data):
+        """
+        First fits the encoder and then one-hot encodes the data.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+
+        self.fit(data)
+        return self.encode(data)
+    
+    def decode(self, data):
+        """
+        One-hot encodes the data. OneHotEncoder.fit() must be called before decoding.
+
+        Args:
+            data (torch.Tensor of shape (n_samples, n_classes)): the predictions of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples,): A decoded predictions transformed to the original classes.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 2:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not hasattr(self, "one_hot_length"):
+            raise NotCompiledError("OneHotEncoder.fit() must be called before decoding.")
+
         return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data], device=data.device)
 
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]
         return distribution
 
-"""
-Binary encodes the given categorical Y labels
 
-Y.shape = (data_length, 1)
-"""
-class BinaryEncoder:
+class CategoricalEncoder:
+    """
+    The categorical encoder.
+    """
     def fit(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1) or (data_length,)"
+        """
+        Finds the classes in the data.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+
         self.unique_elements = torch.unique(data)
-        assert len(self.unique_elements) <= 2, "There must be at most 2 distinct labels"
         self.element_to_key = {element.item(): i for i, element in enumerate(self.unique_elements)}
 
-    def binary_encode(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Y-labels must be of shape (data_length, 1)"
-        assert hasattr(self, "element_to_key"), "OneHotEncoder.fit(data) must be called before encoding the labels"
+    def encode(self, data):
+        """
+        Encodes the data to values [0, ..., n_classes]. If CategoricalEncoder.fit() has not been called yet, fits the encoder to data.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples,): An encoded tensor.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not hasattr(self, "element_to_key"):
+            raise NotCompiledError("CategoricalEncoder.fit() must be called before encoding.")
+
         label_to_distribution = torch.tensor([self.element_to_key[y.item()] for y in data], device=data.device)
         return label_to_distribution
     
-    def binary_decode(self, data):
-        assert (len(data.shape) == 2 and data.shape[1] == 1) or len(data.shape) == 1, "Input must be of shape (data_length, 1)"
+    def fit_encode(self, data):
+        """
+        First fits the encoder and then encodes the data.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples,): An encoded tensor.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+
+        self.fit(data)
+        return self.encode(data)
+    
+    def decode(self, data):
+        """
+        Decodes the data to the original classes. CategoricalEncoder.fit() must be called before decoding.
+
+        Args:
+            data (torch.Tensor of shape (n_samples,)): the predicted labels of samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples,): A decoded predictions transformed to the original classes.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 1:
+            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not hasattr(self, "element_to_key"):
+            raise NotCompiledError("CategoricalEncoder.fit() must be called before decoding.")
+
         return torch.tensor([self.unique_elements[label] for label in data], device=data.device)
 
-"""
-Normalises the data between 0 and 1
 
-data.shape = (data_length, input_shape)
-"""
 class MinMaxScaler:
+    """
+    The min-max scaler.
+    """
     def fit(self, data):
+        """
+        Finds the minimum and the maximum of the data.
+
+        Args:
+            data (torch.Tensor): the input samples.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+
         self.min = torch.min(data, dim=0).values
         self.max = torch.max(data, dim=0).values
 
+        if torch.any(self.max - self.min == torch.tensor(0)):
+            raise ZeroDivisionError("Some features do not change and result in division by zero.")
+
     def transform(self, data):
-        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
+        """
+        Normalises the data between 0 and 1.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+        if not hasattr(self, "min"):
+            raise NotCompiledError("MinMaxScaler.fit() must be fitted before transforming.")
+        
         return (data - self.min) / (self.max - self.min)
+
+    def fit_transform(self, data):
+        """
+        First fits the scaler and then transforms the data.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+
+        self.fit(data)
+        return self.transform(data)
     
     def inverse_transform(self, data):
-        assert hasattr(self, "min"), "scaler.fit(data) must be called before transforming data"
+        """
+        Scales the data back to it's original space.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+        if not hasattr(self, "min"):
+            raise NotCompiledError("MinMaxScaler.fit() must be fitted before inverse transforming.")
+        
         return data * (self.max - self.min) + self.min
 
-"""
-Standardises the data to 0 mean and 1 variance
-
-data.shape = (data_length, input_shape)
-"""
 class StandardScaler:
+    """
+    The standard scaler.
+    """
     def fit(self, data):
+        """
+        Finds the mean and the variance of the data.
+
+        Args:
+            data (torch.Tensor): the input samples.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be torch.Tensor.")
+
         self.mean = torch.mean(data, dim=0)
         self.var = torch.var(data, dim=0)
 
     def transform(self, data):
-        assert hasattr(self, "mean"), "scaler.fit(data) must be called before transforming data"
+        """
+        Transforms the data to zero mean and one variance.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+        if not hasattr(self, "mean"):
+            raise NotCompiledError("StandardScaler.fit() must be fitted before transforming.")
+        
         return (data - self.mean) / torch.sqrt(self.var)
 
+    def fit_transform(self, data):
+        """
+        First fits the scaler and then encodes the data.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor):
+            raise ValueError("data must be a torch.Tensor.")
+        
+        self.fit(data)
+        return self.transform(data)
+
     def inverse_transform(self, data):
-        assert hasattr(self, "mean"), "scaler.fit(data) must be called before transforming data"
+        """
+        Scales the data back to it's original space.
+
+        Args:
+            data (torch.Tensor): the input samples.
+
+        Returns:
+            torch.Tensor: the transformed data.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim == 0:
+            raise ValueError("data must be a torch.Tensor.")
+        if not hasattr(self, "mean"):
+            raise NotCompiledError("StandardScaler.fit() must be fitted before inverse transforming.")
+        
         return data * torch.sqrt(self.var) + self.mean
 
 """
@@ -117,15 +327,36 @@ Creates a matrix of data containing every possible combination of the given set 
 data.shape = (data_length, input_shape)
 """
 class PolynomialFeatures:
+    """
+    Polynomial features.
+
+    Args:
+        degree (int, optional): The degree of the polynomial. Must be a positive integer. Defaults to 2.
+    """
     def __init__(self, degree=2):
+        if not isinstance(degree, int) or degree <= 0:
+            raise ValueError("degree must be a positive integer.")
+        
         self.degree = degree
 
     def transform(self, data):
-        data_length, input_shape = data.shape
-        features = [torch.ones(data_length)]
+        """
+        Creates a matrix of data containing every possible combination of the given set of features.
+
+        Args:
+            data (torch.Tensor of shape (n_samples, n_features)): the input samples.
+
+        Returns:
+            torch.Tensor of shape (n_samples, sum([nCr(n_features + deg - 1, deg) for deg in range(1, degree + 1)]) + 1): A tensor of the new features.
+        """
+        if not isinstance(data, torch.Tensor) or data.ndim != 2:
+            raise ValueError("data must be a 2 dimensional torch tensor.")
+
+        n_samples, n_features = data.shape
+        features = [torch.ones(n_samples)]
 
         for deg in range(1, self.degree + 1):
-            for items in itertools.combinations_with_replacement(range(input_shape), deg):
+            for items in combinations_with_replacement(range(n_features), deg):
                 new_feature = torch.prod(torch.stack([data[:, i] for i in items]), axis=0)
                 features.append(new_feature)
 
