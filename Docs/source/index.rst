@@ -12,7 +12,7 @@ This library is intended as an educational project. While it offers a variety of
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
    :caption: Contents:
 
    api/DLL
