@@ -42,7 +42,7 @@ class cce(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
 
         if self.reduction == "mean":
-            return -torch.mean(true_output * torch.log(prediction + 1e-5))
+            return -torch.mean(torch.sum(true_output * torch.log(prediction + 1e-5), dim=1))
         return -torch.sum(true_output * torch.log(prediction + 1e-5))
 
     def gradient(self, prediction, true_output):
