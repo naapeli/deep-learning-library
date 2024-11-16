@@ -17,7 +17,7 @@ x_train, y_train, _, _, x_test, y_test = data_split(torch.from_numpy(X).to(dtype
 
 model = LogisticRegression(learning_rate=0.001)
 model.fit(x_train, y_train, epochs=2000, metrics=["loss", "accuracy"], callback_frequency=10, verbose=True)
-y_pred = model.predict(x_test)
+y_pred = model.predict_proba(x_test)
 print(y_pred[:10], y_test[:10])
 print(accuracy(y_pred, y_test))
 

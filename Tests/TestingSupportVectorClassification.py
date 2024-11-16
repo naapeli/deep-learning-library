@@ -73,7 +73,7 @@ start4 = perf_counter()
 model4.fit(X_train, y_train)
 end4 = perf_counter()
 predictions = model4.predict(X_test)
-print(round(accuracy(predictions, y_test), 3))
+print(round(accuracy(torch.from_numpy(predictions), y_test), 3))
 
 x_min, X_max = X[:, 0].min(), X[:, 0].max()
 y_min, y_max = X[:, 1].min(), X[:, 1].max()

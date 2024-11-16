@@ -5,6 +5,7 @@ from math import log10
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LassoRegression import LASSORegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression import RidgeRegression
 from src.DLL.MachineLearning.SupervisedLearning.LinearModels.Elasticnet import ElasticNetRegression
+from src.DLL.DeepLearning.Optimisers import Adam
 
 
 n = 10
@@ -37,11 +38,11 @@ alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()
 LASSO = False
 for alpha in alphas:
     if LASSO:
-        model = LASSORegression(alpha=alpha, learning_rate=0.001)
+        model = LASSORegression(alpha=alpha)
     else:
-        model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5, learning_rate=0.001)
+        model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5)
     print(alpha)
-    model.fit(X, y, epochs=10000)
+    model.fit(X, y, epochs=10000, optimiser=Adam(learning_rate=0.001))
     weights.append([model.weights.tolist()])
 
 alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()
