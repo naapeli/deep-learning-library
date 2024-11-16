@@ -26,6 +26,7 @@ model = LogisticRegression(learning_rate=0.001)
 history = model.fit(x_train, y_train, epochs=2000, metrics=["loss", "accuracy"], callback_frequency=10, verbose=True)
 y_pred = model.predict(x_test)
 print(y_pred, model.predict_proba(x_test))
+print(y_pred, y_test)
 print(accuracy(y_pred, y_test))
 
 plt.plot(history["accuracy"])

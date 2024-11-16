@@ -134,7 +134,7 @@ class CategoricalEncoder:
 
     def encode(self, data):
         """
-        Encodes the data to values [0, ..., n_classes]. If CategoricalEncoder.fit() has not been called yet, fits the encoder to data.
+        Encodes the data to values [0, ..., n_classes - 1]. CategoricalEncoder.fit() must be called before encoding.
 
         Args:
             data (torch.Tensor of shape (n_samples,)): the true labels of samples.

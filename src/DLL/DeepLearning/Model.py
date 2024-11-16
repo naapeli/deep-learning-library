@@ -163,6 +163,10 @@ class Model:
         history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type) for metric in self.metrics}
         batch_size = len(X) if batch_size is None else batch_size
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
+
+        train_metrics = [metric for metric in self.metrics if metric[:4] != "val_"]
+        val_metrics = [metric for metric in self.metrics if metric[:4] == "val_"]
+
         for epoch in range(epochs):
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
@@ -170,9 +174,9 @@ class Model:
                 self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
             if epoch % callback_frequency == 0:
-                values = calculate_metrics(data=(self.predict(X), Y), metrics=self.metrics, loss=self.loss.loss)
+                values = calculate_metrics(data=(self.predict(X), Y), metrics=train_metrics, loss=self.loss.loss)
                 if val_data is not None:
-                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=self.metrics, loss=self.loss.loss, validation=True)
+                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=val_metrics, loss=self.loss.loss, validation=True)
                     values |= val_values
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
