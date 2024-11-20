@@ -1,5 +1,4 @@
 import torch
-from collections import Counter
 
 from ....Exceptions import NotFittedError
 
@@ -24,17 +23,22 @@ class DecisionTree:
     Args:
         max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+        criterion (str, optional): The information criterion used to select optimal splits. Must be one of "entropy" or "gini". Defaults to "gini".
     Attributes:
         n_classes (int): The number of classes. A positive integer available after calling DecisionTree.fit().
         classes (torch.Tensor of shape (n_classes,)): The classes in an arbitrary order. Available after calling DecisionTree.fit().
     """
-    def __init__(self, max_depth=10, min_samples_split=2):
+    def __init__(self, max_depth=10, min_samples_split=2, criterion="gini"):
         if not isinstance(max_depth, int) or max_depth < 1:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
+        if criterion not in ["entropy", "gini"]:
+            raise ValueError('The chosen criterion must be one of "entropy" or "gini".')
+
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
+        self.criterion = criterion
         self.root = None
     
     def fit(self, X, y):
@@ -92,7 +96,7 @@ class DecisionTree:
             feature_values = x[:, index]
             possible_thresholds = torch.unique(feature_values)
             for threshold in possible_thresholds:
-                entropy_gain = self._entropy_gain(y, feature_values, threshold)
+                entropy_gain = self._information_gain(y, feature_values, threshold)
                 if entropy_gain > max_entropy_gain:
                     max_entropy_gain = entropy_gain
                     split_index = index
@@ -105,18 +109,30 @@ class DecisionTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _entropy_gain(self, y, feature_values, threshold):
+    def _information_gain(self, y, feature_values, threshold):
+        if self.criterion == "gini":
+            information_func = self._gini
+        elif self.criterion == "entropy":
+            information_func = self._entropy
+
         left_indicies, right_indicies = self._split(feature_values, threshold)
         if len(left_indicies) == 0 or len(right_indicies) == 0:
             return 0
         n = len(y)
-        return self._entropy(y) - len(left_indicies) / n * self._entropy(y[left_indicies]) - len(right_indicies) / n * self._entropy(y[right_indicies])
+        return information_func(y) - len(left_indicies) / n * information_func(y[left_indicies]) - len(right_indicies) / n * information_func(y[right_indicies])
     
     def _entropy(self, values):
         n = len(values)
         data_type = values.dtype
         p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
+        p = p[p != 0]  # remove non-zero classes from messing up the calculations
         return -torch.sum(p * torch.log(p))
+    
+    def _gini(self, values):
+        n = len(values)
+        data_type = values.dtype
+        p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
+        return torch.sum(p * (1 - p))
 
     def predict(self, X):
         """
