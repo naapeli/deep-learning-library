@@ -4,3 +4,5 @@ from .RegressionForest import RandomForestRegressor
 from .RegressionTree import RegressionTree
 from .GradientBoostingRegressor import GradientBoostingRegressor
 from .GradientBoostingClassifier import GradientBoostingClassifier
+from .AdaBoostClassifier import AdaBoostClassifier
+from .AdaBoostRegressor import AdaBoostRegressor
