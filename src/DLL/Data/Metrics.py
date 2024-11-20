@@ -1,5 +1,4 @@
 import torch
-from scipy.integrate import simpson
 from math import sqrt
 
 from ..DeepLearning.Losses import mse, mae, bce, cce, Huber, exponential
@@ -184,7 +183,7 @@ def roc_curve(probabilities, true_output, thresholds):
 
 def auc(fpr, tpr):
     """
-    Calculates area under the roc curve. The problem must be binary classification.
+    Calculates area under the roc curve using the trapezoidal rule. The problem must be binary classification.
 
     Args:
         fpr (torch.Tensor of shape (n_thresholds,)): A torch tensor containing the false positive rates.
@@ -200,9 +199,11 @@ def auc(fpr, tpr):
     if len(fpr) != len(tpr):
         raise ValueError("fpr and tpr must have the same number of thresholds.")
 
-    if fpr[0] > fpr[-1]:
-        fpr, tpr = reversed(fpr), reversed(tpr)
-    return simpson(tpr, fpr)
+    indicies = torch.argsort(fpr)
+    tpr = tpr[indicies]
+    fpr = fpr[indicies]
+    diffs = fpr[1:] - fpr[:-1]
+    return torch.sum(diffs * (tpr[1:] + tpr[:-1]) / 2).item()
 
 def roc_auc(probabilities, true_output, thresholds):
     """
