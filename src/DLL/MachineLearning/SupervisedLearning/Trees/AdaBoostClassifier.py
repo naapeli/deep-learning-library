@@ -1,5 +1,6 @@
 import torch
 from math import log
+from warnings import warn
 
 from . import DecisionTree
 from ....Exceptions import NotFittedError
@@ -11,15 +12,15 @@ class AdaBoostClassifier:
 
     Args:
         n_trees (int, optional): The number of trees used for predicting. Defaults to 10. Must be a positive integer.
-        learning_rate (float, optional): The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.
         max_depth (int, optional): The maximum depth of the tree. Defaults to 25. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
         criterion (str, optional): The information criterion used to select optimal splits. Must be one of "entropy" or "gini". Defaults to "gini".
     Attributes:
         n_features (int): The number of features. Available after fitting.
         n_classes (int): The number of classes. 2 for binary classification. Available after fitting.
+        confidences (torch.tensor of shape (n_trees,)): The confidence on each tree.
     """
-    def __init__(self, n_trees=10, learning_rate=0.5, max_depth=25, min_samples_split=2, criterion="gini"):
+    def __init__(self, n_trees=10, max_depth=25, min_samples_split=2, criterion="gini"):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(max_depth, int) or max_depth < 1:
@@ -32,7 +33,6 @@ class AdaBoostClassifier:
         self.n_trees = n_trees
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
-        self.learning_rate = learning_rate
         self.criterion = criterion
         self.trees = None
 
@@ -43,9 +43,8 @@ class AdaBoostClassifier:
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].
-            metrics (dict[str, torch.Tensor]): Contains the metrics that will be calculated between fitting each tree and returned. Only available for binary classification.
         Returns:
-            metrics if binary classification else None
+            The average errors after each tree.
         Raises:
             TypeError: If the input matrix or the label vector is not a PyTorch tensor or if the problem is binary and metrics is not a list or a tuple.
             ValueError: If the input matrix or the label vector is not the correct shape or the label vector contains wrong values.
@@ -67,11 +66,11 @@ class AdaBoostClassifier:
 
         trees = []
         weights = torch.full_like(y, 1 / len(y))
-        self.alphas = []
+        self.confidences = []
 
         errors = []
 
-        for _ in range(self.n_trees):
+        for i in range(self.n_trees):
             indices = torch.multinomial(weights, len(y), replacement=True)
             X_sample = X[indices]
             y_sample = y[indices]
@@ -98,13 +97,13 @@ class AdaBoostClassifier:
 
             #  If better than random quessing, continue
             if eps < 1 - 1 / self.n_classes:
-                alpha = self.learning_rate * (torch.log((1 - eps) / (eps + 1e-8)) + log(self.n_classes - 1))
+                alpha = 0.5 * (torch.log((1 - eps) / (eps + 1e-8)) + log(self.n_classes - 1))
                 weights = weights * torch.exp(alpha * incorrect)
                 weights /= weights.sum()  # keep weights as a probability distribution
-                self.alphas.append(alpha)
+                self.confidences.append(alpha)
             else:
-                weights = torch.full_like(y, 1 / len(y))
-                self.alphas.append(0.0)
+                warn(f"The average error exceeds 0.5. The training is stopped to reduce over fitting. Only {i} trees are used.")
+                break
 
             trees.append(tree)
         
@@ -134,7 +133,7 @@ class AdaBoostClassifier:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
         preds = torch.zeros((len(X), self.n_classes))
-        for alpha, tree in zip(self.alphas, self.trees):
+        for alpha, tree in zip(self.confidences, self.trees):
             pred = tree.predict(X).int()
             one_hot_pred = torch.eye(self.n_classes)[pred]
             preds += alpha * one_hot_pred
@@ -164,7 +163,7 @@ class AdaBoostClassifier:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
         preds = torch.zeros((len(X), self.n_classes))
-        for alpha, tree in zip(self.alphas, self.trees):
+        for alpha, tree in zip(self.confidences, self.trees):
             pred = tree.predict(X).int()
             one_hot_pred = torch.eye(self.n_classes)[pred]
             preds += alpha * one_hot_pred
