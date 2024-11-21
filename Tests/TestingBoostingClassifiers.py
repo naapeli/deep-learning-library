@@ -10,32 +10,31 @@ from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy, roc_curve, auc
 
 n_classes = 2
-X, y = datasets.make_blobs(n_samples=200, n_features=2, cluster_std=2, centers=n_classes, random_state=3)
+X, y = datasets.make_blobs(n_samples=200, n_features=2, cluster_std=4, centers=n_classes, random_state=3)
 
 x_train, y_train, _, _, x_test, y_test = data_split(torch.from_numpy(X).to(dtype=torch.float32), torch.from_numpy(y), train_split=0.7, validation_split=0.0)
 
-model = GradientBoostingClassifier(n_trees=20, max_depth=2, learning_rate=0.5, loss="log_loss")
+model = GradientBoostingClassifier(n_trees=50, max_depth=1, learning_rate=0.5, loss="log_loss")
 history = model.fit(x_train, y_train)
 y_pred_proba = model.predict_proba(x_test)
 y_pred = model.predict(x_test)
 print("gradientboost accuracy: ", accuracy(y_pred, y_test))
 
-model2 = AdaBoostClassifier(n_trees=50, max_depth=2, learning_rate=0.5)
+model2 = AdaBoostClassifier(n_trees=50, max_depth=1)
 errors = model2.fit(x_train, y_train)
 y_pred_proba2 = model2.predict_proba(x_test)
 y_pred2 = model2.predict(x_test)
 print("adaboost accuracy: ", accuracy(y_pred2, y_test))
 
-model3 = sk_AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=2))
+model3 = sk_AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=1))
 # model3 = sk_GradientBoostingClassifier()
-# model3 = DecisionTree(max_depth=500, criterion="gini")
 model3.fit(x_train.numpy(), y_train.numpy())
 pred3 = torch.from_numpy(model3.predict(x_test.numpy()))
 print("sklearn accuracy: ", accuracy(pred3, y_test))
 
 plt.title("Ada boost errors and alphas")
 plt.plot(errors, label="errors")
-plt.plot(model2.alphas, label="alphas")
+plt.plot(model2.confidences, label="confidences")
 plt.legend()
 
 if n_classes == 2:
