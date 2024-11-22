@@ -9,7 +9,7 @@
   <title>Preprocessing &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -50,7 +50,7 @@
 <li class="toctree-l3"><a class="reference internal" href="DLL.Data.DataReader.html">DataReader</a></li>
 <li class="toctree-l3"><a class="reference internal" href="DLL.Data.Metrics.html">Metrics</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Preprocessing</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.BinaryEncoder"><code class="docutils literal notranslate"><span class="pre">BinaryEncoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.CategoricalEncoder"><code class="docutils literal notranslate"><span class="pre">CategoricalEncoder</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.MinMaxScaler"><code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.OneHotEncoder"><code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.PolynomialFeatures"><code class="docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a></li>
@@ -96,23 +96,71 @@
   <section id="module-DLL.Data.Preprocessing">
 <span id="preprocessing"></span><h1>Preprocessing<a class="headerlink" href="#module-DLL.Data.Preprocessing" title="Link to this heading"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.BinaryEncoder">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">BinaryEncoder</span></span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#BinaryEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.BinaryEncoder" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.CategoricalEncoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">CategoricalEncoder</span></span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#CategoricalEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.CategoricalEncoder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The categorical encoder.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.BinaryEncoder.binary_decode">
-<span class="sig-name descname"><span class="pre">binary_decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#BinaryEncoder.binary_decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.BinaryEncoder.binary_decode" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.CategoricalEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#CategoricalEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.CategoricalEncoder.decode" title="Link to this definition"></a></dt>
+<dd><p>Decodes the data to the original classes. CategoricalEncoder.fit() must be called before decoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the predicted labels of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A decoded predictions transformed to the original classes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.BinaryEncoder.binary_encode">
-<span class="sig-name descname"><span class="pre">binary_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#BinaryEncoder.binary_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.BinaryEncoder.binary_encode" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.CategoricalEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#CategoricalEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.CategoricalEncoder.encode" title="Link to this definition"></a></dt>
+<dd><p>Encodes the data to values [0, …, n_classes - 1]. CategoricalEncoder.fit() must be called before encoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An encoded tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.BinaryEncoder.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#BinaryEncoder.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.BinaryEncoder.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.CategoricalEncoder.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#CategoricalEncoder.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.CategoricalEncoder.fit" title="Link to this definition"></a></dt>
+<dd><p>Finds the classes in the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.CategoricalEncoder.fit_encode">
+<span class="sig-name descname"><span class="pre">fit_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#CategoricalEncoder.fit_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.CategoricalEncoder.fit_encode" title="Link to this definition"></a></dt>
+<dd><p>First fits the encoder and then encodes the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An encoded tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -120,20 +168,68 @@
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.MinMaxScaler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">MinMaxScaler</span></span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#MinMaxScaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.MinMaxScaler" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The min-max scaler.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.MinMaxScaler.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#MinMaxScaler.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.MinMaxScaler.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Finds the minimum and the maximum of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.MinMaxScaler.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#MinMaxScaler.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.MinMaxScaler.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>First fits the scaler and then transforms the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.MinMaxScaler.inverse_transform">
 <span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#MinMaxScaler.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.MinMaxScaler.inverse_transform" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Scales the data back to it’s original space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.MinMaxScaler.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#MinMaxScaler.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.MinMaxScaler.transform" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Normalises the data between 0 and 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -141,20 +237,68 @@
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">OneHotEncoder</span></span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The one-hot encoder.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.decode" title="Link to this definition"></a></dt>
+<dd><p>One-hot encodes the data. OneHotEncoder.fit() must be called before decoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_classes</em><em>)</em>) – the predictions of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A decoded predictions transformed to the original classes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.encode">
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.encode" title="Link to this definition"></a></dt>
+<dd><p>One-hot encodes the data. OneHotEncoder.fit() must be called before encoding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A one-hot encoded tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes)</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Finds the classes in the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.one_hot_decode">
-<span class="sig-name descname"><span class="pre">one_hot_decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.one_hot_decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.one_hot_decode" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.one_hot_encode">
-<span class="sig-name descname"><span class="pre">one_hot_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.one_hot_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.one_hot_encode" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.OneHotEncoder.fit_encode">
+<span class="sig-name descname"><span class="pre">fit_encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#OneHotEncoder.fit_encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.OneHotEncoder.fit_encode" title="Link to this definition"></a></dt>
+<dd><p>First fits the encoder and then one-hot encodes the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A one-hot encoded tensor.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -162,10 +306,28 @@
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.PolynomialFeatures">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">PolynomialFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#PolynomialFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.PolynomialFeatures" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Polynomial features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>degree</strong> (<em>int</em><em>, </em><em>optional</em>) – The degree of the polynomial. Must be a positive integer. Defaults to 2.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.PolynomialFeatures.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#PolynomialFeatures.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.PolynomialFeatures.transform" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Creates a matrix of data containing every possible combination of the given set of features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of the new features.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, sum([nCr(n_features + deg - 1, deg) for deg in range(1, degree + 1)]) + 1)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -173,27 +335,96 @@
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.StandardScaler">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">StandardScaler</span></span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#StandardScaler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.StandardScaler" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The standard scaler.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.StandardScaler.fit">
 <span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#StandardScaler.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.StandardScaler.fit" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Finds the mean and the variance of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.Data.Preprocessing.StandardScaler.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#StandardScaler.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.StandardScaler.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>First fits the scaler and then encodes the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.StandardScaler.inverse_transform">
 <span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#StandardScaler.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.StandardScaler.inverse_transform" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Scales the data back to it’s original space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.StandardScaler.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#StandardScaler.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.StandardScaler.transform" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Transforms the data to zero mean and one variance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em>) – the input samples.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.data_split">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">data_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#data_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.data_split" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Splits the data into train, validation and test sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>...</em><em>)</em>) – The input values.</p></li>
+<li><p><strong>Y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>...</em><em>)</em>) – The target values.</p></li>
+<li><p><strong>train_split</strong> (<em>float</em><em>, </em><em>optional</em>) – The precentage of train data of the whole data. Must be a real number in range (0, 1]. Defaults to 0.8.</p></li>
+<li><p><strong>validation_split</strong> (<em>float</em><em>, </em><em>optional</em>) – The precentage of validation data of the whole data. Must be a real number in range [0, 1). Defaults to 0.2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The original data shuffled and split according to train and validation splits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>x_train, y_train, x_val, y_val, x_test, y_test (tuple[torch.Tensor])</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The sum of train_split and validation_split must be less than or equal to 1. The remaining samples are returned as the test data.</p>
+</div>
+</dd></dl>
 
 </section>
 

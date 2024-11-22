@@ -9,7 +9,7 @@
   <title>Metrics &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -56,6 +56,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.calculate_metrics"><code class="docutils literal notranslate"><span class="pre">calculate_metrics()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.categorical_cross_entropy"><code class="docutils literal notranslate"><span class="pre">categorical_cross_entropy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.confusion_matrix"><code class="docutils literal notranslate"><span class="pre">confusion_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.exponential_loss"><code class="docutils literal notranslate"><span class="pre">exponential_loss()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.f1_score"><code class="docutils literal notranslate"><span class="pre">f1_score()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.huber_loss"><code class="docutils literal notranslate"><span class="pre">huber_loss()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.mean_absolute_error"><code class="docutils literal notranslate"><span class="pre">mean_absolute_error()</span></code></a></li>
@@ -110,92 +111,378 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.accuracy">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#accuracy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.accuracy" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the accuracy of predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A torch tensor of either true labels or one-hot encoded values. If is given a one-hot encoded tensor, calculates the corresponding labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the accuracy of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.adjusted_r2_score">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">adjusted_r2_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#adjusted_r2_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.adjusted_r2_score" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the adjusted coefficient of determination of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+<li><p><strong>n_features</strong> (<em>int</em>) – The number of features in the original data. Must be a positive integer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The adjusted coefficient of determination of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.auc">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">auc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fpr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tpr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#auc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.auc" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates area under the roc curve using the trapezoidal rule. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fpr</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_thresholds</em><em>,</em><em>)</em>) – A torch tensor containing the false positive rates.</p></li>
+<li><p><strong>tpr</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_thresholds</em><em>,</em><em>)</em>) – A torch tensor containing the true positive rates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the area under the roc curve.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.binary_cross_entropy">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">binary_cross_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#binary_cross_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.binary_cross_entropy" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the binary cross entropy of the predictions. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted probabilities as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true labels as a vector. Must be the same shape as the predictions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The binary cross entropy of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.calculate_metrics">
-<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">calculate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#calculate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.calculate_metrics" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">calculate_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#calculate_metrics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.calculate_metrics" title="Link to this definition"></a></dt>
+<dd><p>Calculates the values of different metrics based on training predictions and true values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>tuple</em><em>[</em><em>torch.Tensor</em><em>, </em><em>torch.Tensor</em><em>]</em>) – A tuple of predictions and the true outputs of a model.</p></li>
+<li><p><strong>metrics</strong> (<em>tuple</em><em> | </em><em>list</em>) – A list metric names to calculate. Each element must be in [“loss”, “accuracy”, “precision”, “recall”, “f1_score”, “rmse”, “mae”, “mse”, “bce”, “cce”, “huber”].</p></li>
+<li><p><strong>loss</strong> (<em>Callable</em><em>[</em><em>[</em><em>predictions</em><em>, </em><em>true values</em><em>]</em><em>, </em><em>float</em><em>]</em><em>, </em><em>optional</em>) – The wanted loss function. If Defaults to None.</p></li>
+<li><p><strong>validation</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if “<a href="#id1"><span class="problematic" id="id2">val_</span></a>” is appended before each metric. If true, the each element of the metrics must be for instance “val_loss” or “val_mse”. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary with metric name as the key and the metric as the value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, float]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.categorical_cross_entropy">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">categorical_cross_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#categorical_cross_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.categorical_cross_entropy" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the categorical cross entropy of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted values as a probability distribution. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A one-hot encoded tensor of true values. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The categorical cross entropy of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.confusion_matrix">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.confusion_matrix" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The confusion matrix. At the moment, the problem must be binary classification. The element at (i, j) represents the number of observations in class i predicted to be class j.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A torch tensor of either true labels or one-hot encoded values. If is given a one-hot encoded tensor, calculates the corresponding labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The confusion matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_classes, n_classes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DLL.Data.Metrics.exponential_loss">
+<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">exponential_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#exponential_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.exponential_loss" title="Link to this definition"></a></dt>
+<dd><p>Calculates the exponential loss of the predictions. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted probabilities as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true labels as a vector. Must be the same shape as the predictions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The exponential loss of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.f1_score">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">f1_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#f1_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.f1_score" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the f1 score of the predictions. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of true labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the f1 score of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.huber_loss">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">huber_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#huber_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.huber_loss" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the huber loss of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The huber loss of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.mean_absolute_error">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">mean_absolute_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#mean_absolute_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.mean_absolute_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the mean absolute error of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean absolute error of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.mean_squared_error">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.mean_squared_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the mean squared error of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the predictions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mean squared error of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.precision">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.precision" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the precision or the positive predictive value of the predictions. The problem must be binary classification to be able to calculate the precision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of true labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the precision of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.prob_to_pred">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">prob_to_pred</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#prob_to_pred"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.prob_to_pred" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Converts probabilities to predicted labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>probabilities</strong> (<em>torch.Tensor with 1</em><em> or </em><em>2 dimensions</em>) – A tensor of probabilities. Must either be 1 or 2 dimensional.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.r2_score">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">r2_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#r2_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.r2_score" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the coefficient of determination of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The coefficient of determination of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.recall">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">recall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#recall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.recall" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the recall or the sensitivity of the predictions. The problem must be binary classification to be able to calculate the recall.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of true labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the recall of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.roc_auc">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">roc_auc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#roc_auc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.roc_auc" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates area under the roc curve. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probabilities</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of probabilities.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of true labels.</p></li>
+<li><p><strong>thresholds</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_thresholds</em><em>,</em><em>)</em>) – A tensor of thresholds. Every value must be between 0 and 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the area under the roc curve.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.roc_curve">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">roc_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probabilities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresholds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#roc_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.roc_curve" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates receiver operating characteristic curve. The problem must be binary classification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probabilities</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of probabilities.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – A torch tensor of true labels.</p></li>
+<li><p><strong>thresholds</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_thresholds</em><em>,</em><em>)</em>) – A tensor of thresholds. Every value must be between 0 and 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple of false-positive-rate and true-positive-rate evaluated at the given thresholds.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[torch.Tensor, torch.Tensor]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.root_mean_squared_error">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">root_mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#root_mean_squared_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.root_mean_squared_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the root mean squared error of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The root mean squared error of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

@@ -9,7 +9,7 @@
   <title>DataReader &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -92,12 +92,30 @@
 <h1>DataReader<a class="headerlink" href="#datareader" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.Data.DataReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.</span></span><span class="sig-name descname"><span class="pre">DataReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/DataReader.html#DataReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.DataReader" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.</span></span><span class="sig-name descname"><span class="pre">DataReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/DataReader.html#DataReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.DataReader" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The data reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>...</em><em>)</em>) – The input data.</p></li>
+<li><p><strong>Y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>...</em><em>)</em>) – The target labels or values.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The batch size. If the batch size is larger than the number of samples, the maximum number of samples is used as the batch_size. Must be a positive integer. Defaults to 64.</p></li>
+<li><p><strong>shuffle</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the input data is shuffled in the beginning. Defaults to True.</p></li>
+<li><p><strong>shuffle_every_epoch</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the input data is shuffled every time all data points are used. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.Data.DataReader.get_data">
 <span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/DataReader.html#DataReader.get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.DataReader.get_data" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A generator giving going through the entire dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>tuple[torch.Tensor, torch.Tensor]</em> – X_batch, y_batch</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

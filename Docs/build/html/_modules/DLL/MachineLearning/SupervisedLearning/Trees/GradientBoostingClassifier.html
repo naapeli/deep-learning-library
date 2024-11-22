@@ -8,7 +8,7 @@
   <title>DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=a745ac59" />
 
   
       <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
@@ -196,8 +196,7 @@
     
     <span class="k">def</span> <span class="nf">_multi_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
-        <span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">one_hot_encode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_encode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_log_odds</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_log_odds</span><span class="p">)</span>
