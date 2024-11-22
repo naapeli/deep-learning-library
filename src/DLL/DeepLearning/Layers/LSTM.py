@@ -4,6 +4,8 @@ from math import sqrt
 from .BaseLayer import BaseLayer
 from .Activations.Activation import Activation
 from .Regularisation.BaseRegularisation import BaseRegularisation
+from ..Initialisers import Xavier_Uniform
+from ..Initialisers.Initialiser import Initialiser
 
 
 class LSTM(BaseLayer):
@@ -14,15 +16,17 @@ class LSTM(BaseLayer):
         output_shape (int): The number of output features. Must be a non-negative int. If is zero, the returned tensor is of shape (batch_size,) or (batch_size, sequence_length) and if positive, the returned tensor is of shape (batch_size, output_size) or (batch_size, sequence_length, output_size).
         hidden_size (int): The number of features in the hidden state vector. Must be a positive integer.
         return_last (bool): Determines if only the last element or the whole sequence is returned.
-        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
+        initialiser (:ref:`initialisers_section_label`, optional): The initialisation method for models weights. Defaults to Xavier_uniform.
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     """
-    def __init__(self, output_shape, hidden_size, return_last=True, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
+    def __init__(self, output_shape, hidden_size, return_last=True, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
         if not isinstance(output_shape, int) or output_shape < 0:
             raise ValueError("output_shape must be a non-negative integer.")
-        if initialiser not in ["Xavier_norm", "Xavier_uniform", "He_norm", "He_uniform"]:
-            raise ValueError('initialiser must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform".')
+        if not isinstance(hidden_size, int) or hidden_size <= 0:
+            raise ValueError("hidden_size must be a positive integer.")
+        if not isinstance(initialiser, Initialiser):
+            raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
             raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
         if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
@@ -50,30 +54,19 @@ class LSTM(BaseLayer):
         input_size = self.input_shape[1]
         output_size = self.output_shape[0]
 
-        # if self.initialiser == "Xavier_norm":
-        #     self.weights = torch.normal(mean=0, std=sqrt(2/(input_dim + output_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
-        # elif self.initialiser == "Xavier_uniform":
-        #     a = sqrt(6/(input_dim + output_dim))
-        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
-        # elif self.initialiser == "He_norm":
-        #     self.weights = torch.normal(mean=0, std=sqrt(6/(input_dim)), size=(input_dim, output_dim), dtype=self.data_type, device=self.device)
-        # elif self.initialiser == "He_uniform":
-        #     a = sqrt(12/(input_dim + output_dim))  # sqrt(6/input_dim)
-        #     self.weights = 2 * a * torch.rand(size=(input_dim, output_dim), dtype=self.data_type, device=self.device) - a
-
-        self.wf = (torch.rand(input_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
-        self.uf = (torch.rand(self.hidden_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
+        self.wf = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
+        self.uf = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.bf = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
-        self.wi = (torch.rand(input_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
-        self.ui = (torch.rand(self.hidden_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
+        self.wi = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
+        self.ui = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.bi = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
-        self.wc = (torch.rand(input_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
-        self.uc = (torch.rand(self.hidden_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
+        self.wc = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
+        self.uc = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.bc = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
-        self.wo = (torch.rand(input_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
-        self.uo = (torch.rand(self.hidden_size, self.hidden_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
+        self.wo = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
+        self.uo = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.bo = torch.zeros((self.hidden_size), dtype=self.data_type, device=self.device)
-        self.wy = (torch.rand(self.hidden_size, output_size, dtype=self.data_type, device=self.device) * 2 - 1) * sqrt(6 / (input_size + self.hidden_size))
+        self.wy = self.initialiser.initialise((self.hidden_size, output_size), data_type=self.data_type, device=self.device)
         self.by = torch.zeros((output_size), dtype=self.data_type, device=self.device)
 
         self.nparams = output_size + self.hidden_size * output_size + 4 * input_size * self.hidden_size + 4 * self.hidden_size + 4 * self.hidden_size ** 2
