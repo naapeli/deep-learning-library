@@ -7,5 +7,5 @@ Deep learning
    DLL.DeepLearning.Layers
    DLL.DeepLearning.Losses
    DLL.DeepLearning.Optimisers
+   DLL.DeepLearning.Initialisers
    DLL.DeepLearning.Models
-

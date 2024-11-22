@@ -6,6 +6,8 @@ import numpy as np
 from .BaseLayer import BaseLayer
 from .Activations.Activation import Activation
 from .Regularisation.BaseRegularisation import BaseRegularisation
+from ..Initialisers import Xavier_Uniform
+from ..Initialisers.Initialiser import Initialiser
 
 
 class Conv2D(BaseLayer):
@@ -15,17 +17,17 @@ class Conv2D(BaseLayer):
     Args:
         kernel_size (int): The kernel size used for the model. The kernel is automatically square. Must be a positive integer.
         output_depth (int): The output depth of the layer. Must be a positive integer.
-        initialiser (str, optional): The initialisation method for models weights. Xavier should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin, while He should be used for the ReLU activation. Must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform". Defaults to "Xavier_uniform".
+        initialiser (:ref:`initialisers_section_label`, optional): The initialisation method for models weights. Defaults to Xavier_uniform.
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used fter this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     """
-    def __init__(self, kernel_size, output_depth, initialiser="Xavier_uniform", activation=None, normalisation=None, **kwargs):
+    def __init__(self, kernel_size, output_depth, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
         if not isinstance(kernel_size, int) or kernel_size <= 0:
             raise ValueError(f"kernel_size must be a positive integer. Currently {kernel_size}.")
         if not isinstance(output_depth, int) or output_depth <= 0:
             raise ValueError(f"output_depth must be a positive integer. Currently {output_depth}.")
-        if initialiser not in ["Xavier_norm", "Xavier_uniform", "He_norm", "He_uniform"]:
-            raise ValueError('initialiser must be one of "Xavier_norm", "Xavier_uniform", "He_norm" or "He_uniform".')
+        if not isinstance(initialiser, Initialiser):
+            raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
             raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
         if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
@@ -56,21 +58,8 @@ class Conv2D(BaseLayer):
         self.kernels_shape = (self.output_depth, input_depth, self.kernel_size, self.kernel_size)
         self.nparams = np.prod(self.kernels_shape) + np.prod(self.output_shape)
 
-        input_dim = input_depth * self.kernel_size ** 2  # np.prod(input_shape)
-        output_dim = self.output_depth * self.kernel_size ** 2  # np.prod(self.output_shape)
-        if self.initialiser == "Xavier_norm":
-            self.kernels = torch.normal(mean=0, std=sqrt(2/(input_dim + output_dim)), size=self.kernels_shape, dtype=self.data_type, device=self.device)
-        elif self.initialiser == "Xavier_uniform":
-            a = sqrt(6/(input_dim + output_dim))
-            self.kernels = 2 * a * torch.rand(size=self.kernels_shape, dtype=self.data_type, device=self.device) - a
-        elif self.initialiser == "He_norm":
-            self.kernels = torch.normal(mean=0, std=sqrt(12/(input_dim + output_dim)), size=self.kernels_shape, dtype=self.data_type, device=self.device)
-        elif self.initialiser == "He_uniform":
-            a = sqrt(12/(input_dim + output_dim))
-            self.kernels = 2 * a * torch.rand(size=self.kernels_shape, dtype=self.data_type, device=self.device) - a
-        
-        # self.kernels = 1. / sqrt(input_depth) * (2 * torch.rand(size=self.kernels_shape, device=self.device, dtype=self.data_type) - 1)
-        self.biases = 1. / sqrt(input_depth) * (2 * torch.rand(size=self.output_shape, device=self.device, dtype=self.data_type) - 1)
+        self.kernels = self.initialiser.initialise(self.kernels_shape, data_type=self.data_type, device=self.device)
+        self.biases = torch.zeros(self.output_shape)
         
         if self.activation:
             self.activation.initialise_layer(self.output_shape, self.data_type, self.device)

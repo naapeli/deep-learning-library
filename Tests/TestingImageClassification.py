@@ -8,6 +8,7 @@ from src.DLL.DeepLearning.Layers.Regularisation import Dropout, BatchNorm, Group
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import cce
 from src.DLL.DeepLearning.Optimisers import sgd, Adam
+from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from src.DLL.Data.Preprocessing import OneHotEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
 
@@ -32,11 +33,11 @@ print(train_images.shape, train_labels.shape, validation_images.shape, validatio
 print(train_labels[:2])
 
 model = Model((1, 28, 28), device=device)
-model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_norm", activation=ReLU()))
+model.add(Conv2D(kernel_size=3, output_depth=32, initialiser=Kaiming_Normal(), activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
 model.add(LayerNorm())
 # model.add(BatchNorm())
-model.add(Conv2D(kernel_size=3, output_depth=32, initialiser="He_uniform", activation=ReLU()))
+model.add(Conv2D(kernel_size=3, output_depth=32, initialiser=Kaiming_Uniform(), activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
 # model.add(InstanceNorm())
 model.add(LayerNorm())

@@ -4,6 +4,7 @@ from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, GroupNorm, Ins
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import cce
 from src.DLL.DeepLearning.Optimisers import sgd
+from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from src.DLL.Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
 from src.DLL.Data.Metrics import accuracy
 
@@ -25,10 +26,10 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 # can get better results with only batch normalisation
 model = Model(4, data_type=torch.float32)
-model.add(Dense(20, initialiser="He_norm", normalisation=BatchNorm(), activation=ReLU()))
-model.add(Dense(20, initialiser="He_norm", normalisation=GroupNorm(num_groups=10), activation=ReLU()))
-model.add(Dense(20, initialiser="He_norm", normalisation=LayerNorm(), activation=ReLU()))
-model.add(Dense(3, initialiser="Xavier_norm", activation=SoftMax()))
+model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), activation=ReLU()))
+model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()))
+model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()))
+model.add(Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax()))
 model.compile(optimiser=sgd(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 
