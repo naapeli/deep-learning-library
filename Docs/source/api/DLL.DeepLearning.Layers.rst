@@ -3,14 +3,6 @@
 Core layers
 ============
 
-Input
-------------------------------------
-
-.. autoclass:: DLL.DeepLearning.Layers.Input
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Dense
 ------------------------------------
 
