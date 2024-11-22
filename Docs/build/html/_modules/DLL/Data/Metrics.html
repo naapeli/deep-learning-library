@@ -8,7 +8,7 @@
   <title>DLL.Data.Metrics &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a745ac59" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -71,54 +71,74 @@
              
   <h1>Source code for DLL.Data.Metrics</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">simpson</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
 
-<span class="kn">from</span> <span class="nn">..DeepLearning.Losses</span> <span class="kn">import</span> <span class="n">mse</span><span class="p">,</span> <span class="n">mae</span><span class="p">,</span> <span class="n">bce</span><span class="p">,</span> <span class="n">cce</span><span class="p">,</span> <span class="n">Huber</span>
+<span class="kn">from</span> <span class="nn">..DeepLearning.Losses</span> <span class="kn">import</span> <span class="n">mse</span><span class="p">,</span> <span class="n">mae</span><span class="p">,</span> <span class="n">bce</span><span class="p">,</span> <span class="n">cce</span><span class="p">,</span> <span class="n">Huber</span><span class="p">,</span> <span class="n">exponential</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Calculates the values of different metrics based on training predictions and true values</span>
 
-<span class="sd">data = (predictions, true_output)</span>
-<span class="sd">metrics = [list of all wanted metrics]</span>
-<span class="sd">loss = python function for the loss</span>
-<span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="calculate_metrics">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.calculate_metrics">[docs]</a>
-<span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">(),</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the values of different metrics based on training predictions and true values.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (tuple[torch.Tensor, torch.Tensor]): A tuple of predictions and the true outputs of a model.</span>
+<span class="sd">        metrics (tuple | list): A list metric names to calculate. Each element must be in [&quot;loss&quot;, &quot;accuracy&quot;, &quot;precision&quot;, &quot;recall&quot;, &quot;f1_score&quot;, &quot;rmse&quot;, &quot;mae&quot;, &quot;mse&quot;, &quot;bce&quot;, &quot;cce&quot;, &quot;huber&quot;].</span>
+<span class="sd">        loss (Callable[[predictions, true values], float], optional): The wanted loss function. If Defaults to None.</span>
+<span class="sd">        validation (bool, optional): Determines if &quot;val_&quot; is appended before each metric. If true, the each element of the metrics must be for instance &quot;val_loss&quot; or &quot;val_mse&quot;. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict[str, float]: A dictionary with metric name as the key and the metric as the value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;data must be a tuple of length 2.&quot;</span><span class="p">)</span>
+    <span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The elements of data must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The shapes of the predictions and the output do not match.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shapes of the data are not 1 or 2 dimensional. Currently </span><span class="si">{</span><span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span><span class="w"> </span><span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="n">available_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="s2">&quot;mae&quot;</span><span class="p">,</span> <span class="s2">&quot;mse&quot;</span><span class="p">,</span> <span class="s2">&quot;bce&quot;</span><span class="p">,</span> <span class="s2">&quot;cce&quot;</span><span class="p">,</span> <span class="s2">&quot;huber&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">([(</span><span class="n">metric</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="k">if</span> <span class="n">validation</span> <span class="k">else</span> <span class="n">metric</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_metrics</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only the following metrics are supported </span><span class="si">{</span><span class="n">available_metrics</span><span class="si">}</span><span class="s2">. Currently </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;loss&quot;</span> <span class="ow">in</span> <span class="n">metrics</span> <span class="ow">or</span> <span class="s2">&quot;val_loss&quot;</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">)</span> <span class="ow">and</span> <span class="n">loss</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;For calculating the loss, the loss function must be passed as an argument.&quot;</span><span class="p">)</span>
+
     <span class="n">val</span> <span class="o">=</span> <span class="s2">&quot;val_&quot;</span> <span class="k">if</span> <span class="n">validation</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
     <span class="n">values</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">data</span>
     <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
-        <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;loss&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;loss&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;precision&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;recall&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">recall</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">recall</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;rmse&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">root_mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">root_mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;mae&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;mse&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;bce&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">binary_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;cce&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">categorical_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">categorical_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;huber&quot;</span><span class="p">):</span>
-            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">huber_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">found</span><span class="p">:</span> <span class="n">values</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_value</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">huber_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
+        <span class="n">values</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_value</span>
     <span class="k">return</span> <span class="n">values</span></div>
 
 
 <span class="k">def</span> <span class="nf">_round_dictionary</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;values must be a dictionary&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:0.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 
@@ -126,20 +146,27 @@
 <div class="viewcode-block" id="accuracy">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy">[docs]</a>
 <span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
-    <span class="c1"># if one-hot encoded</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">true_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># if true values {-1, 1} or {0, 1}</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">true_output</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
-                <span class="c1"># true values {-1, 1}</span>
-                <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">predictions</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># true values {0, 1}</span>
-                <span class="n">predictions</span> <span class="o">=</span> <span class="n">predictions</span> <span class="o">&gt;=</span> <span class="mf">0.5</span>
-    <span class="c1"># now the values should be categorical and vectors of shape (n,)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the accuracy of predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</span>
+<span class="sd">        true_output (torch.Tensor): A torch tensor of either true labels or one-hot encoded values. If is given a one-hot encoded tensor, calculates the corresponding labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the accuracy of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">predictions</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">true_output</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span>
     <span class="n">correct</span> <span class="o">=</span> <span class="n">predictions</span> <span class="o">==</span> <span class="n">true_output</span>
     <span class="k">return</span> <span class="n">correct</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
@@ -147,7 +174,27 @@
 <div class="viewcode-block" id="precision">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.precision">[docs]</a>
 <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;The problem must be binary classification.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the precision or the positive predictive value of the predictions. The problem must be binary classification to be able to calculate the precision.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor of shape (n_samples,)): A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</span>
+<span class="sd">        true_output (torch.Tensor of shape (n_samples,)): A torch tensor of true labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the precision of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">conf_mat</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="n">numerator</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="n">denumenator</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -157,7 +204,27 @@
 <div class="viewcode-block" id="recall">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.recall">[docs]</a>
 <span class="k">def</span> <span class="nf">recall</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;The problem must be binary classification.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the recall or the sensitivity of the predictions. The problem must be binary classification to be able to calculate the recall.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor of shape (n_samples,)): A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</span>
+<span class="sd">        true_output (torch.Tensor of shape (n_samples,)): A torch tensor of true labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the recall of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">conf_mat</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="n">numerator</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
     <span class="n">denumenator</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">conf_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -167,7 +234,30 @@
 <div class="viewcode-block" id="roc_curve">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.roc_curve">[docs]</a>
 <span class="k">def</span> <span class="nf">roc_curve</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">true_output</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;The problem must be binary classification.&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates receiver operating characteristic curve. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        probabilities (torch.Tensor of shape (n_samples,)): A torch tensor of probabilities.</span>
+<span class="sd">        true_output (torch.Tensor of shape (n_samples,)): A torch tensor of true labels.</span>
+<span class="sd">        thresholds (torch.Tensor of shape (n_thresholds,)): A tensor of thresholds. Every value must be between 0 and 1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[torch.Tensor, torch.Tensor]: A tuple of false-positive-rate and true-positive-rate evaluated at the given thresholds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probabilities must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probabilities and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">thresholds</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;thresholds must be a torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span><span class="n">thresholds</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;thresholds must have every value must be between 0 and 1.&quot;</span><span class="p">)</span>
+
     <span class="n">tpr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)</span>
     <span class="n">fpr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">thresholds</span><span class="p">)):</span>
@@ -181,20 +271,63 @@
 <div class="viewcode-block" id="auc">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.auc">[docs]</a>
 <span class="k">def</span> <span class="nf">auc</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">fpr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">fpr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">fpr</span><span class="p">),</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">tpr</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">simpson</span><span class="p">(</span><span class="n">tpr</span><span class="p">,</span> <span class="n">fpr</span><span class="p">)</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates area under the roc curve using the trapezoidal rule. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fpr (torch.Tensor of shape (n_thresholds,)): A torch tensor containing the false positive rates.</span>
+<span class="sd">        tpr (torch.Tensor of shape (n_thresholds,)): A torch tensor containing the true positive rates.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the area under the roc curve.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fpr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;fpr must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tpr</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fpr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;tpr must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fpr</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tpr</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;fpr and tpr must have the same number of thresholds.&quot;</span><span class="p">)</span>
+
+    <span class="n">indicies</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fpr</span><span class="p">)</span>
+    <span class="n">tpr</span> <span class="o">=</span> <span class="n">tpr</span><span class="p">[</span><span class="n">indicies</span><span class="p">]</span>
+    <span class="n">fpr</span> <span class="o">=</span> <span class="n">fpr</span><span class="p">[</span><span class="n">indicies</span><span class="p">]</span>
+    <span class="n">diffs</span> <span class="o">=</span> <span class="n">fpr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">fpr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diffs</span> <span class="o">*</span> <span class="p">(</span><span class="n">tpr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">tpr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="roc_auc">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.roc_auc">[docs]</a>
 <span class="k">def</span> <span class="nf">roc_auc</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">true_output</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates area under the roc curve. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        probabilities (torch.Tensor of shape (n_samples,)): A torch tensor of probabilities.</span>
+<span class="sd">        true_output (torch.Tensor of shape (n_samples,)): A torch tensor of true labels.</span>
+<span class="sd">        thresholds (torch.Tensor of shape (n_thresholds,)): A tensor of thresholds. Every value must be between 0 and 1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the area under the roc curve.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probabilities must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probabilities and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">thresholds</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;thresholds must be a torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bitwise_or</span><span class="p">(</span><span class="n">thresholds</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;thresholds must have every value must be between 0 and 1.&quot;</span><span class="p">)</span>
+
     <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">true_output</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">auc</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_binary_prob_to_prediction</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">probabilities</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">probabilities</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">_one_hot_to_prediction</span><span class="p">(</span><span class="n">probabilities</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -202,11 +335,18 @@
 <div class="viewcode-block" id="prob_to_pred">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.prob_to_pred">[docs]</a>
 <span class="k">def</span> <span class="nf">prob_to_pred</span><span class="p">(</span><span class="n">probabilities</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts probabilities to predicted labels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        probabilities (torch.Tensor with 1 or 2 dimensions): A tensor of probabilities. Must either be 1 or 2 dimensional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;probabilities must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">probabilities</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_one_hot_to_prediction</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_binary_prob_to_prediction</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span></div>
-
-
 
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -215,6 +355,30 @@
 <div class="viewcode-block" id="confusion_matrix">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.confusion_matrix">[docs]</a>
 <span class="k">def</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The confusion matrix. At the moment, the problem must be binary classification. The element at (i, j) represents the number of observations in class i predicted to be class j.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</span>
+<span class="sd">        true_output (torch.Tensor): A torch tensor of either true labels or one-hot encoded values. If is given a one-hot encoded tensor, calculates the corresponding labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        torch.Tensor of shape (n_classes, n_classes): The confusion matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">torch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">predictions</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">true_output</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span>
+
     <span class="n">classes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
     <span class="n">_confusion_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">))</span>
@@ -228,6 +392,27 @@
 <div class="viewcode-block" id="f1_score">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.f1_score">[docs]</a>
 <span class="k">def</span> <span class="nf">f1_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the f1 score of the predictions. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor of shape (n_samples,)): A torch tensor of either predicted labels or probabilities. If is given probabilities, calculates the corresponding predictions.</span>
+<span class="sd">        true_output (torch.Tensor of shape (n_samples,)): A torch tensor of true labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: the f1 score of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;true_output must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same number of samples.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">prob_to_pred</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">_precision</span> <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="n">_recall</span> <span class="o">=</span> <span class="n">recall</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_precision</span> <span class="o">*</span> <span class="n">_recall</span> <span class="o">/</span> <span class="p">(</span><span class="n">_precision</span> <span class="o">+</span> <span class="n">_recall</span><span class="p">))</span></div>
@@ -236,13 +421,74 @@
 <div class="viewcode-block" id="categorical_cross_entropy">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.categorical_cross_entropy">[docs]</a>
 <span class="k">def</span> <span class="nf">categorical_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the categorical cross entropy of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted values as a probability distribution. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A one-hot encoded tensor of true values. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The categorical cross entropy of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be one-hot encoded.&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">cce</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="binary_cross_entropy">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.binary_cross_entropy">[docs]</a>
 <span class="k">def</span> <span class="nf">binary_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the binary cross entropy of the predictions. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted probabilities as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true labels as a vector. Must be the same shape as the predictions.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The binary cross entropy of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">bce</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="exponential_loss">
+<a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.exponential_loss">[docs]</a>
+<span class="k">def</span> <span class="nf">exponential_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the exponential loss of the predictions. The problem must be binary classification.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted probabilities as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true labels as a vector. Must be the same shape as the predictions.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The exponential loss of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">exponential</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 
@@ -250,30 +496,115 @@
 <div class="viewcode-block" id="mean_squared_error">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.mean_squared_error">[docs]</a>
 <span class="k">def</span> <span class="nf">mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the mean squared error of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the predictions.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The mean squared error of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">mse</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="root_mean_squared_error">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.root_mean_squared_error">[docs]</a>
 <span class="k">def</span> <span class="nf">root_mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the root mean squared error of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The root mean squared error of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="mean_absolute_error">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.mean_absolute_error">[docs]</a>
 <span class="k">def</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the mean absolute error of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The mean absolute error of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">mae</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="huber_loss">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.huber_loss">[docs]</a>
 <span class="k">def</span> <span class="nf">huber_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the huber loss of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The huber loss of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">Huber</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="r2_score">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.r2_score">[docs]</a>
 <span class="k">def</span> <span class="nf">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the coefficient of determination of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The coefficient of determination of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
     <span class="n">residuals</span> <span class="o">=</span> <span class="n">true_output</span> <span class="o">-</span> <span class="n">predictions</span>
     <span class="n">SSE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
     <span class="n">SST</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">true_output</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">true_output</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
@@ -284,8 +615,30 @@
 <div class="viewcode-block" id="adjusted_r2_score">
 <a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.adjusted_r2_score">[docs]</a>
 <span class="k">def</span> <span class="nf">adjusted_r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">,</span> <span class="n">n_features</span><span class="p">):</span>
-    <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the adjusted coefficient of determination of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+<span class="sd">        n_features (int): The number of features in the original data. Must be a positive integer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The adjusted coefficient of determination of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
     <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">n_features</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_features must be a positive integer.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="n">n_features</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;number of samples must be greater than the number of features.&quot;</span><span class="p">)</span>
+    
+    <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="n">adjusted_r_squared</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_squared</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="n">n_features</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">adjusted_r_squared</span></div>
 

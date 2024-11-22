@@ -9,7 +9,7 @@
   <title>Custom exceptions &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -50,6 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Custom exceptions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#DLL.Exceptions.NotFittedError"><code class="docutils literal notranslate"><span class="pre">NotFittedError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DLL.Exceptions.NotCompiledError"><code class="docutils literal notranslate"><span class="pre">NotCompiledError</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -88,6 +89,18 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Exceptions.</span></span><span class="sig-name descname"><span class="pre">NotFittedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Exceptions/Exceptions.html#NotFittedError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Exceptions.NotFittedError" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception raised when an action is called before the model is fitted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>string</em>) – The message which is passed to the Exception class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.Exceptions.NotCompiledError">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Exceptions.</span></span><span class="sig-name descname"><span class="pre">NotCompiledError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Exceptions/Exceptions.html#NotCompiledError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Exceptions.NotCompiledError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when an action is called before the model is not compiled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>message</strong> (<em>string</em>) – The message which is passed to the Exception class.</p>

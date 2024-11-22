@@ -8,7 +8,7 @@
   <title>Index &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=80a70a73" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=e62a0836" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -93,6 +93,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -194,12 +195,6 @@
       </ul></li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.binary_cross_entropy">binary_cross_entropy() (in module DLL.Data.Metrics)</a>
 </li>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.BinaryEncoder.binary_decode">binary_decode() (DLL.Data.Preprocessing.BinaryEncoder method)</a>
-</li>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.BinaryEncoder.binary_encode">binary_encode() (DLL.Data.Preprocessing.BinaryEncoder method)</a>
-</li>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.BinaryEncoder">BinaryEncoder (class in DLL.Data.Preprocessing)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -209,6 +204,8 @@
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.calculate_metrics">calculate_metrics() (in module DLL.Data.Metrics)</a>
 </li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.categorical_cross_entropy">categorical_cross_entropy() (in module DLL.Data.Metrics)</a>
+</li>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder">CategoricalEncoder (class in DLL.Data.Preprocessing)</a>
 </li>
       <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.cce">cce (class in DLL.DeepLearning.Losses)</a>
 </li>
@@ -238,8 +235,16 @@
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree">DecisionTree (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
 </li>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.decode">decode() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
+
+      <ul>
+        <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.decode">(DLL.Data.Preprocessing.OneHotEncoder method)</a>
+</li>
+      </ul></li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Dense">Dense (class in DLL.DeepLearning.Layers)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     DLL.Data.Metrics
 
@@ -247,8 +252,6 @@
         <li><a href="api/DLL.Data.Metrics.html#module-DLL.Data.Metrics">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     DLL.Data.Preprocessing
 
@@ -273,9 +276,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression">ElasticNetRegression (class in DLL.MachineLearning.SupervisedLearning.LinearModels)</a>
 </li>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.encode">encode() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
+
+      <ul>
+        <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.encode">(DLL.Data.Preprocessing.OneHotEncoder method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.html#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.explained_variance">explained_variance (DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA attribute)</a>
+</li>
+      <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.exponential_loss">exponential_loss() (in module DLL.Data.Metrics)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -285,7 +296,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.f1_score">f1_score() (in module DLL.Data.Metrics)</a>
 </li>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.BinaryEncoder.fit">fit() (DLL.Data.Preprocessing.BinaryEncoder method)</a>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.fit">fit() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
 
       <ul>
         <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.fit">(DLL.Data.Preprocessing.MinMaxScaler method)</a>
@@ -337,6 +348,18 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.fit_encode">fit_encode() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
+
+      <ul>
+        <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.fit_encode">(DLL.Data.Preprocessing.OneHotEncoder method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.fit_transform">fit_transform() (DLL.Data.Preprocessing.MinMaxScaler method)</a>
+
+      <ul>
+        <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.StandardScaler.fit_transform">(DLL.Data.Preprocessing.StandardScaler method)</a>
+</li>
+      </ul></li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Flatten">Flatten (class in DLL.DeepLearning.Layers)</a>
 </li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU.forward">forward() (DLL.DeepLearning.Layers.Activations.ReLU method)</a>
@@ -425,6 +448,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.inertia">inertia (DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering attribute)</a>
 </li>
+      <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Kaiming_Normal.initialise">initialise() (DLL.DeepLearning.Initialisers.Kaiming_Normal method)</a>
+
+      <ul>
+        <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Kaiming_Uniform.initialise">(DLL.DeepLearning.Initialisers.Kaiming_Uniform method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Xavier_Normal.initialise">(DLL.DeepLearning.Initialisers.Xavier_Normal method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Xavier_Uniform.initialise">(DLL.DeepLearning.Initialisers.Xavier_Uniform method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam.initialise_parameters">initialise_parameters() (DLL.DeepLearning.Optimisers.Adam method)</a>
 
       <ul>
@@ -433,10 +468,6 @@
         <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd.initialise_parameters">(DLL.DeepLearning.Optimisers.sgd method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Input">Input (class in DLL.DeepLearning.Layers)</a>
-</li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNorm">InstanceNorm (class in DLL.DeepLearning.Layers.Regularisation)</a>
 </li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.inverse_transform">inverse_transform() (DLL.Data.Preprocessing.MinMaxScaler method)</a>
@@ -451,10 +482,14 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering">KMeansClustering (class in DLL.MachineLearning.UnsupervisedLearning.Clustering)</a>
+      <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Kaiming_Normal">Kaiming_Normal (class in DLL.DeepLearning.Initialisers)</a>
+</li>
+      <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Kaiming_Uniform">Kaiming_Uniform (class in DLL.DeepLearning.Initialisers)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering">KMeansClustering (class in DLL.MachineLearning.UnsupervisedLearning.Clustering)</a>
+</li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier">KNNClassifier (class in DLL.MachineLearning.SupervisedLearning.Neighbors)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor">KNNRegressor (class in DLL.MachineLearning.SupervisedLearning.Neighbors)</a>
@@ -576,6 +611,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.Exceptions.html#DLL.Exceptions.NotCompiledError">NotCompiledError (class in DLL.Exceptions)</a>
+</li>
       <li><a href="api/DLL.Exceptions.html#DLL.Exceptions.NotFittedError">NotFittedError (class in DLL.Exceptions)</a>
 </li>
   </ul></td>
@@ -584,12 +621,6 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.one_hot_decode">one_hot_decode() (DLL.Data.Preprocessing.OneHotEncoder method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.one_hot_encode">one_hot_encode() (DLL.Data.Preprocessing.OneHotEncoder method)</a>
-</li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder">OneHotEncoder (class in DLL.Data.Preprocessing)</a>
 </li>
   </ul></td>
@@ -738,18 +769,14 @@
 </li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Sigmoid">Sigmoid (class in DLL.DeepLearning.Layers.Activations)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax">SoftMax (class in DLL.DeepLearning.Layers.Activations)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax">SoftMax (class in DLL.DeepLearning.Layers.Activations)</a>
+</li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.StandardScaler">StandardScaler (class in DLL.Data.Preprocessing)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Input.summary">summary() (DLL.DeepLearning.Layers.Input method)</a>
-
-      <ul>
-        <li><a href="api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.summary">(DLL.DeepLearning.Model.Model method)</a>
+      <li><a href="api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.summary">summary() (DLL.DeepLearning.Model.Model method)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -801,6 +828,18 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.WhiteGaussian">WhiteGaussian (class in DLL.MachineLearning.SupervisedLearning.Kernels)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Xavier_Normal">Xavier_Normal (class in DLL.DeepLearning.Initialisers)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Xavier_Uniform">Xavier_Uniform (class in DLL.DeepLearning.Initialisers)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Initialisers &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Models" href="DLL.DeepLearning.Models.html" />
+    <link rel="prev" title="Optimisers" href="DLL.DeepLearning.Optimisers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html">Core layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html#activation-layers">Activation layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html#regularisation-layers">Regularisation layers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Losses.html">Losses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Optimisers.html">Optimisers</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Initialisers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#xavier-glorot">Xavier Glorot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kaiming-he">Kaiming He</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Models.html">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="DLL.html">DLL</a></li>
+          <li class="breadcrumb-item"><a href="DLL.DeepLearning.html">Deep learning</a></li>
+      <li class="breadcrumb-item active">Initialisers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/DLL.DeepLearning.Initialisers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="initialisers">
+<span id="initialisers-section-label"></span><h1>Initialisers<a class="headerlink" href="#initialisers" title="Link to this heading"></a></h1>
+<section id="xavier-glorot">
+<h2>Xavier Glorot<a class="headerlink" href="#xavier-glorot" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Xavier_Normal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Initialisers.</span></span><span class="sig-name descname"><span class="pre">Xavier_Normal</span></span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Xavier_Glorot.html#Xavier_Normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Xavier_Normal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Initialiser</span></code></p>
+<p>The Xavier Glorot normal initialiser. Xavier Glorot initialiser should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Xavier_Normal.initialise">
+<span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Xavier_Glorot.html#Xavier_Normal.initialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Xavier_Normal.initialise" title="Link to this definition"></a></dt>
+<dd><p>Initialises a tensor of the wanted shape with values in <span class="math notranslate nohighlight">\(N(0, \sigma^2)\)</span>, where <span class="math notranslate nohighlight">\(\sigma = \sqrt{\frac{2}{d_{\text{input}} + d_{\text{output}}}}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>torch.Size</em>) – The shape of the wanted tensor.</p></li>
+<li><p><strong>data_type</strong> (<em>torch.dtype</em><em>, </em><em>optional</em>) – The data type used in the returned tensor. Defaults to torch.float32.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – The device of the tensor. Determines if the computation is made using the gpu or the cpu. Defaults to torch.device(“cpu”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Xavier_Uniform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Initialisers.</span></span><span class="sig-name descname"><span class="pre">Xavier_Uniform</span></span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Xavier_Glorot.html#Xavier_Uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Xavier_Uniform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Initialiser</span></code></p>
+<p>The Xavier Glorot uniform initialiser. Xavier Glorot initialiser should be used for tanh, sigmoid, softmax or other activations, which are approximately linear close to origin.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Xavier_Uniform.initialise">
+<span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Xavier_Glorot.html#Xavier_Uniform.initialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Xavier_Uniform.initialise" title="Link to this definition"></a></dt>
+<dd><p>Initialises a tensor of the wanted shape with values in <span class="math notranslate nohighlight">\(U(-a, a)\)</span>, where <span class="math notranslate nohighlight">\(a = \sqrt{\frac{6}{d_{\text{input}} + d_{\text{output}}}}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>torch.Size</em>) – The shape of the wanted tensor.</p></li>
+<li><p><strong>data_type</strong> (<em>torch.dtype</em><em>, </em><em>optional</em>) – The data type used in the returned tensor. Defaults to torch.float32.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – The device of the tensor. Determines if the computation is made using the gpu or the cpu. Defaults to torch.device(“cpu”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="kaiming-he">
+<h2>Kaiming He<a class="headerlink" href="#kaiming-he" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Kaiming_Normal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Initialisers.</span></span><span class="sig-name descname"><span class="pre">Kaiming_Normal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'input_dim'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Kaiming_He.html#Kaiming_Normal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Kaiming_Normal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Initialiser</span></code></p>
+<p>The Kaiming He normal initialiser. Kaiming He initialiser should be used for the ReLU or any other activation, which is nonlinear close to origin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – Determines if the variance is constant in the forward or backward propagation. If “input_dim”, variance is constant in forward propagation, while if “output_dim”, the variance is constant in back propagation. Defaults to “input_dim”.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Kaiming_Normal.initialise">
+<span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Kaiming_He.html#Kaiming_Normal.initialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Kaiming_Normal.initialise" title="Link to this definition"></a></dt>
+<dd><p>Initialises a tensor of the wanted shape with values in <span class="math notranslate nohighlight">\(N(0, \sigma^2)\)</span>, where <span class="math notranslate nohighlight">\(\sigma = \sqrt{\frac{2}{d_{\text{input}} + d_{\text{output}}}}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>torch.Size</em>) – The shape of the wanted tensor.</p></li>
+<li><p><strong>data_type</strong> (<em>torch.dtype</em><em>, </em><em>optional</em>) – The data type used in the returned tensor. Defaults to torch.float32.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – The device of the tensor. Determines if the computation is made using the gpu or the cpu. Defaults to torch.device(“cpu”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Kaiming_Uniform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Initialisers.</span></span><span class="sig-name descname"><span class="pre">Kaiming_Uniform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'input_dim'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Kaiming_He.html#Kaiming_Uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Kaiming_Uniform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Initialiser</span></code></p>
+<p>The Kaiming He uniform initialiser. Kaiming He initialiser should be used for the ReLU or any other activation, which is nonlinear close to origin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em><em>, </em><em>optional</em>) – Determines if the variance is constant in the forward or backward propagation. If “input_dim”, variance is constant in forward propagation, while if “output_dim”, the variance is constant in back propagation. Defaults to “input_dim”.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Initialisers.Kaiming_Uniform.initialise">
+<span class="sig-name descname"><span class="pre">initialise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Initialisers/Kaiming_He.html#Kaiming_Uniform.initialise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Initialisers.Kaiming_Uniform.initialise" title="Link to this definition"></a></dt>
+<dd><p>Initialises a tensor of the wanted shape with values in <span class="math notranslate nohighlight">\(U(-a, a)\)</span>, where <span class="math notranslate nohighlight">\(a = \sqrt{\frac{6}{d}}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> (<em>torch.Size</em>) – The shape of the wanted tensor.</p></li>
+<li><p><strong>data_type</strong> (<em>torch.dtype</em><em>, </em><em>optional</em>) – The data type used in the returned tensor. Defaults to torch.float32.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – The device of the tensor. Determines if the computation is made using the gpu or the cpu. Defaults to torch.device(“cpu”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DLL.DeepLearning.Optimisers.html" class="btn btn-neutral float-left" title="Optimisers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DLL.DeepLearning.Models.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
