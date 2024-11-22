@@ -1,7 +1,7 @@
 import torch
 from math import floor
 
-from ....DeepLearning.Losses.MSE import mse
+from ....DeepLearning.Losses import mse
 from ....Data.Metrics import calculate_metrics, _round_dictionary
 from ....Data.DataReader import DataReader
 from ....DeepLearning.Optimisers import Adam

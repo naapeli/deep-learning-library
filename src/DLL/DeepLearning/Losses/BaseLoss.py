@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class BaseLoss(ABC):
     """
     :meta private:
