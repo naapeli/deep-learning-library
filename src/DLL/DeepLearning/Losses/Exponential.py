@@ -74,3 +74,28 @@ class exponential(BaseLoss):
         if self.reduction == "mean":
             return grad / prediction.shape[0]
         return grad
+    
+    def hessian(self, prediction, true_output):
+        """
+        Calculates the diagonal of the hessian matrix of the exponential loss.
+
+        Args:
+            prediction (torch.Tensor): A tensor of predicted values in range [0, 1]. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A tensor of true values labeled with 0 or 1. Must be the same shape as the prediction.
+
+        Returns:
+            torch.Tensor: A tensor of the same shape as the inputs containing the diagonal of the hessian matrix.
+        """
+        if not isinstance(prediction, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+            raise TypeError("prediction and true_output must be torch tensors.")
+        if prediction.shape != true_output.shape:
+            raise ValueError("prediction and true_output must have the same shape.")
+        if set(torch.unique(true_output).numpy()) != {0, 1}:
+            raise ValueError("The classes must be labelled 0 and 1.")
+        
+        prediction = 2 * prediction - 1
+        true_output = 2 * true_output - 1
+        grad = 4 * true_output ** 2 * torch.exp(-prediction * true_output)
+        if self.reduction == "mean":
+            return grad / prediction.shape[0]
+        return grad

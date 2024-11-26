@@ -18,7 +18,7 @@ class mse(BaseLoss):
 
     def loss(self, prediction, true_output):
         """
-        Calculates the absolute error loss with the equations:
+        Calculates the squared error loss with the equations:
 
         .. math::
 
@@ -47,7 +47,7 @@ class mse(BaseLoss):
 
     def gradient(self, prediction, true_output):
         """
-        Calculates the gradient of the huber loss.
+        Calculates the gradient of the squared error loss.
 
         Args:
             prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.
@@ -64,3 +64,23 @@ class mse(BaseLoss):
         if self.reduction == "mean":
             return 2 * (prediction - true_output) / prediction.shape[0]
         return 2 * (prediction - true_output)
+    
+    def hessian(self, prediction, true_output):
+        """
+        Calculates the diagonal of the hessian matrix of the squared error loss.
+
+        Args:
+            prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A tensor of true values. Must be the same shape as the prediction.
+
+        Returns:
+            torch.Tensor: A tensor of the same shape as the inputs containing the diagonal of the hessian matrix.
+        """
+        if not isinstance(prediction, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+            raise TypeError("prediction and true_output must be torch tensors.")
+        if prediction.shape != true_output.shape:
+            raise ValueError("prediction and true_output must have the same shape.")
+        
+        if self.reduction == "mean":
+            return torch.full((len(true_output),), 2 / prediction.shape[0])
+        return torch.full((len(true_output),), 2)
