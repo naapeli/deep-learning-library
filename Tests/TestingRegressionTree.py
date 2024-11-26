@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingRegressor as gbr, AdaBoostRegressor as abr
 from sklearn.tree import DecisionTreeRegressor
 
-from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, XGBoostingRegressor
+from src.DLL.DeepLearning.Losses import mse, mae, Huber
 from src.DLL.Data.Preprocessing import data_split
 
 
 n = 100
 x = torch.linspace(0, 1, n).unsqueeze(-1)
-y = x * x + torch.normal(mean=0, std=0.05, size=(n, 1))
+y = 0.2 * torch.sin(20 * x) + x * x + torch.normal(mean=0, std=0.05, size=(n, 1))
 y = y.squeeze()
 
 model = RegressionTree()
@@ -21,7 +22,7 @@ model2 = RandomForestRegressor(n_trees=3)
 model2.fit(x, y)
 y_pred2 = model2.predict(x_test)
 
-model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss="mae", max_depth=3)
+model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss=mae(reduction="sum"), max_depth=3)
 history = model3.fit(x, y, metrics=["loss"])
 y_pred3 = model3.predict(x_test)
 plt.figure()
@@ -48,14 +49,24 @@ model6 = abr(estimator=DecisionTreeRegressor(max_depth=3), n_estimators=50, loss
 model6.fit(x, y.ravel())
 y_pred6 = model6.predict(x_test)
 
+model7 = XGBoostingRegressor(n_trees=50, learning_rate=0.05, loss=mse(reduction="sum"), max_depth=3, reg_lambda=0.01, gamma=0)
+history = model7.fit(x, y, metrics=["loss"])
+y_pred7 = model7.predict(x_test)
+plt.figure()
+plt.plot(history["loss"])
+plt.ylabel("Loss")
+plt.xlabel("Tree")
+plt.title("Extreme gradient boosting regressor loss as a function of fitted trees")
+
 plt.figure()
 plt.plot(x.numpy(), y.numpy(), color="Blue")
 plt.plot(x_test.numpy(), y_pred.numpy(), color="Red")
 plt.plot(x_test.numpy(), y_pred2.numpy(), color="Green")
 plt.plot(x_test.numpy(), y_pred3.numpy(), color="Yellow")
 plt.plot(x_test.numpy(), y_pred4, color="gray")
-plt.plot(x_test.numpy(), y_pred5, color="brown")
+plt.plot(x_test.numpy(), y_pred5.numpy(), color="brown")
 plt.plot(x_test.numpy(), y_pred6, color="pink")
+plt.plot(x_test.numpy(), y_pred7.numpy(), color="lightblue")
 plt.show()
 
 n = 20
@@ -92,6 +103,14 @@ plt.legend()
 model6.fit(x_train, y_train)
 z6 = model6.predict(x_test)
 
+history = model7.fit(x_train, y_train)
+z7 = model7.predict(x_test)
+plt.figure()
+plt.plot(history["loss"])
+plt.ylabel("Loss")
+plt.xlabel("Tree")
+plt.title("Extreme gradient boosting regressor loss as a function of fitted trees")
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(x_test[:, 0], x_test[:, 1], y_test, color="Blue")
@@ -101,4 +120,5 @@ ax.scatter(x_test[:, 0], x_test[:, 1], z3, color="Yellow")
 ax.scatter(x_test[:, 0], x_test[:, 1], z4, color="gray")
 ax.scatter(x_test[:, 0], x_test[:, 1], z5, color="brown")
 ax.scatter(x_test[:, 0], x_test[:, 1], z6, color="pink")
+ax.scatter(x_test[:, 0], x_test[:, 1], z7, color="lightblue")
 plt.show()
