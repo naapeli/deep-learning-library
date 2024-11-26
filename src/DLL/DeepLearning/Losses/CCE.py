@@ -64,3 +64,24 @@ class cce(BaseLoss):
         if self.reduction == "mean":
             return -true_output / ((prediction + 1e-5) * prediction.shape[0])
         return -true_output / (prediction + 1e-5)
+    
+    def hessian(self, prediction, true_output):
+        """
+        Calculates the diagonal of the hessian matrix of the categorical cross entropy loss.
+
+        Args:
+            prediction (torch.Tensor): A tensor of predicted values in range [0, 1]. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A tensor of true values labeled with 0 or 1. Must be the same shape as the prediction.
+
+        Returns:
+            torch.Tensor: A tensor of the same shape as the inputs containing the diagonal of the hessian matrix.
+        """
+        if not isinstance(prediction, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+            raise TypeError("prediction and true_output must be torch tensors.")
+        if prediction.shape != true_output.shape:
+            raise ValueError("prediction and true_output must have the same shape.")
+
+        grad = true_output / (prediction ** 2 + 1e-5)
+        if self.reduction == "mean":
+            return grad / prediction.shape[0]
+        return grad

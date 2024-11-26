@@ -48,7 +48,7 @@ class mae(BaseLoss):
 
     def gradient(self, prediction, true_output):
         """
-        Calculates the gradient of the huber loss.
+        Calculates the gradient of the absolute error loss.
 
         Args:
             prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.
@@ -65,3 +65,21 @@ class mae(BaseLoss):
         if self.reduction == "mean":
             return torch.sign(prediction - true_output) / prediction.shape[0]
         return torch.sign(prediction - true_output)
+    
+    def hessian(self, prediction, true_output):
+        """
+        Calculates the diagonal of the hessian matrix of the absolute error loss.
+
+        Args:
+            prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A tensor of true values. Must be the same shape as the prediction.
+
+        Returns:
+            torch.Tensor: A tensor of the same shape as the inputs containing the diagonal of the hessian matrix.
+        """
+        if not isinstance(prediction, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+            raise TypeError("prediction and true_output must be torch tensors.")
+        if prediction.shape != true_output.shape:
+            raise ValueError("prediction and true_output must have the same shape.")
+        
+        return torch.full((len(true_output),), 0)
