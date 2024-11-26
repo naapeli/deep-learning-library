@@ -12,3 +12,7 @@ class BaseLoss(ABC):
     @abstractmethod
     def gradient(self, prediction, true_output):
         pass
+
+    @abstractmethod
+    def hessian(self, prediction, true_output):
+        pass

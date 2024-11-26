@@ -11,15 +11,15 @@ class GradientBoostingRegressor:
     GradientBoostingRegressor implements a regression algorithm fitting many consecutive :class:`RegressionTrees <DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree>` to residuals of the model.
 
     Args:
-        n_trees (int, optional): The number of trees used for predicting. Defaults to 10. Must be a positive integer.
+        n_trees (int, optional): The number of trees used for predicting. Defaults to 50. Must be a positive integer.
         learning_rate (float, optional): The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.
-        max_depth (int, optional): The maximum depth of the tree. Defaults to 25. Must be a positive integer.
+        max_depth (int, optional): The maximum depth of the tree. Defaults to 3. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
-        loss (string, optional): The loss function used in calculations of the residuals. Must be in ["mse", "mae", "huber"]. Defaults to "mse".
+        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of mse, mae, Huber. Defaults to mse.
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, n_trees=10, learning_rate=0.5, max_depth=25, min_samples_split=2, loss="mse"):
+    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, loss=mse(reduction="sum")):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(learning_rate, float) or learning_rate <= 0 or learning_rate >= 1:
@@ -28,23 +28,15 @@ class GradientBoostingRegressor:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
-        if loss not in ["mse", "mae", "huber"]:
-            raise ValueError('loss must be one of ["mse", "mae", "huber"]')
+        if not isinstance(loss, mse) and not isinstance(loss, mae) and not isinstance(loss, Huber):
+            raise ValueError("loss must be one of mse, mae, Huber.")
+        
         self.n_trees = n_trees
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.trees = None
-        self.loss_ = loss
-        self._get_activation_and_loss()
-    
-    def _get_activation_and_loss(self):
-        if self.loss_ == "mse":
-            self.loss = mse(reduction="sum")
-        elif self.loss_ == "mae":
-            self.loss = mae(reduction="sum")
-        elif self.loss_ == "huber":
-            self.loss = Huber(reduction="sum")
+        self.loss = loss
 
     def fit(self, X, y, metrics=["loss"]):
         """

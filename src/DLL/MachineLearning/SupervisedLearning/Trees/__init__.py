@@ -6,3 +6,5 @@ from .GradientBoostingRegressor import GradientBoostingRegressor
 from .GradientBoostingClassifier import GradientBoostingClassifier
 from .AdaBoostClassifier import AdaBoostClassifier
 from .AdaBoostRegressor import AdaBoostRegressor
+from .XGBoostRegressor import XGBoostingRegressor
+from .XGBoostClassifier import XGBoostingClassifier
