@@ -79,3 +79,26 @@ class Huber(BaseLoss):
         if self.reduction == "mean":
             return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.shape[0]
         return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad)
+    
+    def hessian(self, prediction, true_output):
+        """
+        Calculates the diagonal of the hessian matrix of the huber loss.
+
+        Args:
+            prediction (torch.Tensor): A tensor of predicted values. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A tensor of true values. Must be the same shape as the prediction.
+
+        Returns:
+            torch.Tensor: A tensor of the same shape as the inputs containing the diagonal of the hessian matrix.
+        """
+        if not isinstance(prediction, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+            raise TypeError("prediction and true_output must be torch tensors.")
+        if prediction.shape != true_output.shape:
+            raise ValueError("prediction and true_output must have the same shape.")
+        
+        abs_error = torch.abs(prediction - true_output)
+        quadratic_grad = torch.full((len(true_output),), 1)
+        linear_grad = torch.full((len(true_output),), 0)
+        if self.reduction == "mean":
+            return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.shape[0]
+        return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad)
