@@ -49,3 +49,35 @@ GradientBoostingRegressor
    :members:
    :undoc-members:
    :show-inheritance:
+
+AdaBoostClassifier
+-------------------------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostClassifier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+AdaBoostRegressor
+-------------------------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostRegressor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+XGBoostingClassifier
+-------------------------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.XGBoostingClassifier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+XGBoostingRegressor
+-------------------------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.XGBoostingRegressor
+   :members:
+   :undoc-members:
+   :show-inheritance:
