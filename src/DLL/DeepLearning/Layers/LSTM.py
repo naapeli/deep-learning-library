@@ -25,6 +25,8 @@ class LSTM(BaseLayer):
             raise ValueError("output_shape must be a non-negative integer.")
         if not isinstance(hidden_size, int) or hidden_size <= 0:
             raise ValueError("hidden_size must be a positive integer.")
+        if not isinstance(return_last, bool):
+            raise TypeError("return_last must be a boolean.")
         if not isinstance(initialiser, Initialiser):
             raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
@@ -42,8 +44,9 @@ class LSTM(BaseLayer):
         """
         :meta private:
         """
-        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
-            raise ValueError("input_shape must be a tuple of length 2.")
+        if len(input_shape) == 2: input_shape = (input_shape[1],)  # Include only the number of features
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 1:
+            raise ValueError("input_shape must be a tuple of length 1.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype")
         if not isinstance(device, torch.device):
@@ -51,7 +54,7 @@ class LSTM(BaseLayer):
 
         super().initialise_layer(input_shape, data_type, device)
 
-        input_size = self.input_shape[1]
+        input_size = self.input_shape[0]
         output_size = self.output_shape[0]
 
         self.wf = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
@@ -115,8 +118,8 @@ class LSTM(BaseLayer):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[1:] != self.input_shape:
-            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+        if input.shape[2:] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[2:]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
@@ -129,7 +132,7 @@ class LSTM(BaseLayer):
 
         self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
         self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
-        if not self.return_last: self.output = torch.zeros((batch_size, seq_len, self.output_shape[2]), dtype=input.dtype, device=input.device)
+        if not self.return_last: self.output = torch.zeros((batch_size, seq_len, self.output_shape[0]), dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             x_t = input[:, t]

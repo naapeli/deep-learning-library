@@ -6,3 +6,4 @@ from .LSTM import LSTM
 from .MaxPooling2D import MaxPooling2D
 from .Reshape import Reshape
 from .RNN import RNN
+from .Bidirectional import Bidirectional

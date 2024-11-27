@@ -10,7 +10,7 @@ data.retain_grad()
 # print(data)
 
 layer = LSTM(1, 5)
-layer.initialise_layer(input_shape=(5, 1), data_type=torch.float64, device=torch.device("cpu"))
+layer.initialise_layer((1,), torch.float64, torch.device("cpu"))
 result = layer.forward(data)
 # print(result)
 gradient = torch.rand(size=result.size(), dtype=torch.float64)
