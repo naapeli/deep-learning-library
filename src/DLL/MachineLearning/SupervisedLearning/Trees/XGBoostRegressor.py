@@ -17,11 +17,12 @@ class XGBoostingRegressor:
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
         reg_lambda (float | int, optional): The regularisation parameter used in fitting the trees. The larger the parameter, the smaller the trees. Must be a positive real number. Defaults to 1.
         gamma (float | int, optional): The minimum gain to make a split. Must be a non-negative real number. Defaults to 0.
-        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of mse, mae, Huber. Defaults to mse.
+        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of "squared", "absolute" or "huber". Defaults to "squared".
+        huber_delta (float | int, optional): The delta parameter for the possibly used huber loss. If loss is not "huber", this parameter is ignored.
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, reg_lambda=1, gamma=0, loss=mse(reduction="sum")):
+    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, reg_lambda=1, gamma=0, loss="squared", huber_delta=1):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(learning_rate, float) or learning_rate <= 0 or learning_rate >= 1:
@@ -34,8 +35,10 @@ class XGBoostingRegressor:
             raise ValueError("reg_lambda must be a positive real number.")
         if not isinstance(gamma, int | float) or gamma < 0:
             raise ValueError("gamma must be a non-negative real number.")
-        if not isinstance(loss, mse) and not isinstance(loss, mae) and not isinstance(loss, Huber):
-            raise ValueError("loss must be one of mse, mae, Huber.")
+        if loss not in ["squared", "absolute", "huber"]:
+            raise ValueError('loss must be one in ["squared", "absolute", "huber"].')
+        if not isinstance(huber_delta, int | float) or huber_delta <= 0:
+            raise ValueError("huber_delta must be a positive real number.")
 
         self.n_trees = n_trees
         self.learning_rate = learning_rate
@@ -44,7 +47,15 @@ class XGBoostingRegressor:
         self.reg_lambda = reg_lambda
         self.gamma = gamma
         self.trees = None
-        self.loss = loss
+        self.loss = self._choose_loss(loss, huber_delta)
+
+    def _choose_loss(self, loss, huber_delta):
+        if loss == "squared":
+            return mse(reduction="sum")
+        elif loss == "absolute":
+            return mae(reduction="sum")
+        elif loss == "huber":
+            return Huber(reduction="sum", delta=huber_delta)
 
     def fit(self, X, y, metrics=["loss"]):
         """

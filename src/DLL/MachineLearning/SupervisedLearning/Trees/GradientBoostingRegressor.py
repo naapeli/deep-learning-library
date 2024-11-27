@@ -15,11 +15,12 @@ class GradientBoostingRegressor:
         learning_rate (float, optional): The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.
         max_depth (int, optional): The maximum depth of the tree. Defaults to 3. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
-        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of mse, mae, Huber. Defaults to mse.
+        loss (string, optional): The loss function used in calculations of the gradients. Must be one of "squared", "absolute" or "huber". Defaults to "squared".
+        huber_delta (float | int, optional): The delta parameter for the possibly used huber loss. If loss is not "huber", this parameter is ignored.
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, loss=mse(reduction="sum")):
+    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, loss="squared", huber_delta=1):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(learning_rate, float) or learning_rate <= 0 or learning_rate >= 1:
@@ -28,15 +29,25 @@ class GradientBoostingRegressor:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
-        if not isinstance(loss, mse) and not isinstance(loss, mae) and not isinstance(loss, Huber):
-            raise ValueError("loss must be one of mse, mae, Huber.")
+        if loss not in ["squared", "absolute", "huber"]:
+            raise ValueError('loss must be one in ["squared", "absolute", "huber"].')
+        if not isinstance(huber_delta, int | float) or huber_delta <= 0:
+            raise ValueError("huber_delta must be a positive real number.")
         
         self.n_trees = n_trees
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.trees = None
-        self.loss = loss
+        self.loss = self._choose_loss(loss, huber_delta)
+
+    def _choose_loss(self, loss, huber_delta):
+        if loss == "squared":
+            return mse(reduction="sum")
+        elif loss == "absolute":
+            return mae(reduction="sum")
+        elif loss == "huber":
+            return Huber(reduction="sum", delta=huber_delta)
 
     def fit(self, X, y, metrics=["loss"]):
         """

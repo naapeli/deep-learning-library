@@ -22,7 +22,7 @@ model2 = RandomForestRegressor(n_trees=3)
 model2.fit(x, y)
 y_pred2 = model2.predict(x_test)
 
-model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss=mae(reduction="sum"), max_depth=3)
+model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss="absolute", max_depth=3)
 history = model3.fit(x, y, metrics=["loss"])
 y_pred3 = model3.predict(x_test)
 plt.figure()
@@ -49,7 +49,7 @@ model6 = abr(estimator=DecisionTreeRegressor(max_depth=3), n_estimators=50, loss
 model6.fit(x, y.ravel())
 y_pred6 = model6.predict(x_test)
 
-model7 = XGBoostingRegressor(n_trees=50, learning_rate=0.05, loss=mse(reduction="sum"), max_depth=3, reg_lambda=0.01, gamma=0)
+model7 = XGBoostingRegressor(n_trees=50, learning_rate=0.05, loss="huber", max_depth=3, reg_lambda=0.01, gamma=0, huber_delta=5)
 history = model7.fit(x, y, metrics=["loss"])
 y_pred7 = model7.predict(x_test)
 plt.figure()
