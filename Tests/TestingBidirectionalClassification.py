@@ -1,6 +1,6 @@
 from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
-from src.DLL.DeepLearning.Layers import LSTM, Bidirectional
+from src.DLL.DeepLearning.Layers import RNN, LSTM, Bidirectional
 from src.DLL.DeepLearning.Losses import cce
 from src.DLL.DeepLearning.Optimisers import Adam
 from src.DLL.Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
@@ -25,7 +25,7 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 model = Model((4, 1), data_type=torch.float32, device=device)
 model.add(Bidirectional(LSTM(20, 10, return_last=False, activation=ReLU())))
-model.add(LSTM(3, 10, return_last=True, activation=SoftMax()))
+model.add(RNN(3, 10, return_last=True, activation=SoftMax()))
 model.compile(optimiser=Adam(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 
