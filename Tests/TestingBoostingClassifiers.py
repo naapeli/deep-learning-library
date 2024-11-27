@@ -8,7 +8,7 @@ from src.DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingCla
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy, roc_curve, auc
 
-n_classes = 4
+n_classes = 2
 X, y = datasets.make_blobs(n_samples=200, n_features=2, cluster_std=3, centers=n_classes, random_state=3)
 
 x_train, y_train, _, _, x_test, y_test = data_split(torch.from_numpy(X).to(dtype=torch.float32), torch.from_numpy(y), train_split=0.7, validation_split=0.0)
@@ -31,7 +31,7 @@ model3.fit(x_train.numpy(), y_train.numpy())
 pred3 = torch.from_numpy(model3.predict(x_test.numpy()))
 print("sklearn accuracy: ", accuracy(pred3, y_test))
 
-model4 = XGBoostingClassifier(n_trees=50, learning_rate=0.5, max_depth=1, loss="log_loss")
+model4 = XGBoostingClassifier(n_trees=50, learning_rate=0.5, reg_lambda=0.01, max_depth=1, loss="log_loss")
 history4 = model4.fit(x_train, y_train)
 y_pred_proba4 = model4.predict_proba(x_test)
 y_pred4 = model4.predict(x_test)
