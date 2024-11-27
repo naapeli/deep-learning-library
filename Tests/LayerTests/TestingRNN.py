@@ -10,7 +10,7 @@ data.retain_grad()
 # print(data)
 
 layer = RNN(1, 5)
-layer.initialise_layer((3, 1), data_type=torch.float32, device=torch.device("cpu"))
+layer.initialise_layer((1,), data_type=torch.float32, device=torch.device("cpu"))
 result = layer.forward(data)
 # print(result)
 gradient = torch.ones_like(result)

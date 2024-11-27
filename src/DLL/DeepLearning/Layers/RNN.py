@@ -23,6 +23,10 @@ class RNN(BaseLayer):
     def __init__(self, output_shape, hidden_size, return_last=True, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
         if not isinstance(output_shape, int) or output_shape < 0:
             raise ValueError("output_shape must be a non-negative integer.")
+        if not isinstance(hidden_size, int) or hidden_size <= 0:
+            raise ValueError("hidden_size must be a positive integer.")
+        if not isinstance(return_last, bool):
+            raise TypeError("return_last must be a boolean.")
         if not isinstance(initialiser, Initialiser):
             raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
@@ -40,8 +44,9 @@ class RNN(BaseLayer):
         """
         :meta private:
         """
-        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
-            raise ValueError("input_shape must be a tuple of length 2.")
+        if len(input_shape) == 2: input_shape = (input_shape[1],)  # Include only the number of features
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 1:
+            raise ValueError("input_shape must be a tuple of length 1.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype")
         if not isinstance(device, torch.device):
@@ -49,12 +54,12 @@ class RNN(BaseLayer):
 
         super().initialise_layer(input_shape, data_type, device)
 
-        self.ih = self.initialiser.initialise((self.hidden_size, self.input_shape[1]), data_type=self.data_type, device=self.device)
+        self.ih = self.initialiser.initialise((self.hidden_size, self.input_shape[0]), data_type=self.data_type, device=self.device)
         self.hh = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.ho = self.initialiser.initialise((self.output_shape[0], self.hidden_size), data_type=self.data_type, device=self.device)
         self.bh = torch.zeros(self.hidden_size, dtype=self.data_type, device=self.device)
         self.bo = torch.zeros(self.output_shape[0], dtype=self.data_type, device=self.device)
-        self.nparams = self.hidden_size * self.hidden_size + self.hidden_size * self.output_shape[0] + self.hidden_size * self.input_shape[1] + self.hidden_size + self.output_shape[0]
+        self.nparams = self.hidden_size * self.hidden_size + self.hidden_size * self.output_shape[0] + self.hidden_size * self.input_shape[0] + self.hidden_size + self.output_shape[0]
 
     """
     input.shape = (batch_size, sequence_length, input_size)
@@ -99,15 +104,15 @@ class RNN(BaseLayer):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[1:] != self.input_shape:
-            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+        if input.shape[2:] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[2:]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
         self.input = input
         batch_size, seq_len, _ = input.size()
         self.hiddens = [torch.zeros(batch_size, self.hidden_size, dtype=input.dtype, device=input.device)]
-        if not self.return_last: self.output = torch.zeros(batch_size, seq_len, self.output_shape[2], dtype=input.dtype, device=input.device)
+        if not self.return_last: self.output = torch.zeros(batch_size, seq_len, self.output_shape[0], dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             self.hiddens.append(torch.tanh(self.input[:, t] @ self.ih.T + self.hiddens[-1] @ self.hh.T + self.bh))
