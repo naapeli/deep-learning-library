@@ -51,6 +51,14 @@ RNN
    :undoc-members:
    :show-inheritance:
 
+Bidirectional
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Bidirectional
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Reshape
 --------------------------------------
 
