@@ -44,6 +44,8 @@ class XGBoostingClassifier:
         self.learning_rate = learning_rate
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
+        self.reg_lambda = reg_lambda
+        self.gamma = gamma
         self.trees = None
         self.loss_ = loss
     
@@ -133,7 +135,7 @@ class XGBoostingClassifier:
             gradient = self.activation.backward(self.loss.gradient(prob, y))
             hessian = self._binary_hessian_diag(prob, y)
 
-            tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+            tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, reg_lambda=self.reg_lambda, gamma=self.gamma)
             tree.fit(X, gradient, hessian)
             prediction = tree.predict(X)
             pred += self.learning_rate * prediction
@@ -162,7 +164,7 @@ class XGBoostingClassifier:
                 gradient = self.activation.backward(self.loss.gradient(prob, y))[:, class_index]
                 hessian = self._multi_hessian_diag(prob, y)[:, class_index]
 
-                tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+                tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, reg_lambda=self.reg_lambda, gamma=self.gamma)
                 tree.fit(X, gradient, hessian)
                 prediction = tree.predict(X)
                 pred[:, class_index] += self.learning_rate * prediction
