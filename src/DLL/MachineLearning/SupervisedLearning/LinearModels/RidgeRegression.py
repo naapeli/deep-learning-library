@@ -45,7 +45,7 @@ class RidgeRegression:
         X_with_const = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
         identity = torch.eye(X_with_const.shape[1])
         identity[0, 0] = 0
-        self.beta = torch.linalg.pinv(X_with_const.T @ X_with_const + self.alpha * identity) @ X_with_const.T @ y
+        self.beta = torch.linalg.lstsq(X_with_const.T @ X_with_const + self.alpha * identity, X_with_const.T @ y).solution
         self.residuals = y - self.predict(X)
 
     def predict(self, X):
