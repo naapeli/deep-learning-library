@@ -1,6 +1,6 @@
 import torch
 
-from .DecisionTree import Node
+from ._DecisionTree import Node
 from ....Exceptions import NotFittedError
 
 

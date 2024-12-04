@@ -2,10 +2,8 @@ import torch
 import matplotlib.pyplot as plt
 from math import log10
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LassoRegression import LASSORegression
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression import RidgeRegression
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels.Elasticnet import ElasticNetRegression
-from src.DLL.DeepLearning.Optimisers import Adam
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LASSORegression, RidgeRegression, ElasticNetRegression
+from src.DLL.DeepLearning.Optimisers import ADAM
 
 
 n = 10
@@ -42,7 +40,7 @@ for alpha in alphas:
     else:
         model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5)
     print(alpha)
-    model.fit(X, y, epochs=10000, optimiser=Adam(learning_rate=0.001))
+    model.fit(X, y, epochs=10000, optimiser=ADAM(learning_rate=0.001))
     weights.append([model.weights.tolist()])
 
 alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()

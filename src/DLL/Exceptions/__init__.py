@@ -1,2 +1,2 @@
-from .Exceptions import NotFittedError
-from .Exceptions import NotCompiledError
+from ._Exceptions import NotFittedError
+from ._Exceptions import NotCompiledError

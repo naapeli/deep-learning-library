@@ -6,8 +6,8 @@ from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D, Reshape
 from src.DLL.DeepLearning.Layers.Regularisation import Dropout, BatchNorm, GroupNorm, InstanceNorm, LayerNorm
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
-from src.DLL.DeepLearning.Losses import cce
-from src.DLL.DeepLearning.Optimisers import sgd, Adam
+from src.DLL.DeepLearning.Losses import CCE
+from src.DLL.DeepLearning.Optimisers import SGD, ADAM
 from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from src.DLL.Data.Preprocessing import OneHotEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
@@ -47,7 +47,7 @@ model.add(Flatten())
 # model.add(Reshape(800))
 model.add(Dense(200, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
-model.compile(optimiser=Adam(learning_rate=0.001), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=10, batch_size=4096, verbose=True)
 plt.figure(figsize=(12, 6))

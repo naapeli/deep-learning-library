@@ -1,2 +1,2 @@
-from .SVC import SVC
-from .SVR import SVR
+from ._SVC import SVC
+from ._SVR import SVR

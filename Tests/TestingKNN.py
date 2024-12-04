@@ -4,8 +4,7 @@ from sklearn import datasets
 
 from src.DLL.Data.Metrics import accuracy
 from src.DLL.Data.Preprocessing import data_split
-from src.DLL.MachineLearning.SupervisedLearning.Neighbors.KNearestNeighborsClassifier import KNNClassifier
-from src.DLL.MachineLearning.SupervisedLearning.Neighbors.KNearestNeighborsRegressor import KNNRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Neighbors import KNNClassifier, KNNRegressor
 
 
 iris = datasets.load_iris()

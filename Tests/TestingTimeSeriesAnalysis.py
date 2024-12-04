@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from src.DLL.DeepLearning.Layers import RNN, LSTM
 from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers.Activations import Tanh
-from src.DLL.DeepLearning.Optimisers import Adam
-from src.DLL.DeepLearning.Losses import mse
+from src.DLL.DeepLearning.Optimisers import ADAM
+from src.DLL.DeepLearning.Losses import MSE
 
 
 size = 300
@@ -22,7 +22,7 @@ print(x.shape, y.shape)
 
 model = Model((sequence_length, 1))
 model.add(RNN(1, 10, activation=Tanh()))
-model.compile(optimiser=Adam(), loss=mse(), metrics=["loss", "val_loss"])
+model.compile(optimiser=ADAM(), loss=MSE(), metrics=["loss", "val_loss"])
 model.summary()
 
 model.fit(x, y, epochs=20, batch_size=1, verbose=True)
