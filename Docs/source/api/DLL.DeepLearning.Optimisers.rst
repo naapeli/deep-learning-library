@@ -6,7 +6,7 @@ Optimisers
 SGD
 --------------------------------------
 
-.. autoclass:: DLL.DeepLearning.Optimisers.sgd
+.. autoclass:: DLL.DeepLearning.Optimisers.SGD
    :members:
    :undoc-members:
    :show-inheritance:
@@ -14,7 +14,7 @@ SGD
 ADAM
 ---------------------------------------
 
-.. autoclass:: DLL.DeepLearning.Optimisers.Adam
+.. autoclass:: DLL.DeepLearning.Optimisers.ADAM
    :members:
    :undoc-members:
    :show-inheritance:

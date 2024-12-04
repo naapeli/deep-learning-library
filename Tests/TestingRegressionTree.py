@@ -4,7 +4,6 @@ from sklearn.ensemble import GradientBoostingRegressor as gbr, AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
 
 from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, XGBoostingRegressor
-from src.DLL.DeepLearning.Losses import mse, mae, Huber
 from src.DLL.Data.Preprocessing import data_split
 
 

@@ -1,7 +1,7 @@
 import torch
 from math import sqrt
 
-from ..DeepLearning.Losses import mse, mae, bce, cce, Huber, exponential
+from ..DeepLearning.Losses import MSE, MAE, BCE, CCE, Huber, Exponential
 
 
 def calculate_metrics(data, metrics, loss=None, validation=False):
@@ -334,7 +334,7 @@ def categorical_cross_entropy(predictions, true_output):
     if true_output.ndim != 2:
         raise ValueError("The predictions and the true output must be one-hot encoded.")
     
-    return cce().loss(predictions, true_output).item()
+    return CCE().loss(predictions, true_output).item()
 
 def binary_cross_entropy(predictions, true_output):
     """
@@ -356,7 +356,7 @@ def binary_cross_entropy(predictions, true_output):
     if set(torch.unique(true_output).numpy()) != {0, 1}:
         raise ValueError("The problem must be binary classification.")
     
-    return bce().loss(predictions, true_output).item()
+    return BCE().loss(predictions, true_output).item()
 
 def exponential_loss(predictions, true_output):
     """
@@ -378,7 +378,7 @@ def exponential_loss(predictions, true_output):
     if set(torch.unique(true_output).numpy()) != {0, 1}:
         raise ValueError("The problem must be binary classification.")
     
-    return exponential().loss(predictions, true_output).item()
+    return Exponential().loss(predictions, true_output).item()
 
 
 # ===============================REGRESSION===============================
@@ -400,7 +400,7 @@ def mean_squared_error(predictions, true_output):
     if true_output.ndim != 1:
         raise ValueError("The predictions and the true output must be a 1 dimensional tensor.")
     
-    return mse().loss(predictions, true_output).item()
+    return MSE().loss(predictions, true_output).item()
 
 def root_mean_squared_error(predictions, true_output):
     """
@@ -440,7 +440,7 @@ def mean_absolute_error(predictions, true_output):
     if true_output.ndim != 1:
         raise ValueError("The predictions and the true output must be a 1 dimensional tensor.")
     
-    return mae().loss(predictions, true_output).item()
+    return MAE().loss(predictions, true_output).item()
 
 def huber_loss(predictions, true_output):
     """
