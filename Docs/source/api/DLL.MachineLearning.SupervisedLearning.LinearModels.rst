@@ -44,10 +44,10 @@ Elasticnet
 Time series
 =======================================================================
 
-SARIMAX
+SARIMA
 -----------------------------------------------------
 
-.. autoclass:: DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMAX
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA
    :members:
    :undoc-members:
    :show-inheritance:
