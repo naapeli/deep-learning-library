@@ -3,9 +3,7 @@ from sklearn import datasets
 
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy
-from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes import GaussianNaiveBayes
-from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes import BernoulliNaiveBayes
-from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes import MultinomialNaiveBayes
+from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes import GaussianNaiveBayes, BernoulliNaiveBayes, MultinomialNaiveBayes
 
 
 iris = datasets.load_iris()

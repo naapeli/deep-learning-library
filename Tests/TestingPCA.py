@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.decomposition import PCA as PCA_sklearn
 
-from src.DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA import PCA
+from src.DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA
 
 
 # (images, labels), (_, _) = tf.keras.datasets.mnist.load_data()

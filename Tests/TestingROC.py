@@ -4,7 +4,7 @@ from sklearn.metrics import auc as sk_auc
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression import LogisticRegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.Data.Metrics import accuracy, roc_curve, auc
 

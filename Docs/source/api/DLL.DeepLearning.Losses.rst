@@ -6,7 +6,7 @@ Losses
 BCE
 ----------------------------------
 
-.. autoclass:: DLL.DeepLearning.Losses.bce
+.. autoclass:: DLL.DeepLearning.Losses.BCE
    :members:
    :undoc-members:
    :show-inheritance:
@@ -14,7 +14,14 @@ BCE
 CCE
 ----------------------------------
 
-.. autoclass:: DLL.DeepLearning.Losses.cce
+.. autoclass:: DLL.DeepLearning.Losses.CCE
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Exponential
+-----------------------------
+.. autoclass:: DLL.DeepLearning.Losses.Exponential
    :members:
    :undoc-members:
    :show-inheritance:
@@ -22,7 +29,7 @@ CCE
 MSE
 ----------------------------------
 
-.. autoclass:: DLL.DeepLearning.Losses.mse
+.. autoclass:: DLL.DeepLearning.Losses.MSE
    :members:
    :undoc-members:
    :show-inheritance:
@@ -30,7 +37,7 @@ MSE
 MAE
 ----------------------------------
 
-.. autoclass:: DLL.DeepLearning.Losses.mae
+.. autoclass:: DLL.DeepLearning.Losses.MAE
    :members:
    :undoc-members:
    :show-inheritance:
