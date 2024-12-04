@@ -40,3 +40,14 @@ Elasticnet
    :members:
    :undoc-members:
    :show-inheritance:
+
+Time series
+=======================================================================
+
+SARIMAX
+-----------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMAX
+   :members:
+   :undoc-members:
+   :show-inheritance:
