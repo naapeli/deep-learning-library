@@ -1,1 +1,2 @@
-from .KMeans import KMeansClustering
+from ._KMeans import KMeansClustering
+from ._GaussianMixtureModels import GaussianMixture

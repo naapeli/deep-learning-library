@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.gaussian_process.kernels import DotProduct, ExpSineSquared, ConstantKernel, Matern as sk_matern
 
-from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor import GaussianProcessRegressor
+from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses import GaussianProcessRegressor
 from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGaussian, Periodic, RationalQuadratic, Matern
-from src.DLL.DeepLearning.Optimisers import Adam, LBFGS
+from src.DLL.DeepLearning.Optimisers import ADAM, LBFGS
 from src.DLL.Data.Preprocessing import StandardScaler
 
 
