@@ -2,7 +2,7 @@ import torch
 from sklearn import datasets
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression import LogisticRegression
+from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
 from src.DLL.Data.Preprocessing import MinMaxScaler, CategoricalEncoder, data_split
 from src.DLL.Data.Metrics import accuracy
 

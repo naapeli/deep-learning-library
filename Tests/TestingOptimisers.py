@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 import numpy as np
 
-from src.DLL.DeepLearning.Optimisers import LBFGS, Adam, sgd
+from src.DLL.DeepLearning.Optimisers import LBFGS, ADAM, SGD
 
 
 torch.set_printoptions(sci_mode=False)
@@ -19,8 +19,8 @@ x1 = torch.tensor(initial_point, dtype=torch.float32)
 x2 = torch.tensor(initial_point, dtype=torch.float32)
 x3 = torch.tensor(initial_point, dtype=torch.float32)
 optimiser1 = LBFGS(lambda: f(x1), history_size=10, maxiterls=20, learning_rate=0.1)
-optimiser2 = sgd(learning_rate=0.001)
-optimiser3 = Adam(learning_rate=1)
+optimiser2 = SGD(learning_rate=0.001)
+optimiser3 = ADAM(learning_rate=1)
 optimiser1.initialise_parameters([x1])
 optimiser2.initialise_parameters([x2])
 optimiser3.initialise_parameters([x3])

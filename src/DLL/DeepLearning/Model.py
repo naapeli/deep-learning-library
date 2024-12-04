@@ -2,11 +2,11 @@ import torch
 from math import floor
 
 from .Layers import Input
-from .Layers.BaseLayer import BaseLayer
-from .Losses import mse
-from .Losses.BaseLoss import BaseLoss
-from .Optimisers import Adam
-from .Optimisers.BaseOptimiser import BaseOptimiser
+from .Layers._BaseLayer import BaseLayer
+from .Losses import MSE
+from .Losses._BaseLoss import BaseLoss
+from .Optimisers import ADAM
+from .Optimisers._BaseOptimiser import BaseOptimiser
 from ..Data import DataReader
 from ..Data.Metrics import calculate_metrics, _round_dictionary
 from ..Exceptions import NotCompiledError
@@ -54,10 +54,10 @@ class Model:
         if not isinstance(metrics, list | tuple):
             raise TypeError("metrics must be a list or a tuple containing the strings of wanted metrics.")
 
-        self.optimiser = optimiser if optimiser is not None else Adam()
+        self.optimiser = optimiser if optimiser is not None else ADAM()
         parameters = [parameter for layer in self.layers for parameter in layer.get_parameters()]
         self.optimiser.initialise_parameters(parameters)
-        self.loss = loss if loss is not None else mse()
+        self.loss = loss if loss is not None else MSE()
         self.metrics = metrics
 
     def add(self, layer):

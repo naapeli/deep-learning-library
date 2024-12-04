@@ -5,8 +5,8 @@ from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers import Dense
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import Tanh, Sigmoid, ReLU
-from src.DLL.DeepLearning.Losses import mse
-from src.DLL.DeepLearning.Optimisers import sgd, LBFGS
+from src.DLL.DeepLearning.Losses import MSE
+from src.DLL.DeepLearning.Optimisers import SGD, LBFGS
 from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from src.DLL.Data.Preprocessing import data_split
 
@@ -20,8 +20,8 @@ model.add(Dense(6, initialiser=Kaiming_Normal()))
 model.add(BatchNorm())
 model.add(Sigmoid())
 model.add(Dense(0, initialiser=Xavier_Normal()))
-model.compile(optimiser=sgd(learning_rate=0.1), loss=mse(), metrics=["loss", "val_loss"])
-# model.compile(optimiser=LBFGS(lambda: model.loss.loss(model.predict(x_train), y_train)), loss=mse(), metrics=["loss", "val_loss"])
+model.compile(optimiser=SGD(learning_rate=0.1), loss=MSE(), metrics=["loss", "val_loss"])
+# model.compile(optimiser=LBFGS(lambda: model.loss.loss(model.predict(x_train), y_train)), loss=MSE(), metrics=["loss", "val_loss"])
 model.summary()
 
 n = 30
