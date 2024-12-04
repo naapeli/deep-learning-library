@@ -2,8 +2,8 @@ from src.DLL.DeepLearning.Model import Model
 from src.DLL.DeepLearning.Layers import Dense
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, GroupNorm, InstanceNorm, LayerNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
-from src.DLL.DeepLearning.Losses import cce
-from src.DLL.DeepLearning.Optimisers import sgd
+from src.DLL.DeepLearning.Losses import CCE
+from src.DLL.DeepLearning.Optimisers import SGD
 from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from src.DLL.Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
 from src.DLL.Data.Metrics import accuracy
@@ -30,7 +30,7 @@ model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), act
 model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()))
 model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()))
 model.add(Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax()))
-model.compile(optimiser=sgd(), loss=cce(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 
 _, ax = plt.subplots()

@@ -1,1 +1,1 @@
-from .GaussianProcessRegressor import GaussianProcessRegressor
+from ._GaussianProcessRegressor import GaussianProcessRegressor

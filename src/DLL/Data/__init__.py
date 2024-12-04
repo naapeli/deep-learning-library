@@ -1,1 +1,1 @@
-from .DataReader import DataReader
+from ._DataReader import DataReader
