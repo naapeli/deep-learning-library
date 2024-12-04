@@ -12,13 +12,14 @@ class LinearRegression:
         beta (torch.Tensor of shape (n_features + 1,)): The weights of the linear regression model. Available after fitting.
         residuals (torch.Tensor of shape (n_samples,)): The residuals of the fitted model. For a good fit, the residuals should be normally distributed with zero mean and constant variance. Available after fitting.
     """
-    def fit(self, X, y):
+    def fit(self, X, y, include_bias=True):
         """
         Fits the LinearRegression model to the input data by minimizing the squared error.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+            include_bias (bool, optional): Decides if a bias is included in a model. Defaults to True.
         Returns:
             None
         Raises:
@@ -31,10 +32,13 @@ class LinearRegression:
             raise ValueError("The input matrix must be a 2 dimensional tensor.")
         if y.ndim != 1 or y.shape[0] != X.shape[0]:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
+        if not isinstance(include_bias, bool):
+            raise TypeError("include_bias must be a boolean.")
 
+        self.include_bias = include_bias
         self.n_features = X.shape[1]
-        X_with_const = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
-        self.beta = torch.linalg.pinv(X_with_const.T @ X_with_const) @ X_with_const.T @ y
+        X_ = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1) if self.include_bias else X
+        self.beta = torch.linalg.lstsq(X_.T @ X_, X_.T @ y).solution
         self.residuals = y - self.predict(X)
 
     def predict(self, X):
@@ -57,5 +61,5 @@ class LinearRegression:
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
-        X = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
+        if self.include_bias: X = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
         return X @ self.beta    
