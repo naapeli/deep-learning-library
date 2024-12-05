@@ -513,3 +513,50 @@ def adjusted_r2_score(predictions, true_output, n_features):
     r_squared = r2_score(predictions, true_output)
     adjusted_r_squared = 1 - (1 - r_squared) * (n_samples - 1) / (n_samples - n_features - 1)
     return adjusted_r_squared
+
+
+# ===============================REGRESSION===============================
+def silhouette_score(X, y, return_samples=False):
+    """
+    Computes the silhouette score of a clustering algorithm.
+
+    Args:
+        X (torch.Tensor): The input data of the model.
+        y (torch.Tensor): The output classes.
+        return_samples (bool, optional): Determines if silhouette score is returned separately or is averaged accross every sample. Defaults to False, i.e. by default returns the average value.
+
+    Returns:
+        float | torch.Tensor: if return_samples, returns a 1 dimensional torch tensor of values and if false, returns the average silhouette score.
+    """
+    if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+        raise TypeError("The input matrix and the label matrix must be a PyTorch tensor.")
+    if X.ndim != 2:
+        raise ValueError("The input matrix must be a 2 dimensional tensor.")
+    if y.ndim != 1 or y.shape[0] != X.shape[0]:
+        raise ValueError("The labels must be 1 dimensional with the same number of samples as the input data")
+    vals = torch.unique(y).numpy()
+    if set(vals) != {*range(len(vals))}:
+        raise ValueError("y must only contain the values in [0, ..., n_classes - 1].")
+
+    dists = torch.cdist(X, X)
+    classes = torch.unique(y)
+    a = torch.zeros_like(y, dtype=X.dtype)
+    b = torch.zeros_like(y, dtype=X.dtype)
+
+    for i in range(len(X)):
+        mask = y == y[i]
+        mask[i] = False  # remove own sample
+        a[i] = torch.mean(dists[i, mask]) if torch.sum(mask) > 1 else 0
+        other_distances = []
+        for label in classes:
+            if label != y[i]:
+                mask = y == label
+                other_distances.append(torch.mean(dists[i, mask]))
+        if len(other_distances) > 0: b[i] = min(other_distances)
+    
+    s = (b - a) / torch.maximum(a, b)
+    s[torch.isnan(s)] = 0
+
+    if return_samples:
+        return s
+    return torch.mean(s).item()
