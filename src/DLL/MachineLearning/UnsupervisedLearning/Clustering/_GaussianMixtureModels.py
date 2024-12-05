@@ -48,8 +48,7 @@ class GaussianMixture:
         return posterior_mus, posterior_sigmas, new_prior
     
     def _log_likelihood(self, X):
-        pdf_vals = self._pdf(X)
-        return torch.log(torch.sum(pdf_vals * self.prior))
+        return torch.log(torch.sum(self._pdf(X) * self.prior))
 
     def fit(self, X, verbose=False):
         """
@@ -73,13 +72,12 @@ class GaussianMixture:
         if verbose: print(f"Initial log-likelihood: {self._log_likelihood(X)}")
 
         for i in range(self.max_iters):
-            # _logger.debug(f"iter: {i}, objective: {np.sum(np.log(likelihood_function(X, taus, mus, sigmas)))}") # only show this in debug mode to reduce unnecessary evaluation
             posterior = self._expectation_step(X)
             mus, sigmas, prior = self._maximization_step(X, posterior)
             if torch.all(mus - self.mus < self.tol) and torch.all(sigmas - self.sigmas < self.tol):
                 break
             self.taus, self.mus, self.sigmas = prior, mus, sigmas
-            if verbose: print(f"Epoch: {i} - Log-likelihood: {self._log_likelihood(X)}")
+            if verbose: print(f"Epoch: {i + 1} - Log-likelihood: {self._log_likelihood(X)}")
 
     def predict(self, X):
         """
