@@ -515,7 +515,7 @@ def adjusted_r2_score(predictions, true_output, n_features):
     return adjusted_r_squared
 
 
-# ===============================REGRESSION===============================
+# ===============================Clustering===============================
 def silhouette_score(X, y, return_samples=False):
     """
     Computes the silhouette score of a clustering algorithm.
