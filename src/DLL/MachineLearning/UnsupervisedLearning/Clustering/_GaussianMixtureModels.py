@@ -5,10 +5,10 @@ from ....Exceptions import NotFittedError
 
 class GaussianMixture:
     """
-    Gaussian mixtre model. Fits k gaussian distributions onto the data using maximum likelihood estimation.
+    Gaussian mixture model. Fits `k` Gaussian distributions onto the data using maximum likelihood estimation.
 
     Args:
-        k, (int, optional): The number of gaussian distributions (clusters). Must be a positive integer. Defaults to 3.
+        k (int, optional): The number of Gaussian distributions (clusters). Must be a positive integer. Defaults to 3.
         max_iters (int, optional): The maximum number of iterations. Must be a positive integer. Defaults to 10.
     """
     def __init__(self, k=3, max_iters=10, tol=1e-5):
