@@ -1,5 +1,7 @@
 import torch
 
+from ....Exceptions import NotFittedError
+
 
 class GaussianMixture:
     """
@@ -93,6 +95,8 @@ class GaussianMixture:
             raise TypeError("X must be a 2 dimensional torch tensor.")
         if X.shape[1] != self.n_features:
             raise ValueError("X must have the same number of features as the training data.")
+        if not hasattr(self, "mus"):
+            raise NotFittedError("GaussianMixture.fit() must be fitted before predicting.")
 
 
         posterior = self._expectation_step(X)
@@ -112,7 +116,8 @@ class GaussianMixture:
             raise TypeError("X must be a 2 dimensional torch tensor.")
         if X.shape[1] != self.n_features:
             raise ValueError("X must have the same number of features as the training data.")
-
+        if not hasattr(self, "mus"):
+            raise NotFittedError("GaussianMixture.fit() must be fitted before predicting.")
 
         posterior = self._expectation_step(X)
         return posterior
