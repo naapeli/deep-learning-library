@@ -1,7 +1,7 @@
 import torch
 from warnings import warn
 
-from . import RegressionTree
+from ._RegressionTree import RegressionTree
 from ....Exceptions import NotFittedError
 
 

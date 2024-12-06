@@ -1,7 +1,7 @@
 import torch
 from collections import Counter
 
-from . import RegressionTree
+from ._RegressionTree import RegressionTree
 from ....Exceptions import NotFittedError
 
 

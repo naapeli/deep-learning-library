@@ -1,6 +1,6 @@
 import torch
 
-from . import RegressionTree
+from ._RegressionTree import RegressionTree
 from ....DeepLearning.Losses import MSE, MAE, Huber
 from ....Exceptions import NotFittedError
 from ....Data.Metrics import calculate_metrics
