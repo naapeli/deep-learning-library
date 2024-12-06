@@ -6,7 +6,7 @@ from ....Exceptions import NotFittedError
 
 class DBScan:
     """
-    Density based scanning algorithm for clustering.
+    Density-based spatial clustering of applications with noise (DBSCAN) algorithm.
 
     Args:
         eps (float | int, optional): The distance inside of which datapoints are considered to be neighbours. Must be a positive real number. Defaults to 0.5.

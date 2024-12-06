@@ -25,3 +25,11 @@ Spectral clustering
    :members:
    :undoc-members:
    :show-inheritance:
+
+Density based clustering
+-----------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.Clustering.DBScan
+   :members:
+   :undoc-members:
+   :show-inheritance:
