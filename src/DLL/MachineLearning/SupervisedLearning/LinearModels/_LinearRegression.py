@@ -12,7 +12,7 @@ class LinearRegression:
         beta (torch.Tensor of shape (n_features + 1,)): The weights of the linear regression model. Available after fitting.
         residuals (torch.Tensor of shape (n_samples,)): The residuals of the fitted model. For a good fit, the residuals should be normally distributed with zero mean and constant variance. Available after fitting.
     """
-    def fit(self, X, y, include_bias=True):
+    def fit(self, X, y, include_bias=True, method="ols"):
         """
         Fits the LinearRegression model to the input data by minimizing the squared error.
 
@@ -20,6 +20,7 @@ class LinearRegression:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
             include_bias (bool, optional): Decides if a bias is included in a model. Defaults to True.
+            method (str, optional): Determines if the loss function is ordinary least squares or total least squares. Must be one of "ols" or "tls". Defaults to "ols".
         Returns:
             None
         Raises:
@@ -34,11 +35,20 @@ class LinearRegression:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
         if not isinstance(include_bias, bool):
             raise TypeError("include_bias must be a boolean.")
+        if method not in ["ols", "tls"]:
+            raise ValueError('method must be one of "ols" or "tls".')
 
         self.include_bias = include_bias
         self.n_features = X.shape[1]
         X_ = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1) if self.include_bias else X
-        self.beta = torch.linalg.lstsq(X_.T @ X_, X_.T @ y).solution
+        if method == "ols":
+            self.beta = torch.linalg.lstsq(X_.T @ X_, X_.T @ y).solution
+        elif method == "tls":
+            C = torch.cat((X_, y.unsqueeze(1)), dim=1)            
+            _, _, Vt = torch.linalg.svd(C, full_matrices=False)
+            v_min = Vt[-1]
+            self.beta = -v_min[:-1] / v_min[-1]
+
         self.residuals = y - self.predict(X)
 
     def predict(self, X):
