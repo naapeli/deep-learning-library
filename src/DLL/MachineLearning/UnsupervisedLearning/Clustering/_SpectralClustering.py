@@ -1,7 +1,7 @@
 import torch
 
 from ...SupervisedLearning.Kernels import RBF, _Base
-from . import SpectralClustering
+from . import KMeansClustering
 from ....Exceptions import NotFittedError
 
 
@@ -15,7 +15,7 @@ class SpectralClustering:
         max_iters (int, optional): The maximum number of iterations for training the model. Defaults to 100. Must be a positive integer.
         normalise (bool, optional): Determines if the laplacian matrix is calculated using L = I - sqrt(inv(D)) A sqrt(inv(D)) or just L = D - A. Defaults to True.
         use_kmeans (bool, optional): Determines if the clustring in embedded space is done using kmeans or discretisation. Defaults to True.
-        **kwargs: Other arguments are passed into the `SpectralClustering` algorithm.
+        **kwargs: Other arguments are passed into the `KMeansClustering` algorithm.
 
     Note:
         The result depends heavily on the chosen kernel function. Especially the correlation_length parameter should be fine-tuned for optimal performance.
@@ -37,7 +37,7 @@ class SpectralClustering:
         self.max_iters = max_iters
         self.normalise = normalise
         self.use_kmeans = use_kmeans
-        if self.use_kmeans: self.kmeans = SpectralClustering(k=self.k, max_iters=self.max_iters, **kwargs)
+        if self.use_kmeans: self.kmeans = KMeansClustering(k=self.k, max_iters=self.max_iters, **kwargs)
     
     def _transform_data(self, X):
         similarity_matrix = self.kernel(X, X)
