@@ -1,7 +1,7 @@
 import torch
 from collections import Counter
 
-from . import DecisionTree
+from ._DecisionTree import DecisionTree
 from ....Exceptions import NotFittedError
 
 

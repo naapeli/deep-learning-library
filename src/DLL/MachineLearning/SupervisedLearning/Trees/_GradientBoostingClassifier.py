@@ -1,6 +1,6 @@
 import torch
 
-from . import RegressionTree
+from ._RegressionTree import RegressionTree
 from ....DeepLearning.Layers.Activations import Sigmoid, SoftMax
 from ....DeepLearning.Losses import BCE, CCE, Exponential
 from ....Data.Preprocessing import OneHotEncoder

@@ -2,7 +2,7 @@ import torch
 from math import log
 from warnings import warn
 
-from . import DecisionTree
+from ._DecisionTree import DecisionTree
 from ....Exceptions import NotFittedError
 
 
