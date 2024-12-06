@@ -3,7 +3,7 @@
     margin: 0cm
 }
 
-body .wy-nav-content { /* For ReadTheDocs theme */
+body .wy-nav-content {
     max-width: 70%; /* Adjust percentage as needed */
     /*margin: auto; /* Center the content */
 }

@@ -8,7 +8,7 @@
   <title>DLL.DeepLearning.Model &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -74,11 +74,11 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
 
 <span class="kn">from</span> <span class="nn">.Layers</span> <span class="kn">import</span> <span class="n">Input</span>
-<span class="kn">from</span> <span class="nn">.Layers.BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
-<span class="kn">from</span> <span class="nn">.Losses</span> <span class="kn">import</span> <span class="n">mse</span>
-<span class="kn">from</span> <span class="nn">.Losses.BaseLoss</span> <span class="kn">import</span> <span class="n">BaseLoss</span>
-<span class="kn">from</span> <span class="nn">.Optimisers</span> <span class="kn">import</span> <span class="n">Adam</span>
-<span class="kn">from</span> <span class="nn">.Optimisers.BaseOptimiser</span> <span class="kn">import</span> <span class="n">BaseOptimiser</span>
+<span class="kn">from</span> <span class="nn">.Layers._BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
+<span class="kn">from</span> <span class="nn">.Losses</span> <span class="kn">import</span> <span class="n">MSE</span>
+<span class="kn">from</span> <span class="nn">.Losses._BaseLoss</span> <span class="kn">import</span> <span class="n">BaseLoss</span>
+<span class="kn">from</span> <span class="nn">.Optimisers</span> <span class="kn">import</span> <span class="n">ADAM</span>
+<span class="kn">from</span> <span class="nn">.Optimisers._BaseOptimiser</span> <span class="kn">import</span> <span class="n">BaseOptimiser</span>
 <span class="kn">from</span> <span class="nn">..Data</span> <span class="kn">import</span> <span class="n">DataReader</span>
 <span class="kn">from</span> <span class="nn">..Data.Metrics</span> <span class="kn">import</span> <span class="n">calculate_metrics</span><span class="p">,</span> <span class="n">_round_dictionary</span>
 <span class="kn">from</span> <span class="nn">..Exceptions</span> <span class="kn">import</span> <span class="n">NotCompiledError</span>
@@ -130,10 +130,10 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metrics must be a list or a tuple containing the strings of wanted metrics.&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span> <span class="o">=</span> <span class="n">optimiser</span> <span class="k">if</span> <span class="n">optimiser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Adam</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span> <span class="o">=</span> <span class="n">optimiser</span> <span class="k">if</span> <span class="n">optimiser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ADAM</span><span class="p">()</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">()]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span><span class="o">.</span><span class="n">initialise_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">mse</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MSE</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span></div>
 
 

@@ -9,7 +9,7 @@
   <title>Dimensionality reduction &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -95,7 +95,7 @@
 <h2>PCA<a class="headerlink" href="#pca" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Principal Component Analysis (PCA) class for dimensionality reduction.</p>
 <dl class="field-list simple">
@@ -127,7 +127,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the PCA model to the input data by calculating the principal components.</p>
 <p>The input data is always centered and if <cite>normalize=True</cite>, also normalized so that the standard deviation is 1 along each axis.</p>
 <dl class="field-list simple">
@@ -151,7 +151,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform">
-<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/PCA.html#PCA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted PCA model to the input data, transforming it into the reduced feature space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

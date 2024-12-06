@@ -9,7 +9,7 @@
   <title>Naive Bayes &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -52,6 +52,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html">Gaussian processes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.LinearModels.html">Linear models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.LinearModels.html#time-series">Time series</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Naive Bayes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Neighbors.html">Neighbors</a></li>
 <li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Trees.html">Trees</a></li>
@@ -100,7 +101,7 @@
 <h2>BernoulliNaiveBayes<a class="headerlink" href="#bernoullinaivebayes" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">BernoulliNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">BernoulliNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_BernoulliNaiveBayes.html#BernoulliNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The BernoulliNaiveBayes classifier model. Applies the Bayes theorem to classify samples with binary features.</p>
 <dl class="py attribute">
@@ -127,7 +128,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_BernoulliNaiveBayes.html#BernoulliNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the BernoulliNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -151,7 +152,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted BernoulliNaiveBayes model to the input data, predicting the labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -175,7 +176,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_BernoulliNaiveBayes.html#BernoulliNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted BernoulliNaiveBayes model to the input data, predicting the labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -204,7 +205,7 @@
 <h2>GaussianNaiveBayes module<a class="headerlink" href="#gaussiannaivebayes-module" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">GaussianNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">GaussianNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_GaussianNaiveBayes.html#GaussianNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The GaussianNaiveBayes classifier model. Applies the Bayes theorem to classify samples with real number features.</p>
 <dl class="py attribute">
@@ -231,7 +232,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_GaussianNaiveBayes.html#GaussianNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the GaussianNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -254,7 +255,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_GaussianNaiveBayes.html#GaussianNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted GaussianNaiveBayes model to the input data, predicting the labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -278,7 +279,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/GaussianNaiveBayes.html#GaussianNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_GaussianNaiveBayes.html#GaussianNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted GaussianNaiveBayes model to the input data, predicting the probabilities.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -307,7 +308,7 @@
 <h2>MultinomialNaiveBayes module<a class="headerlink" href="#multinomialnaivebayes-module" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">MultinomialNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.NaiveBayes.</span></span><span class="sig-name descname"><span class="pre">MultinomialNaiveBayes</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_MultinomialNaiveBayes.html#MultinomialNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The MultinomialNaiveBayes classifier model. Applies the Bayes theorem to classify samples with positive integer features.</p>
 <dl class="py attribute">
@@ -334,7 +335,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_MultinomialNaiveBayes.html#MultinomialNaiveBayes.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the MultinomialNaiveBayes model to the input data by calculating the prior probabilities and likelihoods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -358,7 +359,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted MultinomialNaiveBayes model to the input data, predicting the labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -382,7 +383,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict_proba">
-<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/NaiveBayes/_MultinomialNaiveBayes.html#MultinomialNaiveBayes.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.predict_proba" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted MultinomialNaiveBayes model to the input data, predicting the labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

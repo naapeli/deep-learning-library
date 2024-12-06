@@ -9,7 +9,7 @@
   <title>Optimisers &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -99,8 +99,8 @@
 <section id="sgd">
 <h2>SGD<a class="headerlink" href="#sgd" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.sgd">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">sgd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/SGD.html#sgd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.sgd" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.SGD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">SGD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_SGD.html#SGD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.SGD" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseOptimiser</span></code></p>
 <p>Stochastic gradient descent optimiser with momentum. A first order method and therefore does not use information on second gradients, i.e. the hessian matrix. Hence, does not require a lot of memory.</p>
 <dl class="field-list simple">
@@ -112,8 +112,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.sgd.initialise_parameters">
-<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/SGD.html#sgd.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.sgd.initialise_parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.SGD.initialise_parameters">
+<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_SGD.html#SGD.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.SGD.initialise_parameters" title="Link to this definition"></a></dt>
 <dd><p>Initialises the optimiser with the parameters that need to be optimised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -123,8 +123,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.sgd.update_parameters">
-<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/SGD.html#sgd.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.sgd.update_parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.SGD.update_parameters">
+<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_SGD.html#SGD.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.SGD.update_parameters" title="Link to this definition"></a></dt>
 <dd><p>Takes a step towards the optimum for each parameter.</p>
 </dd></dl>
 
@@ -134,8 +134,8 @@
 <section id="adam">
 <h2>ADAM<a class="headerlink" href="#adam" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.Adam">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">Adam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.999</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/ADAM.html#Adam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.Adam" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.ADAM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">ADAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.999</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_ADAM.html#ADAM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.ADAM" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseOptimiser</span></code></p>
 <p>The adaptive moment estimation optimiser. Is very robust and does not require a lot of tuning it’s hyperparameters. A first order method and therefore does not use information on second gradients, i.e. the hessian matrix. Hence, does not require a lot of memory. Is based on algorithm 1 on <a class="reference external" href="https://arxiv.org/pdf/1412.6980">this paper</a>.</p>
 <dl class="field-list simple">
@@ -148,8 +148,8 @@
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.Adam.initialise_parameters">
-<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/ADAM.html#Adam.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.Adam.initialise_parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.ADAM.initialise_parameters">
+<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_ADAM.html#ADAM.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.ADAM.initialise_parameters" title="Link to this definition"></a></dt>
 <dd><p>Initialises the optimiser with the parameters that need to be optimised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -159,8 +159,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.Adam.update_parameters">
-<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/ADAM.html#Adam.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.Adam.update_parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.ADAM.update_parameters">
+<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_ADAM.html#ADAM.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.ADAM.update_parameters" title="Link to this definition"></a></dt>
 <dd><p>Takes a step towards the optimum for each parameter.</p>
 </dd></dl>
 
@@ -171,7 +171,7 @@
 <h2>LBFGS<a class="headerlink" href="#lbfgs" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.LBFGS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">LBFGS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiterls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/LBFGS.html#LBFGS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Optimisers.</span></span><span class="sig-name descname"><span class="pre">LBFGS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">history_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiterls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_LBFGS.html#LBFGS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseOptimiser</span></code></p>
 <p>Limited-memory Broyden-Fletcher-Goldfarb-Shanno optimiser. A second order method and approximates the hessian matrix using changes in position and gradient. Hence, requires more memory than first order methods.</p>
 <dl class="field-list simple">
@@ -186,7 +186,7 @@
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.LBFGS.initialise_parameters">
-<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/LBFGS.html#LBFGS.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS.initialise_parameters" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">initialise_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_LBFGS.html#LBFGS.initialise_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS.initialise_parameters" title="Link to this definition"></a></dt>
 <dd><p>Initialises the optimiser with the parameters that need to be optimised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -197,7 +197,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Optimisers.LBFGS.update_parameters">
-<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/LBFGS.html#LBFGS.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS.update_parameters" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Optimisers/_LBFGS.html#LBFGS.update_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Optimisers.LBFGS.update_parameters" title="Link to this definition"></a></dt>
 <dd><p>Takes a step towards the optimum for each parameter.</p>
 </dd></dl>
 
