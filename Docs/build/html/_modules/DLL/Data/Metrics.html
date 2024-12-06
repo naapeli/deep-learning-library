@@ -8,7 +8,7 @@
   <title>DLL.Data.Metrics &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -73,7 +73,7 @@
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
 
-<span class="kn">from</span> <span class="nn">..DeepLearning.Losses</span> <span class="kn">import</span> <span class="n">mse</span><span class="p">,</span> <span class="n">mae</span><span class="p">,</span> <span class="n">bce</span><span class="p">,</span> <span class="n">cce</span><span class="p">,</span> <span class="n">Huber</span><span class="p">,</span> <span class="n">exponential</span>
+<span class="kn">from</span> <span class="nn">..DeepLearning.Losses</span> <span class="kn">import</span> <span class="n">MSE</span><span class="p">,</span> <span class="n">MAE</span><span class="p">,</span> <span class="n">BCE</span><span class="p">,</span> <span class="n">CCE</span><span class="p">,</span> <span class="n">Huber</span><span class="p">,</span> <span class="n">Exponential</span>
 
 
 <div class="viewcode-block" id="calculate_metrics">
@@ -84,7 +84,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (tuple[torch.Tensor, torch.Tensor]): A tuple of predictions and the true outputs of a model.</span>
-<span class="sd">        metrics (tuple | list): A list metric names to calculate. Each element must be in [&quot;loss&quot;, &quot;accuracy&quot;, &quot;precision&quot;, &quot;recall&quot;, &quot;f1_score&quot;, &quot;rmse&quot;, &quot;mae&quot;, &quot;mse&quot;, &quot;bce&quot;, &quot;cce&quot;, &quot;huber&quot;].</span>
+<span class="sd">        metrics (tuple | list): A list metric names to calculate. Each element must be in [&quot;loss&quot;, &quot;accuracy&quot;, &quot;precision&quot;, &quot;recall&quot;, &quot;f1_score&quot;, &quot;rmse&quot;, &quot;mae&quot;, &quot;mse&quot;, &quot;bce&quot;, &quot;cce&quot;, &quot;huber&quot;, &quot;median_absolute&quot;].</span>
 <span class="sd">        loss (Callable[[predictions, true values], float], optional): The wanted loss function. If Defaults to None.</span>
 <span class="sd">        validation (bool, optional): Determines if &quot;val_&quot; is appended before each metric. If true, the each element of the metrics must be for instance &quot;val_loss&quot; or &quot;val_mse&quot;. Defaults to False.</span>
 
@@ -100,7 +100,7 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The shapes of the predictions and the output do not match.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The shapes of the data are not 1 or 2 dimensional. Currently </span><span class="si">{</span><span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span><span class="w"> </span><span class="n">predictions</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-    <span class="n">available_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="s2">&quot;mae&quot;</span><span class="p">,</span> <span class="s2">&quot;mse&quot;</span><span class="p">,</span> <span class="s2">&quot;bce&quot;</span><span class="p">,</span> <span class="s2">&quot;cce&quot;</span><span class="p">,</span> <span class="s2">&quot;huber&quot;</span><span class="p">]</span>
+    <span class="n">available_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="s2">&quot;rmse&quot;</span><span class="p">,</span> <span class="s2">&quot;mae&quot;</span><span class="p">,</span> <span class="s2">&quot;mse&quot;</span><span class="p">,</span> <span class="s2">&quot;bce&quot;</span><span class="p">,</span> <span class="s2">&quot;cce&quot;</span><span class="p">,</span> <span class="s2">&quot;huber&quot;</span><span class="p">,</span> <span class="s2">&quot;median_absolute&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">([(</span><span class="n">metric</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="k">if</span> <span class="n">validation</span> <span class="k">else</span> <span class="n">metric</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_metrics</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">]):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Only the following metrics are supported </span><span class="si">{</span><span class="n">available_metrics</span><span class="si">}</span><span class="s2">. Currently </span><span class="si">{</span><span class="n">metrics</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;loss&quot;</span> <span class="ow">in</span> <span class="n">metrics</span> <span class="ow">or</span> <span class="s2">&quot;val_loss&quot;</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">)</span> <span class="ow">and</span> <span class="n">loss</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -131,6 +131,8 @@
             <span class="n">metric_value</span> <span class="o">=</span> <span class="n">categorical_cross_entropy</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;huber&quot;</span><span class="p">):</span>
             <span class="n">metric_value</span> <span class="o">=</span> <span class="n">huber_loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="p">(</span><span class="n">val</span> <span class="o">+</span> <span class="s2">&quot;median_absolute&quot;</span><span class="p">):</span>
+            <span class="n">metric_value</span> <span class="o">=</span> <span class="n">median_absolute_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
         <span class="n">values</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric_value</span>
     <span class="k">return</span> <span class="n">values</span></div>
 
@@ -438,7 +440,7 @@
     <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be one-hot encoded.&quot;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">cce</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">CCE</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="binary_cross_entropy">
@@ -463,7 +465,7 @@
     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">bce</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">BCE</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="exponential_loss">
@@ -488,7 +490,7 @@
     <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">!=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">}:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The problem must be binary classification.&quot;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">exponential</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">Exponential</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 
@@ -513,7 +515,7 @@
     <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">mse</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">MSE</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="root_mean_squared_error">
@@ -559,7 +561,30 @@
     <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">mae</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">MAE</span><span class="p">()</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="median_absolute_error">
+<a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.median_absolute_error">[docs]</a>
+<span class="k">def</span> <span class="nf">median_absolute_error</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the median absoalute error of the predictions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.</span>
+<span class="sd">        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The median absolute error of the predictions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">true_output</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must be torch tensors.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">true_output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;predictions and true_output must have the same shape.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">true_output</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The predictions and the true output must be a 1 dimensional tensor.&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">predictions</span> <span class="o">-</span> <span class="n">true_output</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="huber_loss">
@@ -641,6 +666,56 @@
     <span class="n">r_squared</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">true_output</span><span class="p">)</span>
     <span class="n">adjusted_r_squared</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_squared</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_samples</span> <span class="o">-</span> <span class="n">n_features</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">adjusted_r_squared</span></div>
+
+
+
+<span class="c1"># ===============================Clustering===============================</span>
+<div class="viewcode-block" id="silhouette_score">
+<a class="viewcode-back" href="../../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.silhouette_score">[docs]</a>
+<span class="k">def</span> <span class="nf">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">return_samples</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the silhouette score of a clustering algorithm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (torch.Tensor): The input data of the model.</span>
+<span class="sd">        y (torch.Tensor): The output classes.</span>
+<span class="sd">        return_samples (bool, optional): Determines if silhouette score is returned separately or is averaged accross every sample. Defaults to False, i.e. by default returns the average value.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        float | torch.Tensor: if return_samples, returns a 1 dimensional torch tensor of values and if false, returns the average silhouette score.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matrix and the label matrix must be a PyTorch tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matrix must be a 2 dimensional tensor.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The labels must be 1 dimensional with the same number of samples as the input data&quot;</span><span class="p">)</span>
+    <span class="n">vals</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">!=</span> <span class="p">{</span><span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">))}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must only contain the values in [0, ..., n_classes - 1].&quot;</span><span class="p">)</span>
+
+    <span class="n">dists</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">y</span> <span class="o">==</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># remove own sample</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">mask</span><span class="p">])</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">other_distances</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">y</span> <span class="o">==</span> <span class="n">label</span>
+                <span class="n">other_distances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dists</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">mask</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other_distances</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">other_distances</span><span class="p">)</span>
+    
+    <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">return_samples</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 </pre></div>
 

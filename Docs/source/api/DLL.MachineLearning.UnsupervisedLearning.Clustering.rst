@@ -17,3 +17,11 @@ Gaussian mixture models
    :members:
    :undoc-members:
    :show-inheritance:
+
+Spectral clustering
+-----------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -8,7 +8,7 @@
   <title>Index &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=e62a0836" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=e2bd21bd" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -121,7 +121,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy">accuracy() (in module DLL.Data.Metrics)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam">Adam (class in DLL.DeepLearning.Optimisers)</a>
+      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM">ADAM (class in DLL.DeepLearning.Optimisers)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -145,6 +145,8 @@
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.backward">(DLL.DeepLearning.Layers.Activations.SoftMax method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Tanh.backward">(DLL.DeepLearning.Layers.Activations.Tanh method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional.backward">(DLL.DeepLearning.Layers.Bidirectional method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.backward">(DLL.DeepLearning.Layers.Conv2D method)</a>
 </li>
@@ -175,7 +177,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.BatchNorm">BatchNorm (class in DLL.DeepLearning.Layers.Regularisation)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce">bce (class in DLL.DeepLearning.Losses)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE">BCE (class in DLL.DeepLearning.Losses)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes">BernoulliNaiveBayes (class in DLL.MachineLearning.SupervisedLearning.NaiveBayes)</a>
 </li>
@@ -193,6 +195,8 @@
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.bias">(DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional">Bidirectional (class in DLL.DeepLearning.Layers)</a>
+</li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.binary_cross_entropy">binary_cross_entropy() (in module DLL.Data.Metrics)</a>
 </li>
   </ul></td>
@@ -207,14 +211,10 @@
 </li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder">CategoricalEncoder (class in DLL.Data.Preprocessing)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.cce">cce (class in DLL.DeepLearning.Losses)</a>
-</li>
-      <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.centroids">centroids (DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering attribute)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE">CCE (class in DLL.DeepLearning.Losses)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree.classes">classes (DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree attribute)</a>
-</li>
       <li><a href="api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.compile">compile() (DLL.DeepLearning.Model.Model method)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.html#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.components">components (DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA attribute)</a>
@@ -233,8 +233,6 @@
 </li>
       <li><a href="api/DLL.Data.DataReader.html#DLL.Data.DataReader">DataReader (class in DLL.Data)</a>
 </li>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree">DecisionTree (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.decode">decode() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
 
       <ul>
@@ -243,8 +241,6 @@
       </ul></li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Dense">Dense (class in DLL.DeepLearning.Layers)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     DLL.Data.Metrics
 
@@ -252,6 +248,8 @@
         <li><a href="api/DLL.Data.Metrics.html#module-DLL.Data.Metrics">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     DLL.Data.Preprocessing
 
@@ -286,6 +284,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.html#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.explained_variance">explained_variance (DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA attribute)</a>
 </li>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Exponential">Exponential (class in DLL.DeepLearning.Losses)</a>
+</li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.exponential_loss">exponential_loss() (in module DLL.Data.Metrics)</a>
 </li>
   </ul></td>
@@ -319,6 +319,8 @@
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit">(DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression method)</a>
 </li>
+        <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA.fit">(DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA method)</a>
+</li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.fit">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes method)</a>
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.fit">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes method)</a>
@@ -329,31 +331,17 @@
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit">(DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor method)</a>
 </li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree.fit">(DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.fit">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.fit">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.fit">(DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestRegressor.fit">(DLL.MachineLearning.SupervisedLearning.Trees.RandomForestRegressor method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree.fit">(DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.fit">(DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering method)</a>
-</li>
         <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.html#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit">(DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.CategoricalEncoder.fit_encode">fit_encode() (DLL.Data.Preprocessing.CategoricalEncoder method)</a>
 
       <ul>
         <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.fit_encode">(DLL.Data.Preprocessing.OneHotEncoder method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.fit_transform">fit_transform() (DLL.Data.Preprocessing.MinMaxScaler method)</a>
 
       <ul>
@@ -370,6 +358,8 @@
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax.forward">(DLL.DeepLearning.Layers.Activations.SoftMax method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Tanh.forward">(DLL.DeepLearning.Layers.Activations.Tanh method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional.forward">(DLL.DeepLearning.Layers.Bidirectional method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Conv2D.forward">(DLL.DeepLearning.Layers.Conv2D method)</a>
 </li>
@@ -408,24 +398,22 @@
 </li>
       <li><a href="api/DLL.Data.DataReader.html#DLL.Data.DataReader.get_data">get_data() (DLL.Data.DataReader method)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce.gradient">gradient() (DLL.DeepLearning.Losses.bce method)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.gradient">gradient() (DLL.DeepLearning.Losses.BCE method)</a>
 
       <ul>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.cce.gradient">(DLL.DeepLearning.Losses.cce method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE.gradient">(DLL.DeepLearning.Losses.CCE method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Exponential.gradient">(DLL.DeepLearning.Losses.Exponential method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber.gradient">(DLL.DeepLearning.Losses.Huber method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.gradient">(DLL.DeepLearning.Losses.mae method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.gradient">(DLL.DeepLearning.Losses.MAE method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mse.gradient">(DLL.DeepLearning.Losses.mse method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE.gradient">(DLL.DeepLearning.Losses.MSE method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier">GradientBoostingClassifier (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor">GradientBoostingRegressor (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.GroupNorm">GroupNorm (class in DLL.DeepLearning.Layers.Regularisation)</a>
 </li>
   </ul></td>
@@ -434,10 +422,24 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber">Huber (class in DLL.DeepLearning.Losses)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.hessian">hessian() (DLL.DeepLearning.Losses.BCE method)</a>
+
+      <ul>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE.hessian">(DLL.DeepLearning.Losses.CCE method)</a>
 </li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Exponential.hessian">(DLL.DeepLearning.Losses.Exponential method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber.hessian">(DLL.DeepLearning.Losses.Huber method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.hessian">(DLL.DeepLearning.Losses.MAE method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE.hessian">(DLL.DeepLearning.Losses.MSE method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber">Huber (class in DLL.DeepLearning.Losses)</a>
+</li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.huber_loss">huber_loss() (in module DLL.Data.Metrics)</a>
 </li>
   </ul></td>
@@ -446,8 +448,6 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.inertia">inertia (DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering attribute)</a>
-</li>
       <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Kaiming_Normal.initialise">initialise() (DLL.DeepLearning.Initialisers.Kaiming_Normal method)</a>
 
       <ul>
@@ -458,16 +458,16 @@
         <li><a href="api/DLL.DeepLearning.Initialisers.html#DLL.DeepLearning.Initialisers.Xavier_Uniform.initialise">(DLL.DeepLearning.Initialisers.Xavier_Uniform method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam.initialise_parameters">initialise_parameters() (DLL.DeepLearning.Optimisers.Adam method)</a>
+      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM.initialise_parameters">initialise_parameters() (DLL.DeepLearning.Optimisers.ADAM method)</a>
 
       <ul>
         <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.LBFGS.initialise_parameters">(DLL.DeepLearning.Optimisers.LBFGS method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd.initialise_parameters">(DLL.DeepLearning.Optimisers.sgd method)</a>
+        <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.SGD.initialise_parameters">(DLL.DeepLearning.Optimisers.SGD method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Regularisation.InstanceNorm">InstanceNorm (class in DLL.DeepLearning.Layers.Regularisation)</a>
 </li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.inverse_transform">inverse_transform() (DLL.Data.Preprocessing.MinMaxScaler method)</a>
@@ -488,8 +488,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering">KMeansClustering (class in DLL.MachineLearning.UnsupervisedLearning.Clustering)</a>
-</li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier">KNNClassifier (class in DLL.MachineLearning.SupervisedLearning.Neighbors)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor">KNNRegressor (class in DLL.MachineLearning.SupervisedLearning.Neighbors)</a>
@@ -512,20 +510,22 @@
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html#DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor.log_marginal_likelihood">log_marginal_likelihood() (DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression">LogisticRegression (class in DLL.MachineLearning.SupervisedLearning.LinearModels)</a>
 </li>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.bce.loss">loss() (DLL.DeepLearning.Losses.bce method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.BCE.loss">loss() (DLL.DeepLearning.Losses.BCE method)</a>
 
       <ul>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.cce.loss">(DLL.DeepLearning.Losses.cce method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE.loss">(DLL.DeepLearning.Losses.CCE method)</a>
+</li>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Exponential.loss">(DLL.DeepLearning.Losses.Exponential method)</a>
 </li>
         <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.Huber.loss">(DLL.DeepLearning.Losses.Huber method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae.loss">(DLL.DeepLearning.Losses.mae method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE.loss">(DLL.DeepLearning.Losses.MAE method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mse.loss">(DLL.DeepLearning.Losses.mse method)</a>
+        <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE.loss">(DLL.DeepLearning.Losses.MSE method)</a>
 </li>
       </ul></li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.LSTM">LSTM (class in DLL.DeepLearning.Layers)</a>
@@ -536,7 +536,7 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mae">mae (class in DLL.DeepLearning.Losses)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MAE">MAE (class in DLL.DeepLearning.Losses)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.Matern">Matern (class in DLL.MachineLearning.SupervisedLearning.Kernels)</a>
 </li>
@@ -545,6 +545,8 @@
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.mean_absolute_error">mean_absolute_error() (in module DLL.Data.Metrics)</a>
 </li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.mean_squared_error">mean_squared_error() (in module DLL.Data.Metrics)</a>
+</li>
+      <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.median_absolute_error">median_absolute_error() (in module DLL.Data.Metrics)</a>
 </li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler">MinMaxScaler (class in DLL.Data.Preprocessing)</a>
 </li>
@@ -563,7 +565,7 @@
         <li><a href="api/DLL.DeepLearning.Models.html#module-DLL.DeepLearning.Model">DLL.DeepLearning.Model</a>
 </li>
       </ul></li>
-      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.mse">mse (class in DLL.DeepLearning.Losses)</a>
+      <li><a href="api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE">MSE (class in DLL.DeepLearning.Losses)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes">MultinomialNaiveBayes (class in DLL.MachineLearning.SupervisedLearning.NaiveBayes)</a>
 </li>
@@ -579,10 +581,6 @@
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_classes">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes attribute)</a>
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_classes">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes attribute)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree.n_classes">(DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree attribute)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.n_classes">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html#DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor.n_features">n_features (DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessRegressor attribute)</a>
@@ -603,10 +601,6 @@
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.n_features">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes attribute)</a>
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes.n_features">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.MultinomialNaiveBayes attribute)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.n_features">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier attribute)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.n_features">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -666,6 +660,8 @@
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.predict">(DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression method)</a>
 </li>
+        <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA.predict">(DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA method)</a>
+</li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes.predict">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.BernoulliNaiveBayes method)</a>
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.NaiveBayes.html#DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes.predict">(DLL.MachineLearning.SupervisedLearning.NaiveBayes.GaussianNaiveBayes method)</a>
@@ -675,20 +671,6 @@
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier.predict">(DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier method)</a>
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict">(DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree.predict">(DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.predict">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor.predict">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingRegressor method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.predict">(DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestRegressor.predict">(DLL.MachineLearning.SupervisedLearning.Trees.RandomForestRegressor method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree.predict">(DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.UnsupervisedLearning.Clustering.html#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.predict">(DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -704,12 +686,6 @@
 </li>
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier.predict_proba">(DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier method)</a>
 </li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree.predict_proba">(DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier.predict_proba">(DLL.MachineLearning.SupervisedLearning.Trees.GradientBoostingClassifier method)</a>
-</li>
-        <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier.predict_proba">(DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier method)</a>
-</li>
       </ul></li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.prob_to_pred">prob_to_pred() (in module DLL.Data.Metrics)</a>
 </li>
@@ -721,24 +697,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.r2_score">r2_score() (in module DLL.Data.Metrics)</a>
 </li>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestClassifier">RandomForestClassifier (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RandomForestRegressor">RandomForestRegressor (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RationalQuadratic">RationalQuadratic (class in DLL.MachineLearning.SupervisedLearning.Kernels)</a>
 </li>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.Kernels.html#DLL.MachineLearning.SupervisedLearning.Kernels.RBF">RBF (class in DLL.MachineLearning.SupervisedLearning.Kernels)</a>
 </li>
       <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.recall">recall() (in module DLL.Data.Metrics)</a>
 </li>
-      <li><a href="api/DLL.MachineLearning.SupervisedLearning.Trees.html#DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree">RegressionTree (class in DLL.MachineLearning.SupervisedLearning.Trees)</a>
-</li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU">ReLU (class in DLL.DeepLearning.Layers.Activations)</a>
 </li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Reshape">Reshape (class in DLL.DeepLearning.Layers)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.residuals">residuals (DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression attribute)</a>
 
       <ul>
@@ -749,6 +717,8 @@
         <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.residuals">(DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression">RidgeRegression (class in DLL.MachineLearning.SupervisedLearning.LinearModels)</a>
 </li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN">RNN (class in DLL.DeepLearning.Layers)</a>
@@ -765,12 +735,16 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd">sgd (class in DLL.DeepLearning.Optimisers)</a>
+      <li><a href="api/DLL.MachineLearning.SupervisedLearning.LinearModels.html#DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA">SARIMA (class in DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries)</a>
+</li>
+      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.SGD">SGD (class in DLL.DeepLearning.Optimisers)</a>
 </li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Sigmoid">Sigmoid (class in DLL.DeepLearning.Layers.Activations)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/DLL.Data.Metrics.html#DLL.Data.Metrics.silhouette_score">silhouette_score() (in module DLL.Data.Metrics)</a>
+</li>
       <li><a href="api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax">SoftMax (class in DLL.DeepLearning.Layers.Activations)</a>
 </li>
       <li><a href="api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.StandardScaler">StandardScaler (class in DLL.Data.Preprocessing)</a>
@@ -803,12 +777,12 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.Adam.update_parameters">update_parameters() (DLL.DeepLearning.Optimisers.Adam method)</a>
+      <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM.update_parameters">update_parameters() (DLL.DeepLearning.Optimisers.ADAM method)</a>
 
       <ul>
         <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.LBFGS.update_parameters">(DLL.DeepLearning.Optimisers.LBFGS method)</a>
 </li>
-        <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.sgd.update_parameters">(DLL.DeepLearning.Optimisers.sgd method)</a>
+        <li><a href="api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.SGD.update_parameters">(DLL.DeepLearning.Optimisers.SGD method)</a>
 </li>
       </ul></li>
   </ul></td>

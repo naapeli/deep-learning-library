@@ -9,7 +9,7 @@
   <title>Metrics &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
@@ -61,6 +61,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.huber_loss"><code class="docutils literal notranslate"><span class="pre">huber_loss()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.mean_absolute_error"><code class="docutils literal notranslate"><span class="pre">mean_absolute_error()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.mean_squared_error"><code class="docutils literal notranslate"><span class="pre">mean_squared_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.median_absolute_error"><code class="docutils literal notranslate"><span class="pre">median_absolute_error()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.precision"><code class="docutils literal notranslate"><span class="pre">precision()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.prob_to_pred"><code class="docutils literal notranslate"><span class="pre">prob_to_pred()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.r2_score"><code class="docutils literal notranslate"><span class="pre">r2_score()</span></code></a></li>
@@ -68,6 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.roc_auc"><code class="docutils literal notranslate"><span class="pre">roc_auc()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.roc_curve"><code class="docutils literal notranslate"><span class="pre">roc_curve()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.root_mean_squared_error"><code class="docutils literal notranslate"><span class="pre">root_mean_squared_error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Metrics.silhouette_score"><code class="docutils literal notranslate"><span class="pre">silhouette_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="DLL.Data.Preprocessing.html">Preprocessing</a></li>
@@ -197,7 +199,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>tuple</em><em>[</em><em>torch.Tensor</em><em>, </em><em>torch.Tensor</em><em>]</em>) – A tuple of predictions and the true outputs of a model.</p></li>
-<li><p><strong>metrics</strong> (<em>tuple</em><em> | </em><em>list</em>) – A list metric names to calculate. Each element must be in [“loss”, “accuracy”, “precision”, “recall”, “f1_score”, “rmse”, “mae”, “mse”, “bce”, “cce”, “huber”].</p></li>
+<li><p><strong>metrics</strong> (<em>tuple</em><em> | </em><em>list</em>) – A list metric names to calculate. Each element must be in [“loss”, “accuracy”, “precision”, “recall”, “f1_score”, “rmse”, “mae”, “mse”, “bce”, “cce”, “huber”, “median_absolute”].</p></li>
 <li><p><strong>loss</strong> (<em>Callable</em><em>[</em><em>[</em><em>predictions</em><em>, </em><em>true values</em><em>]</em><em>, </em><em>float</em><em>]</em><em>, </em><em>optional</em>) – The wanted loss function. If Defaults to None.</p></li>
 <li><p><strong>validation</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if “<a href="#id1"><span class="problematic" id="id2">val_</span></a>” is appended before each metric. If true, the each element of the metrics must be for instance “val_loss” or “val_mse”. Defaults to False.</p></li>
 </ul>
@@ -352,6 +354,26 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="DLL.Data.Metrics.median_absolute_error">
+<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">median_absolute_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#median_absolute_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.median_absolute_error" title="Link to this definition"></a></dt>
+<dd><p>Calculates the median absoalute error of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>torch.Tensor</em>) – A tensor of predicted as a vector. Must be the same shape as the true_output.</p></li>
+<li><p><strong>true_output</strong> (<em>torch.Tensor</em>) – A tensor of true values as a vector. Must be the same shape as the prediction.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The median absolute error of the predictions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="DLL.Data.Metrics.precision">
 <span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#precision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.precision" title="Link to this definition"></a></dt>
 <dd><p>Calculates the precision or the positive predictive value of the predictions. The problem must be binary classification to be able to calculate the precision.</p>
@@ -480,6 +502,27 @@
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DLL.Data.Metrics.silhouette_score">
+<span class="sig-prename descclassname"><span class="pre">DLL.Data.Metrics.</span></span><span class="sig-name descname"><span class="pre">silhouette_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Metrics.html#silhouette_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Metrics.silhouette_score" title="Link to this definition"></a></dt>
+<dd><p>Computes the silhouette score of a clustering algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em>) – The input data of the model.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em>) – The output classes.</p></li>
+<li><p><strong>return_samples</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if silhouette score is returned separately or is averaged accross every sample. Defaults to False, i.e. by default returns the average value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>if return_samples, returns a 1 dimensional torch tensor of values and if false, returns the average silhouette score.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | torch.Tensor</p>
 </dd>
 </dl>
 </dd></dl>

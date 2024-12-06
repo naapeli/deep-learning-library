@@ -40,3 +40,14 @@ Elasticnet
    :members:
    :undoc-members:
    :show-inheritance:
+
+Time series
+=======================================================================
+
+SARIMA
+-----------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.LinearModels.TimeSeries.SARIMA
+   :members:
+   :undoc-members:
+   :show-inheritance:
