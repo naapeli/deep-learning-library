@@ -5,19 +5,18 @@ from sklearn.datasets import make_blobs, make_classification, make_moons
 from sklearn.metrics import silhouette_score as sk_silhouette_score, silhouette_samples
 import numpy as np
 
-from src.DLL.MachineLearning.UnsupervisedLearning.Clustering import KMeansClustering, GaussianMixture, SpectralClustering
+from src.DLL.MachineLearning.UnsupervisedLearning.Clustering import KMeansClustering, GaussianMixture, SpectralClustering, DBScan
 from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF
 from src.DLL.Data.Metrics import silhouette_score
 
-
 n_samples=1000
-dataset = "narrow"
+dataset = "basic"
 if dataset == "basic": X, y = make_blobs(n_samples=n_samples, n_features=2, cluster_std=1, centers=3, random_state=3)
 if dataset == "narrow": X, y = make_classification(n_samples=n_samples, n_features=2, n_informative=2, n_redundant=0, n_clusters_per_class=1, n_classes=3, random_state=1)
 if dataset == "moons": X, y = make_moons(n_samples=n_samples, noise=0.05, random_state=0)
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
-fig, ax = plt.subplots(2, 2)
+fig, ax = plt.subplots(2, 3)
 ax = ax.ravel()
 ax[0].scatter(X[:, 0], X[:, 1], c=y)
 ax[0].set_title("True classes")
@@ -55,7 +54,21 @@ ax[3].scatter(X[:, 0], X[:, 1], c=spectral_labels)
 ax[3].set_title("Spectral clustering")
 spectral_silhouette_samples = silhouette_score(X, spectral_labels, return_samples=True)
 
-fig, ax = plt.subplots(1, 3)
+if dataset in ["basic"]:
+    eps = 0.9
+elif dataset in ["narrow"]:
+    eps = 0.5
+elif dataset in ["moons"]:
+    eps = 0.1
+model = DBScan(eps=eps, min_samples=5)
+model.fit(X)
+dbscan_labels = model.predict()
+ax[4].scatter(X[:, 0], X[:, 1], c=dbscan_labels)
+ax[4].set_title("Density based scanning")
+dbscan_samples = silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1], return_samples=True)
+
+fig, ax = plt.subplots(2, 2)
+ax = ax.ravel()
 y_lower_k_means = 10
 y_lower_gaussian_mixture = 10
 y_lower_spectral = 10
@@ -86,19 +99,35 @@ for i in range(n_classes):
     ax[2].fill_betweenx(np.arange(y_lower_spectral, y_upper), 0, ith_cluster_spectral_silhouette_values, facecolor=color, edgecolor=color, alpha=0.7,)
     y_lower_spectral = y_upper + 10
 
+y_lower_dbscan = 10
+for i in torch.unique(dbscan_labels):
+    if i == -1:
+        continue
+    ith_cluster_dbscan_silhouette_values = dbscan_samples[dbscan_labels[dbscan_labels != -1] == i]
+    ith_cluster_dbscan_silhouette_values, _ = ith_cluster_dbscan_silhouette_values.sort()
+    size_cluster_i = ith_cluster_dbscan_silhouette_values.shape[0]
+    y_upper = y_lower_dbscan + size_cluster_i
+    color = cm.nipy_spectral(float(i) / n_classes)
+    ax[3].fill_betweenx(np.arange(y_lower_dbscan, y_upper), 0, ith_cluster_dbscan_silhouette_values, facecolor=color, edgecolor=color, alpha=0.7,)
+    y_lower_dbscan = y_upper + 10
+
 ax[0].axvline(x=silhouette_score(X, k_mean_labels), color="red", linestyle="--")
 ax[1].axvline(x=silhouette_score(X, gaussian_mixture_labels), color="red", linestyle="--")
 ax[2].axvline(x=silhouette_score(X, spectral_labels), color="red", linestyle="--")
+ax[3].axvline(x=silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1]), color="red", linestyle="--")
 
 ax[0].set_xlabel("The silhouette coefficient values")
 ax[1].set_xlabel("The silhouette coefficient values")
 ax[2].set_xlabel("The silhouette coefficient values")
+ax[3].set_xlabel("The silhouette coefficient values")
 
 ax[0].set_ylabel("Clusters")
 ax[1].set_ylabel("Clusters")
 ax[2].set_ylabel("Clusters")
+ax[3].set_ylabel("Clusters")
 
 ax[0].set_title(f"K-means - {round(silhouette_score(X, k_mean_labels), 3)}, {round(sk_silhouette_score(X.numpy(), k_mean_labels.numpy()), 3)}")
 ax[1].set_title(f"Gaussian mixture - {round(silhouette_score(X, gaussian_mixture_labels), 3)}, {round(sk_silhouette_score(X.numpy(), gaussian_mixture_labels.numpy()), 3)}")
 ax[2].set_title(f"Spectral - {round(silhouette_score(X, spectral_labels), 3)}, {round(sk_silhouette_score(X.numpy(), spectral_labels.numpy()), 3)}")
+ax[3].set_title(f"DB scan - {round(silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1]), 3)}, {round(sk_silhouette_score(X[dbscan_labels != -1].numpy(), dbscan_labels[dbscan_labels != -1].numpy()), 3)}")
 plt.show()
