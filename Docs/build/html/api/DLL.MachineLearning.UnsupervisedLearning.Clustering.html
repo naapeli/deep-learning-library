@@ -93,12 +93,209 @@
 <h1>Clustering<a class="headerlink" href="#clustering" title="Link to this heading"></a></h1>
 <section id="kmeans">
 <h2>KMeans<a class="headerlink" href="#kmeans" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.Clustering.</span></span><span class="sig-name descname"><span class="pre">KMeansClustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kmeans++'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_KMeans.html#KMeansClustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>KMeansClustering implements the K-Means clustering algorithm, which partitions data points into <cite>k</cite> clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of clusters. Defaults to 3. Must be a positive integer.</p></li>
+<li><p><strong>max_iters</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of iterations for training the model. Defaults to 100. Must be a positive integer.</p></li>
+<li><p><strong>init</strong> ({<cite>kmeans++</cite>, <cite>random</cite>}, optional) – The method for initialising the centroids. Defaults to <cite>kmeans++</cite>.</p></li>
+<li><p><strong>n_init</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of differently initialized centroids. Defaults to 10. Must be a positive integer.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.centroids">
+<span class="sig-name descname"><span class="pre">centroids</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.centroids" title="Link to this definition"></a></dt>
+<dd><p>The final chosen centroids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.inertia">
+<span class="sig-name descname"><span class="pre">inertia</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.inertia" title="Link to this definition"></a></dt>
+<dd><p>The total squared distance to the nearest centroid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_KMeans.html#KMeansClustering.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the KMeansClustering model to the input data by finding the best centroids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature. The number of samples must be atleast <cite>k</cite>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_KMeans.html#KMeansClustering.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.KMeansClustering.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted KMeansClustering model to the input data, partitioning it to <cite>k</cite> clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be partitioned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cluster corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the KMeansClustering model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="gaussian-mixture-models">
 <h2>Gaussian mixture models<a class="headerlink" href="#gaussian-mixture-models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.Clustering.</span></span><span class="sig-name descname"><span class="pre">GaussianMixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_GaussianMixtureModels.html#GaussianMixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Gaussian mixture model. Fits <cite>k</cite> Gaussian distributions onto the data using maximum likelihood estimation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of Gaussian distributions (clusters). Must be a positive integer. Defaults to 3.</p></li>
+<li><p><strong>max_iters</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of iterations. Must be a positive integer. Defaults to 10.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_GaussianMixtureModels.html#GaussianMixture.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the k gaussian distributions to the data using maximum likelihood estimation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be clustered.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the likelihood should be calculated and printed during training. Must be a boolean. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_GaussianMixtureModels.html#GaussianMixture.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.predict" title="Link to this definition"></a></dt>
+<dd><p>Predicts the clusters of the data according to the fitted distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be clustered.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of labels corresponding to classes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.predict_proba">
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_GaussianMixtureModels.html#GaussianMixture.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.GaussianMixture.predict_proba" title="Link to this definition"></a></dt>
+<dd><p>Predicts the probabilities of the data being in the fitted distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be clustered.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tensor of probabilities of the data being in the fitted distributions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, k)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="spectral-clustering">
 <h2>Spectral clustering<a class="headerlink" href="#spectral-clustering" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.Clustering.</span></span><span class="sig-name descname"><span class="pre">SpectralClustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel=&lt;DLL.MachineLearning.SupervisedLearning.Kernels.RBF</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iters=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_kmeans=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_SpectralClustering.html#SpectralClustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>SpectralClustering implements the spectral clustering algorithm, which partitions data points into <cite>k</cite> clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel</strong> (<a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Kernels.html#kernel-section-label"><span class="std std-ref">Kernels</span></a>, optional) – The similarity function for fitting the model. Defaults to RBF(correlation_length=0.1).</p></li>
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of clusters. Defaults to 3. Must be a positive integer.</p></li>
+<li><p><strong>max_iters</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of iterations for training the model. Defaults to 100. Must be a positive integer.</p></li>
+<li><p><strong>normalise</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the laplacian matrix is calculated using L = I - sqrt(inv(D)) A sqrt(inv(D)) or just L = D - A. Defaults to True.</p></li>
+<li><p><strong>use_kmeans</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the clustring in embedded space is done using kmeans or discretisation. Defaults to True.</p></li>
+<li><p><strong>**kwargs</strong> – Other arguments are passed into the <cite>KMeansClustering</cite> algorithm.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The result depends heavily on the chosen kernel function. Especially the correlation_length parameter should be fine-tuned for optimal performance.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_SpectralClustering.html#SpectralClustering.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the algorithm to the given data. Transforms the data into the embedding space using the kernel function and clusters the data in the space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature. The number of samples must be atleast <cite>k</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/Clustering/_SpectralClustering.html#SpectralClustering.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.Clustering.SpectralClustering.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted SpectralClustering model to the input data, partitioning it to <cite>k</cite> clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cluster corresponding to each sample.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the SpectralClustering model has not been fitted before predicting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
