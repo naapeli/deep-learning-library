@@ -10,7 +10,7 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
 
     Args:
         data (tuple[torch.Tensor, torch.Tensor]): A tuple of predictions and the true outputs of a model.
-        metrics (tuple | list): A list metric names to calculate. Each element must be in ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber"].
+        metrics (tuple | list): A list metric names to calculate. Each element must be in ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber", "median_absolute"].
         loss (Callable[[predictions, true values], float], optional): The wanted loss function. If Defaults to None.
         validation (bool, optional): Determines if "val_" is appended before each metric. If true, the each element of the metrics must be for instance "val_loss" or "val_mse". Defaults to False.
 
@@ -26,7 +26,7 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
         raise ValueError("The shapes of the predictions and the output do not match.")
     if true_output.ndim > 2 or predictions.ndim > 2:
         raise ValueError(f"The shapes of the data are not 1 or 2 dimensional. Currently {true_output.ndim, predictions.ndim}.")
-    available_metrics = ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber"]
+    available_metrics = ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber", "median_absolute"]
     if any([(metric[4:] if validation else metric) not in available_metrics for metric in metrics]):
         raise ValueError(f"Only the following metrics are supported {available_metrics}. Currently {metrics}.")
     if ("loss" in metrics or "val_loss" in metrics) and loss is None:
@@ -57,6 +57,8 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
             metric_value = categorical_cross_entropy(predictions, true_output)
         elif metric == (val + "huber"):
             metric_value = huber_loss(predictions, true_output)
+        elif metric == (val + "median_absolute"):
+            metric_value = median_absolute_error(predictions, true_output)
         values[metric] = metric_value
     return values
 
@@ -441,6 +443,26 @@ def mean_absolute_error(predictions, true_output):
         raise ValueError("The predictions and the true output must be a 1 dimensional tensor.")
     
     return MAE().loss(predictions, true_output).item()
+
+def median_absolute_error(predictions, true_output):
+    """
+    Calculates the median absoalute error of the predictions.
+
+    Args:
+        predictions (torch.Tensor): A tensor of predicted as a vector. Must be the same shape as the true_output.
+        true_output (torch.Tensor): A tensor of true values as a vector. Must be the same shape as the prediction.
+
+    Returns:
+        float: The median absolute error of the predictions.
+    """
+    if not isinstance(predictions, torch.Tensor) or not isinstance(true_output, torch.Tensor):
+        raise TypeError("predictions and true_output must be torch tensors.")
+    if predictions.shape != true_output.shape:
+        raise ValueError("predictions and true_output must have the same shape.")
+    if true_output.ndim != 1:
+        raise ValueError("The predictions and the true output must be a 1 dimensional tensor.")
+    
+    return torch.median(torch.abs(predictions - true_output)).item()
 
 def huber_loss(predictions, true_output):
     """
