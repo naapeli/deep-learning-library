@@ -99,7 +99,8 @@ class RBF(_Base):
         self.number = RBF.instance
 
         self.sigma = torch.tensor([sigma], dtype=torch.float32)
-        self.correlation_length = correlation_length if isinstance(correlation_length, torch.Tensor) else torch.tensor([correlation_length], dtype=torch.float32)
+        # self.correlation_length = correlation_length if isinstance(correlation_length, torch.Tensor) else torch.tensor([correlation_length], dtype=torch.float32)
+        self.correlation_length = torch.tensor([correlation_length], dtype=torch.float32) if isinstance(correlation_length, int | float) else correlation_length
 
         self.train_sigma = train_sigma
         self.train_correlation_length = train_correlation_length
