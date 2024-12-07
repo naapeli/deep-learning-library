@@ -13,7 +13,6 @@ class PCA:
         components (torch.Tensor): Principal components extracted from the data.
         explained_variance (torch.Tensor): Variance explained by the selected components.
     """
-
     def __init__(self, n_components=2, epsilon=1e-10):
         if not isinstance(n_components, int) or n_components < 1:
             raise ValueError("n_components must be a positive integer.")
@@ -41,6 +40,7 @@ class PCA:
             raise TypeError("The normalize parameter must be a boolean.")
         if X.ndim != 2 or X.shape[0] == 1:
             raise ValueError("The input matrix must be a 2 dimensional tensor with atleast 2 samples.")
+
         self.normalize = normalize
         self.mean = X.mean(dim=0)
         X = (X - self.mean)
@@ -72,7 +72,22 @@ class PCA:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != len(self.mean):
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+
         X = (X - self.mean)
         if self.normalize:
             X = X / (self.standard_deviation + self.epsilon)
         return X @ self.components.T
+    
+    def fit_transform(self, X, normalize=True):
+        """
+        First finds the principal components of X and then transforms X to fitted space.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be transformed.
+            normalize (bool, optional): Whether to normalize the data before computing the PCA. Defaults to True.
+        Returns:
+            X_new (torch.Tensor of shape (n_samples, n_components)): The data transformed into the principal component space.
+        """
+        
+        self.fit(X, normalize=normalize)
+        return self.transform(X)
