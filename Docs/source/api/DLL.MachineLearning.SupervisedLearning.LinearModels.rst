@@ -41,6 +41,14 @@ Elasticnet
    :undoc-members:
    :show-inheritance:
 
+Random sample consensus
+---------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Time series
 =======================================================================
 
