@@ -13,7 +13,7 @@ from src.DLL.Data.Preprocessing import data_split
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-model = Model(2, data_type=torch.float32)
+model = Model(2, data_type=torch.float32, device=device)
 model.add(Dense(6, initialiser=Xavier_Uniform(), normalisation=BatchNorm(), activation=ReLU()))
 model.add(Dropout(p=0.1))
 model.add(Dense(6, initialiser=Kaiming_Normal()))
@@ -27,7 +27,7 @@ model.summary()
 n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
-y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
+y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size(), device=device) - 5
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=50, batch_size=64, verbose=True)
@@ -37,9 +37,9 @@ plt.plot(errors["median_absolute"], label="median absolute error")
 plt.legend()
 plt.xlabel("Epochs")
 plt.ylabel("Mean squared error")
-z = model.predict(x_test)
+z = model.predict(x_test).cpu().numpy()
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-surf = ax.scatter(x_test[:, 0], x_test[:, 1], z, color="blue")
-surf = ax.scatter(x_test[:, 0], x_test[:, 1], y_test, color="red")
+surf = ax.scatter(x_test[:, 0].cpu().numpy(), x_test[:, 1].cpu().numpy(), z, color="blue")
+surf = ax.scatter(x_test[:, 0].cpu().numpy(), x_test[:, 1].cpu().numpy(), y_test.cpu().numpy(), color="red")
 plt.show()

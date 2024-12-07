@@ -22,6 +22,12 @@ x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.
 print(x.shape, y.shape)
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+x_train = x_train.to(device=device)
+y_train = y_train.to(device=device)
+x_val = x_val.to(device=device)
+y_val = y_val.to(device=device)
+x_test = x_test.to(device=device)
+y_test = y_test.to(device=device)
 
 model = Model((4, 1), data_type=torch.float32, device=device)
 model.add(Bidirectional(LSTM(20, 10, return_last=False, activation=ReLU())))
