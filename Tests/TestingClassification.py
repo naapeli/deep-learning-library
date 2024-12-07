@@ -23,9 +23,15 @@ y = encoder.fit_encode(torch.tensor(iris.target, dtype=torch.float32))
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+x_train = x_train.to(device=device)
+y_train = y_train.to(device=device)
+x_val = x_val.to(device=device)
+y_val = y_val.to(device=device)
+x_test = x_test.to(device=device)
+y_test = y_test.to(device=device)
 
 # can get better results with only batch normalisation
-model = Model(4, data_type=torch.float32)
+model = Model(4, data_type=torch.float32, device=device)
 model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), activation=ReLU()))
 model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()))
 model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()))
