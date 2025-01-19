@@ -5,6 +5,7 @@ from .Activations._Activation import Activation
 from .Regularisation._BaseRegularisation import BaseRegularisation
 from ..Initialisers import Xavier_Uniform
 from ..Initialisers._Initialiser import Initialiser
+from ...Exceptions import NotCompiledError
 
 
 class LSTM(BaseLayer):
@@ -261,3 +262,15 @@ class LSTM(BaseLayer):
         return (self.wy, self.wo, self.wc, self.wi, self.wf,
                 self.uo, self.uc, self.ui, self.uf,
                 self.by, self.bo, self.bc, self.bi, self.bf)
+    
+    def summary(self, offset=""):
+        if not hasattr(self, "input_shape"):
+            raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
+
+        input_shape = "(seq_len, " + str(self.input_shape[0]) + ")"
+        output_shape = str(self.output_shape[0]) if self.return_last else "(seq_len, " + str(self.output_shape[0]) + ")"
+        params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
+        sublayer_offset = offset + "    "
+        normalisation_summary = ("\n" + self.normalisation.summary(sublayer_offset)) if self.normalisation else ""
+        activation_summary = ("\n" + self.activation.summary(sublayer_offset)) if self.activation else ""
+        return offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary

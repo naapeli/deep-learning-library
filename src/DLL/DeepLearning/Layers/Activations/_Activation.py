@@ -18,6 +18,6 @@ class Activation(BaseLayer):
         self.output_shape = input_shape
         super().initialise_layer(input_shape, data_type, device)
 
-    def summary(self):
+    def summary(self, offset=""):
         output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
-        return f"{self.name} - Output: ({output_shape})"
+        return offset + f"{self.name} - Output: ({output_shape})"
