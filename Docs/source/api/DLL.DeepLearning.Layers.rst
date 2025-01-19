@@ -59,6 +59,30 @@ Bidirectional
    :undoc-members:
    :show-inheritance:
 
+Identity
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Identity
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Add
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Add
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Layer list
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.LayerList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Reshape
 --------------------------------------
 
