@@ -1,5 +1,5 @@
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers import Dense
+from src.DLL.DeepLearning.Layers import Dense, Identity, Add, LayerList
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, GroupNorm, InstanceNorm, LayerNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import CCE
@@ -32,10 +32,13 @@ y_test = y_test.to(device=device)
 
 # can get better results with only batch normalisation
 model = Model(4, data_type=torch.float32, device=device)
-model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), activation=ReLU()))
-model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()))
-model.add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()))
-model.add(Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax()))
+layers = LayerList([
+    Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), activation=ReLU()),
+    Add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()), Identity()),
+    Add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()), Identity()),
+    Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax())
+])
+model.add(layers)
 model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 

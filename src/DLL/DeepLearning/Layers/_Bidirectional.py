@@ -3,6 +3,7 @@ from copy import deepcopy
 
 from ._BaseLayer import BaseLayer
 from . import RNN, LSTM
+from ...Exceptions import NotCompiledError
 
 
 class Bidirectional(BaseLayer):
@@ -42,8 +43,6 @@ class Bidirectional(BaseLayer):
         self.backward_layer.initialise_layer(input_shape, data_type, device)
 
         super().initialise_layer(input_shape, data_type, device)
-        
-        self.nparams = self.forward_layer.nparams + self.backward_layer.nparams
 
     def forward(self, input, training=False, **kwargs):
         """
@@ -58,8 +57,8 @@ class Bidirectional(BaseLayer):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[2:] != self.input_shape:
-            raise ValueError(f"Input shape {input.shape[2:]} does not match the expected shape {self.input_shape}.")
+        if input.shape[-len(self.input_shape):] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[-len(self.input_shape):]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
@@ -100,3 +99,18 @@ class Bidirectional(BaseLayer):
         :meta private:
         """
         return (*self.forward_layer.get_parameters(), *self.backward_layer.get_parameters())
+
+    def get_nparams(self):
+        return self.forward_layer.get_nparams() + self.backward_layer.get_nparams()
+    
+    def summary(self, offset=""):
+        if not hasattr(self, "input_shape"):
+            raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
+
+        input_shape = "(seq_len, " + str(self.input_shape[0]) + ")"
+        output_shape = str(self.output_shape[0]) if self.forward_layer.return_last else "(seq_len, " + str(self.output_shape[0]) + ")"
+        super_summary = offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})"
+        sublayer_offset = offset + "    "
+        forward_summary = "\n" + offset + self.forward_layer.summary(sublayer_offset)
+        backward_summary = "\n" + offset + self.backward_layer.summary(sublayer_offset)
+        return super_summary + forward_summary + backward_summary
