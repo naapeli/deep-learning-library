@@ -2,7 +2,7 @@ import torch
 import matplotlib.pyplot as plt
 
 from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers import Dense
+from src.DLL.DeepLearning.Layers import Dense, Identity, Add
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import Tanh, Sigmoid, ReLU
 from src.DLL.DeepLearning.Losses import MSE
@@ -15,6 +15,7 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 model = Model(2, data_type=torch.float32, device=device)
 model.add(Dense(6, initialiser=Xavier_Uniform(), normalisation=BatchNorm(), activation=ReLU()))
+model.add(Add(Dense(6, activation=ReLU()), Identity()))
 model.add(Dropout(p=0.1))
 model.add(Dense(6, initialiser=Kaiming_Normal()))
 model.add(BatchNorm())

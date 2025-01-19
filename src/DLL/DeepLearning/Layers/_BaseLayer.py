@@ -42,16 +42,17 @@ class BaseLayer:
         if self.normalisation:
             self.normalisation.initialise_layer(input_shape=self.output_shape, data_type=data_type, device=device)
 
-    def summary(self):
+    def summary(self, offset=""):
         if not hasattr(self, "input_shape"):
             raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
 
         input_shape = self.input_shape[0] if len(self.input_shape) == 1 else self.input_shape
         output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
         params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
-        normalisation_summary = " - Normalisation: (" + self.normalisation.summary() + ")" if self.normalisation else ""
-        activation_summary = " - Activation: " + self.activation.name if self.activation else ""
-        return f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary
+        sublayer_offset = offset + "    "
+        normalisation_summary = ("\n" + self.normalisation.summary(sublayer_offset)) if self.normalisation else ""
+        activation_summary = ("\n" + self.activation.summary(sublayer_offset)) if self.activation else ""
+        return offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary
 
     def forward(self, input, **kwargs):
         if not isinstance(input, torch.Tensor):
