@@ -7,3 +7,6 @@ from ._MaxPooling2D import MaxPooling2D
 from ._Reshape import Reshape
 from ._RNN import RNN
 from ._Bidirectional import Bidirectional
+from ._Identity import Identity
+from ._Add import Add
+from ._LayerList import LayerList

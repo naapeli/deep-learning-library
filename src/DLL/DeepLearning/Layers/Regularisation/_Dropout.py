@@ -71,9 +71,9 @@ class Dropout(BaseRegularisation):
         dCdx = dCdy * self.mask if training else dCdy
         return dCdx
     
-    def summary(self):
+    def summary(self, offset=""):
         """
         :meta private:
         """
         output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
-        return f"{self.name} - Output: ({output_shape}) - Keep probability: {self.p}"
+        return offset + f"{self.name} - Output: ({output_shape}) - Keep probability: {self.p}"
