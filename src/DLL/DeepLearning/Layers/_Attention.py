@@ -10,10 +10,11 @@ from .Regularisation._BaseRegularisation import BaseRegularisation
 
 class MultiHeadAttention(BaseLayer):
     """
-    The multi head attention layer. The number of heads is calculated as input_shape / (3 * output_shape) and it must be a whole number.
+    The multi head attention layer.
 
     Args:
         output_shape (tuple[int]): The output_shape of the model not containing the batch_size. Must be a tuple of positive integers. The returned tensor is of shape (n_samples, seq_len, output_shape) if len(output_shape) == 2 else (n_samples, seq_len).
+        n_heads (int): The number of heads used in the layer. The output dimension must be divisible by n_heads.
         use_mask (bool): Determines if a mask is used to make the model only consider past tokens. Must be a boolean.
         dropout (float): The probability of a node being dropped out. Must be in range [0, 1). Defaults to 0.0.
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
@@ -69,15 +70,15 @@ class MultiHeadAttention(BaseLayer):
         .. math::
         
             \\begin{align*}
-                y_{\\text{MultiHead}} = \\text{Concat}(head_1, \\dots, head_{\\text{n_heads}}),\\\\
-                y_{reg} = f(y_{\\text{MultiHead}}),\\\\
-                y_{activ} = g(y_{reg}),
+                y_{\\text{MultiHead}} &= \\text{Concat}(head_1, \\dots, head_{\\text{n_heads}}),\\\\
+                y_{reg} &= f(y_{\\text{MultiHead}}),\\\\
+                y_{activ} &= g(y_{reg}),
             \\end{align*}
         
-        where :math:`head_i = \\text{Attention}(Q, K, V) = \\text{softmax}(\\frac{QK^T}{\\sqrt{\\text{output_shape} / \\text{n_heads}}})`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which taken from the input by splitting it on the feature axis.
+        where :math:`head_i = \\text{Attention}(Q, K, V) = \\text{softmax}(\\frac{QK^T}{\\sqrt{\\text{output_shape} / \\text{n_heads}}})`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which taken from the input by transforming it by a linear layer and splitting the result on the feature axis.
 
         Args:
-            input (torch.Tensor of shape (n_samples, seq_len, 3 * output_shape)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
+            input (torch.Tensor of shape (n_samples, seq_len, output_shape)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
             training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
 
         Returns:
@@ -119,10 +120,10 @@ class MultiHeadAttention(BaseLayer):
         Calculates the gradient of the loss function with respect to the input of the layer.
 
         Args:
-            dCdy (torch.Tensor of shape (n_samples, seq_len, output_shape) if layer.output_shape[0] == 0 else (n_samples, seq_len, layer.output_shape[0])): The gradient given by the next layer.
+            dCdy (torch.Tensor of shape (n_samples, seq_len, output_dim) if len(output_shape[0]) != 0 else (n_samples, seq_len)): The gradient given by the next layer.
 
         Returns:
-            torch.Tensor of shape (n_samples, seq_len, 3 * output_shape): The new gradient after backpropagation through the layer.
+            torch.Tensor of shape (n_samples, seq_len, output_dim): The new gradient after backpropagation through the layer.
         """
         if not isinstance(dCdy, torch.Tensor):
             raise TypeError("dCdy must be a torch.Tensor.")
