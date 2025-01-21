@@ -59,6 +59,14 @@ Bidirectional
    :undoc-members:
    :show-inheritance:
 
+MultiHeadAttention
+---------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.MultiHeadAttention
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Identity
 ----------------------------------
 
