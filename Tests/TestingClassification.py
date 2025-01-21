@@ -32,15 +32,15 @@ y_test = y_test.to(device=device)
 
 # can get better results with only batch normalisation
 model = Model(4, data_type=torch.float32, device=device)
-layers = LayerList([
+layers = LayerList(
     Dense(20, initialiser=Kaiming_Normal(), normalisation=BatchNorm(), activation=ReLU()),
     Add(Dense(20, initialiser=Kaiming_Normal(), normalisation=GroupNorm(num_groups=10), activation=ReLU()), Identity()),
     Add(Dense(20, initialiser=Kaiming_Normal(), normalisation=LayerNorm(), activation=ReLU()), Identity()),
     Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax())
-])
+)
 model.add(layers)
 model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
-model.summary()
+print(model)  # model.summary()
 
 _, ax = plt.subplots()
 scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
@@ -54,8 +54,8 @@ errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=500, batch_
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
 
-plt.plot(errors["loss"], label="loss")
-plt.plot(errors["val_loss"], label="val_loss")
+plt.semilogy(errors["loss"], label="loss")
+plt.semilogy(errors["val_loss"], label="val_loss")
 plt.legend()
 plt.xlabel("Epochs")
 plt.ylabel("Categorical cross entropy")
