@@ -1,10 +1,12 @@
 import torch
+from copy import deepcopy
 
 from ...Exceptions import NotCompiledError
 
 
 class BaseLayer:
     def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu")):
+        output_shape = (output_shape,) if isinstance(output_shape, int) else output_shape
         if not isinstance(output_shape, tuple) and output_shape is not None:
             raise TypeError(f"output_shape must be a tuple. Currently {output_shape}.")
         if not isinstance(input_shape, tuple) and input_shape is not None:
@@ -26,7 +28,7 @@ class BaseLayer:
         self.data_type = data_type
 
     def initialise_layer(self, input_shape, data_type, device):
-        if not isinstance(input_shape, tuple) and input_shape is not None:
+        if not isinstance(input_shape, tuple):
             raise ValueError(f"input_shape must be a tuple or None. Currently {input_shape}.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype.")
@@ -47,7 +49,7 @@ class BaseLayer:
             raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
 
         input_shape = self.input_shape[0] if len(self.input_shape) == 1 else self.input_shape
-        output_shape = self.output_shape[0] if len(self.output_shape) == 1 else self.output_shape
+        output_shape = self.output_shape[0] if len(self.output_shape) == 1 else (self.output_shape if len(self.output_shape) != 0 else 1)
         params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
         sublayer_offset = offset + "    "
         normalisation_summary = ("\n" + self.normalisation.summary(sublayer_offset)) if self.normalisation else ""
@@ -79,3 +81,6 @@ class BaseLayer:
 
     def get_parameters(self):
         return []
+    
+    def clone(self):
+        return deepcopy(self)

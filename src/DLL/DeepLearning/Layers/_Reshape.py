@@ -12,8 +12,6 @@ class Reshape(BaseLayer):
     """
     def __init__(self, output_shape, **kwargs):
         output_shape = (output_shape,) if isinstance(output_shape, int) else output_shape
-        if not isinstance(output_shape, tuple | list):
-            raise TypeError("output_shape must be a tuple or an integer.")
 
         super().__init__(output_shape, **kwargs)
         self.name = "Reshape"

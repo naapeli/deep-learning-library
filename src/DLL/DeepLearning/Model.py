@@ -83,6 +83,15 @@ class Model:
             print(layer.summary())
             total_params += layer.get_nparams()
         print(f"Total number of parameters: {total_params}")
+    
+    def __str__(self):
+        message = "Model summary:"
+        total_params = 0
+        for layer in self.layers:
+            message += layer.summary() + "\n"
+            total_params += layer.get_nparams()
+        message += f"Total number of parameters: {total_params}"
+        return message
 
     def predict(self, X, training=False):
         """
@@ -139,7 +148,7 @@ class Model:
             raise TypeError("The input matrix and the target matrix must be a PyTorch tensor.")
         if X.shape[1:] != self.layers[0].input_shape:
             raise ValueError("The input matrix must have the same shape as input_shape.")
-        if len(Y) != len(X) or (Y.shape[1:] != self.layers[-1].output_shape and not (Y.ndim == 1 and self.layers[-1].output_shape[0] == 0)):
+        if len(Y) != len(X) or Y.shape[1:] != self.layers[-1].output_shape:
             raise ValueError(f"The targets must have the same shape as the output_shape of the last layer with the same number of samples as the input data {Y.shape[1:], self.layers[-1].output_shape}.")
         if not isinstance(val_data, list | tuple) and val_data is not None:
             raise TypeError("val_data must either be a tuple containing validation samples or None.")

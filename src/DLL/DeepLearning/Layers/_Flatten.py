@@ -16,13 +16,6 @@ class Flatten(BaseLayer):
         """
         :meta private:
         """
-        if not isinstance(input_shape, tuple | list):
-            raise ValueError("input_shape must be a tuple.")
-        if not isinstance(data_type, torch.dtype):
-            raise TypeError("data_type must be an instance of torch.dtype")
-        if not isinstance(device, torch.device):
-            raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
-
         self.output_shape = (np.prod(input_shape),)
         super().initialise_layer(input_shape, data_type, device)
     
@@ -38,7 +31,7 @@ class Flatten(BaseLayer):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[1:] != self.input_shape:
+        if input.shape[-len(self.input_shape):] != self.input_shape:
             raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
 
         self.input = input
