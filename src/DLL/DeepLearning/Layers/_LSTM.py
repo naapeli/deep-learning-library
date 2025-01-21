@@ -13,7 +13,7 @@ class LSTM(BaseLayer):
     The long short-term memory layer for neural networks.
 
     Args:
-        output_shape (int): The number of output features. Must be a non-negative int. If is zero, the returned tensor is of shape (batch_size,) or (batch_size, sequence_length) and if positive, the returned tensor is of shape (batch_size, output_size) or (batch_size, sequence_length, output_size).
+        output_shape (tuple[int]): The ouput shape by the forward method. Must be tuple containing non-negative ints. Based on the length of the tuple and the return_last parameter, the returned tensor is of shape (n_samples,), (n_samples, sequence_length), (n_samples, n_features) or (n_samples, sequence_length, n_features).
         hidden_size (int): The number of features in the hidden state vector. Must be a positive integer.
         return_last (bool): Determines if only the last element or the whole sequence is returned.
         initialiser (:ref:`initialisers_section_label`, optional): The initialisation method for models weights. Defaults to Xavier_uniform.
@@ -21,8 +21,6 @@ class LSTM(BaseLayer):
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     """
     def __init__(self, output_shape, hidden_size, return_last=True, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
-        if not isinstance(output_shape, int) or output_shape < 0:
-            raise ValueError("output_shape must be a non-negative integer.")
         if not isinstance(hidden_size, int) or hidden_size <= 0:
             raise ValueError("hidden_size must be a positive integer.")
         if not isinstance(return_last, bool):
@@ -33,8 +31,10 @@ class LSTM(BaseLayer):
             raise ValueError("activation must be from DLL.DeepLearning.Layers.Activations or None.")
         if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
             raise ValueError("normalisation must be from DLL.DeepLearning.Layers.Regularisation or None.")
+        if return_last and len(output_shape) == 2:
+            raise ValueError("return_last should not be True when the output_shape is (seq_len, n_features)")
 
-        super().__init__((output_shape,), activation=activation, normalisation=normalisation, **kwargs)
+        super().__init__(output_shape, activation=activation, normalisation=normalisation, **kwargs)
         self.name = "LSTM"
         self.hidden_size = hidden_size
         self.return_last = return_last
@@ -44,9 +44,8 @@ class LSTM(BaseLayer):
         """
         :meta private:
         """
-        if len(input_shape) == 2: input_shape = (input_shape[1],)  # Include only the number of features
-        if not isinstance(input_shape, tuple | list) or len(input_shape) != 1:
-            raise ValueError("input_shape must be a tuple of length 1.")
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
+            raise ValueError("input_shape must be a tuple of length 2.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype")
         if not isinstance(device, torch.device):
@@ -54,8 +53,8 @@ class LSTM(BaseLayer):
 
         super().initialise_layer(input_shape, data_type, device)
 
-        input_size = self.input_shape[0]
-        output_size = self.output_shape[0]
+        input_size = self.input_shape[1]
+        output_size = 1 if len(self.output_shape) == 0 or (len(self.output_shape) == 1 and not self.return_last) else self.output_shape[-1]
 
         self.wf = self.initialiser.initialise((input_size, self.hidden_size), data_type=self.data_type, device=self.device)
         self.uf = self.initialiser.initialise((self.hidden_size, self.hidden_size), data_type=self.data_type, device=self.device)
@@ -107,19 +106,19 @@ class LSTM(BaseLayer):
 
                 * - Parameter
                   - Return Shape
-                * - LSTM.output_shape[0] == 0 and LSTM.return_last
-                  - (batch_size,)
-                * - LSTM.output_shape[0] > 0 and LSTM.return_last
-                  - (batch_size, output_size)
-                * - LSTM.output_shape[0] == 0 and not LSTM.return_last
-                  - (batch_size, sequence_length)
-                * - LSTM.output_shape[0] > 0 and not LSTM.return_last
-                  - (batch_size, sequence_length, output_size)
+                * - len(LSTM.output_shape) == 0 and LSTM.return_last
+                  - (n_samples,)
+                * - len(LSTM.output_shape) == 1 and LSTM.return_last
+                  - (n_samples, LSTM.output_shape[1])
+                * - len(LSTM.output_shape) == 1 and not LSTM.return_last
+                  - (n_samples, sequence_length)
+                * - len(LSTM.output_shape) == 2 and not LSTM.return_last
+                  - (n_samples, sequence_length, LSTM.output_shape[1])
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[2:] != self.input_shape:
-            raise ValueError(f"Input shape {input.shape[2:]} does not match the expected shape {self.input_shape}.")
+        if input.shape[1:] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[1:]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
@@ -132,7 +131,8 @@ class LSTM(BaseLayer):
 
         self.cell_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
         self.hidden_states = {-1: torch.zeros((batch_size, self.hidden_size), dtype=input.dtype, device=input.device)}
-        if not self.return_last: self.output = torch.zeros((batch_size, seq_len, self.output_shape[0]), dtype=input.dtype, device=input.device)
+        output_dim = 1 if len(self.output_shape) == 0 or (len(self.output_shape) == 1 and not self.return_last) else self.output_shape[-1]
+        if not self.return_last: self.output = torch.zeros((batch_size, seq_len, output_dim), dtype=input.dtype, device=input.device)
 
         for t in range(seq_len):
             x_t = input[:, t]
@@ -151,6 +151,7 @@ class LSTM(BaseLayer):
         if self.return_last: self.output = self.hidden_states[seq_len - 1] @ self.wy + self.by
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
+        if len(self.output_shape) == 0 or (len(self.output_shape) == 1 and not self.return_last): output = output.squeeze(dim=-1)
         return self.output
 
     def backward(self, dCdy, **kwargs):
@@ -168,6 +169,7 @@ class LSTM(BaseLayer):
         if dCdy.shape[1:] != self.output.shape[1:]:
             raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output.shape[1:]}).")
         
+        if len(self.output_shape) == 0 or (len(self.output_shape) == 1 and not self.return_last): dCdy = dCdy.unsqueeze(dim=-1)
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
@@ -263,14 +265,14 @@ class LSTM(BaseLayer):
                 self.uo, self.uc, self.ui, self.uf,
                 self.by, self.bo, self.bc, self.bi, self.bf)
     
-    def summary(self, offset=""):
-        if not hasattr(self, "input_shape"):
-            raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
+    # def summary(self, offset=""):
+    #     if not hasattr(self, "input_shape"):
+    #         raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
 
-        input_shape = "(seq_len, " + str(self.input_shape[0]) + ")"
-        output_shape = str(self.output_shape[0]) if self.return_last else "(seq_len, " + str(self.output_shape[0]) + ")"
-        params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
-        sublayer_offset = offset + "    "
-        normalisation_summary = ("\n" + self.normalisation.summary(sublayer_offset)) if self.normalisation else ""
-        activation_summary = ("\n" + self.activation.summary(sublayer_offset)) if self.activation else ""
-        return offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary
+    #     input_shape = "(seq_len, " + str(self.input_shape[0]) + ")"
+    #     output_shape = str(self.output_shape[0]) if self.return_last else "(seq_len, " + str(self.output_shape[0]) + ")"
+    #     params_summary = " - Parameters: " + str(self.nparams) if self.nparams > 0 else ""
+    #     sublayer_offset = offset + "    "
+    #     normalisation_summary = ("\n" + self.normalisation.summary(sublayer_offset)) if self.normalisation else ""
+    #     activation_summary = ("\n" + self.activation.summary(sublayer_offset)) if self.activation else ""
+    #     return offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})" + params_summary + normalisation_summary + activation_summary
