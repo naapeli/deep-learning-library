@@ -23,7 +23,6 @@ class GroupNorm(BaseRegularisation):
         """
         :meta private:
         """
-
         super().initialise_layer(**kwargs)
 
         if self.output_shape[0] % self.num_groups != 0:
