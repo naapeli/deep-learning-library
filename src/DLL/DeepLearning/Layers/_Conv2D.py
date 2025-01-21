@@ -42,20 +42,13 @@ class Conv2D(BaseLayer):
         """
         :meta private:
         """
-        if not isinstance(input_shape, tuple | list) or len(input_shape) != 3:
-            raise ValueError("input_shape must be a tuple of length 3.")
-        if not isinstance(data_type, torch.dtype):
-            raise TypeError("data_type must be an instance of torch.dtype")
-        if not isinstance(device, torch.device):
-            raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
-
-        super().initialise_layer(input_shape, data_type, device)
-
         input_depth, input_height, input_width = input_shape
         self.input_depth = input_depth
         self.output_shape = (self.output_depth, input_height - self.kernel_size + 1, input_width - self.kernel_size + 1)
         self.kernels_shape = (self.output_depth, input_depth, self.kernel_size, self.kernel_size)
         self.nparams = np.prod(self.kernels_shape) + np.prod(self.output_shape)
+        
+        super().initialise_layer(input_shape, data_type, device)
 
         self.kernels = self.initialiser.initialise(self.kernels_shape, data_type=self.data_type, device=self.device)
         self.biases = torch.zeros(self.output_shape)

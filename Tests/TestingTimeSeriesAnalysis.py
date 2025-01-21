@@ -23,7 +23,7 @@ y = torch.stack(y).reshape(len(y), 1).to(device=device)
 print(x.shape, y.shape)
 
 model = Model((sequence_length, 1), device=device)
-model.add(RNN(1, 10, activation=Tanh()))
+model.add(RNN((1,), 10, activation=Tanh()))
 model.compile(optimiser=ADAM(), loss=MSE(), metrics=["loss", "val_loss"])
 model.summary()
 
