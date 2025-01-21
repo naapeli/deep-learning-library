@@ -9,10 +9,10 @@ class LayerList(BaseLayer):
     The list of consecutive layers.
 
     Args:
-        layers (a list of DLL.DeepLearning.Layers.BaseLayer objects): The list of consecutive layers.
+        *args (DLL.DeepLearning.Layers.BaseLayer objects): An arbitrary amount of consecutive layers.
     """
-    def __init__(self, layers, **kwargs):
-        for layer in layers:
+    def __init__(self, *args, **kwargs):
+        for layer in args:
             if not isinstance(layer, BaseLayer):
                 raise TypeError("layers must be an instances of DLL.DeepLearning.Layers.BaseLayer")
         if kwargs.get("normalisation", None) is not None or kwargs.get("activation", None) is not None:
@@ -20,22 +20,15 @@ class LayerList(BaseLayer):
 
         super().__init__(None, **kwargs)
         self.name = "Layer list"
-        self.layers = layers
+        self.layers = args
 
     def initialise_layer(self, input_shape, data_type, device):
         """
         :meta private:
         """
-        if not isinstance(input_shape, tuple | list):
-            raise ValueError("input_shape must be a tuple.")
-        if not isinstance(data_type, torch.dtype):
-            raise TypeError("data_type must be an instance of torch.dtype")
-        if not isinstance(device, torch.device):
-            raise TypeError('device must be one of torch.device("cpu") or torch.device("cuda")')
-
         super().initialise_layer(input_shape, data_type, device)
         for layer in self.layers:
-            layer.initialise_layer(input_shape, data_type, device)
+            layer.initialise_layer(input_shape=input_shape, data_type=data_type, device=device)
             input_shape = layer.output_shape
         self.output_shape = self.layers[-1].output_shape  # all possible layers (even activation layers) now know their output_shapes
 
@@ -52,8 +45,8 @@ class LayerList(BaseLayer):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[-len(self.input_shape):] != self.input_shape:
-            raise ValueError(f"Input shape {input.shape[-len(self.input_shape):]} does not match the expected shape {self.input_shape}.")
+        if input.shape[1:] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[1:]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 

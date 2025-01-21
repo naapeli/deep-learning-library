@@ -10,3 +10,4 @@ from ._Bidirectional import Bidirectional
 from ._Identity import Identity
 from ._Add import Add
 from ._LayerList import LayerList
+from ._Attention import MultiHeadAttention

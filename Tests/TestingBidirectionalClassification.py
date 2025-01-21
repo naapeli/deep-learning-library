@@ -30,8 +30,8 @@ x_test = x_test.to(device=device)
 y_test = y_test.to(device=device)
 
 model = Model((4, 1), data_type=torch.float32, device=device)
-model.add(Bidirectional(LSTM(20, 10, return_last=False, activation=ReLU())))
-model.add(RNN(3, 10, return_last=True, activation=SoftMax()))
+model.add(Bidirectional(LSTM((4, 20), 10, return_last=False, activation=ReLU())))
+model.add(RNN((3,), 10, return_last=True, activation=SoftMax()))
 model.compile(optimiser=ADAM(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
 

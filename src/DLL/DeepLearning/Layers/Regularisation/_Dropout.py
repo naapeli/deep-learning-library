@@ -25,8 +25,6 @@ class Dropout(BaseRegularisation):
 
         super().initialise_layer(**kwargs)
 
-        self.mask = torch.rand(size=self.output_shape, dtype=self.data_type, device=self.device) < self.p
-
     def forward(self, input, training=False, **kwargs):
         """
         Sets some values of the input to zero with probability p.
@@ -40,8 +38,8 @@ class Dropout(BaseRegularisation):
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[1:] != self.input_shape:
-            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+        if input.shape[-len(self.input_shape):] != self.input_shape:
+            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[-len(self.input_shape):], self.input_shape}).")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
         
@@ -53,7 +51,7 @@ class Dropout(BaseRegularisation):
             self.output = self.input
         return self.output
     
-    def backward(self, dCdy, training=False, **kwargs):
+    def backward(self, dCdy, **kwargs):
         """
         Calculates the gradient of the loss function with respect to the input of the layer.
 
@@ -63,12 +61,14 @@ class Dropout(BaseRegularisation):
         Returns:
             torch.Tensor of shape (batch_size, channels, ...): The new gradient after backpropagation through the layer.
         """
+        if not hasattr(self, "mask"):
+            raise ValueError("Forward method should be called before backward.")
         if not isinstance(dCdy, torch.Tensor):
             raise TypeError("dCdy must be a torch.Tensor.")
-        if dCdy.shape[1:] != self.output.shape[1:]:
-            raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output.shape[1:]}).")
+        if dCdy.shape != self.output.shape:
+            raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape, self.output.shape}).")
         
-        dCdx = dCdy * self.mask if training else dCdy
+        dCdx = dCdy * self.mask / self.p
         return dCdx
     
     def summary(self, offset=""):

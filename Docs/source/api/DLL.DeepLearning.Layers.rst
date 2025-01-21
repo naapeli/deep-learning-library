@@ -75,7 +75,7 @@ Add
    :undoc-members:
    :show-inheritance:
 
-Layer list
+LayerList
 ----------------------------------
 
 .. autoclass:: DLL.DeepLearning.Layers.LayerList

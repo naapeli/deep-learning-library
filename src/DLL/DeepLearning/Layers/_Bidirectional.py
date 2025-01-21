@@ -18,9 +18,9 @@ class Bidirectional(BaseLayer):
             raise TypeError("layer must be an instance of DLL.DeepLearning.Layers.RNN or LSTM")
 
         # Change the layers output shape to have at least 1 dimensional features.
-        if layer.output_shape[0] == 0:
-            layer.output_shape = (1,)
-        output_shape = (2 * layer.output_shape[0],)
+        if len(layer.output_shape) == 0 or (len(layer.output_shape) == 1 and not layer.return_last):
+            layer.output_shape = (*layer.output_shape, 1)
+        output_shape = (*layer.output_shape[:-1], 2 * layer.output_shape[-1])
 
         super().__init__(output_shape, **kwargs)
         self.name = "Bidirectional"
@@ -31,9 +31,8 @@ class Bidirectional(BaseLayer):
         """
         :meta private:
         """
-        if len(input_shape) == 2: input_shape = (input_shape[1],)  # Include only the number of features
-        if not isinstance(input_shape, tuple | list) or len(input_shape) != 1:
-            raise ValueError("input_shape must be a tuple of length 1.")
+        if not isinstance(input_shape, tuple | list) or len(input_shape) != 2:
+            raise ValueError("input_shape must be a tuple of length 2.")
         if not isinstance(data_type, torch.dtype):
             raise TypeError("data_type must be an instance of torch.dtype")
         if not isinstance(device, torch.device):
@@ -51,14 +50,14 @@ class Bidirectional(BaseLayer):
         Args:
             input (torch.Tensor of shape (batch_size, sequence_length, input_size)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
             training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
-            
+
         Returns:
-            torch.Tensor of shape (n_samples, 2 * RNN.output_shape[0]) or (n_samples, sequence_length, 2 * RNN.output_shape[0]): The output tensor after the transformations with the spesified shape.
+            torch.Tensor of shape (n_samples, 2 * RNN.output_shape[-1]) or (n_samples, sequence_length, 2 * RNN.output_shape[-1]): The output tensor after the transformations with the spesified shape.
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
-        if input.shape[-len(self.input_shape):] != self.input_shape:
-            raise ValueError(f"Input shape {input.shape[-len(self.input_shape):]} does not match the expected shape {self.input_shape}.")
+        if input.shape[1:] != self.input_shape:
+            raise ValueError(f"Input shape {input.shape[1:]} does not match the expected shape {self.input_shape}.")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
@@ -84,8 +83,8 @@ class Bidirectional(BaseLayer):
         if dCdy.shape[1:] != self.output.shape[1:]:
             raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output.shape[1:]}).")
         
-        forward_grad = dCdy[..., :self.output_shape[0] // 2]
-        backward_grad = dCdy[..., self.output_shape[0] // 2:]  # self.forward_layer.output_shape[0]
+        forward_grad = dCdy[..., :self.output_shape[-1] // 2]
+        backward_grad = dCdy[..., self.output_shape[-1] // 2:]
         dCdx_forward = self.forward_layer.backward(forward_grad, **kwargs)
         dCdx_backward = self.backward_layer.backward(backward_grad.flip(1), **kwargs)
         if not self.backward_layer.return_last:
@@ -107,9 +106,7 @@ class Bidirectional(BaseLayer):
         if not hasattr(self, "input_shape"):
             raise NotCompiledError("layer must be initialized correctly before calling layer.summary().")
 
-        input_shape = "(seq_len, " + str(self.input_shape[0]) + ")"
-        output_shape = str(self.output_shape[0]) if self.forward_layer.return_last else "(seq_len, " + str(self.output_shape[0]) + ")"
-        super_summary = offset + f"{self.name} - (Input, Output): ({input_shape}, {output_shape})"
+        super_summary = offset + f"{self.name} - (Input, Output): ({self.input_shape}, {self.output_shape})"
         sublayer_offset = offset + "    "
         forward_summary = "\n" + offset + self.forward_layer.summary(sublayer_offset)
         backward_summary = "\n" + offset + self.backward_layer.summary(sublayer_offset)

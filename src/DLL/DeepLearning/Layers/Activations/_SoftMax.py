@@ -6,9 +6,13 @@ from ._Activation import Activation
 class SoftMax(Activation):
     """
     The softmax activation function.
+
+    Args:
+        dim (int): The dimension on which the softmax is calculated. If the data is (n_samples, n_channels, n_features) and one wants to calculate the softmax on the channels, one should select dim=1 or dim=-2.
     """
-    def __init__(self, **kwargs):
+    def __init__(self, dim=-1, **kwargs):
         super().__init__(**kwargs)
+        self.dim = dim
         self.name = "Softmax"
 
     def forward(self, input, **kwargs):
@@ -27,12 +31,14 @@ class SoftMax(Activation):
         Returns:
             torch.Tensor: The output tensor after applying the activation function of the same shape as the input.
         """
-        if not isinstance(input, torch.Tensor) or input.ndim != 2:
-            raise TypeError("input must be a 2 dimensional torch.Tensor.")
+        if not isinstance(input, torch.Tensor):
+            raise TypeError("input must be a torch.Tensor.")
+        if input.ndim <= self.dim or -input.ndim > self.dim:
+            raise ValueError(f"dim must be in range [{-input.ndim}, {input.ndim}) for input of this shape, but is currently {self.dim}.")
 
         self.input = input
-        exponential_input = torch.exp(self.input - torch.max(self.input, dim=1, keepdim=True).values)
-        self.output = exponential_input / torch.sum(exponential_input, dim=1, keepdim=True)
+        exponential_input = torch.exp(self.input - torch.max(self.input, dim=self.dim, keepdim=True).values)
+        self.output = exponential_input / torch.sum(exponential_input, dim=self.dim, keepdim=True)
         return self.output
     
     def backward(self, dCdy, **kwargs):
@@ -50,12 +56,28 @@ class SoftMax(Activation):
         if dCdy.shape != self.output.shape:
             raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output_shape}).")
 
-        n = dCdy.shape[1]
-        # dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])
+        # v1 - 2 dimensional
+        # n = dCdy.shape[1]
+        # # dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])
 
-        # same calculations as above, but faster
-        datapoints_expanded = self.output.unsqueeze(1).repeat(1, n, 1)
-        identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype)
-        matrix_diff = identity_matrix - datapoints_expanded
-        dCdx = dCdy.unsqueeze(1) @ (datapoints_expanded.transpose(1, 2) * matrix_diff)
-        return dCdx.squeeze(1)
+        # v2 - 2 dimensional, but faster
+        # datapoints_expanded = self.output.unsqueeze(1).repeat(1, n, 1)
+        # identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype)
+        # matrix_diff = identity_matrix - datapoints_expanded
+        # dCdx = dCdy.unsqueeze(1) @ (datapoints_expanded.transpose(1, 2) * matrix_diff)
+        # return dCdx.squeeze(1)
+
+        # v3 - n dimensional
+        # dim = self.dim if self.dim >= 0 else dCdy.ndim + self.dim
+        # n = self.output.shape[dim]
+        # output_expanded = self.output.unsqueeze(dim)
+        # identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype).reshape((1,) * dim + (n, n) + (1,) * (dCdy.ndim - dim - 1))
+        # matrix_diff = identity_matrix - output_expanded
+        # # probably not optimal permuting the two wanted dimensions to the end for the matrix multiplication
+        # dCdx = dCdy.unsqueeze(dim).permute(*range(dim), *range(dim + 2, dCdy.ndim + 1), dim, dim + 1) @ (output_expanded.transpose(dim, dim + 1) * matrix_diff).permute(*range(dim), *range(dim + 2, dCdy.ndim + 1), dim, dim + 1)
+        # return dCdx.permute(*range(dim), dCdy.ndim - 1, dCdy.ndim, *range(dim, dCdy.ndim - 1)).squeeze(dim)
+
+        # v4 - n dimensional, but faster
+        output = self.output
+        dCdx = output * (dCdy - torch.sum(dCdy * output, dim=self.dim, keepdim=True))
+        return dCdx
