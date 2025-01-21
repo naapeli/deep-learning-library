@@ -75,7 +75,7 @@ class MultiHeadAttention(BaseLayer):
                 y_{activ} &= g(y_{reg}),
             \\end{align*}
         
-        where :math:`head_i = \\text{Attention}(Q, K, V) = \\text{softmax}(\\frac{QK^T}{\\sqrt{\\text{output_shape} / \\text{n_heads}}})`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which taken from the input by transforming it by a linear layer and splitting the result on the feature axis.
+        where :math:`head_i = \\text{Attention}(Q, K, V) = \\text{softmax}(\\frac{QK^T}{\\sqrt{\\text{output_dim}}})`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which taken from the input by transforming it by a linear layer and splitting the result on the feature axis.
 
         Args:
             input (torch.Tensor of shape (n_samples, seq_len, output_shape)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
