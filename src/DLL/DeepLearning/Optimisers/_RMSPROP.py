@@ -5,7 +5,7 @@ from ._BaseOptimiser import BaseOptimiser
 
 class RMSPROP(BaseOptimiser):
     """
-    The adaptive moment estimation optimiser. Is very robust and does not require a lot of tuning it's hyperparameters. A first order method and therefore does not use information on second gradients, i.e. the hessian matrix. Hence, does not require a lot of memory. Is based on algorithm 1 on `this paper <https://arxiv.org/pdf/1412.6980>`_.
+    The adaptive moment estimation optimiser. Is very robust and does not require a lot of tuning it's hyperparameters. A first order method and therefore does not use information on second gradients, i.e. the hessian matrix. Hence, does not require a lot of memory.
 
     Args:
         learning_rate (float, optional): The learning rate of the optimiser. Must be positive. Defaults to 0.001.
