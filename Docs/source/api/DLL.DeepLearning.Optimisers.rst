@@ -35,10 +35,10 @@ ADADELTA
    :undoc-members:
    :show-inheritance:
 
-ADAGRAD
+RMSPROP
 ---------------------------------------
 
-.. autoclass:: DLL.DeepLearning.Optimisers.ADAGRAD
+.. autoclass:: DLL.DeepLearning.Optimisers.RMSPROP
    :members:
    :undoc-members:
    :show-inheritance:
