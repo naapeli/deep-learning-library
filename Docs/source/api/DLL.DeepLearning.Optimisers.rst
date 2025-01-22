@@ -19,6 +19,30 @@ ADAM
    :undoc-members:
    :show-inheritance:
 
+ADAGRAD
+---------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Optimisers.ADAGRAD
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ADADELTA
+---------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Optimisers.ADADELTA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ADAGRAD
+---------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Optimisers.ADAGRAD
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 LBFGS
 ---------------------------------------
 
