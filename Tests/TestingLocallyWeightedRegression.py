@@ -7,7 +7,7 @@ from src.DLL.Data.Preprocessing import data_split
 
 
 X = torch.linspace(0, 2 * torch.pi, 1000).unsqueeze(1)
-y = torch.sin(X).squeeze()
+y = torch.sin(X).squeeze() + 0.2 * torch.randn_like(X.squeeze())
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
 
 def get_weight(train, test, tau):
