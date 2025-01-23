@@ -62,7 +62,7 @@ class RANSACRegression:
 
         max_inliers = -1
 
-        for i in range(max_trials):
+        for _ in range(max_trials):
             indicies = torch.randperm(n_samples)[:min_samples]
             X_ = X[indicies]
             y_ = y[indicies]
