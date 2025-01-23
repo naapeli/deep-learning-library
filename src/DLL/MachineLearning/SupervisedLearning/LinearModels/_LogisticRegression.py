@@ -29,7 +29,7 @@ class LogisticRegression:
 
         self.learning_rate = learning_rate
 
-    def fit(self, X, y, val_data=None, epochs=100, optimiser=None, callback_frequency=1, metrics=["loss"], batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
+    def fit(self, X, y, sample_weight=None, val_data=None, epochs=100, optimiser=None, callback_frequency=1, metrics=["loss"], batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
         """
         Fits the LogisticRegression model to the input data by minimizing the cross entropy loss (logistic loss).
 
@@ -82,6 +82,10 @@ class LogisticRegression:
         vals = torch.unique(y).numpy()
         if set(vals) != {*range(len(vals))}:
             raise ValueError("y must only contain the values in [0, ..., n_classes - 1].")
+        if not isinstance(sample_weight, torch.Tensor) and sample_weight is not None:
+            raise TypeError("sample_weight must be torch.Tensor or None.")
+        if isinstance(sample_weight, torch.Tensor) and (sample_weight.ndim != 1 or len(X) != len(sample_weight)):
+            raise ValueError("sample_weight must be of shape (n_samples,)")
 
         n_samples, self.n_features = X.shape
         if len(vals) == 2:
@@ -102,6 +106,10 @@ class LogisticRegression:
         history = {metric: torch.zeros(floor(epochs / callback_frequency)) for metric in metrics}
         batch_size = len(X) if batch_size is None else n_samples
         data_reader = DataReader(X, y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
+
+        if sample_weight is None:
+            sample_weight = torch.ones(n_samples)
+        sample_weight = sample_weight / torch.sum(sample_weight)
 
         self.weights = torch.randn(weight_shape)
         self.bias = torch.zeros((1,)) if len(weight_shape) == 1 else torch.zeros(y.shape[1])
