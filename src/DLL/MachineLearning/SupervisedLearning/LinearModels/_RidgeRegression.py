@@ -21,13 +21,14 @@ class RidgeRegression:
         
         self.alpha = alpha
 
-    def fit(self, X, y):
+    def fit(self, X, y, sample_weight=None):
         """
         Fits the RidgeRegression model to the input data by minimizing the squared error.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+            sample_weight (torch.Tensor of shape (n_samples,) or None): A weight given to each sample in the regression. If None, this parameter is ignored.
         Returns:
             None
         Raises:
@@ -40,12 +41,17 @@ class RidgeRegression:
             raise ValueError("The input matrix must be a 2 dimensional tensor.")
         if y.ndim != 1 or y.shape[0] != X.shape[0]:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
+        if not isinstance(sample_weight, torch.Tensor) and sample_weight is not None:
+            raise TypeError("sample_weight must be torch.Tensor or None.")
+        if isinstance(sample_weight, torch.Tensor) and (sample_weight.ndim != 1 or len(X) != len(sample_weight)):
+            raise ValueError("sample_weight must be of shape (n_samples,)")
 
         self.n_features = X.shape[1]
         X_with_const = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
         identity = torch.eye(X_with_const.shape[1])
         identity[0, 0] = 0
-        self.beta = torch.linalg.lstsq(X_with_const.T @ X_with_const + self.alpha * identity, X_with_const.T @ y).solution
+        sample_weight = torch.diag(sample_weight) if sample_weight is not None else torch.eye(len(X))
+        self.beta = torch.linalg.lstsq(X_with_const.T @ sample_weight @ X_with_const + self.alpha * identity, X_with_const.T @ sample_weight @ y).solution
         self.residuals = y - self.predict(X)
 
     def predict(self, X):
