@@ -1,13 +1,8 @@
 import torch
 from math import floor
 
-from ....DeepLearning.Losses import MSE
 from ....Data.Metrics import calculate_metrics, _round_dictionary
-from ....Data import DataReader
-from ....DeepLearning.Optimisers import ADAM
-from ....DeepLearning.Optimisers._BaseOptimiser import BaseOptimiser
 from ....Exceptions import NotFittedError
-from ....DeepLearning.Losses._BaseLoss import BaseLoss
 
 
 class ElasticNetRegression:
@@ -24,21 +19,18 @@ class ElasticNetRegression:
         weights (torch.Tensor of shape (n_features + 1,)): The weights of the linear regression model. The first element is the bias of the model. Available after fitting.
         residuals (torch.Tensor of shape (n_samples,)): The residuals of the fitted model. For a good fit, the residuals should be normally distributed with zero mean and constant variance. Available after fitting.
     """
-    def __init__(self, alpha=1.0, l1_ratio=0.5, loss=MSE()):
+    def __init__(self, alpha=1.0, l1_ratio=0.5):
         if not isinstance(alpha, int | float) or alpha < 0:
             raise ValueError("alpha must be a non-negative real number.")
         if not isinstance(l1_ratio, int | float) or not ((0 <= l1_ratio) and (l1_ratio <= 1)):
             raise ValueError("l1_ratio must be in range [0, 1].")
-        if not isinstance(loss, BaseLoss):
-            raise TypeError("loss must be an instance of DLL.DeepLearning.Losses.")
 
         self.alpha = alpha
         self.l1_ratio = l1_ratio
-        self.loss = loss
 
     def fit(self, X, y, sample_weight=None, val_data=None, epochs=100, callback_frequency=1, metrics=["loss"], verbose=False):
         """
-        Fits the ElasticNetRegression model to the input data by minimizing the chosen loss function using coordinate descent.
+        Fits the ElasticNetRegression model to the input data by minimizing the mean squared error loss function using cyclic coordinate-wise descent from `this paper <https://aaltodoc.aalto.fi/server/api/core/bitstreams/091c41eb-7348-48d3-b25d-c8de25fbab03/content>`_.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
@@ -118,21 +110,19 @@ class ElasticNetRegression:
         if sample_weight is None:
             sample_weight = torch.ones(n_samples)
 
-        norm_cols_X = torch.sum(sample_weight[:, None] * X**2, axis=0)
+        normalisation_const = torch.sum(sample_weight[:, None] * X**2, axis=0)
 
         for epoch in range(epochs):
             for j in range(self.n_features + 1):
-                R_j = y - X @ self.weights + self.weights[j] * X[:, j]
-                rho_j = torch.dot(X[:, j], sample_weight * R_j)
-                z_j = norm_cols_X[j]
-                if z_j == 0:
+                residual = y - X @ self.weights + self.weights[j] * X[:, j]
+                weighted_prod = torch.dot(X[:, j], sample_weight * residual)
+                if normalisation_const[j] == 0:
                     continue
-                threshold = self.alpha * self.l1_ratio
-                w_j = torch.sign(rho_j) * max(abs(rho_j) - threshold, 0) / (z_j + self.alpha * (1 - self.l1_ratio))
-                self.weights[j] = w_j
+                soft_thresholding = torch.sign(weighted_prod) * max(abs(weighted_prod) - self.alpha * self.l1_ratio, 0) / (normalisation_const[j] + self.alpha * (1 - self.l1_ratio))
+                self.weights[j] = soft_thresholding
 
             if epoch % callback_frequency == 0:
-                loss_function = lambda prediction, true_outputs: self.loss.loss(prediction, true_outputs) + self.alpha * self.l1_ratio * torch.linalg.norm(self.weights, ord=1) + 0.5 * self.alpha * (1 - self.l1_ratio) * torch.linalg.norm(self.weights, ord=2) ** 2
+                loss_function = lambda prediction, true_outputs: torch.sum((prediction - true_outputs) ** 2) + self.alpha * (2 * self.l1_ratio * torch.linalg.norm(self.weights, ord=1) + (1 - self.l1_ratio) * torch.linalg.norm(self.weights, ord=2) ** 2)
                 values = calculate_metrics(data=(self.predict(X), y), metrics=metrics, loss=loss_function)
                 if val_data is not None:
                     val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=metrics, loss=loss_function, validation=True)
@@ -141,6 +131,7 @@ class ElasticNetRegression:
                     history[metric][int(epoch / callback_frequency)] = value
                 if verbose: print(f"Epoch: {epoch + 1} - Metrics: {_round_dictionary(values)}")
         
+        # self.weights *= 1 + self.alpha * (1 - self.l1_ratio)  # author of paper suggests this for a correction to the double shrinkage effect, however, the results are not that good.
         self.residuals = y - self.predict(X)
         return history
 
