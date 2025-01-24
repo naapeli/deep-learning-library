@@ -11,20 +11,21 @@ class RegressionTree:
     Args:
         max_depth (int, optional): The maximum depth of the tree. Defaults to 25. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+        ccp_alpha (non-negative float, optional): Determines how easily subtrees are pruned in cost-complexity pruning. The larger the value, more subtrees are pruned. Defaults to 0.0.
     """
-    def __init__(self, max_depth=25, min_samples_split=2):
+    def __init__(self, max_depth=25, min_samples_split=2, ccp_alpha=0.0):
         if not isinstance(max_depth, int) or max_depth < 1:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
+        if not isinstance(ccp_alpha, int | float) or ccp_alpha < 0:
+            raise ValueError("ccp_alpha must be non-negative.")
+        
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
+        self.ccp_alpha = ccp_alpha
         self.root = None
     
-    """
-    x.shape = (n_samples, n_features)
-    y.shape = (n_samples)
-    """
     def fit(self, X, y):
         """
         Fits the RegressionTree model to the input data by generating a tree, which splits the data appropriately.
@@ -46,6 +47,8 @@ class RegressionTree:
             raise ValueError("The target must be 1 dimensional with the same number of samples as the input data")
         self.n_features = X.shape[1]
         self.root = self._grow_tree(X, y, 0)
+        if self.ccp_alpha > 0:
+            self.root, _, _ = self._prune(self.root, X, y)
 
     def _grow_tree(self, x, y, depth):
         n_samples, n_features = x.size()
@@ -123,3 +126,23 @@ class RegressionTree:
             return self._predict_single(x, current_node.left)
         
         return self._predict_single(x, current_node.right)
+    
+    def _prune(self, node, X, y):
+        if node.is_leaf():
+            return node, torch.sum((y - node.value) ** 2).item(), 1
+        
+        left_indicies, right_indicies = self._split(X[:, node.feature_index], node.threshold)
+        node.left, left_cost, left_leaf_nodes = self._prune(node.left, X[left_indicies], y[left_indicies])
+        node.right, right_cost, right_leaf_nodes = self._prune(node.right, X[right_indicies], y[right_indicies])
+        subtree_cost = left_cost + right_cost
+        total_subleaves = left_leaf_nodes + right_leaf_nodes
+
+        leaf_value = torch.mean(y)
+        new_leaf_nodes = 1
+        cost_of_node_replacement = torch.sum((y - leaf_value) ** 2).item()
+
+        subtree_cost_with_n_nodes_penalty = subtree_cost + self.ccp_alpha * total_subleaves
+        
+        if cost_of_node_replacement + self.ccp_alpha * new_leaf_nodes < subtree_cost_with_n_nodes_penalty:
+            return Node(value=leaf_value), cost_of_node_replacement, 1
+        return node, subtree_cost, total_subleaves
