@@ -24,22 +24,26 @@ class DecisionTree:
         max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
         criterion (str, optional): The information criterion used to select optimal splits. Must be one of "entropy" or "gini". Defaults to "gini".
+        ccp_alpha (non-negative float, optional): Determines how easily subtrees are pruned in cost-complexity pruning. The larger the value, more subtrees are pruned. Defaults to 0.0.
     Attributes:
         n_classes (int): The number of classes. A positive integer available after calling DecisionTree.fit().
         classes (torch.Tensor of shape (n_classes,)): The classes in an arbitrary order. Available after calling DecisionTree.fit().
     """
-    def __init__(self, max_depth=10, min_samples_split=2, criterion="gini"):
+    def __init__(self, max_depth=10, min_samples_split=2, criterion="gini", ccp_alpha=0.0):
         if not isinstance(max_depth, int) or max_depth < 1:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
         if criterion not in ["entropy", "gini"]:
             raise ValueError('The chosen criterion must be one of "entropy" or "gini".')
+        if not isinstance(ccp_alpha, int | float) or ccp_alpha < 0:
+            raise ValueError("ccp_alpha must be non-negative.")
 
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.criterion = criterion
         self.root = None
+        self.ccp_alpha = ccp_alpha
     
     def fit(self, X, y):
         """
@@ -60,10 +64,12 @@ class DecisionTree:
             raise ValueError("The input matrix must be a 2 dimensional tensor.")
         if y.ndim != 1 or y.shape[0] != X.shape[0]:
             raise ValueError("The labels must be 1 dimensional with the same number of samples as the input data")
-        self.n_features = X.shape[1]
+        self.n_samples, self.n_features = X.shape
         self.classes = torch.unique(y)
         self.n_classes = len(self.classes)
         self.root = self._grow_tree(X, y, 0)
+        if self.ccp_alpha > 0:
+            self.root, _, _ = self._prune(self.root, X, y)
 
     def _grow_tree(self, x, y, depth):
         n_samples, n_features = x.size()
@@ -186,3 +192,26 @@ class DecisionTree:
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
         return torch.stack([self._predict_single(datapoint, self.root, proba=True) for datapoint in X])
+
+    def _prune(self, node, X, y):
+        classes, counts = torch.unique(y, return_counts=True)
+        m = len(y) - torch.min(counts).item()
+        if node.is_leaf():
+            return node, m / self.n_samples, 1
+        
+        left_indicies, right_indicies = self._split(X[:, node.feature_index], node.threshold)
+        node.left, left_cost, left_leaf_nodes = self._prune(node.left, X[left_indicies], y[left_indicies])
+        node.right, right_cost, right_leaf_nodes = self._prune(node.right, X[right_indicies], y[right_indicies])
+        subtree_cost = left_cost + right_cost
+        total_subleaves = left_leaf_nodes + right_leaf_nodes
+
+        leaf_miss_classification_error_rate = m / self.n_samples
+        new_leaf_nodes = 1
+
+        subtree_cost_with_n_nodes_penalty = subtree_cost + self.ccp_alpha * total_subleaves
+        
+        if leaf_miss_classification_error_rate + self.ccp_alpha * new_leaf_nodes < subtree_cost_with_n_nodes_penalty:
+            largest_class = classes[torch.argmax(counts)]
+            probabilities = torch.tensor([(counts[torch.where(classes == _class)[0]] / len(y) if _class in classes else 0) for _class in self.classes])
+            return Node(value=largest_class, probabilities=probabilities), leaf_miss_classification_error_rate, 1
+        return node, subtree_cost, total_subleaves
