@@ -1,5 +1,6 @@
 import torch
 from math import floor
+from copy import deepcopy
 
 from .Layers import Input
 from .Layers._BaseLayer import BaseLayer
@@ -59,6 +60,12 @@ class Model:
         self.optimiser.initialise_parameters(parameters)
         self.loss = loss if loss is not None else MSE()
         self.metrics = metrics
+
+    def clone(self):
+        """
+        Returns a copy of the same model.
+        """
+        return deepcopy(self)
 
     def add(self, layer):
         """
@@ -123,6 +130,7 @@ class Model:
         gradient = initial_gradient
         for layer in reversedLayers:
             gradient = layer.backward(gradient, training=training)
+        return gradient
 
     def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
         """
