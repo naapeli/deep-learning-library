@@ -123,10 +123,8 @@ class LogisticRegression:
                 predictions = self.activation.forward(y_linear)
                 bce_derivative = self.loss.gradient(predictions, y_batch)
                 dCdy = self.activation.backward(bce_derivative)
-                dCdweights = x_batch.T @ dCdy
-                dCdbias = torch.mean(dCdy, dim=0, keepdim=(y.ndim == 1))
-                self.weights.grad = dCdweights
-                self.bias.grad = dCdbias
+                self.weights.grad = x_batch.T @ dCdy
+                self.bias.grad = torch.mean(dCdy, dim=0, keepdim=(y.ndim == 1))
                 optimiser.update_parameters()
             if epoch % callback_frequency == 0:
                 values = calculate_metrics(data=(self.predict_proba(X), y), metrics=metrics, loss=self.loss.loss)
