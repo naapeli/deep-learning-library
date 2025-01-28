@@ -4,13 +4,15 @@ from ....Exceptions import NotFittedError
 
 
 class Node:
-    def __init__(self, left=None, right=None, threshold=None, feature_index=None, value=None, probabilities=None):
+    def __init__(self, left=None, right=None, threshold=None, feature_index=None, value=None, probabilities=None, size=None, depth=None):
         self.left = left
         self.right = right
         self.threshold = threshold
         self.feature_index = feature_index
         self.value = value
         self.probabilities = probabilities
+        self.size = size
+        self.depth = depth
 
     def is_leaf(self):
         return self.value is not None
