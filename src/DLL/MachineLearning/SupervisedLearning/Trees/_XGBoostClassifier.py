@@ -117,7 +117,6 @@ class XGBoostingClassifier:
         softmax_value = prob
         softmax_gradient = self.activation.backward(loss_gradient)
 
-        # BUG: This is somehow wrong, since 
         softmax_hessian = softmax_value * (1 - softmax_value) * (1 - 2 * softmax_value)
         
         # From Mathematica: D[f[g[x]], {x, 2}] = Derivative[1][g][x]^2 (f^\[Prime]\[Prime])[g[x]] + Derivative[1][f][g[x]] (g^\[Prime]\[Prime])[x]
