@@ -2,8 +2,9 @@ import torch
 import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingRegressor as gbr, AdaBoostRegressor as abr
 from sklearn.tree import DecisionTreeRegressor
+from time import perf_counter
 
-from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, XGBoostingRegressor
+from src.DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, XGBoostingRegressor, LGBMRegressor
 from src.DLL.Data.Preprocessing import data_split
 
 
@@ -11,10 +12,14 @@ n = 100
 x = torch.linspace(0, 1, n).unsqueeze(-1)
 y = 0.2 * torch.sin(20 * x) + x * x + torch.normal(mean=0, std=0.05, size=(n, 1))
 y = y.squeeze()
+rand_feats = torch.randint_like(x, 2)
+x = torch.cat([x, rand_feats], dim=1)
 
 model = RegressionTree()
 model.fit(x, y)
-x_test, _ = torch.rand_like(x).sort(dim=0)
+x_test, _ = torch.rand((n, 1)).sort(dim=0)
+x_test_rand_feats = torch.randint_like(x_test, 2)
+x_test = torch.cat([x_test, x_test_rand_feats], dim=1)
 y_pred = model.predict(x_test)
 
 model2 = RandomForestRegressor(n_trees=3)
@@ -48,8 +53,10 @@ model6 = abr(estimator=DecisionTreeRegressor(max_depth=3), n_estimators=50, loss
 model6.fit(x, y.ravel())
 y_pred6 = model6.predict(x_test)
 
-model7 = XGBoostingRegressor(n_trees=50, learning_rate=0.05, loss="huber", max_depth=3, reg_lambda=0.01, gamma=0, huber_delta=5)
+model7 = XGBoostingRegressor(n_trees=50, learning_rate=0.2, loss="huber", max_depth=3, reg_lambda=0.01, gamma=0, huber_delta=5)
+start = perf_counter()
 history = model7.fit(x, y, metrics=["loss"])
+print(f"XGBoost time with {model7.n_trees} weak learners: {perf_counter() - start}")
 y_pred7 = model7.predict(x_test)
 plt.figure()
 plt.plot(history["loss"])
@@ -57,15 +64,27 @@ plt.ylabel("Loss")
 plt.xlabel("Tree")
 plt.title("Extreme gradient boosting regressor loss as a function of fitted trees")
 
+model8 = LGBMRegressor(n_trees=150, learning_rate=0.2, loss="squared", max_depth=3, reg_lambda=0.01, gamma=0, huber_delta=5, large_error_proportion=0.3, small_error_proportion=0.2)
+start = perf_counter()
+history = model8.fit(x, y, metrics=["loss"])
+print(f"LGBM time with {model8.n_trees} weak learners: {perf_counter() - start}")
+y_pred8 = model8.predict(x_test)
 plt.figure()
-plt.plot(x.numpy(), y.numpy(), color="Blue")
-plt.plot(x_test.numpy(), y_pred.numpy(), color="Red")
-plt.plot(x_test.numpy(), y_pred2.numpy(), color="Green")
-plt.plot(x_test.numpy(), y_pred3.numpy(), color="Yellow")
-plt.plot(x_test.numpy(), y_pred4, color="gray")
-plt.plot(x_test.numpy(), y_pred5.numpy(), color="brown")
-plt.plot(x_test.numpy(), y_pred6, color="pink")
-plt.plot(x_test.numpy(), y_pred7.numpy(), color="lightblue")
+plt.plot(history["loss"])
+plt.ylabel("Loss")
+plt.xlabel("Tree")
+plt.title("Light gradient boosting machine regressor loss as a function of fitted trees")
+
+plt.figure()
+plt.plot(x[:, 0].numpy(), y.numpy(), color="Blue")
+plt.plot(x_test[:, 0].numpy(), y_pred.numpy(), color="Red")
+plt.plot(x_test[:, 0].numpy(), y_pred2.numpy(), color="Green")
+plt.plot(x_test[:, 0].numpy(), y_pred3.numpy(), color="Yellow")
+plt.plot(x_test[:, 0].numpy(), y_pred4, color="gray")
+plt.plot(x_test[:, 0].numpy(), y_pred5.numpy(), color="brown")
+plt.plot(x_test[:, 0].numpy(), y_pred6, color="pink")
+plt.plot(x_test[:, 0].numpy(), y_pred7.numpy(), color="lightblue")
+plt.plot(x_test[:, 0].numpy(), y_pred8.numpy(), color="black")
 plt.show()
 
 n = 20
