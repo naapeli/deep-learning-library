@@ -49,46 +49,56 @@ class OneHotEncoder:
         Finds the classes in the data.
 
         Args:
-            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.
         """
-        if not isinstance(data, torch.Tensor) or data.ndim != 1:
-            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not isinstance(data, torch.Tensor) or (data.ndim != 1 and data.ndim != 2):
+            raise ValueError("data must be a 1 or 2 dimensional torch tensor.")
+        
+        if data.ndim == 1: data = data.unsqueeze(1)
 
-        unique_elements = torch.unique(data)
-        self.element_to_index = {element.item(): i for i, element in enumerate(unique_elements)}
-        self.index_to_element = {i: element for element, i in self.element_to_index.items()}
-        self.one_hot_length = tuple(unique_elements.size())[0]
+        # unique_elements = [torch.unique(feature) for feature in data.T]
+        # self.element_to_index = [{element.item(): i for i, element in enumerate(uniques)} for uniques in unique_elements]
+        # self.index_to_element = [{i: element for element, i in table.items()} for table in self.element_to_index]
+        # self.one_hot_lengths = [len(uniques) for uniques in unique_elements]
+        range_elements = [range(torch.min(feature).int(), torch.max(feature).int() + 1) for feature in data.T]
+        self.element_to_index = [{element: i for i, element in enumerate(uniques)} for uniques in range_elements]
+        self.index_to_element = [{i: element for element, i in table.items()} for table in self.element_to_index]
+        self.one_hot_lengths = [len(uniques) for uniques in range_elements]
 
     def encode(self, data):
         """
         One-hot encodes the data. OneHotEncoder.fit() must be called before encoding.
 
         Args:
-            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.
 
         Returns:
-            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.
+            torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features): A one-hot encoded tensor.
         """
-        if not isinstance(data, torch.Tensor) or data.ndim != 1:
-            raise ValueError("data must be a 1 dimensional torch tensor.")
-        if not hasattr(self, "one_hot_length"):
+        if not isinstance(data, torch.Tensor) or (data.ndim != 1 and data.ndim != 2):
+            raise ValueError("data must be a 1 or 2 dimensional torch tensor.")
+        if not hasattr(self, "one_hot_lengths"):
             raise NotCompiledError("OneHotEncoder.fit() must be called before encoding.")
 
-        label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[y.item()], self.one_hot_length) for y in data], device=data.device)
-        return label_to_distribution
+        if data.ndim == 1: data = data.unsqueeze(1)
+        encoded_features = []
+        for i in range(data.shape[1]):
+            label_to_distribution = torch.tensor([self._get_distribution(self.element_to_index[i][y.item()], self.one_hot_lengths[i]) for y in data[:, i]], device=data.device)
+            encoded_features.append(label_to_distribution)
+        return torch.cat(encoded_features, dim=1)
     
     def fit_encode(self, data):
         """
         First fits the encoder and then one-hot encodes the data.
 
         Args:
-            data (torch.Tensor of shape (n_samples,)): the true labels of samples.
+            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.
 
         Returns:
-            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.
+            torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features): A one-hot encoded tensor.
         """
-        if not isinstance(data, torch.Tensor) or data.ndim != 1:
-            raise ValueError("data must be a 1 dimensional torch tensor.")
+        if not isinstance(data, torch.Tensor) or (data.ndim != 1 and data.ndim != 2):
+            raise ValueError("data must be a 1 or 2 dimensional torch tensor.")
 
         self.fit(data)
         return self.encode(data)
@@ -98,17 +108,28 @@ class OneHotEncoder:
         One-hot encodes the data. OneHotEncoder.fit() must be called before decoding.
 
         Args:
-            data (torch.Tensor of shape (n_samples, n_classes)): the predictions of samples.
+            data (torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features)): the predictions of samples.
 
         Returns:
-            torch.Tensor of shape (n_samples,): A decoded predictions transformed to the original classes.
+            torch.Tensor of shape (n_samples,) or (n_samples, n_features): A decoded predictions transformed to the original classes.
         """
         if not isinstance(data, torch.Tensor) or data.ndim != 2:
-            raise ValueError("data must be a 1 dimensional torch tensor.")
-        if not hasattr(self, "one_hot_length"):
+            raise ValueError("data must be a 2 dimensional torch tensor.")
+        if not hasattr(self, "one_hot_lengths"):
             raise NotCompiledError("OneHotEncoder.fit() must be called before decoding.")
 
-        return torch.tensor([self.index_to_element[torch.argmax(tensor, dim=0).item()] for tensor in data], device=data.device)
+        decoded = []
+        i = 0
+        j = 0
+        while i < sum(self.one_hot_lengths):
+            feature = data[:, i:(i + self.one_hot_lengths[j])]
+            features_decoded = [self.index_to_element[j][torch.argmax(tensor, dim=0).item()] for tensor in feature]
+            decoded.append(features_decoded)
+            i += self.one_hot_lengths[j]
+            j += 1
+        decoded = torch.tensor(decoded, device=data.device).T
+        if len(self.one_hot_lengths) == 1: decoded = decoded.squeeze(1)
+        return decoded
 
     def _get_distribution(self, index, size):
         distribution = [0 if i != index else 1 for i in range(size)]

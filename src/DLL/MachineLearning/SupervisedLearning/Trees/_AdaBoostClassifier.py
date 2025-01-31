@@ -36,13 +36,14 @@ class AdaBoostClassifier:
         self.criterion = criterion
         self.trees = None
 
-    def fit(self, X, y):
+    def fit(self, X, y, verbose=True):
         """
         Fits the AdaBoostClassifier model to the input data by fitting trees to the errors made by previous trees.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].
+            verbose (bool, optional): Determines if warnings are given if the training ends due to a weak learner being worse than random guessing. Defaults to True.
         Returns:
             The average errors after each tree.
         Raises:
@@ -58,6 +59,8 @@ class AdaBoostClassifier:
         vals = torch.unique(y).numpy()
         if set(vals) != {*range(len(vals))}:
             raise ValueError("y must only contain the values in [0, ..., n_classes - 1].")
+        if not isinstance(verbose, bool):
+            raise TypeError("verbose must be a boolean.")
         
         self.n_classes = len(vals)
         self.classes = vals
@@ -102,7 +105,8 @@ class AdaBoostClassifier:
                 weights /= weights.sum()  # keep weights as a probability distribution
                 self.confidences.append(alpha)
             else:
-                warn(f"The average error exceeds 0.5. The training is stopped to reduce over fitting. Only {i} trees are used.")
+                if verbose: warn(f"The latest weak learner is worse than random guessing. The training is stopped to reduce over fitting. Only {i} learners are used.")
+                self.n_trees = i
                 break
 
             trees.append(tree)
