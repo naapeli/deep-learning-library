@@ -33,13 +33,14 @@ class AdaBoostRegressor:
         self.loss = loss
         self.trees = None
 
-    def fit(self, X, y):
+    def fit(self, X, y, verbose=True):
         """
         Fits the AdaBoostRegressor model to the input data by fitting trees to the errors made by previous trees.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample.
+            verbose (bool, optional): Determines if warnings are given if the training ends due to a weak learner having over 0.5 weighted loss. Defaults to True.
         Returns:
             The average errors after each tree.
         Raises:
@@ -52,6 +53,8 @@ class AdaBoostRegressor:
             raise ValueError("The input matrix must be a 2 dimensional tensor.")
         if y.ndim != 1 or y.shape[0] != X.shape[0]:
             raise ValueError("The labels must be 1 dimensional with the same number of samples as the input data")
+        if not isinstance(verbose, bool):
+            raise TypeError("verbose must be a boolean.")
         
         y = y.to(X.dtype)
         self.n_features = X.shape[1]
@@ -79,7 +82,8 @@ class AdaBoostRegressor:
             
             average_loss = torch.sum(weights * error)
             if average_loss > 0.5:
-                warn(f"The average error exceeds 0.5. The training is stopped to reduce over fitting. Only {i} trees are used.")
+                if verbose: warn(f"The average error exceeds 0.5. The training is stopped to reduce over fitting. Only {i} trees are used.")
+                self.n_trees = i
                 break
 
             beta = average_loss / (1 - average_loss)

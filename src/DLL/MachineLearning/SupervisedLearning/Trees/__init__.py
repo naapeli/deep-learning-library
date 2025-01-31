@@ -8,3 +8,5 @@ from ._AdaBoostClassifier import AdaBoostClassifier
 from ._AdaBoostRegressor import AdaBoostRegressor
 from ._XGBoostRegressor import XGBoostingRegressor
 from ._XGBoostClassifier import XGBoostingClassifier
+from ._LGBMRegressor import LGBMRegressor
+from ._LGBMClassifier import LGBMClassifier
