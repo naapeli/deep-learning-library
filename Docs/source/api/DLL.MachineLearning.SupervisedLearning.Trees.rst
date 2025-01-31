@@ -85,7 +85,7 @@ XGBoostingRegressor
 LGBMClassifier
 -------------------------------------------------------------------------------------
 
-.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.XGBoostingClassifier
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier
    :members:
    :undoc-members:
    :show-inheritance:
@@ -93,7 +93,7 @@ LGBMClassifier
 LGBMRegressor
 -------------------------------------------------------------------------------------
 
-.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.XGBoostingRegressor
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor
    :members:
    :undoc-members:
    :show-inheritance:
