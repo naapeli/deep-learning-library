@@ -61,6 +61,20 @@ class IsolationForest:
         return x[indices]
     
     def predict(self, X, return_scores=False):
+        """
+        Predicts the outliers in the input by considering scores, which are threshold standard deviations away from the mean.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            return_scores (bool, optional): Determines if the scores of each datapoint are returned. Defaults to False.
+        """
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2:
+            raise ValueError("The input matrix must be a 2 dimensional tensor.")
+        if not isinstance(return_scores, bool):
+            raise TypeError("return_scores must be a boolean.")
+
         scores = torch.zeros((self.n_trees, len(X)))
         for i, tree in enumerate(self.trees):
             tree_scores = torch.tensor([tree._path_length(point, tree.root) for point in X])
@@ -72,6 +86,13 @@ class IsolationForest:
         return scores > threshold
 
     def fit_predict(self, X, return_scores=False):
+        """
+        First fits the model to the input and then predicts, which of the inputs are outliers.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
+            return_scores (bool, optional): Determines if the scores of each datapoint are returned. Defaults to False.
+        """
         self.fit(X)
         return self.predict(X, return_scores=return_scores)
 

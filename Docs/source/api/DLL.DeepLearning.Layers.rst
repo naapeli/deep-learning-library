@@ -99,6 +99,14 @@ Reshape
    :undoc-members:
    :show-inheritance:
 
+DenseKAN
+------------------------
+.. autoclass:: DLL.DeepLearning.Layers.DenseKAN
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 .. _activations_section_label:
 
 Activation layers

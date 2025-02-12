@@ -6,6 +6,7 @@ from ...Exceptions import NotCompiledError
 
 class BaseLayer:
     def __init__(self, output_shape, input_shape=None, activation=None, normalisation=None, data_type=torch.float32, device=torch.device("cpu")):
+        if output_shape == 0: output_shape = tuple()
         output_shape = (output_shape,) if isinstance(output_shape, int) else output_shape
         if not isinstance(output_shape, tuple) and output_shape is not None:
             raise TypeError(f"output_shape must be a tuple. Currently {output_shape}.")
