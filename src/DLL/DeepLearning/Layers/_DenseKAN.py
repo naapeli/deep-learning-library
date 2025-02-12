@@ -35,7 +35,7 @@ def _bspline_basis_derivative(x, i, n_fun, knots):
 
 def _get_basis_functions(n_fun, degree=3, bounds=(-1, 1)):
     grid_len = n_fun - degree + 1
-    step = (bounds[1] - bounds[0]) / (grid_len - 1)  # TODO: Fix division by zero error
+    step = (bounds[1] - bounds[0]) / (grid_len - 1)
     edge_funcs, edge_func_ders = [], []
 
     # SiLU bias function
@@ -78,15 +78,28 @@ class _NeuronKAN:
 
 class DenseKAN(BaseLayer):
     """
-    The dense Kolmogorov-Arnold network layer.
+    The dense Kolmogorov-Arnold network layer. The implementation is based on `this paper <https://arxiv.org/pdf/2404.19756>`_ and `this article <https://mlwithouttears.com/2024/05/15/a-from-scratch-implementation-of-kolmogorov-arnold-networks-kan/>`_.
 
     Args:
         output_shape (tuple[int] or int): The output_shape of the model not containing the batch_size dimension. Must contain non-negative integers. If is int, returned shape is (n_samples, int). If is the length is zero, the returned tensor is of shape (n_samples,). Otherwise the returned tensor is of shape (n_samples, *output_shape).
+        n_basis_funcs (int, optional): The number of basis functions used for fitting. If 1, only SiLU is used. Otherwise 1 SiLU and n_basis_funcs - 1 Bsplines basis functions are used. Must be a positive integer. Defaults to 10.
+        bounds (tuple[int], optional): The theoretical min and max of the data that will be passed to the forward method. Must be a tuple containing two integers. Defaults to (-1, 1).
+        basis_func_degree (int, optional): The degree of the Bspline basis functions. Must be positive. Defaults to 3.
         initialiser (:ref:`initialisers_section_label`, optional): The initialisation method for models weights. Defaults to Xavier_uniform.
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
+    Note:
+        n_basis_funcs and basis_func_degree should be different to avoid certain errors.
     """
-    def __init__(self, output_shape, n_basis_funcs=10, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
+    def __init__(self, output_shape, n_basis_funcs=10, bounds=(-1, 1), basis_func_degree=3, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
+        if not isinstance(n_basis_funcs, int) or n_basis_funcs <= 0:
+            raise ValueError("n_basis_funcs must be a positive integer.")
+        if not isinstance(bounds, tuple) or len(bounds) != 2 or not isinstance(bounds[0], int) or not isinstance(bounds[1], int) or bounds[0] >= bounds[1]:
+            raise ValueError("bounds should be a tuple of length 2 containing the theoretical minimum and maximum of the data that will be passed in.")
+        if not isinstance(basis_func_degree, int) or basis_func_degree <= 0:
+            raise ValueError("basis_func_degree must be a positive integer.")
+        if n_basis_funcs == basis_func_degree:
+            raise ValueError("n_basis_funcs and basis_func_degree should be different.")
         if not isinstance(initialiser, Initialiser):
             raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
@@ -113,17 +126,7 @@ class DenseKAN(BaseLayer):
 
     def forward(self, input, training=False, **kwargs):
         """
-        Applies the basic linear transformation
-
-        .. math::
-        
-            \\begin{align*}
-                y_{lin} = xW + b,\\\\
-                y_{reg} = f(y_{lin}),\\\\
-                y_{activ} = g(y_{reg}),
-            \\end{align*}
-        
-        where :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
+        Applies the forward equation of the Kolmogorov-Arnold network.
 
         Args:
             input (torch.Tensor of shape (n_samples, n_features)): The input to the dense layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
