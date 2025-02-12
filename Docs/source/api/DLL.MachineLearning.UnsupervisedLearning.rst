@@ -6,3 +6,4 @@ UnsupervisedLearning
 
    DLL.MachineLearning.UnsupervisedLearning.Clustering
    DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction
+   DLL.MachineLearning.UnsupervisedLearning.OutlierDetection
