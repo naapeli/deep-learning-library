@@ -43,12 +43,11 @@ class LDA:
 
         for current_class in classes:
             X_c = X[y == current_class]
-
             C_mean = torch.mean(X_c, dim=0)
-            Sw += (X_c - C_mean).T @ (X_c - C_mean)
-            mean_diff = (C_mean - X_mean)
-            Sb += len(X_c) * (mean_diff @ mean_diff)
-        
+            Sw += torch.cov(X_c.T, correction=0) * len(X_c)
+            mean_diff = (C_mean - X_mean).reshape(-1, 1)
+            Sb += len(X_c) * (mean_diff @ mean_diff.T)
+
         A = torch.linalg.lstsq(Sw, Sb).solution
         eig_vals, eig_vecs = torch.linalg.eig(A)
         indicies = torch.argsort(eig_vals.real, descending=True)
