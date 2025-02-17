@@ -18,3 +18,10 @@ Linear discriminant analysis
    :undoc-members:
    :show-inheritance:
 
+Robust Principal component analysis
+------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA
+   :members:
+   :undoc-members:
+   :show-inheritance:
