@@ -8,11 +8,9 @@ Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning
 
 ## Upcoming topics:
 
-- early stopping and other callbacks on deep learning models
 - embedding layer
 - concatenate layer
 - multi headed cross attention
-- saving and loading models with pickle
 - hyperparameter tuning with grid search and random search
 - multiclass classification with OvO and OvR
 
@@ -21,7 +19,7 @@ Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning
 To run the tests, navigate to the deep-learning-library-folder and use eg. the following command:
 
 ```
-python -m Tests.TestingSupportVectorClassification
+python -m Tests.ReinforcementLearning.DeepReinforcementLearning
 ```
 
 Feel free to explore the code and apply it to new problems!
