@@ -1,16 +1,6 @@
 import torch
-from math import floor
 from copy import deepcopy
-
-from .Layers import Input
-from .Layers._BaseLayer import BaseLayer
-from .Losses import MSE
-from .Losses._BaseLoss import BaseLoss
-from .Optimisers import ADAM
-from .Optimisers._BaseOptimiser import BaseOptimiser
-from ..Data import DataReader
-from ..Data.Metrics import calculate_metrics, _round_dictionary
-from ..Exceptions import NotCompiledError
+import pickle
 
 
 class Model:
@@ -30,36 +20,48 @@ class Model:
         if not isinstance(device, torch.device):
             raise TypeError('device must be either torch.device("cpu") or torch.device("cuda").')
 
+        from .Layers import Input
         input_shape = (input_shape,) if isinstance(input_shape, int) else input_shape
         self.layers = [Input(input_shape, device=device, data_type=data_type)]
         self.optimiser = None
         self.loss = None
         self.data_type = data_type
         self.device = device
-    
-    def compile(self, optimiser=None, loss=None, metrics=["loss"]):
+
+    def compile(self, optimiser=None, loss=None, metrics=("loss",), callbacks=tuple()):
         """
         Configures the model for training. Sets the optimiser and the loss function.
 
         Args:
             optimiser (:ref:`optimisers_section_label` | None, optional): The optimiser used for training the model. If None, the ADAM optimiser is used.
             loss (:ref:`losses_section_label` | None, optional): The loss function used for training the model. If None, the MSE loss is used.
-            metrics (list[str], optional): The metrics that will be tracked during training. Defaults to ["loss"].
+            metrics (tuple[str], optional): The metrics that will be tracked during training. Defaults to ("loss").
+            callbacks (tuple[:ref:`callbacks_section_label`], optional): The callbacks used by the model. Defaults to ().
         Raises:
             TypeError: If the optimiser is not from DLL.DeepLearning.Optimisers, the loss is not from DLL.DeepLearning.Losses or the metrics is not a tuple or a list of strings.
         """
+
+        from .Losses._BaseLoss import BaseLoss
+        from .Optimisers._BaseOptimiser import BaseOptimiser
+        from .Callbacks._BaseCallback import Callback
+        from .Losses import MSE
+        from .Optimisers import ADAM
+
         if not isinstance(optimiser, BaseOptimiser) and optimiser is not None:
             raise TypeError("optimiser must be from DLL.DeepLearning.Optimisers")
         if not isinstance(loss, BaseLoss) and loss is not None:
             raise TypeError("loss must be from DLL.DeepLearning.Losses")
         if not isinstance(metrics, list | tuple):
             raise TypeError("metrics must be a list or a tuple containing the strings of wanted metrics.")
+        if any([not isinstance(callback, Callback) for callback in callbacks]):
+            raise TypeError("callbacks must be a tuple of callback objects.")
 
         self.optimiser = optimiser if optimiser is not None else ADAM()
         parameters = [parameter for layer in self.layers for parameter in layer.get_parameters()]
         self.optimiser.initialise_parameters(parameters)
         self.loss = loss if loss is not None else MSE()
         self.metrics = metrics
+        self.callbacks = callbacks
 
     def clone(self):
         """
@@ -74,6 +76,7 @@ class Model:
         Args:
             layer (:ref:`layers_section_label`): The layer that is added to the model.
         """
+        from .Layers._BaseLayer import BaseLayer
         if not isinstance(layer, BaseLayer):
             raise TypeError("layer must be from DLL.Deeplearning.Layers")
 
@@ -114,6 +117,7 @@ class Model:
         Returns:
             torch.Tensor of shape (n_samples, *last_layer.output_shape)): The predictions made by the model.
         """
+        from ..Exceptions import NotCompiledError
         if self.optimiser is None:
             raise NotCompiledError("Model.compile() must be called before predicting.")
 
@@ -147,7 +151,7 @@ class Model:
             shuffle_data (bool, optional): If True, shuffles data before the training.
             verbose (bool, optional): If True, prints info of the chosen metrics during training. Defaults to False.
         Returns:
-            history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency.
+            history (dict[str, list]): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency. If training was not stopped early, each metric is floor(epochs / callback_frequency) long.
         Raises:
             TypeError: If the input matrix or the target matrix is not a PyTorch tensor or if other parameters are of wrong type.
             ValueError: If the input matrix or the target matrix is not the correct shape or if other parameters have incorrect values.
@@ -176,26 +180,71 @@ class Model:
             raise TypeError("shuffle_data must be a boolean.")
         if not isinstance(verbose, bool):
             raise TypeError("verbose must be a boolean.")
+        
+        from ..Data import DataReader
+        from ..Data.Metrics import calculate_metrics, _round_dictionary
 
-        history = {metric: torch.zeros(floor(epochs / callback_frequency), dtype=self.data_type) for metric in self.metrics}
+        history = {metric: [] for metric in self.metrics}
         batch_size = len(X) if batch_size is None else batch_size
         data_reader = DataReader(X, Y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
 
         train_metrics = [metric for metric in self.metrics if metric[:4] != "val_"]
         val_metrics = [metric for metric in self.metrics if metric[:4] == "val_"]
 
+        self.train = True  # boolean for callbacks to stop the training
+        for callback in self.callbacks:
+            callback.set_model(self)
+            callback.on_train_start()
+
         for epoch in range(epochs):
+            if not self.train:
+                break
             for x, y in data_reader.get_data():
                 predictions = self.predict(x, training=True)
                 initial_gradient = self.loss.gradient(predictions, y)
                 self.backward(initial_gradient, training=True)
                 self.optimiser.update_parameters()
+                for callback in self.callbacks:
+                    callback.on_batch_end(epoch)
+
             if epoch % callback_frequency == 0:
                 values = calculate_metrics(data=(self.predict(X), Y), metrics=train_metrics, loss=self.loss.loss)
                 if val_data is not None:
                     val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=val_metrics, loss=self.loss.loss, validation=True)
                     values |= val_values
                 for metric, value in values.items():
-                    history[metric][int(epoch / callback_frequency)] = value
+                    history[metric].append(value)
                 if verbose: print(f"Epoch: {epoch + 1} - Metrics: {_round_dictionary(values)}")
+            
+            for callback in self.callbacks:
+                callback.on_epoch_end(epoch, values)
+        
+        for callback in self.callbacks:
+            callback.on_train_end()
+
         return history
+
+
+def save_model(model, filepath="./model.pkl"):
+    """Saves a model using pickle serialization."""
+    try:
+        with open(filepath, "wb") as f:
+            pickle.dump(model, f)
+    except TypeError as e:
+        print(f"Error: The model is not serializable. Saving failed.")
+        raise
+    except OSError as e:
+        print(f"File error while saving the model.")
+        raise
+
+def load_model(filepath="./model.pkl"):
+    """Loads a model from a pickle file."""
+    try:
+        with open(filepath, "rb") as f:
+            return pickle.load(f)
+    except (pickle.UnpicklingError, EOFError, AttributeError, ModuleNotFoundError, TypeError) as e:
+        print(f"Error loading the model file.")
+        raise
+    except OSError as e:
+        print(f"File error while loading the model.")
+        raise
