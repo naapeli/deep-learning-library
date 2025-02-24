@@ -1,10 +1,11 @@
-from src.DLL.DeepLearning.Model import Model
+from src.DLL.DeepLearning.Model import Model, save_model
 from src.DLL.DeepLearning.Layers import Dense, Identity, Add, LayerList
 from src.DLL.DeepLearning.Layers.Regularisation import BatchNorm, GroupNorm, InstanceNorm, LayerNorm, Dropout
 from src.DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from src.DLL.DeepLearning.Losses import CCE
 from src.DLL.DeepLearning.Optimisers import SGD
 from src.DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
+from src.DLL.DeepLearning.Callbacks import EarlyStopping, BackUp, ReduceLROnPlateau
 from src.DLL.Data.Preprocessing import data_split, OneHotEncoder, MinMaxScaler
 from src.DLL.Data.Metrics import accuracy
 
@@ -39,7 +40,12 @@ layers = LayerList(
     Dense(3, initialiser=Xavier_Uniform(), activation=SoftMax())
 )
 model.add(layers)
-model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+callbacks = (
+    EarlyStopping(monitor="val_accuracy", mode="max", patience=30, restore_best_model=False, warmup_length=100, verbose=True),
+    BackUp(filepath="./Tests/DeepLearning/IrisClassification/model.pkl", frequency=100, verbose=True),
+    ReduceLROnPlateau(patience=10, factor=0.9)
+)
+model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=callbacks)
 print(model)  # model.summary()
 
 _, ax = plt.subplots()
@@ -51,6 +57,7 @@ _ = ax.legend(
 plt.show()
 
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=500, batch_size=32, verbose=True)
+save_model(model, "./Tests/DeepLearning/IrisClassification/model.pkl")
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
 
