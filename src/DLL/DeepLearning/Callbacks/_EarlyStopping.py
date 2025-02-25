@@ -1,4 +1,4 @@
-from ._BaseCallback import Callback
+from . import Callback
 from ...Exceptions import NotCompiledError
 
 
@@ -36,12 +36,24 @@ class EarlyStopping(Callback):
         self.verbose = verbose
 
     def set_model(self, model):
+        """
+        Lets the callback know about the chosen model. Is automatically called when using Model.train()
+
+        Args:
+            Model (:ref:`models_section_label`): The chosen model.
+        """
+        if not hasattr(model, "metrics") or self.monitor not in model.metrics:
+            raise ValueError("monitor must be in the metrics of the model.")
+        
         self.model = model
 
-        if not hasattr(self.model, "metrics") or self.monitor not in self.model.metrics:
-            raise ValueError("monitor must be in the metrics of the model.")
-
     def on_train_start(self):
+        """
+        Sets the needed attributes.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
 
@@ -51,6 +63,12 @@ class EarlyStopping(Callback):
         self.best_value = float("inf")
 
     def on_train_end(self):
+        """
+        Resets the model to the stored model if restore_best_model was chosen.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
         
@@ -58,6 +76,16 @@ class EarlyStopping(Callback):
             self.model.layers = self.stored_model.layers
 
     def on_epoch_end(self, epoch, metrics):
+        """
+        Calculates if the model has improved on the last epoch.
+
+        Args:
+            epoch (int): The current epoch.
+            metrics (dict[str, float]): The values of the chosen metrics of the last epoch.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
 
