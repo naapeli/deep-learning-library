@@ -3,6 +3,14 @@
 Callbacks
 ===============================
 
+Base
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Callbacks.Callback
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 EarlyStopping
 ----------------------------------
 

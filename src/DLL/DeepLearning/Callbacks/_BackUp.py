@@ -1,4 +1,4 @@
-from ._BaseCallback import Callback
+from . import Callback
 from ...Exceptions import NotCompiledError
 from ..Model import save_model
 
@@ -29,10 +29,17 @@ class BackUp(Callback):
         self.counter = 0
         self.verbose = verbose
 
-    def set_model(self, model):
-        self.model = model
-
     def on_epoch_end(self, epoch, metrics):
+        """
+        Calculates if the model should be backed up on this epoch.
+
+        Args:
+            epoch (int): The current epoch.
+            metrics (dict[str, float]): The values of the chosen metrics of the last epoch.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
         
@@ -45,6 +52,15 @@ class BackUp(Callback):
             self.counter = 0
 
     def on_batch_end(self, epoch):
+        """
+        Calculates if the model should be backed up on this batch.
+
+        Args:
+            epoch (int): The current epoch.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
     
