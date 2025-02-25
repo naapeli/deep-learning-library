@@ -1,6 +1,6 @@
 from warnings import warn
 
-from ._BaseCallback import Callback
+from . import Callback
 from ...Exceptions import NotCompiledError
 
 
@@ -36,21 +36,42 @@ class ReduceLROnPlateau(Callback):
         self.verbose = verbose
 
     def set_model(self, model):
+        """
+        Lets the callback know about the chosen model. Is automatically called when using Model.train()
+
+        Args:
+            Model (:ref:`models_section_label`): The chosen model.
+        """
+        if not hasattr(model, "metrics") or self.monitor not in model.metrics:
+            raise ValueError("monitor must be in the metrics of the model.")
         self.model = model
 
-        if not hasattr(self.model, "metrics") or self.monitor not in self.model.metrics:
-            raise ValueError("monitor must be in the metrics of the model.")
-
     def on_train_start(self):
+        """
+        Initializes the needed attributes.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
         if not hasattr(self.model.optimiser, "learning_rate"):
-            warn("The chosen optimizer has no learning_rate attribute. The callback has no effect.")
+            warn("The chosen optimizer has no learning_rate attribute. The ReduceLROnPlateau callback has no effect.")
 
         self.wait = 0
         self.best_value = float("inf")
 
     def on_epoch_end(self, epoch, metrics):
+        """
+        Calculates if the learning rate should be removed.
+
+        Args:
+            epoch (int): The current epoch.
+            metrics (dict[str, float]): The values of the chosen metrics of the last epoch.
+
+        Raises:
+            NotCompiledError: callback.set_model must be called before the training starts
+        """
         if not hasattr(self, "model"):
             raise NotCompiledError("callback.set_model must be called before the training starts.")
 

@@ -1,3 +1,5 @@
+.. _models_section_label:
+
 Models
 ==============
 

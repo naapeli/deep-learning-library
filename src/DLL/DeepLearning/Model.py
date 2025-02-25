@@ -43,7 +43,7 @@ class Model:
 
         from .Losses._BaseLoss import BaseLoss
         from .Optimisers._BaseOptimiser import BaseOptimiser
-        from .Callbacks._BaseCallback import Callback
+        from .Callbacks import Callback
         from .Losses import MSE
         from .Optimisers import ADAM
 
