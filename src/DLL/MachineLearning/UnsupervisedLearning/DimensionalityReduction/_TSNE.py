@@ -6,7 +6,7 @@ from ....DeepLearning.Optimisers import SGD
 
 class TSNE:
     """
-    T-distributed Stochastic Neighbor Embedding (T-SNE) class for dimensionality reduction.
+    T-distributed Stochastic Neighbor Embedding (T-SNE) class for dimensionality reduction. Is based on `this paper <https://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf>`_ and `this article <https://towardsdatascience.com/t-sne-from-scratch-ft-numpy-172ee2a61df7/>`_.
 
     Args:
         n_components (int): Number of principal components to keep. The number must be a positive integer.
