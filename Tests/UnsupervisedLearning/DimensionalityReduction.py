@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.decomposition import PCA as PCA_sklearn
 
-from src.DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA, LDA, RobustPCA
+from src.DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA, LDA, RobustPCA, TSNE
 
 
 # import tensorflow as tf
@@ -27,7 +27,17 @@ reduced_lda = transformer_lda.fit_transform(X, y)
 transformer_robustPCA = RobustPCA(n_components=2)
 reduced_robustPCA = transformer_robustPCA.fit_transform(X, epochs=10)
 
-fig, axes = plt.subplots(2, 2)
+transformer_TSNE = TSNE(n_components=2, init="random", p=2, early_exaggeration=1, perplexity=10)
+reduced_TSNE = transformer_TSNE.fit_transform(X, epochs=1000)
+
+plt.figure()
+plt.semilogy(transformer_TSNE.history, label="T-SNE")
+plt.xlabel("Epoch")
+plt.ylabel("KL-divergence loss")
+plt.legend()
+
+
+fig, axes = plt.subplots(2, 3)
 axes = axes.ravel()
 axes[0].scatter(reduced_pca[:, 0], reduced_pca[:, 1], c=y, s=5)
 axes[0].set_title("Own implementation PCA")
@@ -37,4 +47,6 @@ axes[2].scatter(reduced_lda[:, 0], reduced_lda[:, 1], c=y, s=5)
 axes[2].set_title("Own implementation LDA")
 axes[3].scatter(reduced_robustPCA[:, 0], reduced_robustPCA[:, 1], c=y, s=5)
 axes[3].set_title("Own implementation Robust PCA")
+axes[4].scatter(reduced_TSNE[:, 0], reduced_TSNE[:, 1], c=y, s=5)
+axes[4].set_title("Own implementation T-SNE")
 plt.show()
