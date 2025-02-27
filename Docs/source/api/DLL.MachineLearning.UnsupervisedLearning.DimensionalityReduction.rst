@@ -2,7 +2,7 @@ Dimensionality reduction
 ========================================================================
 
 
-Principal component analysis
+Principal Component Analysis
 ------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA
@@ -10,7 +10,7 @@ Principal component analysis
    :undoc-members:
    :show-inheritance:
 
-Linear discriminant analysis
+Linear Discriminant Analysis
 ------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA
@@ -18,10 +18,18 @@ Linear discriminant analysis
    :undoc-members:
    :show-inheritance:
 
-Robust Principal component analysis
+Robust Principal Component Analysis
 ------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+t-Distributed Stochastic Neighbor Embedding
+------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE
    :members:
    :undoc-members:
    :show-inheritance:
