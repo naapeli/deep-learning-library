@@ -6,7 +6,7 @@ from ....DeepLearning.Optimisers import SGD
 
 class TSNE:
     """
-    T-distributed Stochastic Neighbor Embedding (T-SNE) class for dimensionality reduction. Is based on `this paper <https://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf>`_ and `this article <https://towardsdatascience.com/t-sne-from-scratch-ft-numpy-172ee2a61df7/>`_.
+    T-distributed Stochastic Neighbor Embedding (T-SNE) class for dimensionality reduction. This implementation is based on `this paper <https://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf>`_ and `this article <https://towardsdatascience.com/t-sne-from-scratch-ft-numpy-172ee2a61df7/>`_. The main difference is that this implementation uses vectorized matrix operations making it considerably faster than the loop approach used in the article.
 
     Args:
         n_components (int): Number of principal components to keep. The number must be a positive integer.
