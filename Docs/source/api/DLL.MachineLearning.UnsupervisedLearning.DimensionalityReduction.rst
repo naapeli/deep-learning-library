@@ -33,3 +33,10 @@ t-Distributed Stochastic Neighbor Embedding
    :members:
    :undoc-members:
    :show-inheritance:
+
+Uniform Manifold Approximation and Projection
+----------------------
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP
+   :members:
+   :undoc-members:
+   :show-inheritance:

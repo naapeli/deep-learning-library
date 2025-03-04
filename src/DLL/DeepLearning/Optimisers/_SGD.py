@@ -38,7 +38,6 @@ class SGD(BaseOptimiser):
         """
         Takes a step towards the optimum for each parameter.
         """
-
         for i, parameter in enumerate(self.model_parameters):
             change = self.learning_rate * parameter.grad + self.momentum * self.changes[i]
             parameter -= change
