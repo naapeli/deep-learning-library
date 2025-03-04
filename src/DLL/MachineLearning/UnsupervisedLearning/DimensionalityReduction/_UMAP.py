@@ -8,7 +8,7 @@ from ...SupervisedLearning.Kernels import RBF
 
 class UMAP:
     """
-    Uniform Manifold Approximation and Projection (UMAP) class for dimensionality reduction. This implementation is based on `this paper <https://arxiv.org/pdf/1802.03426>`_ and `this article <https://archive.is/6E15F#selection-5165.0-5199.1>`_.
+    Uniform Manifold Approximation and Projection (UMAP) class for dimensionality reduction. This implementation is based on `this paper <https://arxiv.org/pdf/1802.03426>`_ and `this article <https://archive.is/6E15F>`_.
 
     Args:
         n_components (int): Number of principal components to keep. The number must be a positive integer.
