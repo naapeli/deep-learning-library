@@ -104,10 +104,10 @@ class TSNE:
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
-            epochs (int, optional): The number of training epochs after early exaggeration. Must be a positive integer. Defaults to 100.
+            epochs (int, optional): The number of training epochs after early exaggeration. Must be a positive integer. Defaults to 100. Due to early exaggeration, the embedding is updated epochs + 250 times.
             verbose (bool, optional): Determines if the loss is printed each epoch. Must be a boolean. Defaults to ``False``.
         Returns:
-            embedding (torch.tensor): The embedded samples.
+            embedding (torch.tensor): The embedded samples of shape (n_samples, n_components).
         """
         if not isinstance(X, torch.Tensor):
             raise TypeError("The input matrix must be a PyTorch tensor.")
@@ -124,12 +124,14 @@ class TSNE:
         optimiser = SGD(learning_rate=learning_rate, momentum=0.5)
         optimiser.initialise_parameters([result])
         self.history = []
+        early_exaggeration = self.early_exaggeration
 
         for epoch in range(epochs + 250):
             if epoch > 250:
                 optimiser.momentum = 0.8
+                early_exaggeration = 1
             low_dimensional_affinities = self._low_dimensional_affinities(result)
-            result.grad = self._gradient(self.early_exaggeration * symmetric_affinities, low_dimensional_affinities, result)
+            result.grad = self._gradient(early_exaggeration * symmetric_affinities, low_dimensional_affinities, result)
             loss = torch.sum(symmetric_affinities * torch.log(symmetric_affinities / low_dimensional_affinities))
             self.history.append(loss)
             if verbose: print(f"Epoch: {epoch + 1} - KL-divergence loss: {loss:.3f}")
