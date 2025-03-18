@@ -10,14 +10,6 @@ Principal Component Analysis
    :undoc-members:
    :show-inheritance:
 
-Linear Discriminant Analysis
-------------
-
-.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Robust Principal Component Analysis
 ------------
 
@@ -37,6 +29,25 @@ t-Distributed Stochastic Neighbor Embedding
 Uniform Manifold Approximation and Projection
 ----------------------
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Discriminant Analysis
+========================================
+Linear Discriminant Analysis
+------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Quadratic Discriminant Analysis
+------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA
    :members:
    :undoc-members:
    :show-inheritance:
