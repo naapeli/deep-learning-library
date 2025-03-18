@@ -34,16 +34,19 @@ class LDA:
         if X.ndim != 2 or X.shape[0] == 1:
             raise ValueError("The input matrix must be a 2 dimensional tensor with atleast 2 samples.")
         
-        classes = torch.unique(y)
+        self.classes = torch.unique(y)
         self.n_features = X.shape[1]
         X_mean = torch.mean(X, dim=0)
 
         Sw = torch.zeros((self.n_features, self.n_features), dtype=X.dtype)
         Sb = torch.zeros((self.n_features, self.n_features), dtype=X.dtype)
 
-        for current_class in classes:
+        self.class_means = []
+
+        for current_class in self.classes:
             X_c = X[y == current_class]
             C_mean = torch.mean(X_c, dim=0)
+            self.class_means.append(C_mean)
             Sw += torch.cov(X_c.T, correction=0) * len(X_c)
             mean_diff = (C_mean - X_mean).reshape(-1, 1)
             Sb += len(X_c) * (mean_diff @ mean_diff.T)
@@ -84,6 +87,32 @@ class LDA:
         Returns:
             X_new (torch.Tensor of shape (n_samples, n_components)): The data transformed into the component space.
         """
-        
         self.fit(X, y)
         return self.transform(X)
+
+    def predict(self, X):
+        """
+        Applies the fitted LDA model to the input data, predicting the correct classes.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be transformed.
+        Returns:
+            y (torch.Tensor of shape (n_samples,)): The predicted labels.
+        Raises:
+            NotFittedError: If the LDA model has not been fitted before transforming.
+        """
+        if not hasattr(self, "components"):
+            raise NotFittedError("LDA.fit() must be called before predicting.")
+        
+        X_projected = self.transform(X)
+        class_means_projected = torch.stack([self.transform(C_mean.unsqueeze(0)) for C_mean in self.class_means])
+
+        min_dists = torch.full((len(X),), torch.inf, dtype=X.dtype)
+        y = torch.zeros_like(min_dists, dtype=X.dtype)
+        
+        for i, C_mean in enumerate(class_means_projected):
+            class_dists = torch.sum((X_projected - C_mean) ** 2, dim=1)
+            mask = class_dists < min_dists
+            y[mask] = self.classes[i]
+            min_dists[mask] = class_dists[mask]
+        return y
