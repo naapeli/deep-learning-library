@@ -144,12 +144,6 @@ class RNN(BaseLayer):
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
-        self.hh.grad = torch.zeros_like(self.hh, dtype=dCdy.dtype, device=dCdy.device)
-        self.ih.grad = torch.zeros_like(self.ih, dtype=dCdy.dtype, device=dCdy.device)
-        self.ho.grad = torch.zeros_like(self.ho, dtype=dCdy.dtype, device=dCdy.device)
-        self.bh.grad = torch.zeros_like(self.bh, dtype=dCdy.dtype, device=dCdy.device)
-        self.bo.grad = torch.zeros_like(self.bo, dtype=dCdy.dtype, device=dCdy.device)
-
         _, seq_len, _ = self.input.size()
         dCdh_next = torch.zeros_like(self.hiddens[0], dtype=dCdy.dtype, device=dCdy.device) if not self.return_last else dCdy @ self.ho
         dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
@@ -176,7 +170,7 @@ class RNN(BaseLayer):
         """
         :meta private:
         """
-        return (self.hh, self.ih, self.ho, self.bh, self.bo)
+        return (self.hh, self.ih, self.ho, self.bh, self.bo, *super().get_parameters())
     
     # def summary(self, offset=""):
     #     if not hasattr(self, "input_shape"):

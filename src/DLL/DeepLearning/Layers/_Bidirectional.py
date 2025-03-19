@@ -97,7 +97,7 @@ class Bidirectional(BaseLayer):
         """
         :meta private:
         """
-        return (*self.forward_layer.get_parameters(), *self.backward_layer.get_parameters())
+        return (*self.forward_layer.get_parameters(), *self.backward_layer.get_parameters(), *super().get_parameters())
 
     def get_nparams(self):
         return self.forward_layer.get_nparams() + self.backward_layer.get_nparams()

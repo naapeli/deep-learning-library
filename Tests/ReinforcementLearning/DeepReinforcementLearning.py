@@ -109,6 +109,8 @@ for episode in range(EPISODES):
     if replay_buffer.size() >= BATCH_SIZE:
         states, actions, rewards, next_states, dones = replay_buffer.sample(BATCH_SIZE)
 
+        agent.optimiser.zero_grad()
+
         # Compute target Q-values
         next_q_values = agent.predict(next_states).max(dim=1)[0]
         targets = rewards + GAMMA * next_q_values * (1 - dones)
@@ -124,7 +126,7 @@ for episode in range(EPISODES):
         agent.optimiser.update_parameters()
 
     rewards_memory.append(total_reward)
-    print(f"Episode {episode + 1}, Total Reward: {int(total_reward)}, Epsilon: {epsilon:.2f}")
+    print(f"Episode {episode + 1} | Total Reward: {int(total_reward)} / 500 | Epsilon: {epsilon:.2f}")
 
     if sum(rewards_memory[-MOVING_AVERAGE:]) / MOVING_AVERAGE > 490:
         print("Average reward is over 490. The training is stopped.")
