@@ -1,4 +1,7 @@
+import torch
+
 from abc import ABC, abstractmethod
+
 
 class BaseOptimiser(ABC):
     """
@@ -11,3 +14,7 @@ class BaseOptimiser(ABC):
     @abstractmethod
     def update_parameters(self):
         pass
+
+    def zero_grad(self):
+        for param in self.model_parameters:
+            param.grad = torch.zeros_like(param)
