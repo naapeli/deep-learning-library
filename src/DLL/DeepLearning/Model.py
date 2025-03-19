@@ -200,6 +200,7 @@ class Model:
             if not self.train:
                 break
             for x, y in data_reader.get_data():
+                self.optimiser.zero_grad()
                 predictions = self.predict(x, training=True)
                 initial_gradient = self.loss.gradient(predictions, y)
                 self.backward(initial_gradient, training=True)

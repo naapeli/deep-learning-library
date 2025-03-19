@@ -15,11 +15,11 @@ X = torch.stack((XX1.flatten(), XX2.flatten(), XX3.flatten()), dim=1)
 y = 2 * XX1.flatten() - 5 * XX2.flatten() + 1 * XX3.flatten() + 0.1 * torch.normal(0, 1, size=XX1.flatten().size())
 
 weights = []
-alphas = torch.logspace(log10(1e-1), log10(1e5), 20).tolist()
+alphas = torch.logspace(log10(1e-1), log10(1e5), 50).tolist()
 for alpha in alphas:
     model = RidgeRegression(alpha=alpha)
     model.fit(X, y)
-    weights.append(model.beta.tolist()[1:])
+    weights.append(model.beta.tolist())
 
 weights = torch.tensor(weights)
 
@@ -32,18 +32,15 @@ axes[0].set_xlabel("Alpha")
 axes[0].set_ylabel("Weights")
 
 weights = []
-alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()
-LASSO = False
+LASSO = True
 for alpha in alphas:
     if LASSO:
         model = LASSORegression(alpha=alpha)
     else:
         model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5)
-    print(alpha)
-    model.fit(X, y, epochs=10000, optimiser=ADAM(learning_rate=0.001))
+    model.fit(X, y, epochs=50)
     weights.append([model.weights.tolist()])
 
-alphas = torch.logspace(log10(1e-3), log10(2e0), 20).tolist()
 weights = torch.tensor(weights).squeeze()
 
 for row in weights.T:

@@ -173,11 +173,10 @@ class LSTM(BaseLayer):
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
 
-        self._reset_gradients()
         dCdh_next = torch.zeros_like(self.hidden_states[0], dtype=dCdy.dtype, device=dCdy.device) if not self.return_last else dCdy @ self.wy.T
         dCdc_next = torch.zeros_like(self.cell_states[0], dtype=dCdy.dtype, device=dCdy.device)
         dCdx = torch.zeros_like(self.input, dtype=dCdy.dtype, device=dCdy.device)
-        batch_size, seq_len, _ = self.input.size()
+        _, seq_len, _ = self.input.size()
 
         if self.return_last: self.wy.grad += self.hidden_states[seq_len - 1].T @ dCdy
         if self.return_last: self.by.grad += torch.mean(dCdy, axis=0)
@@ -241,29 +240,13 @@ class LSTM(BaseLayer):
             return 1 - input ** 2
         return torch.tanh(input)
     
-    def _reset_gradients(self):
-        self.wf.grad = torch.zeros_like(self.wf, dtype=self.data_type, device=self.device)
-        self.uf.grad = torch.zeros_like(self.uf, dtype=self.data_type, device=self.device)
-        self.bf.grad = torch.zeros_like(self.bf, dtype=self.data_type, device=self.device)
-        self.wi.grad = torch.zeros_like(self.wi, dtype=self.data_type, device=self.device)
-        self.ui.grad = torch.zeros_like(self.ui, dtype=self.data_type, device=self.device)
-        self.bi.grad = torch.zeros_like(self.bi, dtype=self.data_type, device=self.device)
-        self.wc.grad = torch.zeros_like(self.wc, dtype=self.data_type, device=self.device)
-        self.uc.grad = torch.zeros_like(self.uc, dtype=self.data_type, device=self.device)
-        self.bc.grad = torch.zeros_like(self.bc, dtype=self.data_type, device=self.device)
-        self.wo.grad = torch.zeros_like(self.wo, dtype=self.data_type, device=self.device)
-        self.uo.grad = torch.zeros_like(self.uo, dtype=self.data_type, device=self.device)
-        self.bo.grad = torch.zeros_like(self.bo, dtype=self.data_type, device=self.device)
-        self.wy.grad = torch.zeros_like(self.wy, dtype=self.data_type, device=self.device)
-        self.by.grad = torch.zeros_like(self.by, dtype=self.data_type, device=self.device)
-    
     def get_parameters(self):
         """
         :meta private:
         """
         return (self.wy, self.wo, self.wc, self.wi, self.wf,
                 self.uo, self.uc, self.ui, self.uf,
-                self.by, self.bo, self.bc, self.bi, self.bf)
+                self.by, self.bo, self.bc, self.bi, self.bf, *super().get_parameters())
     
     # def summary(self, offset=""):
     #     if not hasattr(self, "input_shape"):

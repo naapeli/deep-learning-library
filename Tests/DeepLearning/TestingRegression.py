@@ -15,7 +15,7 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 model = Model(2, data_type=torch.float32, device=device)
 model.add(Dense(6, initialiser=Xavier_Uniform(), normalisation=BatchNorm(), activation=ReLU()))
-model.add(Add(Dense(6, activation=ReLU()), Identity()))
+model.add(Add(Dense(6, activation=ReLU()), Identity(), normalisation=BatchNorm()))
 model.add(Dropout(p=0.1))
 model.add(Dense(6, initialiser=Kaiming_Normal()))
 model.add(BatchNorm())

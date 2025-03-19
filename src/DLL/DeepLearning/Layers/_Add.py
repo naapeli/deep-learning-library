@@ -94,7 +94,7 @@ class Add(BaseLayer):
         """
         :meta private:
         """
-        return (*self.layer1.get_parameters(), *self.layer2.get_parameters())
+        return (*self.layer1.get_parameters(), *self.layer2.get_parameters(), *super().get_parameters())
     
     def get_nparams(self):
         return self.layer1.get_nparams() + self.layer2.get_nparams()

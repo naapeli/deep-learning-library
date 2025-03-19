@@ -153,3 +153,9 @@ class MultiHeadAttention(BaseLayer):
         dCdx = self.input_linear.backward(dCdx)
 
         return dCdx
+    
+    def get_parameters(self):
+        """
+        :meta private:
+        """
+        return (*self.input_linear.get_parameters(), *super().get_parameters())

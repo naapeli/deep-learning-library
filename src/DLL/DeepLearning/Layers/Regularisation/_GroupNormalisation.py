@@ -90,8 +90,8 @@ class GroupNorm(BaseRegularisation):
         dCdx_reshaped = dCdy * self.gamma
         dCdgamma = (dCdy * self.x_reshaped).mean(axis=0)
         dCdbeta = dCdy.mean(axis=0)
-        self.gamma.grad = dCdgamma
-        self.beta.grad = dCdbeta
+        self.gamma.grad += dCdgamma
+        self.beta.grad += dCdbeta
 
         dCdx_norm = dCdx_reshaped.view(batch_size, self.num_groups, elements_per_group, *self.output.shape[2:])
         dCdx_centered = dCdx_norm * self.inv_std
