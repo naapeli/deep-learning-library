@@ -12,10 +12,10 @@ X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32), torch.linsp
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
-features = PolynomialFeatures(degree=2)
+features = PolynomialFeatures(degree=2, include_bias=True)  # Both polynomial features and linear regression must not include a bias
 x_train = features.transform(x_train)
 
-model.fit(x_train, y_train)
+model.fit(x_train, y_train, method="tls", include_bias=False)  # Both polynomial features and linear regression must not include a bias
 z = model.predict(features.transform(x_test))
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

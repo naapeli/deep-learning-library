@@ -81,7 +81,7 @@ class BaseLayer:
         return self.nparams + (self.normalisation.nparams if self.normalisation else 0)
 
     def get_parameters(self):
-        return []
+        return tuple() if self.normalisation is None else self.normalisation.get_parameters()
     
     def clone(self):
         return deepcopy(self)

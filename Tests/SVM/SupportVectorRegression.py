@@ -18,8 +18,8 @@ X_input = torch.stack((X, Y), dim=1)
 Z = 2 * X ** 2 - 5 * Y ** 2 + torch.normal(0, 1, size=X.size())
 x_train, y_train, x_test, y_test, _, _ = data_split(X_input, Z, train_split=0.8, validation_split=0.2)
 
-# model = SVR(kernel=Linear())
-model = SVR()
+model = SVR(kernel=Linear() * Linear())
+# model = SVR()
 model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
 
