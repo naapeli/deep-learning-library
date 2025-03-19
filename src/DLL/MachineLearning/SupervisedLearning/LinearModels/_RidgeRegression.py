@@ -49,7 +49,7 @@ class RidgeRegression:
         self.n_features = X.shape[1]
         X_with_const = torch.cat((torch.ones(size=(X.shape[0], 1)), X), dim=1)
         identity = torch.eye(X_with_const.shape[1])
-        identity[0, 0] = 0
+        # identity[0, 0] = 0  # Should regularisation be applied to the constant as well?
         sample_weight = torch.diag(sample_weight) if sample_weight is not None else torch.eye(len(X))
         self.beta = torch.linalg.lstsq(X_with_const.T @ sample_weight @ X_with_const + self.alpha * identity, X_with_const.T @ sample_weight @ y).solution
         self.residuals = y - self.predict(X)

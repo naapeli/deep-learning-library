@@ -69,7 +69,7 @@ class _NeuronKAN:
 
     def backward(self, dCdy, **kwargs):
         dCdy = dCdy.view(len(dCdy), 1, 1)  # (n, 1, 1)
-        self.weights.grad = torch.sum(dCdy * self.edge_func_values, dim=0)
+        self.weights.grad += torch.sum(dCdy * self.edge_func_values, dim=0)
         dCdx = dCdy * self.weights.unsqueeze(0)  # (n, n_basis_funcs, input_length)
         edge_func_derivatives = torch.stack([func(self.input) for func in self.edge_fun_der], dim=1)
         dCdx = torch.sum(dCdx * edge_func_derivatives, dim=1)
@@ -174,4 +174,4 @@ class DenseKAN(BaseLayer):
         """
         :meta private:
         """
-        return (neuron.weights for neuron in self.neurons)
+        return (*(neuron.weights for neuron in self.neurons), *super().get_parameters())

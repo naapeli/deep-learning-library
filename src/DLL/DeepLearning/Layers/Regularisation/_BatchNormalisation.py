@@ -95,8 +95,8 @@ class BatchNorm(BaseRegularisation):
         dCdmean = -((dCdx_norm / self.std).sum(axis=0) + dCdvar * (2 / batch_size) * self.x_centered.sum(axis=0))
         dCdx = dCdx_norm / self.std + dCdvar * 2 * self.x_centered / (batch_size - 1) + dCdmean / batch_size
 
-        self.gamma.grad = dCdgamma
-        self.beta.grad = dCdbeta
+        self.gamma.grad += dCdgamma
+        self.beta.grad += dCdbeta
         return dCdx
     
     def get_parameters(self):

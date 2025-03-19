@@ -342,23 +342,23 @@ class StandardScaler:
         
         return data * torch.sqrt(self.var) + self.mean
 
-"""
-Creates a matrix of data containing every possible combination of the given set of points
 
-data.shape = (data_length, input_shape)
-"""
 class PolynomialFeatures:
     """
     Polynomial features.
 
     Args:
         degree (int, optional): The degree of the polynomial. Must be a positive integer. Defaults to 2.
+        include_bias (bool): If true, a column of ones is included. Must be a boolean. Defaults to True.
     """
-    def __init__(self, degree=2):
+    def __init__(self, degree=2, include_bias=True):
         if not isinstance(degree, int) or degree <= 0:
             raise ValueError("degree must be a positive integer.")
+        if not isinstance(include_bias, bool):
+            raise TypeError("include_bias must be a boolean.")
         
         self.degree = degree
+        self.include_bias = include_bias
 
     def transform(self, data):
         """
@@ -374,7 +374,7 @@ class PolynomialFeatures:
             raise ValueError("data must be a 2 dimensional torch tensor.")
 
         n_samples, n_features = data.shape
-        features = [torch.ones(n_samples)]
+        features = [torch.ones(n_samples, device=data.device, dtype=data.dtype)] if self.include_bias else []
 
         for deg in range(1, self.degree + 1):
             for items in combinations_with_replacement(range(n_features), deg):

@@ -122,12 +122,12 @@ class Conv2D(BaseLayer):
                 kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], dCdy[:, i:i+1, :, :], padding="valid")[0, 0, :, :]
                 dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=(2, 3)), padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
                 
-        self.biases.grad = dCdy.mean(dim=0)
-        self.kernels.grad = kernel_gradient / batch_size
+        self.biases.grad += dCdy.mean(dim=0)
+        self.kernels.grad += kernel_gradient / batch_size
         return dCdx
     
     def get_parameters(self):
         """
         :meta private:
         """
-        return (self.kernels, self.biases)
+        return (self.kernels, self.biases, *super().get_parameters())
