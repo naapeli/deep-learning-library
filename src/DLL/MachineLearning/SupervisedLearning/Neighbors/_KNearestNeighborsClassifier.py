@@ -1,4 +1,5 @@
 import torch
+from functools import partial
 
 from ....Exceptions import NotFittedError
 
@@ -11,12 +12,6 @@ class KNNClassifier:
         k (int, optional): The number of closest samples considered for the predictions. Must be a positive integer. Defaults to 3.
         metric (str, optional): A distance metric for the closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
     """
-
-    _metrics = {
-        "euclidian": lambda X1, X2: ((X1 - X2) ** 2).sum(dim=2).sqrt(),
-        "manhattan": lambda X1, X2: torch.abs(X1 - X2).sum(dim=2),
-    }
-
     def __init__(self, k=3, metric="euclidian"):
         if not isinstance(k, int) or k <= 0:
             raise ValueError("k must be a positive integer.")
@@ -24,7 +19,13 @@ class KNNClassifier:
             raise ValueError('metric must be on of "euclidian" or "manhattan".')
 
         self.k = k
-        self.metric = KNNClassifier._metrics[metric] if isinstance(metric, str) else metric
+        self.metric = partial(self._metric, metric)
+    
+    def _metric(self, metric, X1, X2):
+        if metric == "euclidian":
+            return ((X1 - X2) ** 2).sum(dim=2).sqrt()
+        elif metric == "manhattan":
+            return torch.abs(X1 - X2).sum(dim=2)
 
     def fit(self, X, y):
         """

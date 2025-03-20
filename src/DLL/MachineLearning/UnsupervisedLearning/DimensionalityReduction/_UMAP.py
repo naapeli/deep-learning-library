@@ -1,5 +1,6 @@
 import torch
 from scipy.optimize import curve_fit
+from functools import partial
 
 from . import PCA
 from ....DeepLearning.Optimisers import SGD
@@ -93,9 +94,12 @@ class UMAP:
         n = len(norm)
         prob = torch.zeros((n, n))
         for dist_row in range(n):
-            _func = lambda sigma: self._k(self._pairwise_affinities(norm, rho, sigma, dist_row))
+            _func = partial(self._k_of_sigma, norm, rho, dist_row)
             prob[dist_row] = self._pairwise_affinities(norm, rho, self._sigma(_func, self.n_neighbor), dist_row)
         return prob
+    
+    def _k_of_sigma(self, norm, rho, dist_row, sigma):
+        return self._k(self._pairwise_affinities(norm, rho, sigma, dist_row))
 
     def _symmetric_affinities(self, X):
         diff = X.unsqueeze(1) - X.unsqueeze(0)

@@ -1,6 +1,7 @@
 import torch
 from scipy.special import gamma, kv
 from math import sqrt
+from functools import partial
 
 
 class _Base:
@@ -41,11 +42,14 @@ class _Compound(_Base):
             kernel_1_covariance = self.kernel_1(X, X)
             kernel_2_covariance = self.kernel_2(X, X)
 
-            kernel_1_derivative = lambda parameter_derivative: derivative_function(parameter_derivative * kernel_2_covariance)
-            kernel_2_derivative = lambda parameter_derivative: derivative_function(kernel_1_covariance * parameter_derivative)
+            kernel_1_derivative = partial(self.kernel_derivative, derivative_function, kernel_2_covariance)
+            kernel_2_derivative = partial(self.kernel_derivative, derivative_function, kernel_1_covariance)
 
             self.kernel_1.update(kernel_1_derivative, X)
             self.kernel_2.update(kernel_2_derivative, X)
+    
+    def kernel_derivative(self, derivative_function, X, parameter_derivative):
+        return derivative_function(parameter_derivative * X)
 
     def parameters(self):
         return self.kernel_1.parameters() | self.kernel_2.parameters()
@@ -59,9 +63,12 @@ class _Exponent(_Base):
         return self.kernel(X1, X2) ** self.power
     
     def update(self, derivative_function, X):
-        kernel_derivative = lambda parameter_derivative: derivative_function(self.power * self.kernel(X, X) ** (self.power - 1) * parameter_derivative)
+        kernel_derivative = partial(self.kernel_derivative, derivative_function, X)
         self.kernel.update(kernel_derivative, X)
     
+    def kernel_derivative(self, derivative_function, X, parameter_derivative):
+        return derivative_function(self.power * self.kernel(X, X) ** (self.power - 1) * parameter_derivative)
+
     def parameters(self):
         return self.kernel.parameters()
 

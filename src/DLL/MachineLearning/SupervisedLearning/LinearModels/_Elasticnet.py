@@ -122,10 +122,9 @@ class ElasticNetRegression:
                 self.weights[j] = soft_thresholding
 
             if epoch % callback_frequency == 0:
-                loss_function = lambda prediction, true_outputs: torch.sum((prediction - true_outputs) ** 2) + self.alpha * (2 * self.l1_ratio * torch.linalg.norm(self.weights, ord=1) + (1 - self.l1_ratio) * torch.linalg.norm(self.weights, ord=2) ** 2)
-                values = calculate_metrics(data=(self.predict(X), y), metrics=metrics, loss=loss_function)
+                values = calculate_metrics(data=(self.predict(X), y), metrics=metrics, loss=self._loss)
                 if val_data is not None:
-                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=metrics, loss=loss_function, validation=True)
+                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=metrics, loss=self._loss, validation=True)
                     values |= val_values
                 for metric, value in values.items():
                     history[metric][int(epoch / callback_frequency)] = value
@@ -134,6 +133,9 @@ class ElasticNetRegression:
         # self.weights *= 1 + self.alpha * (1 - self.l1_ratio)  # author of paper suggests this for a correction to the double shrinkage effect, however, the results are not that good.
         self.residuals = y - self.predict(X)
         return history
+    
+    def _loss(self, prediction, true_outputs):
+        return torch.sum((prediction - true_outputs) ** 2) + self.alpha * (2 * self.l1_ratio * torch.linalg.norm(self.weights, ord=1) + (1 - self.l1_ratio) * torch.linalg.norm(self.weights, ord=2) ** 2)
 
     def predict(self, X):
         """

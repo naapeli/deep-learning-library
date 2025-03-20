@@ -1,4 +1,5 @@
 import torch
+from functools import partial
 
 from ....Exceptions import NotFittedError
 
@@ -12,18 +13,6 @@ class KNNRegressor:
         metric (str, optional): A distance metric for the closest points. Must be one of "euclidian" or "manhattan". Defaults to "euclidian".
         weight (str, optional): A weight function that decides how important are the nearest k samples. Must be in ["uniform", "distance", "gaussian"]. Defaults to "gaussian".
     """
-
-    _metrics = {
-        "euclidian": lambda X1, X2: ((X1 - X2) ** 2).sum(dim=2).sqrt(),
-        "manhattan": lambda X1, X2: torch.abs(X1 - X2).sum(dim=2),
-    }
-
-    _weights = {
-        "uniform": lambda distances: torch.ones_like(distances),
-        "distance": lambda distances: 1 / (distances + 1e-10),
-        "gaussian": lambda distances: torch.exp(-distances ** 2)
-    }
-
     def __init__(self, k=3, metric="euclidian", weight="gaussian"):
         if not isinstance(k, int) or k <= 0:
             raise ValueError("k must be a positive integer.")
@@ -33,8 +22,22 @@ class KNNRegressor:
             raise ValueError('weight must be in ["uniform", "distance", "gaussian"].')
 
         self.k = k
-        self.metric = KNNRegressor._metrics[metric] if isinstance(metric, str) else metric
-        self.weight = KNNRegressor._weights[weight] if isinstance(weight, str) else weight
+        self.metric = partial(self._metric, metric)
+        self.weight = partial(self._weight, weight)
+    
+    def _metric(self, metric, X1, X2):
+        if metric == "euclidian":
+            return ((X1 - X2) ** 2).sum(dim=2).sqrt()
+        elif metric == "manhattan":
+            return torch.abs(X1 - X2).sum(dim=2)
+    
+    def _weight(self, weight, distances):
+        if weight == "uniform":
+            return torch.ones_like(distances)
+        elif weight == "distance":
+            return 1 / (distances + 1e-10)
+        elif weight == "gaussian":
+            return torch.exp(-distances ** 2)
 
     def fit(self, X, y):
         """
