@@ -5,7 +5,10 @@ from sklearn import datasets
 from src.DLL.Data.Metrics import accuracy
 from src.DLL.Data.Preprocessing import data_split
 from src.DLL.MachineLearning.SupervisedLearning.Neighbors import KNNClassifier, KNNRegressor
+from src.DLL.DeepLearning.Model import save_model, load_model
 
+
+torch.manual_seed(0)
 
 iris = datasets.load_iris()
 X = torch.tensor(iris.data, dtype=torch.float32)
@@ -19,6 +22,7 @@ model.fit(X_train, y_train)
 predictions = model.predict(X_test)
 print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
+save_model(model, filepath="./Tests/Neighbours/classifier.pkl")
 
 
 X = torch.linspace(0, 1, 100)
@@ -29,6 +33,7 @@ X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
 model = KNNRegressor(k=5, metric="manhattan", weight="gaussian")
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
+save_model(model, filepath="./Tests/Neighbours/regressor.pkl")
 
 plt.scatter(X_test, predictions, label="predictions")
 plt.scatter(X_test, y_test, label="true")
