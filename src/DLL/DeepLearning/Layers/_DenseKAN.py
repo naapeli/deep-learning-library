@@ -1,5 +1,5 @@
 import torch
-from functools import lru_cache
+from functools import lru_cache, partial
 
 from ._BaseLayer import BaseLayer
 from .Activations._Activation import Activation
@@ -9,29 +9,41 @@ from ..Initialisers._Initialiser import Initialiser
 
 
 @lru_cache
-def _bspline_basis(x, i, n_fun, knots):
+def _bspline_basis(i, n_fun, knots, x):
     if n_fun == 0:
         return ((knots[i] <= x) & (x < knots[i + 1])).float()
     
     denom1 = knots[i + n_fun] - knots[i]
     denom2 = knots[i + n_fun + 1] - knots[i + 1]
 
-    term1 = (x - knots[i]) / denom1 * _bspline_basis(x, i, n_fun - 1, knots) if denom1 > 0 else torch.zeros_like(x)
-    term2 = (knots[i + n_fun + 1] - x) / denom2 * _bspline_basis(x, i + 1, n_fun - 1, knots) if denom2 > 0 else torch.zeros_like(x)
+    term1 = (x - knots[i]) / denom1 * _bspline_basis(i, n_fun - 1, knots, x) if denom1 > 0 else torch.zeros_like(x)
+    term2 = (knots[i + n_fun + 1] - x) / denom2 * _bspline_basis(i + 1, n_fun - 1, knots, x) if denom2 > 0 else torch.zeros_like(x)
     return term1 + term2
 
 @lru_cache
-def _bspline_basis_derivative(x, i, n_fun, knots):
+def _bspline_basis_derivative(i, n_fun, knots, x):
     if n_fun == 0:
         return torch.zeros(x)
 
     denom1 = knots[i + n_fun] - knots[i]
     denom2 = knots[i + n_fun + 1] - knots[i + 1]
 
-    term1 = _bspline_basis(x, i, n_fun - 1, knots) / denom1 if denom1 > 0 else torch.zeros_like(x)
-    term2 = _bspline_basis(x, i + 1, n_fun - 1, knots) / denom2 if denom2 > 0 else torch.zeros_like(x)
+    term1 = _bspline_basis(i, n_fun - 1, knots, x) / denom1 if denom1 > 0 else torch.zeros_like(x)
+    term2 = _bspline_basis(i + 1, n_fun - 1, knots, x) / denom2 if denom2 > 0 else torch.zeros_like(x)
 
     return n_fun * (term1 - term2)
+
+def _SiLU(x):
+    return x / (1 + torch.exp(-x))
+
+def _SiLU_der(x):
+    return (1 + torch.exp(-x) + x * torch.exp(-x)) / (1 + torch.exp(-x)) ** 2
+
+def make_basis_func(i, degree, t, x):
+    return _bspline_basis(i, degree, t, x)
+
+def make_basis_func_der(i, degree, t, x):
+    return _bspline_basis_derivative(i, degree, t, x)
 
 def _get_basis_functions(n_fun, degree=3, bounds=(-1, 1)):
     grid_len = n_fun - degree + 1
@@ -39,20 +51,15 @@ def _get_basis_functions(n_fun, degree=3, bounds=(-1, 1)):
     edge_funcs, edge_func_ders = [], []
 
     # SiLU bias function
-    edge_funcs.append(lambda x: x / (1 + torch.exp(-x)))
-    edge_func_ders.append(lambda x: (1 + torch.exp(-x) + x * torch.exp(-x)) / (1 + torch.exp(-x)) ** 2)
+    edge_funcs.append(_SiLU)
+    edge_func_ders.append(_SiLU_der)
 
     # B-splines
     t = torch.linspace(bounds[0] - degree * step, bounds[1] + degree * step, grid_len + 2 * degree)
     t[degree], t[-degree - 1] = bounds[0], bounds[1]
     for ind_spline in range(n_fun - 1):
-        def make_basis_func(i):
-            return lambda x: _bspline_basis(x, i, degree, t)
-        def make_basis_der_func(i):
-            return lambda x: _bspline_basis_derivative(x, i, degree, t)
-        
-        edge_funcs.append(make_basis_func(ind_spline))
-        edge_func_ders.append(make_basis_der_func(ind_spline))
+        edge_funcs.append(partial(make_basis_func, ind_spline, degree, t))
+        edge_func_ders.append(partial(make_basis_func_der, ind_spline, degree, t))
     return edge_funcs, edge_func_ders
 
 
