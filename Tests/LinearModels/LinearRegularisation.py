@@ -1,9 +1,18 @@
+"""
+Regularization Path for Ridge, LASSO, and ElasticNet Regression
+===============================================================
+
+This script demonstrates the effect of L1 (LASSO), L2 (Ridge), and 
+ElasticNet regularization on regression coefficients. It generates 
+a 3D synthetic dataset and fits different models with varying alpha 
+(regularization strength), tracking the weight paths.
+"""
 import torch
 import matplotlib.pyplot as plt
 from math import log10
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LASSORegression, RidgeRegression, ElasticNetRegression
-from src.DLL.DeepLearning.Optimisers import ADAM
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LASSORegression, RidgeRegression, ElasticNetRegression
+from DLL.DeepLearning.Optimisers import ADAM
 
 
 n = 10
@@ -23,7 +32,7 @@ for alpha in alphas:
 
 weights = torch.tensor(weights)
 
-fig, axes = plt.subplots(1, 2)
+fig, axes = plt.subplots(1, 3)
 
 for row in weights.T:
     axes[0].semilogx(alphas, row)
@@ -31,22 +40,28 @@ axes[0].set_title("Ridge regression")
 axes[0].set_xlabel("Alpha")
 axes[0].set_ylabel("Weights")
 
-weights = []
-LASSO = True
+weights_lasso = []
+weight_elasticnet = []
 for alpha in alphas:
-    if LASSO:
-        model = LASSORegression(alpha=alpha)
-    else:
-        model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5)
+    model = LASSORegression(alpha=alpha)
     model.fit(X, y, epochs=50)
-    weights.append([model.weights.tolist()])
+    weights_lasso.append([model.weights.tolist()])
+    model = ElasticNetRegression(alpha=alpha, l1_ratio=0.5)
+    model.fit(X, y, epochs=50)
+    weight_elasticnet.append([model.weights.tolist()])
 
-weights = torch.tensor(weights).squeeze()
+weights_lasso = torch.tensor(weights_lasso).squeeze()
+weight_elasticnet = torch.tensor(weight_elasticnet).squeeze()
 
-for row in weights.T:
+for row in weights_lasso.T:
     axes[1].semilogx(alphas, row)
-title = f"{'LASSO' if LASSO else 'ElasticNet'} regression"
-axes[1].set_title(title)
+axes[1].set_title("LASSO regression")
 axes[1].set_xlabel("Alpha")
 axes[1].set_ylabel("Weights")
+
+for row in weight_elasticnet.T:
+    axes[2].semilogx(alphas, row)
+axes[2].set_title("ElasticNet regression")
+axes[2].set_xlabel("Alpha")
+axes[2].set_ylabel("Weights")
 plt.show()

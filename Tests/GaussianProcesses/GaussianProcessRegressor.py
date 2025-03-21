@@ -1,12 +1,23 @@
+"""
+Gaussian Process Regressor (GPR)
+===================================
+
+This script demonstrates the use of a custom Gaussian Process Regressor (GPR) 
+model with a compound kernel on generated data. The model is trained using 
+a combination of a linear kernel and a periodic kernel, and the training 
+process optimizes the kernel parameters to fit the data. The script also 
+compares the custom GPR model with the GPR implementation from Scikit-learn 
+using a different kernel combination.
+"""
 import torch
 import matplotlib.pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor as GPR
 from sklearn.gaussian_process.kernels import DotProduct, ExpSineSquared, ConstantKernel, Matern as sk_matern
 
-from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses import GaussianProcessRegressor
-from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGaussian, Periodic, RationalQuadratic, Matern
-from src.DLL.DeepLearning.Optimisers import ADAM, LBFGS
-from src.DLL.Data.Preprocessing import StandardScaler
+from DLL.MachineLearning.SupervisedLearning.GaussianProcesses import GaussianProcessRegressor
+from DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGaussian, Periodic, RationalQuadratic, Matern
+from DLL.DeepLearning.Optimisers import ADAM, LBFGS
+from DLL.Data.Preprocessing import StandardScaler
 
 
 # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
