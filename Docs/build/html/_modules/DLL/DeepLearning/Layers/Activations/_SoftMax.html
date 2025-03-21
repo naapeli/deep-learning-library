@@ -8,6 +8,10 @@
   <title>DLL.DeepLearning.Layers.Activations._SoftMax &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,6 +47,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../api/DLL.html">DLL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
 </ul>
 
         </div>
@@ -80,9 +89,13 @@
 <span class="k">class</span> <span class="nc">SoftMax</span><span class="p">(</span><span class="n">Activation</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The softmax activation function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim (int): The dimension on which the softmax is calculated. If the data is (n_samples, n_channels, n_features) and one wants to calculate the softmax on the channels, one should select dim=1 or dim=-2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Softmax&quot;</span>
 
 <div class="viewcode-block" id="SoftMax.forward">
@@ -103,12 +116,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: The output tensor after applying the activation function of the same shape as the input.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">input</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;input must be a 2 dimensional torch.Tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;input must be a torch.Tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">input</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="ow">or</span> <span class="o">-</span><span class="nb">input</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dim must be in range [</span><span class="si">{</span><span class="o">-</span><span class="nb">input</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">input</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">) for input of this shape, but is currently </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">=</span> <span class="nb">input</span>
-        <span class="n">exponential_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">exponential_input</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exponential_input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">exponential_input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">exponential_input</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exponential_input</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span></div>
 
     
@@ -129,15 +144,31 @@
         <span class="k">if</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dCdy is not the same shape as the spesified output_shape (</span><span class="si">{</span><span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
 
-        <span class="n">n</span> <span class="o">=</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="c1"># dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])</span>
+        <span class="c1"># v1 - 2 dimensional</span>
+        <span class="c1"># n = dCdy.shape[1]</span>
+        <span class="c1"># # dCdx = torch.stack([(dCdy[i] @ (torch.tile(datapoint, (n, 1)).T * (torch.eye(n, device=self.device, dtype=self.data_type) - torch.tile(datapoint, (n, 1))))) for i, datapoint in enumerate(self.output)])</span>
 
-        <span class="c1"># same calculations as above, but faster</span>
-        <span class="n">datapoints_expanded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">identity_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dCdy</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">matrix_diff</span> <span class="o">=</span> <span class="n">identity_matrix</span> <span class="o">-</span> <span class="n">datapoints_expanded</span>
-        <span class="n">dCdx</span> <span class="o">=</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">datapoints_expanded</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">matrix_diff</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">dCdx</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="c1"># v2 - 2 dimensional, but faster</span>
+        <span class="c1"># datapoints_expanded = self.output.unsqueeze(1).repeat(1, n, 1)</span>
+        <span class="c1"># identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype)</span>
+        <span class="c1"># matrix_diff = identity_matrix - datapoints_expanded</span>
+        <span class="c1"># dCdx = dCdy.unsqueeze(1) @ (datapoints_expanded.transpose(1, 2) * matrix_diff)</span>
+        <span class="c1"># return dCdx.squeeze(1)</span>
+
+        <span class="c1"># v3 - n dimensional</span>
+        <span class="c1"># dim = self.dim if self.dim &gt;= 0 else dCdy.ndim + self.dim</span>
+        <span class="c1"># n = self.output.shape[dim]</span>
+        <span class="c1"># output_expanded = self.output.unsqueeze(dim)</span>
+        <span class="c1"># identity_matrix = torch.eye(n, device=dCdy.device, dtype=dCdy.dtype).reshape((1,) * dim + (n, n) + (1,) * (dCdy.ndim - dim - 1))</span>
+        <span class="c1"># matrix_diff = identity_matrix - output_expanded</span>
+        <span class="c1"># # probably not optimal permuting the two wanted dimensions to the end for the matrix multiplication</span>
+        <span class="c1"># dCdx = dCdy.unsqueeze(dim).permute(*range(dim), *range(dim + 2, dCdy.ndim + 1), dim, dim + 1) @ (output_expanded.transpose(dim, dim + 1) * matrix_diff).permute(*range(dim), *range(dim + 2, dCdy.ndim + 1), dim, dim + 1)</span>
+        <span class="c1"># return dCdx.permute(*range(dim), dCdy.ndim - 1, dCdy.ndim, *range(dim, dCdy.ndim - 1)).squeeze(dim)</span>
+
+        <span class="c1"># v4 - n dimensional, but faster</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span>
+        <span class="n">dCdx</span> <span class="o">=</span> <span class="n">output</span> <span class="o">*</span> <span class="p">(</span><span class="n">dCdy</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dCdy</span> <span class="o">*</span> <span class="n">output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dCdx</span></div>
 </div>
 
 </pre></div>

@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K-Nearest Neighbors (KNN) Classification and Regression &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=e2bd21bd" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Optimizers" href="../Optimisers/index.html" />
+    <link rel="prev" title="Neighbours" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/DLL.html">DLL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../first.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#support-vector-machines">Support vector machines</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../first.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Gaussian Processes</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Neighbours</a></li>
+      <li class="breadcrumb-item active">K-Nearest Neighbors (KNN) Classification and Regression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/Neighbours/KNN.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-neighbours-knn-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="k-nearest-neighbors-knn-classification-and-regression">
+<span id="sphx-glr-auto-examples-neighbours-knn-py"></span><h1>K-Nearest Neighbors (KNN) Classification and Regression<a class="headerlink" href="#k-nearest-neighbors-knn-classification-and-regression" title="Link to this heading"></a></h1>
+<p>This script demonstrates the use of K-Nearest Neighbors (KNN) for both classification and regression
+tasks using the <cite>KNNClassifier</cite> and <cite>KNNRegressor</cite> models. It also showcases model serialization
+with <cite>save_model</cite>.</p>
+<img src="../../_images/sphx_glr_KNN_001.png" srcset="../../_images/sphx_glr_KNN_001.png" alt="KNN" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([[0.8000, 0.2000, 0.0000],
+        [0.0000, 0.6800, 0.3200],
+        [0.0000, 0.4800, 0.5200],
+        [0.8000, 0.2000, 0.0000],
+        [0.2800, 0.6400, 0.0800],
+        [0.0000, 0.3600, 0.6400],
+        [0.0000, 0.5400, 0.4600],
+        [0.0000, 0.2200, 0.7800],
+        [0.8000, 0.2000, 0.0000],
+        [0.8000, 0.2000, 0.0000],
+        [0.0000, 0.7400, 0.2600],
+        [0.0000, 0.7600, 0.2400],
+        [0.0000, 0.2200, 0.7800],
+        [0.0000, 0.5200, 0.4800],
+        [0.0000, 0.4600, 0.5400],
+        [0.1600, 0.6800, 0.1600],
+        [0.8000, 0.2000, 0.0000],
+        [0.0000, 0.2800, 0.7200],
+        [0.0000, 0.2400, 0.7600],
+        [0.8000, 0.2000, 0.0000],
+        [0.8000, 0.2000, 0.0000],
+        [0.0000, 0.2800, 0.7200],
+        [0.0000, 0.7400, 0.2600],
+        [0.0000, 0.5800, 0.4200],
+        [0.8000, 0.2000, 0.0000],
+        [0.0000, 0.7400, 0.2600],
+        [0.8000, 0.2000, 0.0000],
+        [0.8000, 0.2000, 0.0000],
+        [0.0000, 0.7000, 0.3000],
+        [0.0000, 0.3200, 0.6800]])
+1.0
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+<span class="kn">from</span> <span class="nn">DLL.Data.Metrics</span> <span class="kn">import</span> <a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><span class="n">accuracy</span></a></a></a></a>
+<span class="kn">from</span> <span class="nn">DLL.Data.Preprocessing</span> <span class="kn">import</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><span class="n">data_split</span></a></a></a></a>
+<span class="kn">from</span> <span class="nn">DLL.MachineLearning.SupervisedLearning.Neighbors</span> <span class="kn">import</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><span class="n">KNNClassifier</span></a></a></a></a><span class="p">,</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><span class="n">KNNRegressor</span></a></a></a></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Model</span> <span class="kn">import</span> <span class="n">save_model</span><span class="p">,</span> <span class="n">load_model</span>
+
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="c1"># X = X[y != 2]</span>
+<span class="c1"># y = y[y != 2]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><span class="n">data_split</span></a></a></a></a><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a></a></a></a> <span class="o">=</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><span class="n">KNNClassifier</span></a></a></a></a><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;manhattan&quot;</span><span class="p">)</span>
+<a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">fit</span></a></a></a></a><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">predict</span></a></a></a></a><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span></a></a></a></a><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><span class="n">accuracy</span></a></a></a></a><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+<span class="c1"># save_model(model, filepath=&quot;./Tests/Neighbours/classifier.pkl&quot;)</span>
+
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">X</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><span class="n">data_split</span></a></a></a></a><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a></a></a></a> <span class="o">=</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-class"><span class="n">KNNRegressor</span></a></a></a></a><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;manhattan&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">)</span>
+<a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.fit" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">fit</span></a></a></a></a><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><a href="../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" title="DLL.MachineLearning.SupervisedLearning.Neighbors.KNNRegressor.predict" class="sphx-glr-backref-module-DLL-MachineLearning-SupervisedLearning-Neighbors sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">predict</span></a></a></a></a><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="c1"># save_model(model, filepath=&quot;./Tests/Neighbours/regressor.pkl&quot;)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.847 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-neighbours-knn-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1a9fb2c084d1c6ca86cc42fcd8799e62/KNN.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">KNN.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/f9deca3ecb0a87a3a8b8abffce94282e/KNN.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">KNN.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/e2b3289d20f8cb916ecd693c3f407973/KNN.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">KNN.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Neighbours" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Optimisers/index.html" class="btn btn-neutral float-right" title="Optimizers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

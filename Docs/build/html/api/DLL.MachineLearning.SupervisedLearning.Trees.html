@@ -9,6 +9,10 @@
   <title>Trees &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,27 +47,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html">Gaussian processes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.LinearModels.html">Linear models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.LinearModels.html#time-series">Time series</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html">Naive Bayes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Neighbors.html">Neighbors</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Trees</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html">Support vector machines</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Kernels.html">Kernels</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
 </ul>
 </li>
 </ul>
@@ -101,7 +103,7 @@
 <h2>DecisionTree<a class="headerlink" href="#decisiontree" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">DecisionTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gini'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_DecisionTree.html#DecisionTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">DecisionTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">criterion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gini'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ccp_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_DecisionTree.html#DecisionTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.DecisionTree" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>DecisionTree implements a classification algorithm splitting the data along features yielding the maximum entropy.</p>
 <dl class="field-list simple">
@@ -110,6 +112,7 @@
 <li><p><strong>max_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum depth of the tree. Defaults to 10. Must be a positive integer.</p></li>
 <li><p><strong>min_samples_split</strong> (<em>int</em><em>, </em><em>optional</em>) – The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.</p></li>
 <li><p><strong>criterion</strong> (<em>str</em><em>, </em><em>optional</em>) – The information criterion used to select optimal splits. Must be one of “entropy” or “gini”. Defaults to “gini”.</p></li>
+<li><p><strong>ccp_alpha</strong> (<em>non-negative float</em><em>, </em><em>optional</em>) – Determines how easily subtrees are pruned in cost-complexity pruning. The larger the value, more subtrees are pruned. Defaults to 0.0.</p></li>
 </ul>
 </dd>
 </dl>
@@ -213,7 +216,7 @@
 <h2>RegressionTree<a class="headerlink" href="#regressiontree" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">RegressionTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_RegressionTree.html#RegressionTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">RegressionTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ccp_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_RegressionTree.html#RegressionTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.RegressionTree" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>RegressionTree implements a regression algorithm splitting the data along features minimizing the variance.</p>
 <dl class="field-list simple">
@@ -221,6 +224,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>max_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum depth of the tree. Defaults to 25. Must be a positive integer.</p></li>
 <li><p><strong>min_samples_split</strong> (<em>int</em><em>, </em><em>optional</em>) – The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.</p></li>
+<li><p><strong>ccp_alpha</strong> (<em>non-negative float</em><em>, </em><em>optional</em>) – Determines how easily subtrees are pruned in cost-complexity pruning. The larger the value, more subtrees are pruned. Defaults to 0.0.</p></li>
 </ul>
 </dd>
 </dl>
@@ -681,13 +685,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_AdaBoostClassifier.html#AdaBoostClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostClassifier.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_AdaBoostClassifier.html#AdaBoostClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostClassifier.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the AdaBoostClassifier model to the input data by fitting trees to the errors made by previous trees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if warnings are given if the training ends due to a weak learner being worse than random guessing. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -783,13 +788,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostRegressor.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_AdaBoostRegressor.html#AdaBoostRegressor.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostRegressor.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_AdaBoostRegressor.html#AdaBoostRegressor.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.AdaBoostRegressor.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the AdaBoostRegressor model to the input data by fitting trees to the errors made by previous trees.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if warnings are given if the training ends due to a weak learner having over 0.5 weighted loss. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1027,6 +1033,219 @@
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the XGBoostingRegressor model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lgbmclassifier">
+<h2>LGBMClassifier<a class="headerlink" href="#lgbmclassifier" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">LGBMClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">large_error_proportion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">small_error_proportion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'log_loss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_conflict_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_efb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMClassifier.html#LGBMClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>LGBMClassifier implements a classification algorithm fitting many consecutive trees to gradients and hessians of the predictions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_trees</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of trees used for predicting. Defaults to 10. Must be a positive integer.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum depth of the tree. Defaults to 25. Must be a positive integer.</p></li>
+<li><p><strong>min_samples_split</strong> (<em>int</em><em>, </em><em>optional</em>) – The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.</p></li>
+<li><p><strong>n_bins</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of bins used to find the optimal split of data. Must be greater than 1. Defaults to 30.</p></li>
+<li><p><strong>reg_lambda</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – The regularisation parameter used in fitting the trees. The larger the parameter, the smaller the trees. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – The minimum gain to make a split. Must be a non-negative real number. Defaults to 0.</p></li>
+<li><p><strong>large_error_proportion</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of the whole data with the largest error, which is always used to train the next weak learner. Defaults to 0.3.</p></li>
+<li><p><strong>small_error_proportion</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of data randomly selected from the remaining (1 - large_error_proportion) percent of data to train the next weak learner. Defaults to 0.2.</p></li>
+<li><p><strong>loss</strong> (<em>string</em><em>, </em><em>optional</em>) – The loss function used in calculations of the residuals. Must be one of “log_loss” or “exponential”. Defaults to “log_loss”. “exponential” can only be used for binary classification.</p></li>
+<li><p><strong>max_conflict_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of samples, which are allowed to be nonzero without featuers being bundled. Is ignored if use_efb=False. Defaults to 0.0.</p></li>
+<li><p><strong>use_efb</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the exclusive feature bundling algorithm is used. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.n_classes">
+<span class="sig-name descname"><span class="pre">n_classes</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.n_classes" title="Link to this definition"></a></dt>
+<dd><p>The number of classes. 2 for binary classification. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMClassifier.html#LGBMClassifier.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the LGBMClassifier model to the input data by fitting trees to the errors made by previous trees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The labels corresponding to each sample. Every element must be in [0, …, n_classes - 1].</p></li>
+<li><p><strong>metrics</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Contains the metrics that will be calculated between fitting each tree and returned. Only available for binary classification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>metrics if binary classification else None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix or the label vector is not a PyTorch tensor or if the problem is binary and metrics is not a list or a tuple.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix or the label vector is not the correct shape or the label vector contains wrong values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMClassifier.html#LGBMClassifier.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted LGBMClassifier model to the input data, predicting the correct classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted labels corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>labels (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the LGBMClassifier model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.predict_proba">
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMClassifier.html#LGBMClassifier.predict_proba"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMClassifier.predict_proba" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted LGBMClassifier model to the input data, predicting the probabilities of each class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted probabilities corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>probabilities (torch.Tensor of shape (n_samples, n_classes) or for binary classification (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the LGBMClassifier model has not been fitted before predicting.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lgbmregressor">
+<h2>LGBMRegressor<a class="headerlink" href="#lgbmregressor" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.Trees.</span></span><span class="sig-name descname"><span class="pre">LGBMRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples_split</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">large_error_proportion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">small_error_proportion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'squared'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">huber_delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_conflict_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_efb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMRegressor.html#LGBMRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>LGBMRegressor implements a regression algorithm fitting many consecutive trees to gradients and hessians of the loss function. The algorithm is based on <a class="reference external" href="https://proceedings.neurips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf">this paper</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_trees</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of trees used for predicting. Defaults to 50. Must be a positive integer.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – The number multiplied to each additional trees residuals. Must be a real number in range (0, 1). Defaults to 0.5.</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum depth of the tree. Defaults to 3. Must be a positive integer.</p></li>
+<li><p><strong>min_samples_split</strong> (<em>int</em><em>, </em><em>optional</em>) – The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.</p></li>
+<li><p><strong>n_bins</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of bins used to find the optimal split of data. Must be greater than 1. Defaults to 30.</p></li>
+<li><p><strong>reg_lambda</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – The regularisation parameter used in fitting the trees. The larger the parameter, the smaller the trees. Must be a positive real number. Defaults to 1.</p></li>
+<li><p><strong>gamma</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – The minimum gain to make a split. Must be a non-negative real number. Defaults to 0.</p></li>
+<li><p><strong>large_error_proportion</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of the whole data with the largest error, which is always used to train the next weak learner. Defaults to 0.3.</p></li>
+<li><p><strong>small_error_proportion</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of data randomly selected from the remaining (1 - large_error_proportion) percent of data to train the next weak learner. Defaults to 0.2.</p></li>
+<li><p><strong>loss</strong> (<em>string</em><em>, </em><em>optional</em>) – The loss function used in calculations of the gradients and hessians. Must be one of “squared”, “absolute” or “huber”. Defaults to “squared”.</p></li>
+<li><p><strong>huber_delta</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – The delta parameter for the possibly used huber loss. If loss is not “huber”, this parameter is ignored.</p></li>
+<li><p><strong>max_conflict_rate</strong> (<em>float</em><em>, </em><em>optional</em>) – The proportion of samples, which are allowed to be nonzero without featuers being bundled. Is ignored if use_efb=False. Defaults to 0.0.</p></li>
+<li><p><strong>use_efb</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the exclusive feature bundling algorithm is used. Defaults to True.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMRegressor.html#LGBMRegressor.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the LGBMRegressor model to the input data by fitting trees to the errors made by previous trees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
+<li><p><strong>metrics</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>torch.Tensor</em><em>]</em>) – Contains the metrics that will be calculated between fitting each tree and returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The calculated metrics.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>metrics (dict[str, torch.Tensor])</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix or the target vector is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix or the target vector is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/Trees/_LGBMRegressor.html#LGBMRegressor.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted LGBMRegressor model to the input data, predicting the target values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be classified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted target values corresponding to each sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>targets (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the LGBMRegressor model has not been fitted before predicting.</p></li>
 <li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
 <li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
 </ul>

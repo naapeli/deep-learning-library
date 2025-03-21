@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/DLL.html">DLL</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#gaussian-processes">Gaussian Processes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#metrics">Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#support-vector-machines">Support vector machines</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_examples/rename.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<p>Here are some examples on how to use the models in the library.</p>
+<div class="sphx-glr-thumbnails"></div></section>
+<section id="gaussian-processes">
+<h1>Gaussian Processes<a class="headerlink" href="#gaussian-processes" title="Link to this heading"></a></h1>
+<p>Here are some examples on how to use the GaussianProcessRegressor.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of a Gaussian Process Regressor (GPR) with a  Radial Basis Function (RBF) kernel in a multidimensional setting. The example  involves training a GPR model on 2D input data and predicting the outputs on  a test set."><img alt="" src="../_images/sphx_glr_MultidimensionalGPR_thumb.png" />
+<p><a class="reference internal" href="GaussianProcesses/MultidimensionalGPR.html#sphx-glr-auto-examples-gaussianprocesses-multidimensionalgpr-py"><span class="std std-ref">Multidimensional Gaussian Process Regression (GPR)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multidimensional Gaussian Process Regression (GPR)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of a custom Gaussian Process Regressor (GPR)  model with a compound kernel on generated data. The model is trained using  a combination of a linear kernel and a periodic kernel, and the training  process optimizes the kernel parameters to fit the data. The script also  compares the custom GPR model with the GPR implementation from Scikit-learn  using a different kernel combination."><img alt="" src="../_images/sphx_glr_GaussianProcessRegressor_thumb.png" />
+<p><a class="reference internal" href="GaussianProcesses/GaussianProcessRegressor.html#sphx-glr-auto-examples-gaussianprocesses-gaussianprocessregressor-py"><span class="std std-ref">Gaussian Process Regressor (GPR)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Gaussian Process Regressor (GPR)</div>
+</div></div></section>
+<section id="linear-models">
+<h1>Linear Models<a class="headerlink" href="#linear-models" title="Link to this heading"></a></h1>
+<p>Here are some examples on how to use the linear models offered in the library.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of RANSAC (Random Sample Consensus) regression to fit a robust model in the presence of outliers. A quadratic relationship is used to generate inlier data, while a separate set of points acts as outliers. The performance of standard linear regression is compared with RANSAC regression to highlight the latter&#x27;s robustness to noisy data."><img alt="" src="../_images/sphx_glr_RANSAC_thumb.png" />
+<p><a class="reference internal" href="LinearModels/RANSAC.html#sphx-glr-auto-examples-linearmodels-ransac-py"><span class="std std-ref">Robust Regression with RANSAC</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robust Regression with RANSAC</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates polynomial regression on a 2D dataset using total least squares (TLS). It generates a grid of input points, applies polynomial feature expansion, and fits a linear regression model. Predictions are visualized in 3D, comparing model output (blue) against actual values (red)."><img alt="" src="../_images/sphx_glr_PolynomialFeatures_thumb.png" />
+<p><a class="reference internal" href="LinearModels/PolynomialFeatures.html#sphx-glr-auto-examples-linearmodels-polynomialfeatures-py"><span class="std std-ref">Polynomial Surface Regression with Total Least Squares</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Polynomial Surface Regression with Total Least Squares</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script trains a logistic regression model on the Iris dataset using  gradient descent. It supports both binary and multi-class classification."><img alt="" src="../_images/sphx_glr_LogisticRegression_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LogisticRegression.html#sphx-glr-auto-examples-linearmodels-logisticregression-py"><span class="std std-ref">Logistic Regression on the Iris Dataset</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Logistic Regression on the Iris Dataset</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates Locally Weighted Regression (LWR), using a Gaussian kernel  to assign weights to training samples based on their distance from a test  point."><img alt="" src="../_images/sphx_glr_LocallyWeightedRegression_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LocallyWeightedRegression.html#sphx-glr-auto-examples-linearmodels-locallyweightedregression-py"><span class="std std-ref">Locally Weighted Regression on a Sine Function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Locally Weighted Regression on a Sine Function</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the effect of L1 (LASSO), L2 (Ridge), and  ElasticNet regularization on regression coefficients. It generates  a 3D synthetic dataset and fits different models with varying alpha  (regularization strength), tracking the weight paths."><img alt="" src="../_images/sphx_glr_LinearRegularisation_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LinearRegularisation.html#sphx-glr-auto-examples-linearmodels-linearregularisation-py"><span class="std std-ref">Regularization Path for Ridge, LASSO, and ElasticNet Regression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Regularization Path for Ridge, LASSO, and ElasticNet Regression</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of linear regression models and their regularized counterparts (Ridge,  LASSO, and ElasticNet) on synthetic data. The models are fitted to 1D and 2D datasets, and performance  is evaluated through residual analysis, summary statistics, and visualizations."><img alt="" src="../_images/sphx_glr_LinearModels_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LinearModels.html#sphx-glr-auto-examples-linearmodels-linearmodels-py"><span class="std std-ref">Linear and Regularized Regression Models on Synthetic Data</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Linear and Regularized Regression Models on Synthetic Data</div>
+</div></div></section>
+<section id="metrics">
+<h1>Metrics<a class="headerlink" href="#metrics" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use the metrics, particularly ROC curve, offered in the library.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of ROC Curve for binary classification on synthetic data.  The dataset is generated using make_blobs from scikit-learn to create a 2D feature space with two  centers. The script then splits the dataset into training and test sets, trains a logistic regression  model, and evaluates its performance using metrics such as accuracy, ROC curve, and AUC (Area Under the  Curve)."><img alt="" src="../_images/sphx_glr_ROC_thumb.png" />
+<p><a class="reference internal" href="Metrics/ROC.html#sphx-glr-auto-examples-metrics-roc-py"><span class="std std-ref">Logistic Regression on Synthetic Data with ROC Curve and AUC</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Logistic Regression on Synthetic Data with ROC Curve and AUC</div>
+</div></div></section>
+<section id="naive-bayes">
+<h1>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use the Naive Bayes algorithms offered in the library.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of different Naive Bayes classifiers (Gaussian, Bernoulli, and  Multinomial) on multiple datasets: the Iris dataset and a synthetic dataset. The classifiers are  evaluated based on their accuracy in predicting the target values."><img alt="" src="../_images/sphx_glr_NaiveBayes_thumb.png" />
+<p><a class="reference internal" href="NaiveBayes/NaiveBayes.html#sphx-glr-auto-examples-naivebayes-naivebayes-py"><span class="std std-ref">Naive Bayes Classifiers on Iris and Synthetic Datasets</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Naive Bayes Classifiers on Iris and Synthetic Datasets</div>
+</div></div></section>
+<section id="neighbours">
+<h1>Neighbours<a class="headerlink" href="#neighbours" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use K-Nearest Neighbours algorithms offered in the library.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of K-Nearest Neighbors (KNN) for both classification and regression  tasks using the KNNClassifier and KNNRegressor models. It also showcases model serialization  with save_model."><img alt="" src="../_images/sphx_glr_KNN_thumb.png" />
+<p><a class="reference internal" href="Neighbours/KNN.html#sphx-glr-auto-examples-neighbours-knn-py"><span class="std std-ref">K-Nearest Neighbors (KNN) Classification and Regression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">K-Nearest Neighbors (KNN) Classification and Regression</div>
+</div></div></section>
+<section id="optimizers">
+<h1>Optimizers<a class="headerlink" href="#optimizers" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use different optimization algorithms offered in the library.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the performance of various optimization algorithms in minimizing the  Rosenbrock function, a well-known test problem in optimization. "><img alt="" src="../_images/sphx_glr_Optimisers_thumb.png" />
+<p><a class="reference internal" href="Optimisers/Optimisers.html#sphx-glr-auto-examples-optimisers-optimisers-py"><span class="std std-ref">Comparison of Optimization Algorithms on the Rosenbrock Function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Comparison of Optimization Algorithms on the Rosenbrock Function</div>
+</div></div></section>
+<section id="reinforcement-learning">
+<h1>Reinforcement learning<a class="headerlink" href="#reinforcement-learning" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use neural networks offered by the library for deep reinforcement learning.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script implements a Deep Q-Network (DQN) by training an agent to  balance a pole in the CartPole-v1 environment from OpenAI Gymnasium."><img alt="" src="../_images/sphx_glr_DeepReinforcementLearning_thumb.png" />
+<p><a class="reference internal" href="ReinforcementLearning/DeepReinforcementLearning.html#sphx-glr-auto-examples-reinforcementlearning-deepreinforcementlearning-py"><span class="std std-ref">Deep Q-Learning Agent for CartPole-v1</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Deep Q-Learning Agent for CartPole-v1</div>
+</div></div></section>
+<section id="support-vector-machines">
+<h1>Support vector machines<a class="headerlink" href="#support-vector-machines" title="Link to this heading"></a></h1>
+<p>Here is an example on how to use the support vector machines offered by the library for classification and regression.</p>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of Support Vector Regression (SVR) to model and predict a synthetic 3D surface. The objective is to train the model to approximate the surface defined by the equation:"><img alt="" src="../_images/sphx_glr_SupportVectorRegression_thumb.png" />
+<p><a class="reference internal" href="SVM/SupportVectorRegression.html#sphx-glr-auto-examples-svm-supportvectorregression-py"><span class="std std-ref">Support Vector Regression for 3D Surface Fitting</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Support Vector Regression for 3D Surface Fitting</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script compares the performance of different Support Vector Machine (SVM) solvers on a synthetic 2D classification dataset. The solvers compared include:"><img alt="" src="../_images/sphx_glr_SupportVectorClassification_thumb.png" />
+<p><a class="reference internal" href="SVM/SupportVectorClassification.html#sphx-glr-auto-examples-svm-supportvectorclassification-py"><span class="std std-ref">Support Vector Classifier Solver Comparison</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Support Vector Classifier Solver Comparison</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/07fcc19ba03226cd3d83d4e40ec44385/auto_examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">auto_examples_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/6f1e7a639e0699d6164445b55e6c116d/auto_examples_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

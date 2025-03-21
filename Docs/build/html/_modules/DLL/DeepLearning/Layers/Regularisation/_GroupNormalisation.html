@@ -8,6 +8,10 @@
   <title>DLL.DeepLearning.Layers.Regularisation._GroupNormalisation &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,6 +47,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../api/DLL.html">DLL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
 </ul>
 
         </div>
@@ -97,7 +106,6 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialise_layer</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_groups</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -170,8 +178,8 @@
         <span class="n">dCdx_reshaped</span> <span class="o">=</span> <span class="n">dCdy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span>
         <span class="n">dCdgamma</span> <span class="o">=</span> <span class="p">(</span><span class="n">dCdy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_reshaped</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">dCdbeta</span> <span class="o">=</span> <span class="n">dCdy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">dCdgamma</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">grad</span> <span class="o">=</span> <span class="n">dCdbeta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">grad</span> <span class="o">+=</span> <span class="n">dCdgamma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">grad</span> <span class="o">+=</span> <span class="n">dCdbeta</span>
 
         <span class="n">dCdx_norm</span> <span class="o">=</span> <span class="n">dCdx_reshaped</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_groups</span><span class="p">,</span> <span class="n">elements_per_group</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
         <span class="n">dCdx_centered</span> <span class="o">=</span> <span class="n">dCdx_norm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">inv_std</span>

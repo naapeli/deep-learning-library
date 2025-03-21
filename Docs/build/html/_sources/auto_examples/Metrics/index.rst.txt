@@ -1,0 +1,46 @@
+
+
+.. _sphx_glr_auto_examples_Metrics:
+
+Metrics
+====================
+
+Here is an example on how to use the metrics, particularly ROC curve, offered in the library.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of ROC Curve for binary classification on synthetic data.  The dataset is generated using make_blobs from scikit-learn to create a 2D feature space with two  centers. The script then splits the dataset into training and test sets, trains a logistic regression  model, and evaluates its performance using metrics such as accuracy, ROC curve, and AUC (Area Under the  Curve).">
+
+.. only:: html
+
+  .. image:: /auto_examples/Metrics/images/thumb/sphx_glr_ROC_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Metrics_ROC.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Logistic Regression on Synthetic Data with ROC Curve and AUC</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/Metrics/ROC
+

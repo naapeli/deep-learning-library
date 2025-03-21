@@ -9,6 +9,10 @@
   <title>Dimensionality reduction &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
@@ -20,7 +24,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Custom exceptions" href="DLL.Exceptions.html" />
+    <link rel="next" title="Outlier detection" href="DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.html" />
     <link rel="prev" title="Clustering" href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html" /> 
 </head>
 
@@ -43,21 +47,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html">Clustering</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Dimensionality reduction</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
 </ul>
 </li>
 </ul>
@@ -91,8 +99,8 @@
              
   <section id="dimensionality-reduction">
 <h1>Dimensionality reduction<a class="headerlink" href="#dimensionality-reduction" title="Link to this heading"></a></h1>
-<section id="pca">
-<h2>PCA<a class="headerlink" href="#pca" title="Link to this heading"></a></h2>
+<section id="principal-component-analysis">
+<h2>Principal Component Analysis<a class="headerlink" href="#principal-component-analysis" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA" title="Link to this definition"></a></dt>
@@ -150,6 +158,26 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>First finds the principal components of X and then transforms X to fitted space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the data before computing the PCA. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the principal component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform">
 <span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_PCA.html#PCA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA.transform" title="Link to this definition"></a></dt>
 <dd><p>Applies the fitted PCA model to the input data, transforming it into the reduced feature space.</p>
@@ -176,6 +204,427 @@
 </dd></dl>
 
 </section>
+<section id="robust-principal-component-analysis">
+<h2>Robust Principal Component Analysis<a class="headerlink" href="#robust-principal-component-analysis" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">RobustPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_RobustPCA.html#RobustPCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Robust version of Principal Component Analysis (PCA). First finds matricies L and S such that X = L + S, where L is low rank and S is sparse. Then applies PCA to L.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em>) – Number of principal components to keep. The number must be a positive integer.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.components">
+<span class="sig-name descname"><span class="pre">components</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.components" title="Link to this definition"></a></dt>
+<dd><p>Principal components extracted from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.explained_variance">
+<span class="sig-name descname"><span class="pre">explained_variance</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.explained_variance" title="Link to this definition"></a></dt>
+<dd><p>Variance explained by the selected components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_RobustPCA.html#RobustPCA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the RobustPCA model to the input data by calculating the principal components.</p>
+<p>The input data is always centered and if <cite>normalize=True</cite>, also normalized so that the standard deviation is 1 along each axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – Determines how many iterations are used for finding the L and S matricies. Defaults to 1000. Must be a positive integer.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the data before computing the PCA. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor or if the <cite>normalize</cite> parameter is not boolean.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_RobustPCA.html#RobustPCA.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>First finds the principal components of X and then transforms X to fitted space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – Determines how many iterations are used for finding the L and S matricies. Defaults to 1000. Must be a positive integer.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the data before computing the PCA. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the principal component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_RobustPCA.html#RobustPCA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA.transform" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted RobustPCA model to the input data, transforming it into the reduced feature space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the principal component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the RobustPCA model has not been fitted before transforming.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="t-distributed-stochastic-neighbor-embedding">
+<h2>t-Distributed Stochastic Neighbor Embedding<a class="headerlink" href="#t-distributed-stochastic-neighbor-embedding" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">TSNE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pca'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exaggeration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perplexity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_TSNE.html#TSNE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>T-distributed Stochastic Neighbor Embedding (T-SNE) class for dimensionality reduction. This implementation is based on <a class="reference external" href="https://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf">this paper</a> and <a class="reference external" href="https://towardsdatascience.com/t-sne-from-scratch-ft-numpy-172ee2a61df7/">this article</a>. The main difference is that this implementation uses vectorized matrix operations making it considerably faster than the loop approach used in the article.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_components</strong> (<em>int</em>) – Number of principal components to keep. The number must be a positive integer.</p></li>
+<li><p><strong>init</strong> (<em>str</em><em>, </em><em>optional</em>) – The method for initializing the embedding. Must be in <code class="docutils literal notranslate"><span class="pre">[&quot;pca&quot;,</span> <span class="pre">&quot;random&quot;]</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;pca&quot;</span></code>.</p></li>
+<li><p><strong>p</strong> (<em>int</em><em>, </em><em>optional</em>) – The order of the chosen metric. Must be a positive integer. Defaults to 2, which corresponds to the Euclidian metric.</p></li>
+<li><p><strong>early_exaggeration</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – Determines how far apart the clusters are in the embedding space. Must be a positive real number. Defaults to 12.0.</p></li>
+<li><p><strong>perplexity</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – Determines how far can samples be from one another to be considered neighbors. Must be a positive real number. Defaults to 30.0. One should consider using something between 5 and 50 to begin with.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – Determines how long steps do we take towards the gradient. Must be a positive real number. It is recommended to use a value between 10.0 and 1000.0. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, where we use a value of <code class="docutils literal notranslate"><span class="pre">max(n_samples</span> <span class="pre">/</span> <span class="pre">(4</span> <span class="pre">*</span> <span class="pre">early_exaggeration),</span> <span class="pre">50)</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.history">
+<span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.history" title="Link to this definition"></a></dt>
+<dd><p>The history of KL-divergence loss function each epoch. Available after fitting the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_TSNE.html#TSNE.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.fit" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for the TSNE.fit_transform(X) method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training epochs after early exaggeration. Must be a positive integer. Defaults to 100.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the loss is printed each epoch. Must be a boolean. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_TSNE.html#TSNE.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>Fits the T-SNE model to the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training epochs after early exaggeration. Must be a positive integer. Defaults to 100. Due to early exaggeration, the embedding is updated epochs + 250 times.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the loss is printed each epoch. Must be a boolean. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The embedded samples of shape (n_samples, n_components).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>embedding (torch.tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="uniform-manifold-approximation-and-projection">
+<h2>Uniform Manifold Approximation and Projection<a class="headerlink" href="#uniform-manifold-approximation-and-projection" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">UMAP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'spectral'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_UMAP.html#UMAP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Uniform Manifold Approximation and Projection (UMAP) class for dimensionality reduction. This implementation is based on <a class="reference external" href="https://arxiv.org/pdf/1802.03426">this paper</a> and <a class="reference external" href="https://github.com/NikolayOskolkov/HowUMAPWorks/blob/master/HowUMAPWorks.ipynb">this article</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_components</strong> (<em>int</em>) – Number of principal components to keep. The number must be a positive integer.</p></li>
+<li><p><strong>init</strong> (<em>str</em><em>, </em><em>optional</em>) – The method for initializing the embedding. Must be in <code class="docutils literal notranslate"><span class="pre">[&quot;spectral&quot;,</span> <span class="pre">&quot;pca&quot;,</span> <span class="pre">&quot;random&quot;]</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;spectral&quot;</span></code>.</p></li>
+<li><p><strong>p</strong> (<em>int</em><em>, </em><em>optional</em>) – The order of the chosen metric. Must be a positive integer. Defaults to 2, which corresponds to the Euclidian metric.</p></li>
+<li><p><strong>n_neighbor</strong> (<em>int</em><em>, </em><em>optional</em>) – Controls how UMAP balances local and global structure in data. The larger this parameter is the better the global structure is conserved. A small value conserves fine details well, but may lose global structure. Must be a positive integer. Defaults to 15.</p></li>
+<li><p><strong>min_dist</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – Controls the minimum distance between samples in the low dimensional space. Must be a non-negative real number. Defaults to 0.25.</p></li>
+<li><p><strong>learning_rate</strong> (<em>float</em><em> | </em><em>int</em><em>, </em><em>optional</em>) – Determines how long steps do we take towards the gradient. Must be a positive real number. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.history">
+<span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.history" title="Link to this definition"></a></dt>
+<dd><p>The history of the cross entropy loss function each epoch. Available after fitting the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_UMAP.html#UMAP.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.fit" title="Link to this definition"></a></dt>
+<dd><p>Wrapper for the TSNE.fit_transform(X) method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training epochs after early exaggeration. Must be a positive integer. Defaults to 100.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the loss is printed each epoch. Must be a boolean. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_UMAP.html#UMAP.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>Fits the UMAP model to the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training epochs. Must be a positive integer. Defaults to 100.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determines if the loss is printed each epoch. Must be a boolean. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The embedded samples of shape (n_samples, n_components).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>embedding (torch.tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="discriminant-analysis">
+<h1>Discriminant Analysis<a class="headerlink" href="#discriminant-analysis" title="Link to this heading"></a></h1>
+<section id="linear-discriminant-analysis">
+<h2>Linear Discriminant Analysis<a class="headerlink" href="#linear-discriminant-analysis" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">LDA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_LDA.html#LDA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Linear discriminant analysis (LDA) class for dimensionality reduction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_components</strong> (<em>int</em>) – Number of principal components to keep. The number must be a positive integer.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.components">
+<span class="sig-name descname"><span class="pre">components</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.components" title="Link to this definition"></a></dt>
+<dd><p>Components extracted from the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>torch.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features in the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_LDA.html#LDA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the LDA model to the input data by calculating the components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_LDA.html#LDA.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.fit_transform" title="Link to this definition"></a></dt>
+<dd><p>First finds the components of X and then transforms X to fitted space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_LDA.html#LDA.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted LDA model to the input data, predicting the correct classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>y (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the LDA model has not been fitted before transforming.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_LDA.html#LDA.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA.transform" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted LDA model to the input data, transforming it into the reduced feature space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data transformed into the component space.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>X_new (torch.Tensor of shape (n_samples, n_components))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the LDA model has not been fitted before transforming.</p></li>
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="quadratic-discriminant-analysis">
+<h2>Quadratic Discriminant Analysis<a class="headerlink" href="#quadratic-discriminant-analysis" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.</span></span><span class="sig-name descname"><span class="pre">QDA</span></span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_QDA.html#QDA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Quadratic discriminant analysis (LDA) class for classification.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.n_features">
+<span class="sig-name descname"><span class="pre">n_features</span></span><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.n_features" title="Link to this definition"></a></dt>
+<dd><p>The number of features in the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_QDA.html#QDA.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the QDA model to the input data by calculating the class means and covariances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
+<li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/UnsupervisedLearning/DimensionalityReduction/_QDA.html#QDA.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA.predict" title="Link to this definition"></a></dt>
+<dd><p>Applies the fitted QDA model to the input data, predicting the correct classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data to be transformed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>y (torch.Tensor of shape (n_samples,))</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the QDA model has not been fitted before transforming.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -183,7 +632,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="DLL.MachineLearning.UnsupervisedLearning.Clustering.html" class="btn btn-neutral float-left" title="Clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="DLL.Exceptions.html" class="btn btn-neutral float-right" title="Custom exceptions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.html" class="btn btn-neutral float-right" title="Outlier detection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

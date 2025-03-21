@@ -9,6 +9,10 @@
   <title>Preprocessing &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,26 +47,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="DLL.Data.html">Data</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="DLL.Data.DataReader.html">DataReader</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.Data.Metrics.html">Metrics</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Preprocessing</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.CategoricalEncoder"><code class="docutils literal notranslate"><span class="pre">CategoricalEncoder</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.MinMaxScaler"><code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.OneHotEncoder"><code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.PolynomialFeatures"><code class="docutils literal notranslate"><span class="pre">PolynomialFeatures</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.StandardScaler"><code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.Data.Preprocessing.data_split"><code class="docutils literal notranslate"><span class="pre">data_split()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.Data.html">Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
 </ul>
 </li>
 </ul>
@@ -244,13 +247,13 @@
 <dd><p>One-hot encodes the data. OneHotEncoder.fit() must be called before decoding.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_classes</em><em>)</em>) – the predictions of samples.</p>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_classes_1 + </em><em>...</em><em> + n_classes_n_features</em><em>)</em>) – the predictions of samples.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A decoded predictions transformed to the original classes.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_samples,)</p>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples,) or (n_samples, n_features)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -261,13 +264,13 @@
 <dd><p>One-hot encodes the data. OneHotEncoder.fit() must be called before encoding.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – the true labels of samples.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A one-hot encoded tensor.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes)</p>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes_1 + … + n_classes_n_features)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -278,7 +281,7 @@
 <dd><p>Finds the classes in the data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – the true labels of samples.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -289,13 +292,13 @@
 <dd><p>First fits the encoder and then one-hot encodes the data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – the true labels of samples.</p>
+<dd class="field-odd"><p><strong>data</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>(</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – the true labels of samples.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A one-hot encoded tensor.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes)</p>
+<dd class="field-odd"><p>torch.Tensor of shape (n_samples, n_classes_1 + … + n_classes_n_features)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -304,12 +307,15 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.Data.Preprocessing.PolynomialFeatures">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">PolynomialFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#PolynomialFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.PolynomialFeatures" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.Data.Preprocessing.</span></span><span class="sig-name descname"><span class="pre">PolynomialFeatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degree</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/Data/Preprocessing.html#PolynomialFeatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.Data.Preprocessing.PolynomialFeatures" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Polynomial features.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>degree</strong> (<em>int</em><em>, </em><em>optional</em>) – The degree of the polynomial. Must be a positive integer. Defaults to 2.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degree</strong> (<em>int</em><em>, </em><em>optional</em>) – The degree of the polynomial. Must be a positive integer. Defaults to 2.</p></li>
+<li><p><strong>include_bias</strong> (<em>bool</em>) – If true, a column of ones is included. Must be a boolean. Defaults to True.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">

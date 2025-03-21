@@ -9,6 +9,10 @@
   <title>Models &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,25 +47,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html">Core layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html#activation-layers">Activation layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Layers.html#regularisation-layers">Regularisation layers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Losses.html">Losses</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Optimisers.html">Optimisers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.DeepLearning.Initialisers.html">Initialisers</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Models</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#DLL.DeepLearning.Model.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
 </ul>
 </li>
 </ul>
@@ -92,11 +96,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-DLL.DeepLearning.Model">
-<span id="models"></span><h1>Models<a class="headerlink" href="#module-DLL.DeepLearning.Model" title="Link to this heading"></a></h1>
+  <section id="models">
+<span id="models-section-label"></span><h1>Models<a class="headerlink" href="#models" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Model.Model">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.Model" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">torch.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cpu')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.Model" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The base model for a sequantial deep learning model. Uses a linear stack of layers to do forward- and backpropagation.</p>
 <dl class="field-list simple">
@@ -120,15 +124,22 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Model.Model.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#Model.clone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.Model.clone" title="Link to this definition"></a></dt>
+<dd><p>Returns a copy of the same model.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="DLL.DeepLearning.Model.Model.compile">
-<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#Model.compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.Model.compile" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('loss',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#Model.compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.Model.compile" title="Link to this definition"></a></dt>
 <dd><p>Configures the model for training. Sets the optimiser and the loss function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>optimiser</strong> (<a class="reference internal" href="DLL.DeepLearning.Optimisers.html#optimisers-section-label"><span class="std std-ref">Optimisers</span></a> | None, optional) – The optimiser used for training the model. If None, the ADAM optimiser is used.</p></li>
 <li><p><strong>loss</strong> (<a class="reference internal" href="DLL.DeepLearning.Losses.html#losses-section-label"><span class="std std-ref">Losses</span></a> | None, optional) – The loss function used for training the model. If None, the MSE loss is used.</p></li>
-<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The metrics that will be tracked during training. Defaults to [“loss”].</p></li>
+<li><p><strong>metrics</strong> (<em>tuple</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The metrics that will be tracked during training. Defaults to (“loss”).</p></li>
+<li><p><strong>callbacks</strong> (tuple[<a class="reference internal" href="DLL.DeepLearning.Callbacks.html#callbacks-section-label"><span class="std std-ref">Callbacks</span></a>], optional) – The callbacks used by the model. Defaults to ().</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -156,10 +167,10 @@
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency.</p>
+<dd class="field-even"><p>A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency. If training was not stopped early, each metric is floor(epochs / callback_frequency) long.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.)</p>
+<dd class="field-odd"><p>history (dict[str, list])</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
@@ -199,6 +210,21 @@
 <dd><p>Prints the summary of the model containing its architecture and the number of parameters of the model.</p>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="saving-and-loading-models">
+<h1>Saving and loading models<a class="headerlink" href="#saving-and-loading-models" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Model.save_model">
+<span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Model.</span></span><span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./model.pkl'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.save_model" title="Link to this definition"></a></dt>
+<dd><p>Saves a model using pickle serialization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="DLL.DeepLearning.Model.load_model">
+<span class="sig-prename descclassname"><span class="pre">DLL.DeepLearning.Model.</span></span><span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./model.pkl'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/DeepLearning/Model.html#load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.DeepLearning.Model.load_model" title="Link to this definition"></a></dt>
+<dd><p>Loads a model from a pickle file.</p>
 </dd></dl>
 
 </section>

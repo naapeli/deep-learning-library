@@ -9,6 +9,10 @@
   <title>Linear models &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,27 +47,25 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="DLL.html">DLL</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="DLL.Data.html">Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.DeepLearning.html">Deep learning</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.html">Supervised learning</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.GaussianProcesses.html">Gaussian processes</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Linear models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#time-series">Time series</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.NaiveBayes.html">Naive Bayes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Neighbors.html">Neighbors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Trees.html">Trees</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.SupportVectorMachines.html">Support vector machines</a></li>
-<li class="toctree-l4"><a class="reference internal" href="DLL.MachineLearning.SupervisedLearning.Kernels.html">Kernels</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="DLL.MachineLearning.UnsupervisedLearning.html">UnsupervisedLearning</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="DLL.MachineLearning.html">MachineLearning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
 </ul>
 </li>
 </ul>
@@ -139,7 +141,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LinearRegression.html#LinearRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ols'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LinearRegression.html#LinearRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LinearRegression.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the LinearRegression model to the input data by minimizing the squared error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -147,6 +149,8 @@
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
 <li><p><strong>include_bias</strong> (<em>bool</em><em>, </em><em>optional</em>) – Decides if a bias is included in a model. Defaults to True.</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Determines if the loss function is ordinary least squares or total least squares. Must be one of “ols” or “tls”. Defaults to “ols”.</p></li>
+<li><p><strong>sample_weight</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>None</em>) – A weight given to each sample in the regression. If None, this parameter is ignored. sample_weight is ignored if method == “tls”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -235,7 +239,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LogisticRegression.html#LogisticRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LogisticRegression.html#LogisticRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LogisticRegression.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the LogisticRegression model to the input data by minimizing the cross entropy loss (logistic loss).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -323,15 +327,12 @@
 <h2>LassoRegression<a class="headerlink" href="#lassoregression" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">LASSORegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss=&lt;DLL.DeepLearning.Losses._MSE.MSE</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LassoRegression.html#LASSORegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">LASSORegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LassoRegression.html#LASSORegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements a linear regression model with L1 regularization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>alpha</strong> (<em>int</em><em> | </em><em>float</em><em>, </em><em>optional</em>) – The regularization parameter. Larger alpha will force the l1 norm of the weights to be lower. Must be a positive real number. Defaults to 1.</p></li>
-<li><p><strong>loss</strong> (<a class="reference internal" href="DLL.DeepLearning.Losses.html#losses-section-label"><span class="std std-ref">Losses</span></a>, optional) – A loss function used for training the model. Defaults to the mean squared error.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>alpha</strong> (<em>int</em><em> | </em><em>float</em><em>, </em><em>optional</em>) – The regularization parameter. Larger alpha will force the l1 norm of the weights to be lower. Must be a positive real number. Defaults to 1.</p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -351,18 +352,7 @@
 <dd><p>The weights of the linear regression model. Available after fitting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_features,)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.bias">
-<span class="sig-name descname"><span class="pre">bias</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.bias" title="Link to this definition"></a></dt>
-<dd><p>The constant of the model. Available after fitting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (1,)</p>
+<dd class="field-odd"><p>torch.Tensor of shape (n_features + 1,)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -380,8 +370,8 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LassoRegression.html#LASSORegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.fit" title="Link to this definition"></a></dt>
-<dd><p>Fits the LASSORegression model to the input data by minimizing the chosen loss function.</p>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_LassoRegression.html#LASSORegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.LASSORegression.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the LASSORegression model to the input data by minimizing the mean squared error loss function using cyclic coordinate-wise descent from <a class="reference external" href="https://aaltodoc.aalto.fi/server/api/core/bitstreams/091c41eb-7348-48d3-b25d-c8de25fbab03/content">this paper</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -389,12 +379,8 @@
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
 <li><p><strong>val_data</strong> (<em>tuple</em><em>[</em><em>X_val</em><em>, </em><em>y_val</em><em>] </em><em>| </em><em>None</em><em>, </em><em>optional</em>) – Optional validation samples. If None, no validation data is used. Defaults to None.</p></li>
 <li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training iterations. Must be a positive integer. Defaults to 100.</p></li>
-<li><p><strong>optimiser</strong> (<a class="reference internal" href="DLL.DeepLearning.Optimisers.html#optimisers-section-label"><span class="std std-ref">Optimisers</span></a> | None, optional) – The optimiser used for training the model. If None, the Adam optimiser is used.</p></li>
 <li><p><strong>callback_frequency</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of iterations between printing info from training. Must be a positive integer. Defaults to 1, which means that every iteration, info is printed assuming verbose=True.</p></li>
 <li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The metrics that will be tracked during training. Defaults to [“loss”].</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The batch size used in training. Must be a positive integer. If None, every sample is used for every gradient calculation. Defaults to None.</p></li>
-<li><p><strong>shuffle_every_epoch</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, shuffles the order of the samples every epoch. Defaults to True.</p></li>
-<li><p><strong>shuffle_data</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, shuffles data before the training.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, prints info of the chosen metrics during training. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -487,13 +473,14 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_RidgeRegression.html#RidgeRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_RidgeRegression.html#RidgeRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RidgeRegression.fit" title="Link to this definition"></a></dt>
 <dd><p>Fits the RidgeRegression model to the input data by minimizing the squared error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
+<li><p><strong>sample_weight</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>None</em>) – A weight given to each sample in the regression. If None, this parameter is ignored.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -539,7 +526,7 @@
 <h2>Elasticnet<a class="headerlink" href="#elasticnet" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">ElasticNetRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1_ratio=0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss=&lt;DLL.DeepLearning.Losses._MSE.MSE</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_Elasticnet.html#ElasticNetRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">ElasticNetRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_Elasticnet.html#ElasticNetRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements a linear regression model with L1 and L2 regularization.</p>
 <dl class="field-list simple">
@@ -565,21 +552,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.weights">
 <span class="sig-name descname"><span class="pre">weights</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.weights" title="Link to this definition"></a></dt>
-<dd><p>The weights of the linear regression model. Available after fitting.</p>
+<dd><p>The weights of the linear regression model. The first element is the bias of the model. Available after fitting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (n_features,)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.bias">
-<span class="sig-name descname"><span class="pre">bias</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.bias" title="Link to this definition"></a></dt>
-<dd><p>The constant of the model. Available after fitting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>torch.Tensor of shape (1,)</p>
+<dd class="field-odd"><p>torch.Tensor of shape (n_features + 1,)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -597,8 +573,8 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimiser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_every_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_Elasticnet.html#ElasticNetRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.fit" title="Link to this definition"></a></dt>
-<dd><p>Fits the ElasticNetRegression model to the input data by minimizing the chosen loss function.</p>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['loss']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_Elasticnet.html#ElasticNetRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.ElasticNetRegression.fit" title="Link to this definition"></a></dt>
+<dd><p>Fits the ElasticNetRegression model to the input data by minimizing the mean squared error loss function using cyclic coordinate-wise descent from <a class="reference external" href="https://aaltodoc.aalto.fi/server/api/core/bitstreams/091c41eb-7348-48d3-b25d-c8de25fbab03/content">this paper</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -606,12 +582,8 @@
 <li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
 <li><p><strong>val_data</strong> (<em>tuple</em><em>[</em><em>X_val</em><em>, </em><em>y_val</em><em>] </em><em>| </em><em>None</em><em>, </em><em>optional</em>) – Optional validation samples. If None, no validation data is used. Defaults to None.</p></li>
 <li><p><strong>epochs</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of training iterations. Must be a positive integer. Defaults to 100.</p></li>
-<li><p><strong>optimiser</strong> (<a class="reference internal" href="DLL.DeepLearning.Optimisers.html#optimisers-section-label"><span class="std std-ref">Optimisers</span></a> | None, optional) – The optimiser used for training the model. If None, the Adam optimiser is used.</p></li>
 <li><p><strong>callback_frequency</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of iterations between printing info from training. Must be a positive integer. Defaults to 1, which means that every iteration, info is printed assuming verbose=True.</p></li>
 <li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The metrics that will be tracked during training. Defaults to [“loss”].</p></li>
-<li><p><strong>batch_size</strong> (<em>int</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The batch size used in training. Must be a positive integer. If None, every sample is used for every gradient calculation. Defaults to None.</p></li>
-<li><p><strong>shuffle_every_epoch</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, shuffles the order of the samples every epoch. Defaults to True.</p></li>
-<li><p><strong>shuffle_data</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, shuffles data before the training.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, prints info of the chosen metrics during training. Defaults to False.</p></li>
 </ul>
 </dd>
@@ -649,6 +621,65 @@
 <li><p><a class="reference internal" href="DLL.Exceptions.html#DLL.Exceptions.NotFittedError" title="DLL.Exceptions.NotFittedError"><strong>NotFittedError</strong></a> – If the ElasticNetRegression model has not been fitted before predicting.</p></li>
 <li><p><strong>TypeError</strong> – If the input matrix is not a PyTorch tensor.</p></li>
 <li><p><strong>ValueError</strong> – If the input matrix is not the correct shape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="random-sample-consensus">
+<h2>Random sample consensus<a class="headerlink" href="#random-sample-consensus" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">DLL.MachineLearning.SupervisedLearning.LinearModels.</span></span><span class="sig-name descname"><span class="pre">RANSACRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator=&lt;DLL.MachineLearning.SupervisedLearning.LinearModels._LinearRegression.LinearRegression</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_RANSAC.html#RANSACRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements the random sample consensus (RANSAC) regression model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimator</strong> (<em>A regression model with fit and predict methods</em>) – A base model which is fit to random samples of the data. Defaults to LinearRegression.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.best_estimator">
+<span class="sig-name descname"><span class="pre">best_estimator</span></span><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.best_estimator" title="Link to this definition"></a></dt>
+<dd><p>The best model. Available after fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>estimator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_inliers_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_RANSAC.html#RANSACRegression.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.fit" title="Link to this definition"></a></dt>
+<dd><p>Samples random subsamples of the datapoints and fits base estimators to the subsamples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>y</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em>) – The target values corresponding to each sample.</p></li>
+<li><p><strong>min_samples</strong> (<em>int</em><em> | </em><em>float</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The number of samples used to fit the base estimators. If float, ceil(n_samples * min_samples) is used and if None, n_features + 1 is used. Defaults to None</p></li>
+<li><p><strong>residual_threshold</strong> (<em>int</em><em> | </em><em>float</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The threshold for which larger absolute errors are considered outliers. If None, the median absolute deviation of y is used. Defaults to None.</p></li>
+<li><p><strong>max_trials</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of tries to sample the data. Must be a positive integer. Defaults to 100.</p></li>
+<li><p><strong>stop_inliers_prob</strong> (<em>int</em><em> | </em><em>float</em><em>, </em><em>optional</em>) – If the proportion of inliers on an iteration exceeds this value, the random sampling is stopped early. Defaults to 1, i.e. the process is never stopped early as the max(n_inliers / number_of_samples_in_subsample) == 1.</p></li>
+<li><p><strong>kwargs</strong> – Other parameters are passed to estimator.fit()</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/DLL/MachineLearning/SupervisedLearning/LinearModels/_RANSAC.html#RANSACRegression.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#DLL.MachineLearning.SupervisedLearning.LinearModels.RANSACRegression.predict" title="Link to this definition"></a></dt>
+<dd><p>Predicts the values of the samples using the best estimator determined in the fit method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>torch.Tensor</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input data, where each row is a sample and each column is a feature.</p></li>
+<li><p><strong>kwargs</strong> – Other parameters are passed to estimator.predict()</p></li>
 </ul>
 </dd>
 </dl>

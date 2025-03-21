@@ -8,6 +8,10 @@
   <title>DLL.MachineLearning.SupervisedLearning.Neighbors._KNearestNeighborsClassifier &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../../../../../_static/custom.css?v=e2bd21bd" />
 
   
@@ -44,6 +48,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../api/DLL.html">DLL</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
+</ul>
 
         </div>
       </div>
@@ -71,6 +80,7 @@
              
   <h1>Source code for DLL.MachineLearning.SupervisedLearning.Neighbors._KNearestNeighborsClassifier</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
 <span class="kn">from</span> <span class="nn">....Exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
 
@@ -85,12 +95,6 @@
 <span class="sd">        k (int, optional): The number of closest samples considered for the predictions. Must be a positive integer. Defaults to 3.</span>
 <span class="sd">        metric (str, optional): A distance metric for the closest points. Must be one of &quot;euclidian&quot; or &quot;manhattan&quot;. Defaults to &quot;euclidian&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">_metrics</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;euclidian&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">:</span> <span class="p">((</span><span class="n">X1</span> <span class="o">-</span> <span class="n">X2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(),</span>
-        <span class="s2">&quot;manhattan&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X1</span> <span class="o">-</span> <span class="n">X2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
-    <span class="p">}</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;euclidian&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;k must be a positive integer.&quot;</span><span class="p">)</span>
@@ -98,7 +102,13 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;metric must be on of &quot;euclidian&quot; or &quot;manhattan&quot;.&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">KNNClassifier</span><span class="o">.</span><span class="n">_metrics</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">metric</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metric</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;euclidian&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">((</span><span class="n">X1</span> <span class="o">-</span> <span class="n">X2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;manhattan&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X1</span> <span class="o">-</span> <span class="n">X2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="KNNClassifier.fit">
 <a class="viewcode-back" href="../../../../../api/DLL.MachineLearning.SupervisedLearning.Neighbors.html#DLL.MachineLearning.SupervisedLearning.Neighbors.KNNClassifier.fit">[docs]</a>
