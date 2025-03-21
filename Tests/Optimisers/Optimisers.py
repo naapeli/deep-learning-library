@@ -1,9 +1,25 @@
+"""
+Comparison of Optimization Algorithms on the Rosenbrock Function
+================================================================
+
+This script demonstrates the performance of various optimization algorithms in minimizing the 
+Rosenbrock function, a well-known test problem in optimization. 
+
+**Optimization Algorithms from `DLL.DeepLearning.Optimisers`**:
+    - **LBFGS** (Limited-memory BFGS)
+    - **SGD** (Stochastic Gradient Descent)
+    - **ADAM** (Adaptive Moment Estimation)
+    - **ADAGRAD** (Adaptive Gradient Algorithm)
+    - **ADADELTA** (Adaptive Delta)
+    - **RMSPROP** (Root Mean Square Propagation)
+"""
+
 import torch
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 import numpy as np
 
-from src.DLL.DeepLearning.Optimisers import LBFGS, ADAM, SGD, ADAGRAD, ADADELTA, RMSPROP
+from DLL.DeepLearning.Optimisers import LBFGS, ADAM, SGD, ADAGRAD, ADADELTA, RMSPROP
 
 
 torch.set_printoptions(sci_mode=False)
@@ -44,12 +60,18 @@ points4 = [x4.clone()]
 points5 = [x5.clone()]
 points6 = [x6.clone()]
 for epoch in range(max_iter):
-    x1.grad = f_prime(x1)
-    x2.grad = f_prime(x2)
-    x3.grad = f_prime(x3)
-    x4.grad = f_prime(x4)
-    x5.grad = f_prime(x5)
-    x6.grad = f_prime(x6)
+    optimiser1.zero_grad()
+    optimiser2.zero_grad()
+    optimiser3.zero_grad()
+    optimiser4.zero_grad()
+    optimiser5.zero_grad()
+    optimiser6.zero_grad()
+    x1.grad += f_prime(x1)
+    x2.grad += f_prime(x2)
+    x3.grad += f_prime(x3)
+    x4.grad += f_prime(x4)
+    x5.grad += f_prime(x5)
+    x6.grad += f_prime(x6)
     optimiser1.update_parameters()
     optimiser2.update_parameters()
     optimiser3.update_parameters()
@@ -83,7 +105,7 @@ points4 = torch.stack(points4)
 points5 = torch.stack(points5)
 points6 = torch.stack(points6)
 scipy_points = np.stack(scipy_points)
-plt.figure(figsize=(6, 6))
+plt.figure(figsize=(10, 8))
 line_style = (0, (1, 3))  # (0, (1, 20))
 marker_size = 10
 plt.plot(points1[:, 0], points1[:, 1], linestyle=line_style, markersize=marker_size, label="path LBSGF")

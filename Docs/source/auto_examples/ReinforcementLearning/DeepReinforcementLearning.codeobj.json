@@ -1,0 +1,2088 @@
+{
+ "BATCH_SIZE": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "Dense": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._Dense",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  }
+ ],
+ "EPISODES": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "EPSILON_END": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "EPSILON_START": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "GAMMA": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "LR": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "MAX_EPISODE_LENGTH": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "MEMORY_SIZE": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "MOVING_AVERAGE": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "Model": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  }
+ ],
+ "RMSPROP": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  }
+ ],
+ "ReplayBuffer": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "__main__",
+   "module_short": "__main__",
+   "name": "ReplayBuffer"
+  }
+ ],
+ "SAVE_IMG": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "bool"
+  }
+ ],
+ "Tanh": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Tanh",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Tanh"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Tanh"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Tanh"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Tanh"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Tanh"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Tanh"
+  }
+ ],
+ "Xavier_Normal": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Xavier_Glorot",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Xavier_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Xavier_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Xavier_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Xavier_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Initialiser",
+   "module_short": "DLL.DeepLearning.Initialisers._Initialiser",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Xavier_Normal"
+  }
+ ],
+ "action": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "action_dim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "int64"
+  }
+ ],
+ "actions": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "actions.unsqueeze": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "agent": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model"
+  }
+ ],
+ "agent.add": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.add"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.add"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.add"
+  }
+ ],
+ "agent.backward": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.backward"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.backward"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.backward"
+  }
+ ],
+ "agent.compile": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.compile"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.compile"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.compile"
+  }
+ ],
+ "agent.loss.gradient": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses._MSE",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "MSE.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "MSE.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "MSE.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "MSE.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses._BaseLoss",
+   "module_short": "DLL.DeepLearning.Losses._BaseLoss",
+   "name": "BaseLoss.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "BaseLoss.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLoss.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLoss.gradient"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.gradient"
+  }
+ ],
+ "agent.optimiser.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "agent.optimiser.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "agent.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.predict"
+  }
+ ],
+ "animation.FuncAnimation": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib.animation",
+   "module_short": "matplotlib.animation",
+   "name": "FuncAnimation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "FuncAnimation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib.animation",
+   "module_short": "matplotlib.animation",
+   "name": "TimedAnimation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "TimedAnimation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib.animation",
+   "module_short": "matplotlib.animation",
+   "name": "Animation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Animation"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.animation",
+   "module_short": "matplotlib.animation",
+   "name": "FuncAnimation"
+  }
+ ],
+ "deque": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "collections",
+   "module_short": "collections",
+   "name": "deque"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "collections",
+   "module_short": "collections",
+   "name": "deque"
+  }
+ ],
+ "done": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "bool"
+  }
+ ],
+ "dones": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "env": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit"
+  }
+ ],
+ "env.action_space": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium.core",
+   "name": "Env.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.action_space"
+  }
+ ],
+ "env.action_space.n": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium.core",
+   "name": "Env.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.action_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.action_space"
+  }
+ ],
+ "env.close": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Env.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.close"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.close"
+  }
+ ],
+ "env.observation_space.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium.core",
+   "name": "Env.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.observation_space"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.observation_space"
+  }
+ ],
+ "env.render": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Env.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.render"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.render"
+  }
+ ],
+ "env.reset": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Env.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.reset"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.reset"
+  }
+ ],
+ "env.step": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers.common",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.wrappers",
+   "module_short": "gymnasium.wrappers",
+   "name": "TimeLimit.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "TimeLimit.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Wrapper.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Wrapper.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils.record_constructor",
+   "module_short": "gymnasium.utils.record_constructor",
+   "name": "RecordConstructorArgs.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.utils",
+   "module_short": "gymnasium.utils",
+   "name": "RecordConstructorArgs.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "RecordConstructorArgs.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium.core",
+   "module_short": "gymnasium",
+   "name": "Env.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "Env.step"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic.step"
+  }
+ ],
+ "episode": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "epsilon": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "epsilon_decay": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "epsilon_greedy_policy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "gradient": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "gym.make": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "gymnasium",
+   "module_short": "gymnasium",
+   "name": "make"
+  }
+ ],
+ "hidden_dim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "info": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
+ "initial_gradient": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "input": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "next_q_values": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "next_state": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "next_states": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "np.arange": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "arange"
+  }
+ ],
+ "np.array": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "array"
+  }
+ ],
+ "np.convolve": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "convolve"
+  }
+ ],
+ "np.float32": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "float32"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "floating"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "inexact"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "number"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "generic"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "float32"
+  }
+ ],
+ "np.ones": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ones"
+  }
+ ],
+ "old_state": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "plt.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "plot"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.subplots": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots"
+  }
+ ],
+ "plt.xlabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "xlabel"
+  }
+ ],
+ "plt.ylabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "ylabel"
+  }
+ ],
+ "q_values": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "q_values.gather": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "random.random": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "random",
+   "module_short": "random",
+   "name": "random"
+  }
+ ],
+ "random.sample": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "module.sample"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "random",
+   "module_short": "random",
+   "name": "sample"
+  }
+ ],
+ "replay_buffer": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "__main__",
+   "module_short": "__main__",
+   "name": "ReplayBuffer"
+  }
+ ],
+ "replay_buffer.add": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "__main__",
+   "module_short": "__main__",
+   "name": "ReplayBuffer.add"
+  }
+ ],
+ "replay_buffer.sample": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "__main__",
+   "module_short": "__main__",
+   "name": "ReplayBuffer.sample"
+  }
+ ],
+ "replay_buffer.size": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "__main__",
+   "module_short": "__main__",
+   "name": "ReplayBuffer.size"
+  }
+ ],
+ "reward": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "rewards": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "rewards_memory": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "rewards_memory.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "state": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "state_dim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "states": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "step": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "targets": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "torch.arange": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "arange"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.from_numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "from_numpy"
+  }
+ ],
+ "torch.long": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "long"
+  }
+ ],
+ "torch.manual_seed": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "manual_seed"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "torch.tensor": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "tensor"
+  }
+ ],
+ "torch.zeros": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "zeros"
+  }
+ ],
+ "total_reward": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "truncated": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "bool"
+  }
+ ]
+}

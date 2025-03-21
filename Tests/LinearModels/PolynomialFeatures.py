@@ -1,8 +1,16 @@
+"""
+Polynomial Surface Regression with Total Least Squares
+======================================================
+
+This script demonstrates polynomial regression on a 2D dataset using total least squares (TLS).
+It generates a grid of input points, applies polynomial feature expansion, and fits a linear regression model.
+Predictions are visualized in 3D, comparing model output (blue) against actual values (red).
+"""
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression
-from src.DLL.Data.Preprocessing import PolynomialFeatures, data_split
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression
+from DLL.Data.Preprocessing import PolynomialFeatures, data_split
 
 
 model = LinearRegression()

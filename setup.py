@@ -10,8 +10,7 @@ setup(
     # long_description='A detailed description of the project',
     # long_description_content_type='text/markdown',
     url='https://github.com/naapeli/deep-learning-library',
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
+    packages=find_packages(where='DLL'),
     install_requires=[
         'torch',
         'tensorflow',

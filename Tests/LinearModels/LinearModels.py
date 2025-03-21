@@ -1,11 +1,29 @@
+"""
+Linear and Regularized Regression Models on Synthetic Data
+===========================================================
+
+This script demonstrates the use of linear regression models and their regularized counterparts (Ridge, 
+LASSO, and ElasticNet) on synthetic data. The models are fitted to 1D and 2D datasets, and performance 
+is evaluated through residual analysis, summary statistics, and visualizations.
+
+The following models are used:
+- Linear Regression
+- Ridge Regression
+- LASSO Regression
+- ElasticNet Regression
+
+This script also explores the effect of sample weighting on model training, with particular focus on 
+LASSO and ElasticNet regressions, and tracks training metrics such as loss and RMSE during optimization.
+
+"""
 import torch
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import scienceplots
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression, RidgeRegression, LASSORegression, ElasticNetRegression
-from src.DLL.Data.Metrics import r2_score, adjusted_r2_score
-from src.DLL.DeepLearning.Optimisers import LBFGS, ADAM
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression, RidgeRegression, LASSORegression, ElasticNetRegression
+from DLL.Data.Metrics import r2_score, adjusted_r2_score
+from DLL.DeepLearning.Optimisers import LBFGS, ADAM
 
 
 plt.style.use(["grid", "notebook"])

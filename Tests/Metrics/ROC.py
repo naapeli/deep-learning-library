@@ -1,12 +1,22 @@
+"""
+Logistic Regression on Synthetic Data with ROC Curve and AUC
+===================================================================
+
+This script demonstrates the use of ROC Curve for binary classification on synthetic data. 
+The dataset is generated using `make_blobs` from scikit-learn to create a 2D feature space with two 
+centers. The script then splits the dataset into training and test sets, trains a logistic regression 
+model, and evaluates its performance using metrics such as accuracy, ROC curve, and AUC (Area Under the 
+Curve).
+"""
 import torch
 from sklearn import datasets
 from sklearn.metrics import auc as sk_auc
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
-from src.DLL.Data.Preprocessing import data_split
-from src.DLL.Data.Metrics import accuracy, roc_curve, auc
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
+from DLL.Data.Preprocessing import data_split
+from DLL.Data.Metrics import accuracy, roc_curve, auc
 
 
 np.random.seed(0)

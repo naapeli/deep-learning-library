@@ -1,8 +1,20 @@
+"""
+Robust Regression with RANSAC
+================================
+
+This script demonstrates the use of RANSAC (Random Sample Consensus) regression to fit a robust model in the presence of outliers.
+A quadratic relationship is used to generate inlier data, while a separate set of points acts as outliers. The performance of standard
+linear regression is compared with RANSAC regression to highlight the latter's robustness to noisy data.
+
+- Inliers follow the function: \( y = 2x^2 + 1 + \text{noise} \)
+- Outliers are randomly distributed and do not follow the quadratic trend.
+- A polynomial feature transformation is applied to the input data to allow for quadratic regression.
+"""
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression, RANSACRegression
-from src.DLL.Data.Preprocessing import PolynomialFeatures
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression, RANSACRegression
+from DLL.Data.Preprocessing import PolynomialFeatures
 
 
 num_inliers = 100

@@ -1,13 +1,26 @@
+"""
+Support Vector Classifier Solver Comparison
+===============================================
+
+This script compares the performance of different Support Vector Machine (SVM) solvers on a synthetic 2D classification dataset. The solvers compared include:
+
+1. **CVXOPT Solver**: Custom SVM optimization using the CVXOPT library.
+2. **SMO Solver**: Custom implementation of the Sequential Minimal Optimization (SMO) algorithm.
+3. **Coordinate Ascent Solver**: Custom implementation of the coordinate ascent optimization method for SVM.
+4. **Scikit-learn SVM**: Standard implementation from the Scikit-learn library.
+
+The performance is evaluated based on prediction accuracy and training time. Visualizations of decision boundaries learned by each solver on the test set are provided for comparison.
+"""
 import torch
 import matplotlib.pyplot as plt
 from sklearn import datasets
 from time import perf_counter
 from sklearn import svm
 
-from src.DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
-from src.DLL.MachineLearning.SupervisedLearning import Kernels
-from src.DLL.Data.Preprocessing import data_split
-from src.DLL.Data.Metrics import accuracy
+from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
+from DLL.MachineLearning.SupervisedLearning import Kernels
+from DLL.Data.Preprocessing import data_split
+from DLL.Data.Metrics import accuracy
 
 
 X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=4, random_state=3)
@@ -84,7 +97,7 @@ Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions4 = model4.predict(X_grid).reshape((n, n))
 
-fig, axes = plt.subplots(2, 2)
+fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 axes[0, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions.numpy(), alpha=0.5)
 axes[1, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions2.numpy(), alpha=0.5)
 axes[0, 1].contourf(Xv.numpy(), Yv.numpy(), grid_predictions3.numpy(), alpha=0.5)
