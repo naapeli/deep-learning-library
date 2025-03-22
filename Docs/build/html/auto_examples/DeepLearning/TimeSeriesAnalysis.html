@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recurrent networks for time series analysis &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=e2bd21bd" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Bidirectional recurrent layers" href="BidirectionalClassification.html" />
+    <link rel="prev" title="Deep learning with Attention" href="Attention.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/DLL.html">DLL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../first.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#deep-learning">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#gaussian-processes">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#support-vector-machines">Support vector machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trees-and-boosting-machines">Trees and boosting machines</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#unsupervised-learning">Unsupervised learning</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../first.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deep learning</a></li>
+      <li class="breadcrumb-item active">Recurrent networks for time series analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/DeepLearning/TimeSeriesAnalysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-deeplearning-timeseriesanalysis-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="recurrent-networks-for-time-series-analysis">
+<span id="sphx-glr-auto-examples-deeplearning-timeseriesanalysis-py"></span><h1>Recurrent networks for time series analysis<a class="headerlink" href="#recurrent-networks-for-time-series-analysis" title="Link to this heading"></a></h1>
+<p>This script implements a model to predict values of a simple sine function. It uses recurrent layers
+to handle the sequential nature of the sine function.</p>
+<img src="../../_images/sphx_glr_TimeSeriesAnalysis_001.png" srcset="../../_images/sphx_glr_TimeSeriesAnalysis_001.png" alt="TimeSeriesAnalysis" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>torch.Size([280, 20, 1]) torch.Size([280, 1])
+Model summary:
+Input - Output: ((20, 1))
+RNN - (Input, Output): ((20, 1), 1) - Parameters: 131
+    Tanh - Output: (1)
+Total number of parameters: 131
+Epoch: 1 - Metrics: {&#39;loss&#39;: &#39;0.0127&#39;}
+Epoch: 2 - Metrics: {&#39;loss&#39;: &#39;0.0057&#39;}
+Epoch: 3 - Metrics: {&#39;loss&#39;: &#39;0.0051&#39;}
+Epoch: 4 - Metrics: {&#39;loss&#39;: &#39;0.0020&#39;}
+Epoch: 5 - Metrics: {&#39;loss&#39;: &#39;0.0009&#39;}
+Epoch: 6 - Metrics: {&#39;loss&#39;: &#39;0.0007&#39;}
+Epoch: 7 - Metrics: {&#39;loss&#39;: &#39;0.0020&#39;}
+Epoch: 8 - Metrics: {&#39;loss&#39;: &#39;0.0007&#39;}
+Epoch: 9 - Metrics: {&#39;loss&#39;: &#39;0.0006&#39;}
+Epoch: 10 - Metrics: {&#39;loss&#39;: &#39;0.0010&#39;}
+Epoch: 11 - Metrics: {&#39;loss&#39;: &#39;0.0016&#39;}
+Epoch: 12 - Metrics: {&#39;loss&#39;: &#39;0.0013&#39;}
+Epoch: 13 - Metrics: {&#39;loss&#39;: &#39;0.0009&#39;}
+Epoch: 14 - Metrics: {&#39;loss&#39;: &#39;0.0005&#39;}
+Epoch: 15 - Metrics: {&#39;loss&#39;: &#39;0.0007&#39;}
+Epoch: 16 - Metrics: {&#39;loss&#39;: &#39;0.0004&#39;}
+Epoch: 17 - Metrics: {&#39;loss&#39;: &#39;0.0010&#39;}
+Epoch: 18 - Metrics: {&#39;loss&#39;: &#39;0.0003&#39;}
+Epoch: 19 - Metrics: {&#39;loss&#39;: &#39;0.0005&#39;}
+Epoch: 20 - Metrics: {&#39;loss&#39;: &#39;0.0009&#39;}
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Layers</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">RNN</span></a><span class="p">,</span> <span class="n">LSTM</span>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Model</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><span class="n">Model</span></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Layers.Activations</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Tanh" title="DLL.DeepLearning.Layers.Activations.Tanh" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">Tanh</span></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Optimisers</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><span class="n">ADAM</span></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Losses</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE" title="DLL.DeepLearning.Losses.MSE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><span class="n">MSE</span></a>
+
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="n">size</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">sequence_length</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="n">sequence_length</span><span class="p">):</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">])</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><span class="n">Model</span></a><span class="p">((</span><span class="n">sequence_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.add" title="DLL.DeepLearning.Model.Model.add" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">add</span></a><span class="p">(</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">RNN</span></a><span class="p">((</span><span class="mi">1</span><span class="p">,),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.Tanh" title="DLL.DeepLearning.Layers.Activations.Tanh" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">Tanh</span></a><span class="p">()))</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.compile" title="DLL.DeepLearning.Model.Model.compile" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">compile</span></a><span class="p">(</span><span class="n">optimiser</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><span class="n">ADAM</span></a><span class="p">(),</span> <span class="n">loss</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.MSE" title="DLL.DeepLearning.Losses.MSE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><span class="n">MSE</span></a><span class="p">(),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;val_loss&quot;</span><span class="p">])</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.summary" title="DLL.DeepLearning.Model.Model.summary" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">summary</span></a><span class="p">()</span>
+
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.fit" title="DLL.DeepLearning.Model.Model.fit" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">fit</span></a><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
+    <span class="n">prediction</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.predict" title="DLL.DeepLearning.Model.Model.predict" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">predict</span></a><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">y_true</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sin(x)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prediction&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 9.473 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-deeplearning-timeseriesanalysis-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1aa707a6020fb19d7e09936478978ff2/TimeSeriesAnalysis.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">TimeSeriesAnalysis.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b65d73db4aa99de940011a37ea14ecc9/TimeSeriesAnalysis.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">TimeSeriesAnalysis.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/390c5c3241ebbaaa33ec29c4554768ae/TimeSeriesAnalysis.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">TimeSeriesAnalysis.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Attention.html" class="btn btn-neutral float-left" title="Deep learning with Attention" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BidirectionalClassification.html" class="btn btn-neutral float-right" title="Bidirectional recurrent layers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

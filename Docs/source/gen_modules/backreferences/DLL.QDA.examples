@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.QDA``
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script classifies synthetic data using linear and quadratic disrciminant analysis.  In the visualisations, one is clearly able to see the difference  between the algorithms  using the decision boundaries.">
+
+.. only:: html
+
+  .. image:: /auto_examples/UnsupervisedLearning/images/thumb/sphx_glr_DiscriminantAnalysisClassification_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DiscriminantAnalysisClassification.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classification with discriminant analysis</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DiscriminantAnalysisClassification.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

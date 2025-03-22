@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bidirectional recurrent layers &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=e2bd21bd" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Regression with neural networks" href="Regression.html" />
+    <link rel="prev" title="Recurrent networks for time series analysis" href="TimeSeriesAnalysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/DLL.html">DLL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../first.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#deep-learning">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#gaussian-processes">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#support-vector-machines">Support vector machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#trees-and-boosting-machines">Trees and boosting machines</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#unsupervised-learning">Unsupervised learning</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../first.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deep learning</a></li>
+      <li class="breadcrumb-item active">Bidirectional recurrent layers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/DeepLearning/BidirectionalClassification.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-deeplearning-bidirectionalclassification-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="bidirectional-recurrent-layers">
+<span id="sphx-glr-auto-examples-deeplearning-bidirectionalclassification-py"></span><h1>Bidirectional recurrent layers<a class="headerlink" href="#bidirectional-recurrent-layers" title="Link to this heading"></a></h1>
+<p>This script implements a model to classify the iris dataset. This model uses LSTM and
+RNN layers with a Bidirectional wrapper for the predictions.</p>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_BidirectionalClassification_001.png" srcset="../../_images/sphx_glr_BidirectionalClassification_001.png" alt="BidirectionalClassification" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_BidirectionalClassification_002.png" srcset="../../_images/sphx_glr_BidirectionalClassification_002.png" alt="BidirectionalClassification" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_BidirectionalClassification_003.png" srcset="../../_images/sphx_glr_BidirectionalClassification_003.png" alt="BidirectionalClassification" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>torch.Size([150, 4, 1]) torch.Size([150, 3])
+Model summary:
+Input - Output: ((4, 1))
+Bidirectional - (Input, Output): ((4, 1), (4, 40))
+    LSTM - (Input, Output): ((4, 1), (4, 20)) - Parameters: 700
+        ReLU - Output: ((4, 20))
+    LSTM - (Input, Output): ((4, 1), (4, 20)) - Parameters: 700
+        ReLU - Output: ((4, 20))
+RNN - (Input, Output): ((4, 40), 3) - Parameters: 543
+    Softmax - Output: (3)
+Total number of parameters: 1943
+Epoch: 1 - Metrics: {&#39;loss&#39;: &#39;1.2365&#39;, &#39;accuracy&#39;: &#39;0.0000&#39;, &#39;val_loss&#39;: &#39;1.2841&#39;, &#39;val_accuracy&#39;: &#39;0.0000&#39;}
+Epoch: 2 - Metrics: {&#39;loss&#39;: &#39;1.1817&#39;, &#39;accuracy&#39;: &#39;0.0111&#39;, &#39;val_loss&#39;: &#39;1.2152&#39;, &#39;val_accuracy&#39;: &#39;0.0000&#39;}
+Epoch: 3 - Metrics: {&#39;loss&#39;: &#39;1.1352&#39;, &#39;accuracy&#39;: &#39;0.0111&#39;, &#39;val_loss&#39;: &#39;1.1621&#39;, &#39;val_accuracy&#39;: &#39;0.0000&#39;}
+Epoch: 4 - Metrics: {&#39;loss&#39;: &#39;1.0940&#39;, &#39;accuracy&#39;: &#39;0.2222&#39;, &#39;val_loss&#39;: &#39;1.1087&#39;, &#39;val_accuracy&#39;: &#39;0.2667&#39;}
+Epoch: 5 - Metrics: {&#39;loss&#39;: &#39;1.0577&#39;, &#39;accuracy&#39;: &#39;0.3667&#39;, &#39;val_loss&#39;: &#39;1.0644&#39;, &#39;val_accuracy&#39;: &#39;0.4000&#39;}
+Epoch: 6 - Metrics: {&#39;loss&#39;: &#39;1.0217&#39;, &#39;accuracy&#39;: &#39;0.6222&#39;, &#39;val_loss&#39;: &#39;1.0307&#39;, &#39;val_accuracy&#39;: &#39;0.6667&#39;}
+Epoch: 7 - Metrics: {&#39;loss&#39;: &#39;0.9893&#39;, &#39;accuracy&#39;: &#39;0.7444&#39;, &#39;val_loss&#39;: &#39;1.0000&#39;, &#39;val_accuracy&#39;: &#39;0.7000&#39;}
+Epoch: 8 - Metrics: {&#39;loss&#39;: &#39;0.9576&#39;, &#39;accuracy&#39;: &#39;0.7556&#39;, &#39;val_loss&#39;: &#39;0.9768&#39;, &#39;val_accuracy&#39;: &#39;0.7333&#39;}
+Epoch: 9 - Metrics: {&#39;loss&#39;: &#39;0.9278&#39;, &#39;accuracy&#39;: &#39;0.7222&#39;, &#39;val_loss&#39;: &#39;0.9539&#39;, &#39;val_accuracy&#39;: &#39;0.6667&#39;}
+Epoch: 10 - Metrics: {&#39;loss&#39;: &#39;0.8983&#39;, &#39;accuracy&#39;: &#39;0.7111&#39;, &#39;val_loss&#39;: &#39;0.9340&#39;, &#39;val_accuracy&#39;: &#39;0.6333&#39;}
+Epoch: 11 - Metrics: {&#39;loss&#39;: &#39;0.8692&#39;, &#39;accuracy&#39;: &#39;0.7111&#39;, &#39;val_loss&#39;: &#39;0.9134&#39;, &#39;val_accuracy&#39;: &#39;0.6333&#39;}
+Epoch: 12 - Metrics: {&#39;loss&#39;: &#39;0.8404&#39;, &#39;accuracy&#39;: &#39;0.7111&#39;, &#39;val_loss&#39;: &#39;0.8912&#39;, &#39;val_accuracy&#39;: &#39;0.6333&#39;}
+Epoch: 13 - Metrics: {&#39;loss&#39;: &#39;0.8122&#39;, &#39;accuracy&#39;: &#39;0.7111&#39;, &#39;val_loss&#39;: &#39;0.8709&#39;, &#39;val_accuracy&#39;: &#39;0.6667&#39;}
+Epoch: 14 - Metrics: {&#39;loss&#39;: &#39;0.7846&#39;, &#39;accuracy&#39;: &#39;0.7222&#39;, &#39;val_loss&#39;: &#39;0.8507&#39;, &#39;val_accuracy&#39;: &#39;0.6667&#39;}
+Epoch: 15 - Metrics: {&#39;loss&#39;: &#39;0.7578&#39;, &#39;accuracy&#39;: &#39;0.7556&#39;, &#39;val_loss&#39;: &#39;0.8288&#39;, &#39;val_accuracy&#39;: &#39;0.7333&#39;}
+Epoch: 16 - Metrics: {&#39;loss&#39;: &#39;0.7318&#39;, &#39;accuracy&#39;: &#39;0.7889&#39;, &#39;val_loss&#39;: &#39;0.8090&#39;, &#39;val_accuracy&#39;: &#39;0.7667&#39;}
+Epoch: 17 - Metrics: {&#39;loss&#39;: &#39;0.7067&#39;, &#39;accuracy&#39;: &#39;0.8111&#39;, &#39;val_loss&#39;: &#39;0.7895&#39;, &#39;val_accuracy&#39;: &#39;0.7667&#39;}
+Epoch: 18 - Metrics: {&#39;loss&#39;: &#39;0.6824&#39;, &#39;accuracy&#39;: &#39;0.8111&#39;, &#39;val_loss&#39;: &#39;0.7695&#39;, &#39;val_accuracy&#39;: &#39;0.7667&#39;}
+Epoch: 19 - Metrics: {&#39;loss&#39;: &#39;0.6591&#39;, &#39;accuracy&#39;: &#39;0.8333&#39;, &#39;val_loss&#39;: &#39;0.7497&#39;, &#39;val_accuracy&#39;: &#39;0.8000&#39;}
+Epoch: 20 - Metrics: {&#39;loss&#39;: &#39;0.6366&#39;, &#39;accuracy&#39;: &#39;0.8444&#39;, &#39;val_loss&#39;: &#39;0.7316&#39;, &#39;val_accuracy&#39;: &#39;0.8000&#39;}
+Epoch: 21 - Metrics: {&#39;loss&#39;: &#39;0.6151&#39;, &#39;accuracy&#39;: &#39;0.8222&#39;, &#39;val_loss&#39;: &#39;0.7143&#39;, &#39;val_accuracy&#39;: &#39;0.8000&#39;}
+Epoch: 22 - Metrics: {&#39;loss&#39;: &#39;0.5947&#39;, &#39;accuracy&#39;: &#39;0.8333&#39;, &#39;val_loss&#39;: &#39;0.6973&#39;, &#39;val_accuracy&#39;: &#39;0.8000&#39;}
+Epoch: 23 - Metrics: {&#39;loss&#39;: &#39;0.5752&#39;, &#39;accuracy&#39;: &#39;0.8444&#39;, &#39;val_loss&#39;: &#39;0.6802&#39;, &#39;val_accuracy&#39;: &#39;0.8000&#39;}
+Epoch: 24 - Metrics: {&#39;loss&#39;: &#39;0.5568&#39;, &#39;accuracy&#39;: &#39;0.8667&#39;, &#39;val_loss&#39;: &#39;0.6638&#39;, &#39;val_accuracy&#39;: &#39;0.8333&#39;}
+Epoch: 25 - Metrics: {&#39;loss&#39;: &#39;0.5395&#39;, &#39;accuracy&#39;: &#39;0.8333&#39;, &#39;val_loss&#39;: &#39;0.6476&#39;, &#39;val_accuracy&#39;: &#39;0.8333&#39;}
+Epoch: 26 - Metrics: {&#39;loss&#39;: &#39;0.5229&#39;, &#39;accuracy&#39;: &#39;0.8556&#39;, &#39;val_loss&#39;: &#39;0.6323&#39;, &#39;val_accuracy&#39;: &#39;0.8333&#39;}
+Epoch: 27 - Metrics: {&#39;loss&#39;: &#39;0.5072&#39;, &#39;accuracy&#39;: &#39;0.8444&#39;, &#39;val_loss&#39;: &#39;0.6178&#39;, &#39;val_accuracy&#39;: &#39;0.8333&#39;}
+Epoch: 28 - Metrics: {&#39;loss&#39;: &#39;0.4921&#39;, &#39;accuracy&#39;: &#39;0.8889&#39;, &#39;val_loss&#39;: &#39;0.6040&#39;, &#39;val_accuracy&#39;: &#39;0.8667&#39;}
+Epoch: 29 - Metrics: {&#39;loss&#39;: &#39;0.4779&#39;, &#39;accuracy&#39;: &#39;0.8778&#39;, &#39;val_loss&#39;: &#39;0.5902&#39;, &#39;val_accuracy&#39;: &#39;0.8667&#39;}
+Epoch: 30 - Metrics: {&#39;loss&#39;: &#39;0.4643&#39;, &#39;accuracy&#39;: &#39;0.9333&#39;, &#39;val_loss&#39;: &#39;0.5760&#39;, &#39;val_accuracy&#39;: &#39;0.9000&#39;}
+Epoch: 31 - Metrics: {&#39;loss&#39;: &#39;0.4514&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.5624&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 32 - Metrics: {&#39;loss&#39;: &#39;0.4391&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.5489&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 33 - Metrics: {&#39;loss&#39;: &#39;0.4270&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.5352&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 34 - Metrics: {&#39;loss&#39;: &#39;0.4150&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.5217&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 35 - Metrics: {&#39;loss&#39;: &#39;0.4036&#39;, &#39;accuracy&#39;: &#39;0.9556&#39;, &#39;val_loss&#39;: &#39;0.5088&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 36 - Metrics: {&#39;loss&#39;: &#39;0.3926&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4966&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 37 - Metrics: {&#39;loss&#39;: &#39;0.3821&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4847&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 38 - Metrics: {&#39;loss&#39;: &#39;0.3722&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.4734&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 39 - Metrics: {&#39;loss&#39;: &#39;0.3625&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.4626&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 40 - Metrics: {&#39;loss&#39;: &#39;0.3534&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4516&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 41 - Metrics: {&#39;loss&#39;: &#39;0.3442&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.4414&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 42 - Metrics: {&#39;loss&#39;: &#39;0.3354&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.4306&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 43 - Metrics: {&#39;loss&#39;: &#39;0.3268&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4212&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 44 - Metrics: {&#39;loss&#39;: &#39;0.3184&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4118&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 45 - Metrics: {&#39;loss&#39;: &#39;0.3100&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.4016&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 46 - Metrics: {&#39;loss&#39;: &#39;0.3021&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3933&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 47 - Metrics: {&#39;loss&#39;: &#39;0.2939&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.3800&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 48 - Metrics: {&#39;loss&#39;: &#39;0.2860&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.3714&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 49 - Metrics: {&#39;loss&#39;: &#39;0.2782&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3634&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 50 - Metrics: {&#39;loss&#39;: &#39;0.2705&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3553&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 51 - Metrics: {&#39;loss&#39;: &#39;0.2630&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3464&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 52 - Metrics: {&#39;loss&#39;: &#39;0.2560&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3396&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 53 - Metrics: {&#39;loss&#39;: &#39;0.2493&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3290&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 54 - Metrics: {&#39;loss&#39;: &#39;0.2428&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.3213&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 55 - Metrics: {&#39;loss&#39;: &#39;0.2363&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3151&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 56 - Metrics: {&#39;loss&#39;: &#39;0.2306&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3135&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 57 - Metrics: {&#39;loss&#39;: &#39;0.2254&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3095&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 58 - Metrics: {&#39;loss&#39;: &#39;0.2191&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.3000&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 59 - Metrics: {&#39;loss&#39;: &#39;0.2134&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2892&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 60 - Metrics: {&#39;loss&#39;: &#39;0.2087&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2812&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 61 - Metrics: {&#39;loss&#39;: &#39;0.2046&#39;, &#39;accuracy&#39;: &#39;0.9667&#39;, &#39;val_loss&#39;: &#39;0.2744&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 62 - Metrics: {&#39;loss&#39;: &#39;0.1986&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2745&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 63 - Metrics: {&#39;loss&#39;: &#39;0.1942&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2695&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 64 - Metrics: {&#39;loss&#39;: &#39;0.1898&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2651&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 65 - Metrics: {&#39;loss&#39;: &#39;0.1857&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2594&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 66 - Metrics: {&#39;loss&#39;: &#39;0.1819&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2522&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 67 - Metrics: {&#39;loss&#39;: &#39;0.1779&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2477&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 68 - Metrics: {&#39;loss&#39;: &#39;0.1745&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2537&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 69 - Metrics: {&#39;loss&#39;: &#39;0.1708&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2502&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 70 - Metrics: {&#39;loss&#39;: &#39;0.1664&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2394&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 71 - Metrics: {&#39;loss&#39;: &#39;0.1636&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2301&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 72 - Metrics: {&#39;loss&#39;: &#39;0.1599&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2276&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 73 - Metrics: {&#39;loss&#39;: &#39;0.1566&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2246&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 74 - Metrics: {&#39;loss&#39;: &#39;0.1534&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2217&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 75 - Metrics: {&#39;loss&#39;: &#39;0.1506&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2271&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 76 - Metrics: {&#39;loss&#39;: &#39;0.1484&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.2281&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 77 - Metrics: {&#39;loss&#39;: &#39;0.1443&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2172&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 78 - Metrics: {&#39;loss&#39;: &#39;0.1415&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2128&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 79 - Metrics: {&#39;loss&#39;: &#39;0.1389&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2079&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 80 - Metrics: {&#39;loss&#39;: &#39;0.1362&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2052&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 81 - Metrics: {&#39;loss&#39;: &#39;0.1335&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.2048&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 82 - Metrics: {&#39;loss&#39;: &#39;0.1314&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.2083&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 83 - Metrics: {&#39;loss&#39;: &#39;0.1294&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.2087&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 84 - Metrics: {&#39;loss&#39;: &#39;0.1260&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1973&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 85 - Metrics: {&#39;loss&#39;: &#39;0.1239&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1910&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 86 - Metrics: {&#39;loss&#39;: &#39;0.1214&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1931&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 87 - Metrics: {&#39;loss&#39;: &#39;0.1200&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1984&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 88 - Metrics: {&#39;loss&#39;: &#39;0.1169&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1876&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 89 - Metrics: {&#39;loss&#39;: &#39;0.1149&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1817&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 90 - Metrics: {&#39;loss&#39;: &#39;0.1134&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1768&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 91 - Metrics: {&#39;loss&#39;: &#39;0.1111&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1760&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 92 - Metrics: {&#39;loss&#39;: &#39;0.1089&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1762&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 93 - Metrics: {&#39;loss&#39;: &#39;0.1076&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1831&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 94 - Metrics: {&#39;loss&#39;: &#39;0.1057&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1793&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 95 - Metrics: {&#39;loss&#39;: &#39;0.1035&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1712&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 96 - Metrics: {&#39;loss&#39;: &#39;0.1028&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1622&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 97 - Metrics: {&#39;loss&#39;: &#39;0.1004&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1626&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 98 - Metrics: {&#39;loss&#39;: &#39;0.0984&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1628&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 99 - Metrics: {&#39;loss&#39;: &#39;0.0970&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1686&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 100 - Metrics: {&#39;loss&#39;: &#39;0.0952&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1644&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 101 - Metrics: {&#39;loss&#39;: &#39;0.0936&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1589&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 102 - Metrics: {&#39;loss&#39;: &#39;0.0921&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1572&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 103 - Metrics: {&#39;loss&#39;: &#39;0.0907&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1589&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 104 - Metrics: {&#39;loss&#39;: &#39;0.0894&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1524&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 105 - Metrics: {&#39;loss&#39;: &#39;0.0879&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1542&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 106 - Metrics: {&#39;loss&#39;: &#39;0.0866&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1531&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 107 - Metrics: {&#39;loss&#39;: &#39;0.0855&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1551&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 108 - Metrics: {&#39;loss&#39;: &#39;0.0841&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1484&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 109 - Metrics: {&#39;loss&#39;: &#39;0.0829&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1490&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 110 - Metrics: {&#39;loss&#39;: &#39;0.0821&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1534&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 111 - Metrics: {&#39;loss&#39;: &#39;0.0812&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1533&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 112 - Metrics: {&#39;loss&#39;: &#39;0.0795&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1457&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 113 - Metrics: {&#39;loss&#39;: &#39;0.0790&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1374&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 114 - Metrics: {&#39;loss&#39;: &#39;0.0779&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1365&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 115 - Metrics: {&#39;loss&#39;: &#39;0.0764&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1385&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 116 - Metrics: {&#39;loss&#39;: &#39;0.0754&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1404&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 117 - Metrics: {&#39;loss&#39;: &#39;0.0749&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1453&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 118 - Metrics: {&#39;loss&#39;: &#39;0.0742&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1461&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 119 - Metrics: {&#39;loss&#39;: &#39;0.0726&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1342&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 120 - Metrics: {&#39;loss&#39;: &#39;0.0727&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1278&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 121 - Metrics: {&#39;loss&#39;: &#39;0.0722&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1261&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 122 - Metrics: {&#39;loss&#39;: &#39;0.0700&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1313&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 123 - Metrics: {&#39;loss&#39;: &#39;0.0694&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1367&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 124 - Metrics: {&#39;loss&#39;: &#39;0.0684&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1315&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 125 - Metrics: {&#39;loss&#39;: &#39;0.0677&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1302&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 126 - Metrics: {&#39;loss&#39;: &#39;0.0669&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1285&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 127 - Metrics: {&#39;loss&#39;: &#39;0.0668&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1364&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 128 - Metrics: {&#39;loss&#39;: &#39;0.0657&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1325&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 129 - Metrics: {&#39;loss&#39;: &#39;0.0653&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1212&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 130 - Metrics: {&#39;loss&#39;: &#39;0.0650&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1193&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 131 - Metrics: {&#39;loss&#39;: &#39;0.0637&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1210&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 132 - Metrics: {&#39;loss&#39;: &#39;0.0628&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1246&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 133 - Metrics: {&#39;loss&#39;: &#39;0.0629&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1322&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 134 - Metrics: {&#39;loss&#39;: &#39;0.0621&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1305&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 135 - Metrics: {&#39;loss&#39;: &#39;0.0609&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1242&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 136 - Metrics: {&#39;loss&#39;: &#39;0.0602&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1215&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 137 - Metrics: {&#39;loss&#39;: &#39;0.0596&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1171&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 138 - Metrics: {&#39;loss&#39;: &#39;0.0591&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1159&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 139 - Metrics: {&#39;loss&#39;: &#39;0.0583&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1172&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 140 - Metrics: {&#39;loss&#39;: &#39;0.0577&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1183&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 141 - Metrics: {&#39;loss&#39;: &#39;0.0573&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1193&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 142 - Metrics: {&#39;loss&#39;: &#39;0.0566&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1152&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 143 - Metrics: {&#39;loss&#39;: &#39;0.0560&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1141&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 144 - Metrics: {&#39;loss&#39;: &#39;0.0556&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1161&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 145 - Metrics: {&#39;loss&#39;: &#39;0.0552&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1172&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 146 - Metrics: {&#39;loss&#39;: &#39;0.0545&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1110&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 147 - Metrics: {&#39;loss&#39;: &#39;0.0543&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.1078&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 148 - Metrics: {&#39;loss&#39;: &#39;0.0536&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1093&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 149 - Metrics: {&#39;loss&#39;: &#39;0.0532&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1125&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 150 - Metrics: {&#39;loss&#39;: &#39;0.0528&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1069&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 151 - Metrics: {&#39;loss&#39;: &#39;0.0523&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1071&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 152 - Metrics: {&#39;loss&#39;: &#39;0.0518&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1069&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 153 - Metrics: {&#39;loss&#39;: &#39;0.0515&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1109&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 154 - Metrics: {&#39;loss&#39;: &#39;0.0510&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1096&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 155 - Metrics: {&#39;loss&#39;: &#39;0.0505&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1069&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 156 - Metrics: {&#39;loss&#39;: &#39;0.0501&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1051&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 157 - Metrics: {&#39;loss&#39;: &#39;0.0497&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1044&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 158 - Metrics: {&#39;loss&#39;: &#39;0.0494&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1037&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 159 - Metrics: {&#39;loss&#39;: &#39;0.0490&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1045&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 160 - Metrics: {&#39;loss&#39;: &#39;0.0486&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1023&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 161 - Metrics: {&#39;loss&#39;: &#39;0.0484&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1011&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 162 - Metrics: {&#39;loss&#39;: &#39;0.0482&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0996&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 163 - Metrics: {&#39;loss&#39;: &#39;0.0476&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1011&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 164 - Metrics: {&#39;loss&#39;: &#39;0.0474&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1056&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 165 - Metrics: {&#39;loss&#39;: &#39;0.0469&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1024&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 166 - Metrics: {&#39;loss&#39;: &#39;0.0468&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0982&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 167 - Metrics: {&#39;loss&#39;: &#39;0.0465&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0974&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 168 - Metrics: {&#39;loss&#39;: &#39;0.0460&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1025&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 169 - Metrics: {&#39;loss&#39;: &#39;0.0456&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1012&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 170 - Metrics: {&#39;loss&#39;: &#39;0.0455&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1037&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 171 - Metrics: {&#39;loss&#39;: &#39;0.0454&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1048&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 172 - Metrics: {&#39;loss&#39;: &#39;0.0447&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0970&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 173 - Metrics: {&#39;loss&#39;: &#39;0.0447&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0946&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 174 - Metrics: {&#39;loss&#39;: &#39;0.0449&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0929&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 175 - Metrics: {&#39;loss&#39;: &#39;0.0441&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0937&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 176 - Metrics: {&#39;loss&#39;: &#39;0.0435&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0995&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 177 - Metrics: {&#39;loss&#39;: &#39;0.0452&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1119&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 178 - Metrics: {&#39;loss&#39;: &#39;0.0436&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1040&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 179 - Metrics: {&#39;loss&#39;: &#39;0.0435&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0913&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 180 - Metrics: {&#39;loss&#39;: &#39;0.0449&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0903&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 181 - Metrics: {&#39;loss&#39;: &#39;0.0428&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0907&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 182 - Metrics: {&#39;loss&#39;: &#39;0.0418&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0931&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 183 - Metrics: {&#39;loss&#39;: &#39;0.0426&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1040&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 184 - Metrics: {&#39;loss&#39;: &#39;0.0440&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1119&#39;, &#39;val_accuracy&#39;: &#39;0.9333&#39;}
+Epoch: 185 - Metrics: {&#39;loss&#39;: &#39;0.0418&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1012&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 186 - Metrics: {&#39;loss&#39;: &#39;0.0409&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0908&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 187 - Metrics: {&#39;loss&#39;: &#39;0.0429&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0882&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 188 - Metrics: {&#39;loss&#39;: &#39;0.0429&#39;, &#39;accuracy&#39;: &#39;0.9778&#39;, &#39;val_loss&#39;: &#39;0.0880&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 189 - Metrics: {&#39;loss&#39;: &#39;0.0404&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0888&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 190 - Metrics: {&#39;loss&#39;: &#39;0.0402&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0965&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 191 - Metrics: {&#39;loss&#39;: &#39;0.0421&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1079&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 192 - Metrics: {&#39;loss&#39;: &#39;0.0409&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.1031&#39;, &#39;val_accuracy&#39;: &#39;0.9667&#39;}
+Epoch: 193 - Metrics: {&#39;loss&#39;: &#39;0.0396&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0960&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 194 - Metrics: {&#39;loss&#39;: &#39;0.0389&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0891&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 195 - Metrics: {&#39;loss&#39;: &#39;0.0390&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0870&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 196 - Metrics: {&#39;loss&#39;: &#39;0.0385&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0874&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 197 - Metrics: {&#39;loss&#39;: &#39;0.0381&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0894&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 198 - Metrics: {&#39;loss&#39;: &#39;0.0379&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0901&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 199 - Metrics: {&#39;loss&#39;: &#39;0.0378&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0904&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Epoch: 200 - Metrics: {&#39;loss&#39;: &#39;0.0375&#39;, &#39;accuracy&#39;: &#39;0.9889&#39;, &#39;val_loss&#39;: &#39;0.0878&#39;, &#39;val_accuracy&#39;: &#39;1.0000&#39;}
+Test accuracy: 0.9333333373069763
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">DLL.DeepLearning.Model</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><span class="n">Model</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Layers.Activations</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU" title="DLL.DeepLearning.Layers.Activations.ReLU" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU" title="DLL.DeepLearning.Layers.Activations.ReLU" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">ReLU</span></a></a><span class="p">,</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax" title="DLL.DeepLearning.Layers.Activations.SoftMax" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax" title="DLL.DeepLearning.Layers.Activations.SoftMax" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">SoftMax</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Layers</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">RNN</span></a></a><span class="p">,</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.LSTM" title="DLL.DeepLearning.Layers.LSTM" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.LSTM" title="DLL.DeepLearning.Layers.LSTM" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">LSTM</span></a></a><span class="p">,</span> <a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional" title="DLL.DeepLearning.Layers.Bidirectional" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional" title="DLL.DeepLearning.Layers.Bidirectional" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">Bidirectional</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Losses</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE" title="DLL.DeepLearning.Losses.CCE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE" title="DLL.DeepLearning.Losses.CCE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><span class="n">CCE</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.DeepLearning.Optimisers</span> <span class="kn">import</span> <a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><span class="n">ADAM</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.Data.Preprocessing</span> <span class="kn">import</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><span class="n">data_split</span></a></a><span class="p">,</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><span class="n">OneHotEncoder</span></a></a><span class="p">,</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><span class="n">MinMaxScaler</span></a></a>
+<span class="kn">from</span> <span class="nn">DLL.Data.Metrics</span> <span class="kn">import</span> <a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><span class="n">accuracy</span></a></a>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+
+<a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">encoder</span></a></a> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder" title="DLL.Data.Preprocessing.OneHotEncoder" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><span class="n">OneHotEncoder</span></a></a><span class="p">()</span>
+<a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">scaler</span></a></a> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler" title="DLL.Data.Preprocessing.MinMaxScaler" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-class"><span class="n">MinMaxScaler</span></a></a><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.fit_transform" title="DLL.Data.Preprocessing.MinMaxScaler.fit_transform" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-method"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.MinMaxScaler.fit_transform" title="DLL.Data.Preprocessing.MinMaxScaler.fit_transform" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-method"><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span></a></a><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.fit_encode" title="DLL.Data.Preprocessing.OneHotEncoder.fit_encode" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-method"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.OneHotEncoder.fit_encode" title="DLL.Data.Preprocessing.OneHotEncoder.fit_encode" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-method"><span class="n">encoder</span><span class="o">.</span><span class="n">fit_encode</span></a></a><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.data_split" title="DLL.Data.Preprocessing.data_split" class="sphx-glr-backref-module-DLL-Data-Preprocessing sphx-glr-backref-type-py-function"><span class="n">data_split</span></a></a><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_split</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">x_val</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">y_val</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class sphx-glr-backref-instance"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a></a> <span class="o">=</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model" title="DLL.DeepLearning.Model.Model" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-class"><span class="n">Model</span></a></a><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">data_type</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.add" title="DLL.DeepLearning.Model.Model.add" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.add" title="DLL.DeepLearning.Model.Model.add" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">add</span></a></a><span class="p">(</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional" title="DLL.DeepLearning.Layers.Bidirectional" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Bidirectional" title="DLL.DeepLearning.Layers.Bidirectional" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">Bidirectional</span></a></a><span class="p">(</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.LSTM" title="DLL.DeepLearning.Layers.LSTM" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.LSTM" title="DLL.DeepLearning.Layers.LSTM" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">LSTM</span></a></a><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">return_last</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU" title="DLL.DeepLearning.Layers.Activations.ReLU" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.ReLU" title="DLL.DeepLearning.Layers.Activations.ReLU" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">ReLU</span></a></a><span class="p">())))</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.add" title="DLL.DeepLearning.Model.Model.add" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.add" title="DLL.DeepLearning.Model.Model.add" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">add</span></a></a><span class="p">(</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.RNN" title="DLL.DeepLearning.Layers.RNN" class="sphx-glr-backref-module-DLL-DeepLearning-Layers sphx-glr-backref-type-py-class"><span class="n">RNN</span></a></a><span class="p">((</span><span class="mi">3</span><span class="p">,),</span> <span class="mi">10</span><span class="p">,</span> <span class="n">return_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax" title="DLL.DeepLearning.Layers.Activations.SoftMax" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Layers.html#DLL.DeepLearning.Layers.Activations.SoftMax" title="DLL.DeepLearning.Layers.Activations.SoftMax" class="sphx-glr-backref-module-DLL-DeepLearning-Layers-Activations sphx-glr-backref-type-py-class"><span class="n">SoftMax</span></a></a><span class="p">()))</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.compile" title="DLL.DeepLearning.Model.Model.compile" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.compile" title="DLL.DeepLearning.Model.Model.compile" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">compile</span></a></a><span class="p">(</span><span class="n">optimiser</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Optimisers.html#DLL.DeepLearning.Optimisers.ADAM" title="DLL.DeepLearning.Optimisers.ADAM" class="sphx-glr-backref-module-DLL-DeepLearning-Optimisers sphx-glr-backref-type-py-class"><span class="n">ADAM</span></a></a><span class="p">(),</span> <span class="n">loss</span><span class="o">=</span><a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE" title="DLL.DeepLearning.Losses.CCE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><a href="../../api/DLL.DeepLearning.Losses.html#DLL.DeepLearning.Losses.CCE" title="DLL.DeepLearning.Losses.CCE" class="sphx-glr-backref-module-DLL-DeepLearning-Losses sphx-glr-backref-type-py-class"><span class="n">CCE</span></a></a><span class="p">(),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="s2">&quot;val_accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;accuracy&quot;</span><span class="p">])</span>
+<a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.summary" title="DLL.DeepLearning.Model.Model.summary" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.summary" title="DLL.DeepLearning.Model.Model.summary" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">summary</span></a></a><span class="p">()</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">scatter</span><span class="o">.</span><span class="n">legend_elements</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Classes&quot;</span>
+<span class="p">)</span>
+
+<span class="n">errors</span> <span class="o">=</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.fit" title="DLL.DeepLearning.Model.Model.fit" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.fit" title="DLL.DeepLearning.Model.Model.fit" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">fit</span></a></a><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">val_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_predictions</span> <span class="o">=</span> <a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.predict" title="DLL.DeepLearning.Model.Model.predict" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><a href="../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.predict" title="DLL.DeepLearning.Model.Model.predict" class="sphx-glr-backref-module-DLL-DeepLearning-Model sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">predict</span></a></a><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test accuracy: </span><span class="si">{</span><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><a href="../../api/DLL.Data.Metrics.html#DLL.Data.Metrics.accuracy" title="DLL.Data.Metrics.accuracy" class="sphx-glr-backref-module-DLL-Data-Metrics sphx-glr-backref-type-py-function"><span class="n">accuracy</span></a></a><span class="p">(</span><span class="n">test_predictions</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="s2">&quot;val_loss&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Categorical cross entropy&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;val_accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 11.183 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-deeplearning-bidirectionalclassification-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1a153c88a2e863533b1345257ed24dd0/BidirectionalClassification.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">BidirectionalClassification.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8887c3db8df00d1f8aa2b1dc5615bd68/BidirectionalClassification.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">BidirectionalClassification.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/cdda452efcffe5573081398f9b15120f/BidirectionalClassification.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">BidirectionalClassification.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="TimeSeriesAnalysis.html" class="btn btn-neutral float-left" title="Recurrent networks for time series analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Regression.html" class="btn btn-neutral float-right" title="Regression with neural networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

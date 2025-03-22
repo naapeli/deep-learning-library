@@ -12,8 +12,8 @@ setup(
     url='https://github.com/naapeli/deep-learning-library',
     packages=find_packages(where='DLL'),
     install_requires=[
-        'torch',
-        'tensorflow',
+        "torch",
+        "torchvision",
         "matplotlib",
         "numpy",
         "sklearn",

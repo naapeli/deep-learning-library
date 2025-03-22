@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:57.745** total execution time for 15 files **from all galleries**:
+**00:09.473** total execution time for 28 files **from all galleries**:
 
 .. container::
 
@@ -32,8 +32,23 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_ReinforcementLearning_DeepReinforcementLearning.py` (``..\..\Tests\ReinforcementLearning\DeepReinforcementLearning.py``)
-     - 00:57.745
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_TimeSeriesAnalysis.py` (``..\..\Tests\DeepLearning\TimeSeriesAnalysis.py``)
+     - 00:09.473
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_Attention.py` (``..\..\Tests\DeepLearning\Attention.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_BidirectionalClassification.py` (``..\..\Tests\DeepLearning\BidirectionalClassification.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_ImageClassification.py` (``..\..\Tests\DeepLearning\ImageClassification.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_KANs.py` (``..\..\Tests\DeepLearning\KANs.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_DeepLearning_Regression.py` (``..\..\Tests\DeepLearning\Regression.py``)
+     - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_GaussianProcesses_GaussianProcessRegressor.py` (``..\..\Tests\GaussianProcesses\GaussianProcessRegressor.py``)
      - 00:00.000
@@ -71,9 +86,33 @@ Computation times
    * - :ref:`sphx_glr_auto_examples_Optimisers_Optimisers.py` (``..\..\Tests\Optimisers\Optimisers.py``)
      - 00:00.000
      - 0.0
+   * - :ref:`sphx_glr_auto_examples_ReinforcementLearning_DeepReinforcementLearning.py` (``..\..\Tests\ReinforcementLearning\DeepReinforcementLearning.py``)
+     - 00:00.000
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_SVM_SupportVectorClassification.py` (``..\..\Tests\SVM\SupportVectorClassification.py``)
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_auto_examples_SVM_SupportVectorRegression.py` (``..\..\Tests\SVM\SupportVectorRegression.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Trees_BoostingClassifiers.py` (``..\..\Tests\Trees\BoostingClassifiers.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Trees_DecisionTree.py` (``..\..\Tests\Trees\DecisionTree.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Trees_IsolationForest.py` (``..\..\Tests\Trees\IsolationForest.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_Trees_RegressionTree.py` (``..\..\Tests\Trees\RegressionTree.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_UnsupervisedLearning_Clustering.py` (``..\..\Tests\UnsupervisedLearning\Clustering.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DimensionalityReduction.py` (``..\..\Tests\UnsupervisedLearning\DimensionalityReduction.py``)
+     - 00:00.000
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DiscriminantAnalysisClassification.py` (``..\..\Tests\UnsupervisedLearning\DiscriminantAnalysisClassification.py``)
      - 00:00.000
      - 0.0
