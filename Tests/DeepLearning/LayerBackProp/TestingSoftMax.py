@@ -1,7 +1,7 @@
 import torch
 from time import perf_counter
 
-from src.DLL.DeepLearning.Layers.Activations import SoftMax
+from DLL.DeepLearning.Layers.Activations import SoftMax
 
 
 data = torch.rand((46, 47, 48, 49), dtype=torch.float32, requires_grad=True)

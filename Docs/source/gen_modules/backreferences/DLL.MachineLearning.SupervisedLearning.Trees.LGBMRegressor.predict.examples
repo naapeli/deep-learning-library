@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.MachineLearning.SupervisedLearning.Trees.LGBMRegressor.predict``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and compares various regression models, including regression trees, random forest, gradient boosting, AdaBoost, XGBoost, and LGBM, using synthetic datasets.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_RegressionTree_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_RegressionTree.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Regression using tree based models</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_Trees_RegressionTree.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

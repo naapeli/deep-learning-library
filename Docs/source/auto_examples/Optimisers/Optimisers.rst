@@ -24,7 +24,7 @@ Comparison of Optimization Algorithms on the Rosenbrock Function
 This script demonstrates the performance of various optimization algorithms in minimizing the 
 Rosenbrock function, a well-known test problem in optimization. 
 
-**Optimization Algorithms from `DLL.DeepLearning.Optimisers`**:
+**Optimization Algorithms from DLL.DeepLearning.Optimisers**:
     - **LBFGS** (Limited-memory BFGS)
     - **SGD** (Stochastic Gradient Descent)
     - **ADAM** (Adaptive Moment Estimation)
@@ -167,7 +167,7 @@ Rosenbrock function, a well-known test problem in optimization.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.392 seconds)
+   **Total running time of the script:** (0 minutes 15.134 seconds)
 
 
 .. _sphx_glr_download_auto_examples_Optimisers_Optimisers.py:

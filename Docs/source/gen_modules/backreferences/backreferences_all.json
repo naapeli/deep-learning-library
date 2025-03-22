@@ -1,1 +1,434 @@
-{}
+{
+ "DLL.ADAM": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Activation": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.BaseLayer": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.BaseLoss": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.BaseOptimiser": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.ADAM": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Activation": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.BaseLayer": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.BaseLoss": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.BaseOptimiser": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.Activation": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.Activations.Activation": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.Activations.Tanh": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.Activations._Activation.Activation": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.BaseLayer": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.RNN": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers.Tanh": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Layers._BaseLayer.BaseLayer": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Losses.BaseLoss": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Losses.MSE": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Losses._BaseLoss.BaseLoss": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.MSE": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model.add": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model.compile": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model.fit": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model.predict": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.Model.summary": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.add": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.compile": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.fit": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.predict": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Model.summary": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Optimisers.ADAM": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Optimisers.BaseOptimiser": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Optimisers._BaseOptimiser.BaseOptimiser": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.RNN": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.DeepLearning.Tanh": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.MSE": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model.add": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model.compile": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model.fit": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model.predict": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Model.summary": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.RNN": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ],
+ "DLL.Tanh": [
+  [
+   "TimeSeriesAnalysis.py",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\../../Tests\\DeepLearning",
+   "C:\\Users\\aatus\\ohjelmointi\\deep-learning-library\\Docs\\source\\auto_examples\\DeepLearning",
+   "This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.",
+   "Recurrent networks for time series analysis"
+  ]
+ ]
+}

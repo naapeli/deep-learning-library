@@ -15,24 +15,24 @@ Examples using ``DLL.DeepLearning.Optimisers.RMSPROP.update_parameters``
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a Deep Q-Network (DQN) by training an agent to  balance a pole in the CartPole-v1 environment from OpenAI Gymnasium. The script also  implements a custom training loop of a DLL.DeepLearning.Model.Model to train the model.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the performance of various optimization algorithms in minimizing the  Rosenbrock function, a well-known test problem in optimization. ">
 
 .. only:: html
 
-  .. image:: /auto_examples/ReinforcementLearning/images/thumb/sphx_glr_DeepReinforcementLearning_thumb.png
+  .. image:: /auto_examples/Optimisers/images/thumb/sphx_glr_Optimisers_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_ReinforcementLearning_DeepReinforcementLearning.py`
+  :ref:`sphx_glr_auto_examples_Optimisers_Optimisers.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Deep Q-Learning Agent for CartPole-v1</div>
+      <div class="sphx-glr-thumbnail-title">Comparison of Optimization Algorithms on the Rosenbrock Function</div>
     </div>
 
 
 .. only:: not html
 
- * :ref:`sphx_glr_auto_examples_ReinforcementLearning_DeepReinforcementLearning.py`
+ * :ref:`sphx_glr_auto_examples_Optimisers_Optimisers.py`
 
 .. thumbnail-parent-div-close
 

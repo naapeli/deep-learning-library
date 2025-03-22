@@ -1,8 +1,15 @@
+"""
+Outlier detection using isolation forest
+=========================================
+
+This script samples data points from a multivariate normal distribution, adds an outlier 
+and tries to detect it using `DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.IsolationForest`.
+"""
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.UnsupervisedLearning.OutlierDetection import IsolationForest
+from DLL.MachineLearning.UnsupervisedLearning.OutlierDetection import IsolationForest
 
 
 mean = [0, 0]
