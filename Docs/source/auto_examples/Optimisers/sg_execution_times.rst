@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:06.392** total execution time for 1 file **from auto_examples\Optimisers**:
+**00:15.134** total execution time for 1 file **from auto_examples\Optimisers**:
 
 .. container::
 
@@ -33,5 +33,5 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_Optimisers_Optimisers.py` (``Optimisers.py``)
-     - 00:06.392
+     - 00:15.134
      - 0.0

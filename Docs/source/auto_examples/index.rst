@@ -1,5 +1,17 @@
 :orphan:
 
+Examples
+=============
+
+Here are some examples on how to use the models in the library. These examples are meant 
+to showcase each model and method defined in the library. Some utility methods, such as 
+certain metrics, are omitted, as the author believes such examples have little to no practical 
+use. However, most core features and functionalities are demonstrated through these examples.
+
+Each example is designed to illustrate the model's usage, behavior, and performance in various 
+scenarios. The provided scripts include data preprocessing, model training, evaluation, and 
+visualization where applicable. By following these examples, users can gain a better 
+understanding of how to effectively apply the models to different machine learning tasks.
 
 
 
@@ -15,10 +27,127 @@
 
     </div>
 
+Deep learning
+=============================
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict a dummy dataset using MultiHeadAttention. The model  has a similar structure to modern large language models, but with way less parameters.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_Attention_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_Attention.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Deep learning with Attention</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_TimeSeriesAnalysis_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_TimeSeriesAnalysis.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Recurrent networks for time series analysis</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to classify the iris dataset. This model uses LSTM and  RNN layers with a Bidirectional wrapper for the predictions.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_BidirectionalClassification_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_BidirectionalClassification.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Bidirectional recurrent layers</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict values on a simple quadratic surface. It also  showcases some regularisation methods like Dropout and BatchNorm.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_Regression_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_Regression.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Regression with neural networks</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model using Kolmogorov-Arnold networks. It fits to a simple  quadratic surface using only a few parameters.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_KANs_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_KANs.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Kolmogorov-Arnold Networks</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to classify the MNIST dataset. The model mainly consists of  convolutonal layers and pooling layers with a few dense layers at the end. As the script is  only for demonstration purposes, only 100 first datapoints are used to make the training faster.  For a full example, change the parameter n to 60000. If n is increased, more epochs may need  to be added and other hyperparameters tuned.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_ImageClassification_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_ImageClassification.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MNIST Image classification</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
 Gaussian Processes
 ====================
-
-Here are some examples on how to use the `GaussianProcessRegressor`.
 
 
 
@@ -70,8 +199,6 @@ Here are some examples on how to use the `GaussianProcessRegressor`.
 
 Linear Models
 ====================
-
-Here are some examples on how to use the linear models offered in the library.
 
 
 
@@ -192,8 +319,6 @@ Here are some examples on how to use the linear models offered in the library.
 Metrics
 ====================
 
-Here is an example on how to use the metrics, particularly ROC curve, offered in the library.
-
 
 
 .. raw:: html
@@ -227,8 +352,6 @@ Here is an example on how to use the metrics, particularly ROC curve, offered in
 
 Naive Bayes
 ====================
-
-Here is an example on how to use the Naive Bayes algorithms offered in the library.
 
 
 
@@ -264,8 +387,6 @@ Here is an example on how to use the Naive Bayes algorithms offered in the libra
 Neighbours
 ====================
 
-Here is an example on how to use K-Nearest Neighbours algorithms offered in the library.
-
 
 
 .. raw:: html
@@ -299,8 +420,6 @@ Here is an example on how to use K-Nearest Neighbours algorithms offered in the 
 
 Optimizers
 ====================
-
-Here is an example on how to use different optimization algorithms offered in the library.
 
 
 
@@ -336,8 +455,6 @@ Here is an example on how to use different optimization algorithms offered in th
 Reinforcement learning
 ==========================
 
-Here is an example on how to use neural networks offered by the library for deep reinforcement learning.
-
 
 
 .. raw:: html
@@ -371,8 +488,6 @@ Here is an example on how to use neural networks offered by the library for deep
 
 Support vector machines
 ==========================
-
-Here is an example on how to use the support vector machines offered by the library for classification and regression.
 
 
 
@@ -422,12 +537,166 @@ Here is an example on how to use the support vector machines offered by the libr
 
     </div>
 
+Trees and boosting machines
+=============================
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script samples data points from a multivariate normal distribution, adds an outlier  and tries to detect it using DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.IsolationForest.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_IsolationForest_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_IsolationForest.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Outlier detection using isolation forest</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates the performance of decision tree and random forest classifiers  on the Breast Cancer dataset using both DLL (`DLL.MachineLearning.SupervisedLearning.Trees`)  and scikit-learn.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_DecisionTree_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_DecisionTree.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Decision tree and random forest classifiers</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script compares the performance of various boosting classifiers, including  Gradient Boosting, AdaBoost, XGBoost, and LightGBM. Also sklearns version of AdaBoost  is compared.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_BoostingClassifiers_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_BoostingClassifiers.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Boosting Classifier Comparison</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and compares various regression models, including regression trees, random forest, gradient boosting, AdaBoost, XGBoost, and LGBM, using synthetic datasets.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_RegressionTree_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_RegressionTree.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Regression using tree based models</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+Unsupervised learning
+=============================
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and visualizes various dimensionality reduction algorithms on the iris dataset.  For each algorithm, a visualization of the latent space, which is used for comparison of the algorithms.">
+
+.. only:: html
+
+  .. image:: /auto_examples/UnsupervisedLearning/images/thumb/sphx_glr_DimensionalityReduction_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DimensionalityReduction.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparison of dimensionality reduction algorithms</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script classifies synthetic data using linear and quadratic disrciminant analysis.  In the visualisations, one is clearly able to see the difference  between the algorithms  using the decision boundaries.">
+
+.. only:: html
+
+  .. image:: /auto_examples/UnsupervisedLearning/images/thumb/sphx_glr_DiscriminantAnalysisClassification_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_UnsupervisedLearning_DiscriminantAnalysisClassification.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Classification with discriminant analysis</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and visualizes various clustering algorithms on synthetic datasets. For each algorithm,  a silhouette plot is produced, which is used for comparison of the algorithms. If one wants to experiment with  differently shaped datasets, one should run the script locally and experiment with changing the &quot;dataset&quot; parameter.">
+
+.. only:: html
+
+  .. image:: /auto_examples/UnsupervisedLearning/images/thumb/sphx_glr_Clustering_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_UnsupervisedLearning_Clustering.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparison of clustering algorithms using silhouette scores</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
 
 .. toctree::
    :hidden:
    :includehidden:
 
 
+   /auto_examples/DeepLearning/index.rst
    /auto_examples/GaussianProcesses/index.rst
    /auto_examples/LinearModels/index.rst
    /auto_examples/Metrics/index.rst
@@ -436,6 +705,8 @@ Here is an example on how to use the support vector machines offered by the libr
    /auto_examples/Optimisers/index.rst
    /auto_examples/ReinforcementLearning/index.rst
    /auto_examples/SVM/index.rst
+   /auto_examples/Trees/index.rst
+   /auto_examples/UnsupervisedLearning/index.rst
 
 
 .. only:: html

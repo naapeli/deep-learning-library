@@ -5,7 +5,7 @@ Comparison of Optimization Algorithms on the Rosenbrock Function
 This script demonstrates the performance of various optimization algorithms in minimizing the 
 Rosenbrock function, a well-known test problem in optimization. 
 
-**Optimization Algorithms from `DLL.DeepLearning.Optimisers`**:
+**Optimization Algorithms from DLL.DeepLearning.Optimisers**:
     - **LBFGS** (Limited-memory BFGS)
     - **SGD** (Stochastic Gradient Descent)
     - **ADAM** (Adaptive Moment Estimation)

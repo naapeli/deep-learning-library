@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.MachineLearning.UnsupervisedLearning.Clustering.DBScan.predict``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and visualizes various clustering algorithms on synthetic datasets. For each algorithm,  a silhouette plot is produced, which is used for comparison of the algorithms. If one wants to experiment with  differently shaped datasets, one should run the script locally and experiment with changing the &quot;dataset&quot; parameter.">
+
+.. only:: html
+
+  .. image:: /auto_examples/UnsupervisedLearning/images/thumb/sphx_glr_Clustering_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_UnsupervisedLearning_Clustering.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Comparison of clustering algorithms using silhouette scores</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_UnsupervisedLearning_Clustering.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

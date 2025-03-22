@@ -1,7 +1,7 @@
 import torch
 from time import perf_counter
 
-from src.DLL.DeepLearning.Layers.Regularisation import Dropout
+from DLL.DeepLearning.Layers.Regularisation import Dropout
 
 
 data = torch.rand((47, 46, 45), dtype=torch.float32, requires_grad=True)

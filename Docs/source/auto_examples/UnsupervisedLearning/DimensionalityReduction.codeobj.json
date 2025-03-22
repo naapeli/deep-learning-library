@@ -1,0 +1,1007 @@
+{
+ "LDA": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._LDA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "LDA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LDA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LDA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA"
+  }
+ ],
+ "PCA": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._PCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "PCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "PCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "PCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA"
+  }
+ ],
+ "RobustPCA": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._RobustPCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA"
+  }
+ ],
+ "TSNE": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._TSNE",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "TSNE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "TSNE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "TSNE"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE"
+  }
+ ],
+ "UMAP": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._UMAP",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "axes": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "axes.ravel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "datasets.load_iris": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.datasets",
+   "module_short": "sklearn.datasets",
+   "name": "load_iris"
+  }
+ ],
+ "fig": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure"
+  }
+ ],
+ "iris": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils._bunch",
+   "module_short": "sklearn.utils",
+   "name": "Bunch"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "Bunch"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "Bunch"
+  }
+ ],
+ "iris.data": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "iris.target": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "plt.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "figure"
+  }
+ ],
+ "plt.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "legend"
+  }
+ ],
+ "plt.semilogy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "semilogy"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.subplots": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots"
+  }
+ ],
+ "plt.subplots_adjust": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots_adjust"
+  }
+ ],
+ "plt.xlabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "xlabel"
+  }
+ ],
+ "plt.ylabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "ylabel"
+  }
+ ],
+ "reduced_TSNE": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "reduced_UMAP1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "reduced_UMAP2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "reduced_lda": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "reduced_pca": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "reduced_robustPCA": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.tensor": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "tensor"
+  }
+ ],
+ "transformer_TSNE": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._TSNE",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "TSNE"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "TSNE"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "TSNE"
+  }
+ ],
+ "transformer_TSNE.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._TSNE",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "TSNE.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "TSNE.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "TSNE.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "TSNE.fit_transform"
+  }
+ ],
+ "transformer_TSNE.history": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "transformer_UMAP1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._UMAP",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "UMAP"
+  }
+ ],
+ "transformer_UMAP1.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._UMAP",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "UMAP.fit_transform"
+  }
+ ],
+ "transformer_UMAP2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._UMAP",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "UMAP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "UMAP"
+  }
+ ],
+ "transformer_UMAP2.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._UMAP",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "UMAP.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "UMAP.fit_transform"
+  }
+ ],
+ "transformer_UMAP2.history": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "transformer_lda": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._LDA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "LDA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LDA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LDA"
+  }
+ ],
+ "transformer_lda.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._LDA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "LDA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "LDA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LDA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LDA.fit_transform"
+  }
+ ],
+ "transformer_pca": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._PCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "PCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "PCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "PCA"
+  }
+ ],
+ "transformer_pca.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._PCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "PCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "PCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "PCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "PCA.fit_transform"
+  }
+ ],
+ "transformer_robustPCA": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._RobustPCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RobustPCA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RobustPCA"
+  }
+ ],
+ "transformer_robustPCA.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction._RobustPCA",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction",
+   "name": "RobustPCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.UnsupervisedLearning",
+   "module_short": "DLL.MachineLearning.UnsupervisedLearning",
+   "name": "RobustPCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RobustPCA.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RobustPCA.fit_transform"
+  }
+ ],
+ "y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

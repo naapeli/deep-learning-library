@@ -1,6 +1,6 @@
 import torch
 
-from src.DLL.DeepLearning.Layers import RNN
+from DLL.DeepLearning.Layers import RNN
 
 
 data = torch.rand(size=(3, 1), dtype=torch.float32, requires_grad=True)
