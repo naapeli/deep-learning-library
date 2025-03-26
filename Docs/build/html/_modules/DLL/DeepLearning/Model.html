@@ -8,6 +8,10 @@
   <title>DLL.DeepLearning.Model &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e2bd21bd" />
 
   
@@ -44,6 +48,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/DLL.html">DLL</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
+</ul>
 
         </div>
       </div>
@@ -71,17 +80,8 @@
              
   <h1>Source code for DLL.DeepLearning.Model</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
-
-<span class="kn">from</span> <span class="nn">.Layers</span> <span class="kn">import</span> <span class="n">Input</span>
-<span class="kn">from</span> <span class="nn">.Layers._BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
-<span class="kn">from</span> <span class="nn">.Losses</span> <span class="kn">import</span> <span class="n">MSE</span>
-<span class="kn">from</span> <span class="nn">.Losses._BaseLoss</span> <span class="kn">import</span> <span class="n">BaseLoss</span>
-<span class="kn">from</span> <span class="nn">.Optimisers</span> <span class="kn">import</span> <span class="n">ADAM</span>
-<span class="kn">from</span> <span class="nn">.Optimisers._BaseOptimiser</span> <span class="kn">import</span> <span class="n">BaseOptimiser</span>
-<span class="kn">from</span> <span class="nn">..Data</span> <span class="kn">import</span> <span class="n">DataReader</span>
-<span class="kn">from</span> <span class="nn">..Data.Metrics</span> <span class="kn">import</span> <span class="n">calculate_metrics</span><span class="p">,</span> <span class="n">_round_dictionary</span>
-<span class="kn">from</span> <span class="nn">..Exceptions</span> <span class="kn">import</span> <span class="n">NotCompiledError</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 
 
 <div class="viewcode-block" id="Model">
@@ -103,38 +103,59 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;device must be either torch.device(&quot;cpu&quot;) or torch.device(&quot;cuda&quot;).&#39;</span><span class="p">)</span>
 
+        <span class="kn">from</span> <span class="nn">.Layers</span> <span class="kn">import</span> <span class="n">Input</span>
         <span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_shape</span><span class="p">,)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">input_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Input</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
-    
+
 <div class="viewcode-block" id="Model.compile">
 <a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.compile">[docs]</a>
-    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimiser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;loss&quot;</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimiser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,),</span> <span class="n">callbacks</span><span class="o">=</span><span class="nb">tuple</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Configures the model for training. Sets the optimiser and the loss function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            optimiser (:ref:`optimisers_section_label` | None, optional): The optimiser used for training the model. If None, the ADAM optimiser is used.</span>
 <span class="sd">            loss (:ref:`losses_section_label` | None, optional): The loss function used for training the model. If None, the MSE loss is used.</span>
-<span class="sd">            metrics (list[str], optional): The metrics that will be tracked during training. Defaults to [&quot;loss&quot;].</span>
+<span class="sd">            metrics (tuple[str], optional): The metrics that will be tracked during training. Defaults to (&quot;loss&quot;).</span>
+<span class="sd">            callbacks (tuple[:ref:`callbacks_section_label`], optional): The callbacks used by the model. Defaults to ().</span>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the optimiser is not from DLL.DeepLearning.Optimisers, the loss is not from DLL.DeepLearning.Losses or the metrics is not a tuple or a list of strings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">.Losses._BaseLoss</span> <span class="kn">import</span> <span class="n">BaseLoss</span>
+        <span class="kn">from</span> <span class="nn">.Optimisers._BaseOptimiser</span> <span class="kn">import</span> <span class="n">BaseOptimiser</span>
+        <span class="kn">from</span> <span class="nn">.Callbacks</span> <span class="kn">import</span> <span class="n">Callback</span>
+        <span class="kn">from</span> <span class="nn">.Losses</span> <span class="kn">import</span> <span class="n">MSE</span>
+        <span class="kn">from</span> <span class="nn">.Optimisers</span> <span class="kn">import</span> <span class="n">ADAM</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimiser</span><span class="p">,</span> <span class="n">BaseOptimiser</span><span class="p">)</span> <span class="ow">and</span> <span class="n">optimiser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;optimiser must be from DLL.DeepLearning.Optimisers&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">BaseLoss</span><span class="p">)</span> <span class="ow">and</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;loss must be from DLL.DeepLearning.Losses&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metrics must be a list or a tuple containing the strings of wanted metrics.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="n">Callback</span><span class="p">)</span> <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="n">callbacks</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;callbacks must be a tuple of callback objects.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span> <span class="o">=</span> <span class="n">optimiser</span> <span class="k">if</span> <span class="n">optimiser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ADAM</span><span class="p">()</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameter</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">()]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span><span class="o">.</span><span class="n">initialise_parameters</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span> <span class="k">if</span> <span class="n">loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MSE</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="n">callbacks</span></div>
+
+
+<div class="viewcode-block" id="Model.clone">
+<a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.clone">[docs]</a>
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of the same model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Model.add">
@@ -146,6 +167,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            layer (:ref:`layers_section_label`): The layer that is added to the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.Layers._BaseLayer</span> <span class="kn">import</span> <span class="n">BaseLayer</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">BaseLayer</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;layer must be from DLL.Deeplearning.Layers&quot;</span><span class="p">)</span>
 
@@ -166,6 +188,15 @@
             <span class="n">total_params</span> <span class="o">+=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_nparams</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total number of parameters: </span><span class="si">{</span><span class="n">total_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Model summary:&quot;</span>
+        <span class="n">total_params</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">+=</span> <span class="n">layer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">total_params</span> <span class="o">+=</span> <span class="n">layer</span><span class="o">.</span><span class="n">get_nparams</span><span class="p">()</span>
+        <span class="n">message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;Total number of parameters: </span><span class="si">{</span><span class="n">total_params</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">message</span>
 
 <div class="viewcode-block" id="Model.predict">
 <a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.predict">[docs]</a>
@@ -183,6 +214,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor of shape (n_samples, *last_layer.output_shape)): The predictions made by the model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">..Exceptions</span> <span class="kn">import</span> <span class="n">NotCompiledError</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NotCompiledError</span><span class="p">(</span><span class="s2">&quot;Model.compile() must be called before predicting.&quot;</span><span class="p">)</span>
 
@@ -200,6 +232,7 @@
         <span class="n">gradient</span> <span class="o">=</span> <span class="n">initial_gradient</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">reversedLayers</span><span class="p">:</span>
             <span class="n">gradient</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gradient</span>
 
 <div class="viewcode-block" id="Model.fit">
 <a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.Model.fit">[docs]</a>
@@ -218,7 +251,7 @@
 <span class="sd">            shuffle_data (bool, optional): If True, shuffles data before the training.</span>
 <span class="sd">            verbose (bool, optional): If True, prints info of the chosen metrics during training. Defaults to False.</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            history (dict[str, torch.Tensor], each tensor is floor(epochs / callback_frequency) long.): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency.</span>
+<span class="sd">            history (dict[str, list]): A dictionary tracking the evolution of selected metrics at intervals defined by callback_frequency. If training was not stopped early, each metric is floor(epochs / callback_frequency) long.</span>
 <span class="sd">        Raises:</span>
 <span class="sd">            TypeError: If the input matrix or the target matrix is not a PyTorch tensor or if other parameters are of wrong type.</span>
 <span class="sd">            ValueError: If the input matrix or the target matrix is not the correct shape or if other parameters have incorrect values.</span>
@@ -227,7 +260,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input matrix and the target matrix must be a PyTorch tensor.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">input_shape</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The input matrix must have the same shape as input_shape.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output_shape</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="ow">or</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output_shape</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The targets must have the same shape as the output_shape of the last layer with the same number of samples as the input data </span><span class="si">{</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output_shape</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val_data</span><span class="p">,</span> <span class="nb">list</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="n">val_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;val_data must either be a tuple containing validation samples or None.&quot;</span><span class="p">)</span>
@@ -247,30 +280,82 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;shuffle_data must be a boolean.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;verbose must be a boolean.&quot;</span><span class="p">)</span>
+        
+        <span class="kn">from</span> <span class="nn">..Data</span> <span class="kn">import</span> <span class="n">DataReader</span>
+        <span class="kn">from</span> <span class="nn">..Data.Metrics</span> <span class="kn">import</span> <span class="n">calculate_metrics</span><span class="p">,</span> <span class="n">_round_dictionary</span>
 
-        <span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="n">metric</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">epochs</span> <span class="o">/</span> <span class="n">callback_frequency</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_type</span><span class="p">)</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">}</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="p">{</span><span class="n">metric</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">}</span>
         <span class="n">batch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="k">if</span> <span class="n">batch_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">batch_size</span>
         <span class="n">data_reader</span> <span class="o">=</span> <span class="n">DataReader</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle_data</span><span class="p">,</span> <span class="n">shuffle_every_epoch</span><span class="o">=</span><span class="n">shuffle_every_epoch</span><span class="p">)</span>
 
         <span class="n">train_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="k">if</span> <span class="n">metric</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;val_&quot;</span><span class="p">]</span>
         <span class="n">val_metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">metric</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="k">if</span> <span class="n">metric</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;val_&quot;</span><span class="p">]</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># boolean for callbacks to stop the training</span>
+        <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+            <span class="n">callback</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">callback</span><span class="o">.</span><span class="n">on_train_start</span><span class="p">()</span>
+
         <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span>
+                <span class="k">break</span>
             <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data_reader</span><span class="o">.</span><span class="n">get_data</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
                 <span class="n">predictions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">initial_gradient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">initial_gradient</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">optimiser</span><span class="o">.</span><span class="n">update_parameters</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+                    <span class="n">callback</span><span class="o">.</span><span class="n">on_batch_end</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+
             <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="n">callback_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="n">calculate_metrics</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">Y</span><span class="p">),</span> <span class="n">metrics</span><span class="o">=</span><span class="n">train_metrics</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">loss</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">val_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">val_values</span> <span class="o">=</span> <span class="n">calculate_metrics</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">val_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">val_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">metrics</span><span class="o">=</span><span class="n">val_metrics</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="o">.</span><span class="n">loss</span><span class="p">,</span> <span class="n">validation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="n">values</span> <span class="o">|=</span> <span class="n">val_values</span>
                 <span class="k">for</span> <span class="n">metric</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">epoch</span> <span class="o">/</span> <span class="n">callback_frequency</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="n">history</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> - Metrics: </span><span class="si">{</span><span class="n">_round_dictionary</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+                <span class="n">callback</span><span class="o">.</span><span class="n">on_epoch_end</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+            <span class="n">callback</span><span class="o">.</span><span class="n">on_train_end</span><span class="p">()</span>
+
         <span class="k">return</span> <span class="n">history</span></div>
 </div>
+
+
+
+<div class="viewcode-block" id="save_model">
+<a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.save_model">[docs]</a>
+<span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;./model.pkl&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Saves a model using pickle serialization.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: The model is not serializable. Saving failed.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File error while saving the model.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="load_model">
+<a class="viewcode-back" href="../../../api/DLL.DeepLearning.Models.html#DLL.DeepLearning.Model.load_model">[docs]</a>
+<span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;./model.pkl&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads a model from a pickle file.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">UnpicklingError</span><span class="p">,</span> <span class="ne">EOFError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading the model file.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File error while loading the model.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span></div>
 
 </pre></div>
 

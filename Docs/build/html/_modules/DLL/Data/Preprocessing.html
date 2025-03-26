@@ -8,7 +8,11 @@
   <title>DLL.Data.Preprocessing &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=a745ac59" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=e2bd21bd" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -43,6 +47,11 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/DLL.html">DLL</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
 </ul>
 
         </div>
@@ -128,15 +137,21 @@
 <span class="sd">        Finds the classes in the data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (torch.Tensor of shape (n_samples,)): the true labels of samples.</span>
+<span class="sd">            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="n">unique_elements</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">element</span><span class="o">.</span><span class="n">item</span><span class="p">():</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_elements</span><span class="p">)}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index_to_element</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">element</span> <span class="k">for</span> <span class="n">element</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_length</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">unique_elements</span><span class="o">.</span><span class="n">size</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="c1"># unique_elements = [torch.unique(feature) for feature in data.T]</span>
+        <span class="c1"># self.element_to_index = [{element.item(): i for i, element in enumerate(uniques)} for uniques in unique_elements]</span>
+        <span class="c1"># self.index_to_element = [{i: element for element, i in table.items()} for table in self.element_to_index]</span>
+        <span class="c1"># self.one_hot_lengths = [len(uniques) for uniques in unique_elements]</span>
+        <span class="n">range_elements</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span><span class="o">.</span><span class="n">int</span><span class="p">(),</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span><span class="o">.</span><span class="n">int</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span> <span class="o">=</span> <span class="p">[{</span><span class="n">element</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">uniques</span><span class="p">)}</span> <span class="k">for</span> <span class="n">uniques</span> <span class="ow">in</span> <span class="n">range_elements</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_to_element</span> <span class="o">=</span> <span class="p">[{</span><span class="n">i</span><span class="p">:</span> <span class="n">element</span> <span class="k">for</span> <span class="n">element</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">uniques</span><span class="p">)</span> <span class="k">for</span> <span class="n">uniques</span> <span class="ow">in</span> <span class="n">range_elements</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="OneHotEncoder.encode">
@@ -146,18 +161,22 @@
 <span class="sd">        One-hot encodes the data. OneHotEncoder.fit() must be called before encoding.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (torch.Tensor of shape (n_samples,)): the true labels of samples.</span>
+<span class="sd">            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.</span>
+<span class="sd">            torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features): A one-hot encoded tensor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;one_hot_length&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;one_hot_lengths&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">NotCompiledError</span><span class="p">(</span><span class="s2">&quot;OneHotEncoder.fit() must be called before encoding.&quot;</span><span class="p">)</span>
 
-        <span class="n">label_to_distribution</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_distribution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span><span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()],</span> <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">label_to_distribution</span></div>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">encoded_features</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">label_to_distribution</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_distribution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">element_to_index</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">()],</span> <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]],</span> <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">encoded_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label_to_distribution</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">encoded_features</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
     
 <div class="viewcode-block" id="OneHotEncoder.fit_encode">
@@ -167,13 +186,13 @@
 <span class="sd">        First fits the encoder and then one-hot encodes the data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (torch.Tensor of shape (n_samples,)): the true labels of samples.</span>
+<span class="sd">            data (torch.Tensor of shape (n_samples,) or (n_samples, n_features)): the true labels of samples.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            torch.Tensor of shape (n_samples, n_classes): A one-hot encoded tensor.</span>
+<span class="sd">            torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features): A one-hot encoded tensor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 or 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
@@ -186,17 +205,28 @@
 <span class="sd">        One-hot encodes the data. OneHotEncoder.fit() must be called before decoding.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (torch.Tensor of shape (n_samples, n_classes)): the predictions of samples.</span>
+<span class="sd">            data (torch.Tensor of shape (n_samples, n_classes_1 + ... + n_classes_n_features)): the predictions of samples.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            torch.Tensor of shape (n_samples,): A decoded predictions transformed to the original classes.</span>
+<span class="sd">            torch.Tensor of shape (n_samples,) or (n_samples, n_features): A decoded predictions transformed to the original classes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 1 dimensional torch tensor.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;one_hot_length&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;one_hot_lengths&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">NotCompiledError</span><span class="p">(</span><span class="s2">&quot;OneHotEncoder.fit() must be called before decoding.&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">index_to_element</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span> <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></div>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span><span class="p">):</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:(</span><span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span><span class="p">[</span><span class="n">j</span><span class="p">])]</span>
+            <span class="n">features_decoded</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index_to_element</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span> <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">feature</span><span class="p">]</span>
+            <span class="n">decoded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features_decoded</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">decoded</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">one_hot_lengths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="n">decoded</span> <span class="o">=</span> <span class="n">decoded</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decoded</span></div>
 
 
     <span class="k">def</span> <span class="nf">_get_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
@@ -456,11 +486,7 @@
 </div>
 
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Creates a matrix of data containing every possible combination of the given set of points</span>
 
-<span class="sd">data.shape = (data_length, input_shape)</span>
-<span class="sd">&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="PolynomialFeatures">
 <a class="viewcode-back" href="../../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.PolynomialFeatures">[docs]</a>
 <span class="k">class</span> <span class="nc">PolynomialFeatures</span><span class="p">:</span>
@@ -469,12 +495,16 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        degree (int, optional): The degree of the polynomial. Must be a positive integer. Defaults to 2.</span>
+<span class="sd">        include_bias (bool): If true, a column of ones is included. Must be a boolean. Defaults to True.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">degree</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;degree must be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">include_bias</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;include_bias must be a boolean.&quot;</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_bias</span> <span class="o">=</span> <span class="n">include_bias</span>
 
 <div class="viewcode-block" id="PolynomialFeatures.transform">
 <a class="viewcode-back" href="../../../api/DLL.Data.Preprocessing.html#DLL.Data.Preprocessing.PolynomialFeatures.transform">[docs]</a>
@@ -492,7 +522,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data must be a 2 dimensional torch tensor.&quot;</span><span class="p">)</span>
 
         <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)]</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_bias</span> <span class="k">else</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">deg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">items</span> <span class="ow">in</span> <span class="n">combinations_with_replacement</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">),</span> <span class="n">deg</span><span class="p">):</span>

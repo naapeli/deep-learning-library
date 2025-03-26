@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.MachineLearning.UnsupervisedLearning.IsolationForest``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script samples data points from a multivariate normal distribution, adds an outlier  and tries to detect it using DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.IsolationForest.">
+
+.. only:: html
+
+  .. image:: /auto_examples/Trees/images/thumb/sphx_glr_IsolationForest_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_Trees_IsolationForest.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Outlier detection using isolation forest</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_Trees_IsolationForest.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

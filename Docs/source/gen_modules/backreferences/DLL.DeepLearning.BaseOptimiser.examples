@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.DeepLearning.BaseOptimiser``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_TimeSeriesAnalysis_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_TimeSeriesAnalysis.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Recurrent networks for time series analysis</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_DeepLearning_TimeSeriesAnalysis.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

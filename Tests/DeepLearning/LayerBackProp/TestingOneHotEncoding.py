@@ -1,5 +1,6 @@
 import torch
-from src.DLL.Data.Preprocessing import OneHotEncoder
+
+from DLL.Data.Preprocessing import OneHotEncoder
 
 
 X = torch.randint(0, 5, size=(1000, 5))

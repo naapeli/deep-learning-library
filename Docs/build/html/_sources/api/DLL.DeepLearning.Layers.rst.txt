@@ -59,6 +59,38 @@ Bidirectional
    :undoc-members:
    :show-inheritance:
 
+MultiHeadAttention
+---------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.MultiHeadAttention
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Identity
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Identity
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Add
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Add
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+LayerList
+----------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.LayerList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Reshape
 --------------------------------------
 
@@ -66,6 +98,14 @@ Reshape
    :members:
    :undoc-members:
    :show-inheritance:
+
+DenseKAN
+------------------------
+.. autoclass:: DLL.DeepLearning.Layers.DenseKAN
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 .. _activations_section_label:
 

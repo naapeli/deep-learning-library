@@ -1,7 +1,7 @@
 import torch
 from time import perf_counter
 
-from src.DLL.DeepLearning.Layers.Regularisation import GroupNorm, InstanceNorm, LayerNorm
+from DLL.DeepLearning.Layers.Regularisation import GroupNorm, InstanceNorm, LayerNorm
 
 
 data = torch.rand((11, 10, 12, 15, 26), dtype=torch.float32, requires_grad=True)

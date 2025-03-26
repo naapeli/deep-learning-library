@@ -1,9 +1,19 @@
+"""
+Multidimensional Gaussian Process Regression (GPR)
+========================================================
+
+This script demonstrates the use of a Gaussian Process Regressor (GPR) with a 
+Radial Basis Function (RBF) kernel in a multidimensional setting. The example 
+involves training a GPR model on 2D input data and predicting the outputs on 
+a test set.
+"""
+
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.GaussianProcesses import GaussianProcessRegressor
-from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF
-from src.DLL.Data.Preprocessing import data_split, StandardScaler
+from DLL.MachineLearning.SupervisedLearning.GaussianProcesses import GaussianProcessRegressor
+from DLL.MachineLearning.SupervisedLearning.Kernels import RBF
+from DLL.Data.Preprocessing import data_split, StandardScaler
 
 
 n = 30
@@ -19,7 +29,7 @@ model = GaussianProcessRegressor(RBF(correlation_length=torch.Tensor([1, 1])))
 model.fit(x_train, y_train)
 model.train_kernel(epochs=10, verbose=True)
 mean, covariance = model.predict(x_test)
-z = transformer.inverse_transform(mean)
+z = transformer.inverse_transform(mean.squeeze())
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

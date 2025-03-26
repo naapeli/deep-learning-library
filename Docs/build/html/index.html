@@ -9,6 +9,10 @@
   <title>Deep learning library documentation &mdash; Deep learning library 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
       <link rel="stylesheet" type="text/css" href="_static/custom.css?v=e2bd21bd" />
 
   
@@ -43,9 +47,31 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="api/DLL.html">DLL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/DLL.html">DLL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/first.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#deep-learning">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#gaussian-processes">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#support-vector-machines">Support vector machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#trees-and-boosting-machines">Trees and boosting machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auto_examples/index.html#unsupervised-learning">Unsupervised learning</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -74,10 +100,28 @@
              
   <section id="deep-learning-library-documentation">
 <h1>Deep learning library documentation<a class="headerlink" href="#deep-learning-library-documentation" title="Link to this heading"></a></h1>
-<p>DLL is a deep learning library inspired by TensorFlow, PyTorch, and scikit-learn. It encompasses a wide range of deep learning and machine learning methods and includes numerous examples and tests to demonstrate their usage.</p>
-<p>This library is intended as an educational project. While it offers a variety of functionalities, its performance and efficiency may not match those of the aforementioned libraries. Therefore, for production-level applications, it is recommended to use TensorFlow, PyTorch, or scikit-learn. However, DLL aims to provide greater clarity and ease of understanding compared to other libraries.</p>
+<p>DLL is a deep learning library inspired by TensorFlow, PyTorch, and scikit-learn. It encompasses
+a wide range of deep learning and machine learning methods and includes numerous examples and tests
+to demonstrate their usage.</p>
+<p>This library is intended as an educational project. While it offers a variety of functionalities,
+its performance and efficiency may not match those of the aforementioned libraries. Therefore,
+for production-level applications, it is recommended to use TensorFlow, PyTorch, or scikit-learn.
+However, DLL aims to provide greater clarity and ease of understanding compared to other libraries.</p>
+<section id="library-structure">
+<h2>Library Structure<a class="headerlink" href="#library-structure" title="Link to this heading"></a></h2>
+<p>The library is divided into three main packages: <strong>Data</strong>, <strong>DeepLearning</strong>, and <strong>MachineLearning</strong>.
+Additionally, there is a fourth package for internal exceptions. Below is a brief overview of these packages:</p>
+<ul class="simple">
+<li><p><strong>Data:</strong> Contains utilities for data preprocessing, transformation, data loading, splitting, and assessing performance.</p></li>
+<li><p><strong>DeepLearning:</strong> Implements various deep learning architectures, which can be combined in various ways.</p></li>
+<li><p><strong>MachineLearning:</strong> Provides implementations of traditional machine learning algorithms. The package is divided into supervised and unsupervised learning.</p></li>
+<li><p><strong>Exceptions:</strong> Defines internal error handling mechanisms for the library.</p></li>
+</ul>
+<p>For detailed documentation or some example scripts, refer to the sections below.</p>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/DLL.html">DLL</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/DLL.Data.html">Data</a><ul>
@@ -92,8 +136,10 @@
 <li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Layers.html#regularisation-layers">Regularisation layers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Losses.html">Losses</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Optimisers.html">Optimisers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Callbacks.html">Callbacks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Initialisers.html">Initialisers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Models.html">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/DLL.DeepLearning.Models.html#saving-and-loading-models">Saving and loading models</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/DLL.MachineLearning.html">MachineLearning</a><ul>
@@ -110,6 +156,15 @@
 </li>
 </ul>
 </div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/first.html">Examples</a></li>
+</ul>
+</div>
+</section>
 </section>
 
 

@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; Deep learning library 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=e2bd21bd" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Deep learning" href="DeepLearning/index.html" />
+    <link rel="prev" title="Examples" href="first.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Deep learning library
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/DLL.html">DLL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/DLL.Data.html">Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DLL.DeepLearning.html">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DLL.MachineLearning.html">MachineLearning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/DLL.Exceptions.html">Custom exceptions</a></li>
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="first.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deep-learning">Deep learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian-processes">Gaussian Processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linear-models">Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metrics">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#naive-bayes">Naive Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#neighbours">Neighbours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimizers">Optimizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reinforcement-learning">Reinforcement learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#support-vector-machines">Support vector machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#trees-and-boosting-machines">Trees and boosting machines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unsupervised-learning">Unsupervised learning</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Deep learning library</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="first.html">Examples</a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_examples/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<p>Here are some examples on how to use the models in the library. These examples are meant
+to showcase each model and method defined in the library. Some utility methods, such as
+certain metrics, are omitted, as the author believes such examples have little to no practical
+use. However, most core features and functionalities are demonstrated through these examples.</p>
+<p>Each example is designed to illustrate the model’s usage, behavior, and performance in various
+scenarios. The provided scripts include data preprocessing, model training, evaluation, and
+visualization where applicable. By following these examples, users can gain a better
+understanding of how to effectively apply the models to different machine learning tasks.</p>
+<div class="sphx-glr-thumbnails"></div></section>
+<section id="deep-learning">
+<h1>Deep learning<a class="headerlink" href="#deep-learning" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict a dummy dataset using MultiHeadAttention. The model  has a similar structure to modern large language models, but with way less parameters."><img alt="" src="../_images/sphx_glr_Attention_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/Attention.html#sphx-glr-auto-examples-deeplearning-attention-py"><span class="std std-ref">Deep learning with Attention</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Deep learning with Attention</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict values of a simple sine function. It uses recurrent layers  to handle the sequential nature of the sine function."><img alt="" src="../_images/sphx_glr_TimeSeriesAnalysis_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/TimeSeriesAnalysis.html#sphx-glr-auto-examples-deeplearning-timeseriesanalysis-py"><span class="std std-ref">Recurrent networks for time series analysis</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Recurrent networks for time series analysis</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to classify the iris dataset. This model uses LSTM and  RNN layers with a Bidirectional wrapper for the predictions."><img alt="" src="../_images/sphx_glr_BidirectionalClassification_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/BidirectionalClassification.html#sphx-glr-auto-examples-deeplearning-bidirectionalclassification-py"><span class="std std-ref">Bidirectional recurrent layers</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Bidirectional recurrent layers</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to predict values on a simple quadratic surface. It also  showcases some regularisation methods like Dropout and BatchNorm."><img alt="" src="../_images/sphx_glr_Regression_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/Regression.html#sphx-glr-auto-examples-deeplearning-regression-py"><span class="std std-ref">Regression with neural networks</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Regression with neural networks</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model using Kolmogorov-Arnold networks. It fits to a simple  quadratic surface using only a few parameters."><img alt="" src="../_images/sphx_glr_KANs_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/KANs.html#sphx-glr-auto-examples-deeplearning-kans-py"><span class="std std-ref">Kolmogorov-Arnold Networks</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Kolmogorov-Arnold Networks</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to classify the MNIST dataset. The model mainly consists of  convolutonal layers and pooling layers with a few dense layers at the end. As the script is  only for demonstration purposes, only 100 first datapoints are used to make the training faster.  For a full example, change the parameter n to 60000. If n is increased, more epochs may need  to be added and other hyperparameters tuned."><img alt="" src="../_images/sphx_glr_ImageClassification_thumb.png" />
+<p><a class="reference internal" href="DeepLearning/ImageClassification.html#sphx-glr-auto-examples-deeplearning-imageclassification-py"><span class="std std-ref">MNIST Image classification</span></a></p>
+  <div class="sphx-glr-thumbnail-title">MNIST Image classification</div>
+</div></div></section>
+<section id="gaussian-processes">
+<h1>Gaussian Processes<a class="headerlink" href="#gaussian-processes" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of a Gaussian Process Regressor (GPR) with a  Radial Basis Function (RBF) kernel in a multidimensional setting. The example  involves training a GPR model on 2D input data and predicting the outputs on  a test set."><img alt="" src="../_images/sphx_glr_MultidimensionalGPR_thumb.png" />
+<p><a class="reference internal" href="GaussianProcesses/MultidimensionalGPR.html#sphx-glr-auto-examples-gaussianprocesses-multidimensionalgpr-py"><span class="std std-ref">Multidimensional Gaussian Process Regression (GPR)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Multidimensional Gaussian Process Regression (GPR)</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of a custom Gaussian Process Regressor (GPR)  model with a compound kernel on generated data. The model is trained using  a combination of a linear kernel and a periodic kernel, and the training  process optimizes the kernel parameters to fit the data. The script also  compares the custom GPR model with the GPR implementation from Scikit-learn  using a different kernel combination."><img alt="" src="../_images/sphx_glr_GaussianProcessRegressor_thumb.png" />
+<p><a class="reference internal" href="GaussianProcesses/GaussianProcessRegressor.html#sphx-glr-auto-examples-gaussianprocesses-gaussianprocessregressor-py"><span class="std std-ref">Gaussian Process Regressor (GPR)</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Gaussian Process Regressor (GPR)</div>
+</div></div></section>
+<section id="linear-models">
+<h1>Linear Models<a class="headerlink" href="#linear-models" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of RANSAC (Random Sample Consensus) regression to fit a robust model in the presence of outliers. A quadratic relationship is used to generate inlier data, while a separate set of points acts as outliers. The performance of standard linear regression is compared with RANSAC regression to highlight the latter&#x27;s robustness to noisy data."><img alt="" src="../_images/sphx_glr_RANSAC_thumb.png" />
+<p><a class="reference internal" href="LinearModels/RANSAC.html#sphx-glr-auto-examples-linearmodels-ransac-py"><span class="std std-ref">Robust Regression with RANSAC</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Robust Regression with RANSAC</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates polynomial regression on a 2D dataset using total least squares (TLS). It generates a grid of input points, applies polynomial feature expansion, and fits a linear regression model. Predictions are visualized in 3D, comparing model output (blue) against actual values (red)."><img alt="" src="../_images/sphx_glr_PolynomialFeatures_thumb.png" />
+<p><a class="reference internal" href="LinearModels/PolynomialFeatures.html#sphx-glr-auto-examples-linearmodels-polynomialfeatures-py"><span class="std std-ref">Polynomial Surface Regression with Total Least Squares</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Polynomial Surface Regression with Total Least Squares</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script trains a logistic regression model on the Iris dataset using  gradient descent. It supports both binary and multi-class classification."><img alt="" src="../_images/sphx_glr_LogisticRegression_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LogisticRegression.html#sphx-glr-auto-examples-linearmodels-logisticregression-py"><span class="std std-ref">Logistic Regression on the Iris Dataset</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Logistic Regression on the Iris Dataset</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates Locally Weighted Regression (LWR), using a Gaussian kernel  to assign weights to training samples based on their distance from a test  point."><img alt="" src="../_images/sphx_glr_LocallyWeightedRegression_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LocallyWeightedRegression.html#sphx-glr-auto-examples-linearmodels-locallyweightedregression-py"><span class="std std-ref">Locally Weighted Regression on a Sine Function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Locally Weighted Regression on a Sine Function</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the effect of L1 (LASSO), L2 (Ridge), and  ElasticNet regularization on regression coefficients. It generates  a 3D synthetic dataset and fits different models with varying alpha  (regularization strength), tracking the weight paths."><img alt="" src="../_images/sphx_glr_LinearRegularisation_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LinearRegularisation.html#sphx-glr-auto-examples-linearmodels-linearregularisation-py"><span class="std std-ref">Regularization Path for Ridge, LASSO, and ElasticNet Regression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Regularization Path for Ridge, LASSO, and ElasticNet Regression</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of linear regression models and their regularized counterparts (Ridge,  LASSO, and ElasticNet) on synthetic data. The models are fitted to 1D and 2D datasets, and performance  is evaluated through residual analysis, summary statistics, and visualizations."><img alt="" src="../_images/sphx_glr_LinearModels_thumb.png" />
+<p><a class="reference internal" href="LinearModels/LinearModels.html#sphx-glr-auto-examples-linearmodels-linearmodels-py"><span class="std std-ref">Linear and Regularized Regression Models on Synthetic Data</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Linear and Regularized Regression Models on Synthetic Data</div>
+</div></div></section>
+<section id="metrics">
+<h1>Metrics<a class="headerlink" href="#metrics" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of ROC Curve for binary classification on synthetic data.  The dataset is generated using make_blobs from scikit-learn to create a 2D feature space with two  centers. The script then splits the dataset into training and test sets, trains a logistic regression  model, and evaluates its performance using metrics such as accuracy, ROC curve, and AUC (Area Under the  Curve)."><img alt="" src="../_images/sphx_glr_ROC_thumb.png" />
+<p><a class="reference internal" href="Metrics/ROC.html#sphx-glr-auto-examples-metrics-roc-py"><span class="std std-ref">Logistic Regression on Synthetic Data with ROC Curve and AUC</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Logistic Regression on Synthetic Data with ROC Curve and AUC</div>
+</div></div></section>
+<section id="naive-bayes">
+<h1>Naive Bayes<a class="headerlink" href="#naive-bayes" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of different Naive Bayes classifiers (Gaussian, Bernoulli, and  Multinomial) on multiple datasets: the Iris dataset and a synthetic dataset. The classifiers are  evaluated based on their accuracy in predicting the target values."><img alt="" src="../_images/sphx_glr_NaiveBayes_thumb.png" />
+<p><a class="reference internal" href="NaiveBayes/NaiveBayes.html#sphx-glr-auto-examples-naivebayes-naivebayes-py"><span class="std std-ref">Naive Bayes Classifiers on Iris and Synthetic Datasets</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Naive Bayes Classifiers on Iris and Synthetic Datasets</div>
+</div></div></section>
+<section id="neighbours">
+<h1>Neighbours<a class="headerlink" href="#neighbours" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of K-Nearest Neighbors (KNN) for both classification and regression  tasks using the KNNClassifier and KNNRegressor models. It also showcases model serialization  with save_model."><img alt="" src="../_images/sphx_glr_KNN_thumb.png" />
+<p><a class="reference internal" href="Neighbours/KNN.html#sphx-glr-auto-examples-neighbours-knn-py"><span class="std std-ref">K-Nearest Neighbors (KNN) Classification and Regression</span></a></p>
+  <div class="sphx-glr-thumbnail-title">K-Nearest Neighbors (KNN) Classification and Regression</div>
+</div></div></section>
+<section id="optimizers">
+<h1>Optimizers<a class="headerlink" href="#optimizers" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the performance of various optimization algorithms in minimizing the  Rosenbrock function, a well-known test problem in optimization. "><img alt="" src="../_images/sphx_glr_Optimisers_thumb.png" />
+<p><a class="reference internal" href="Optimisers/Optimisers.html#sphx-glr-auto-examples-optimisers-optimisers-py"><span class="std std-ref">Comparison of Optimization Algorithms on the Rosenbrock Function</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Comparison of Optimization Algorithms on the Rosenbrock Function</div>
+</div></div></section>
+<section id="reinforcement-learning">
+<h1>Reinforcement learning<a class="headerlink" href="#reinforcement-learning" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script implements a Deep Q-Network (DQN) by training an agent to  balance a pole in the CartPole-v1 environment from OpenAI Gymnasium. The script also  implements a custom training loop of a DLL.DeepLearning.Model.Model to train the model."><img alt="" src="../_images/sphx_glr_DeepReinforcementLearning_thumb.png" />
+<p><a class="reference internal" href="ReinforcementLearning/DeepReinforcementLearning.html#sphx-glr-auto-examples-reinforcementlearning-deepreinforcementlearning-py"><span class="std std-ref">Deep Q-Learning Agent for CartPole-v1</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Deep Q-Learning Agent for CartPole-v1</div>
+</div></div></section>
+<section id="support-vector-machines">
+<h1>Support vector machines<a class="headerlink" href="#support-vector-machines" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of Support Vector Regression (SVR) to model and predict a synthetic 3D surface. The objective is to train the model to approximate the surface defined by the equation:"><img alt="" src="../_images/sphx_glr_SupportVectorRegression_thumb.png" />
+<p><a class="reference internal" href="SVM/SupportVectorRegression.html#sphx-glr-auto-examples-svm-supportvectorregression-py"><span class="std std-ref">Support Vector Regression for 3D Surface Fitting</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Support Vector Regression for 3D Surface Fitting</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script compares the performance of different Support Vector Machine (SVM) solvers on a synthetic 2D classification dataset. The solvers compared include:"><img alt="" src="../_images/sphx_glr_SupportVectorClassification_thumb.png" />
+<p><a class="reference internal" href="SVM/SupportVectorClassification.html#sphx-glr-auto-examples-svm-supportvectorclassification-py"><span class="std std-ref">Support Vector Classifier Solver Comparison</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Support Vector Classifier Solver Comparison</div>
+</div></div></section>
+<section id="trees-and-boosting-machines">
+<h1>Trees and boosting machines<a class="headerlink" href="#trees-and-boosting-machines" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script samples data points from a multivariate normal distribution, adds an outlier  and tries to detect it using DLL.MachineLearning.UnsupervisedLearning.OutlierDetection.IsolationForest."><img alt="" src="../_images/sphx_glr_IsolationForest_thumb.png" />
+<p><a class="reference internal" href="Trees/IsolationForest.html#sphx-glr-auto-examples-trees-isolationforest-py"><span class="std std-ref">Outlier detection using isolation forest</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Outlier detection using isolation forest</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script evaluates the performance of decision tree and random forest classifiers  on the Breast Cancer dataset using both DLL (`DLL.MachineLearning.SupervisedLearning.Trees`)  and scikit-learn."><img alt="" src="../_images/sphx_glr_DecisionTree_thumb.png" />
+<p><a class="reference internal" href="Trees/DecisionTree.html#sphx-glr-auto-examples-trees-decisiontree-py"><span class="std std-ref">Decision tree and random forest classifiers</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Decision tree and random forest classifiers</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script compares the performance of various boosting classifiers, including  Gradient Boosting, AdaBoost, XGBoost, and LightGBM. Also sklearns version of AdaBoost  is compared."><img alt="" src="../_images/sphx_glr_BoostingClassifiers_thumb.png" />
+<p><a class="reference internal" href="Trees/BoostingClassifiers.html#sphx-glr-auto-examples-trees-boostingclassifiers-py"><span class="std std-ref">Boosting Classifier Comparison</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Boosting Classifier Comparison</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and compares various regression models, including regression trees, random forest, gradient boosting, AdaBoost, XGBoost, and LGBM, using synthetic datasets."><img alt="" src="../_images/sphx_glr_RegressionTree_thumb.png" />
+<p><a class="reference internal" href="Trees/RegressionTree.html#sphx-glr-auto-examples-trees-regressiontree-py"><span class="std std-ref">Regression using tree based models</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Regression using tree based models</div>
+</div></div></section>
+<section id="unsupervised-learning">
+<h1>Unsupervised learning<a class="headerlink" href="#unsupervised-learning" title="Link to this heading"></a></h1>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and visualizes various dimensionality reduction algorithms on the iris dataset.  For each algorithm, a visualization of the latent space, which is used for comparison of the algorithms."><img alt="" src="../_images/sphx_glr_DimensionalityReduction_thumb.png" />
+<p><a class="reference internal" href="UnsupervisedLearning/DimensionalityReduction.html#sphx-glr-auto-examples-unsupervisedlearning-dimensionalityreduction-py"><span class="std std-ref">Comparison of dimensionality reduction algorithms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Comparison of dimensionality reduction algorithms</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script classifies synthetic data using linear and quadratic disrciminant analysis.  In the visualisations, one is clearly able to see the difference  between the algorithms  using the decision boundaries."><img alt="" src="../_images/sphx_glr_DiscriminantAnalysisClassification_thumb.png" />
+<p><a class="reference internal" href="UnsupervisedLearning/DiscriminantAnalysisClassification.html#sphx-glr-auto-examples-unsupervisedlearning-discriminantanalysisclassification-py"><span class="std std-ref">Classification with discriminant analysis</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Classification with discriminant analysis</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script evaluates and visualizes various clustering algorithms on synthetic datasets. For each algorithm,  a silhouette plot is produced, which is used for comparison of the algorithms. If one wants to experiment with  differently shaped datasets, one should run the script locally and experiment with changing the &quot;dataset&quot; parameter."><img alt="" src="../_images/sphx_glr_Clustering_thumb.png" />
+<p><a class="reference internal" href="UnsupervisedLearning/Clustering.html#sphx-glr-auto-examples-unsupervisedlearning-clustering-py"><span class="std std-ref">Comparison of clustering algorithms using silhouette scores</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Comparison of clustering algorithms using silhouette scores</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-footer sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/07fcc19ba03226cd3d83d4e40ec44385/auto_examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">auto_examples_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/6f1e7a639e0699d6164445b55e6c116d/auto_examples_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="first.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DeepLearning/index.html" class="btn btn-neutral float-right" title="Deep learning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aatu Selkee.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
