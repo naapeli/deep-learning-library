@@ -1,3 +1,15 @@
+"""
+Boosting Classifier Comparison
+==================================
+
+This script compares the performance of various boosting classifiers, including 
+Gradient Boosting, AdaBoost, XGBoost, and LightGBM. Also sklearns version of AdaBoost 
+is compared.
+
+The script generates a synthetic dataset, trains multiple models, measures execution time, 
+computes classification accuracy, and visualizes loss curves and ROC curves.
+"""
+
 import torch
 from sklearn import datasets
 import matplotlib.pyplot as plt
@@ -5,9 +17,9 @@ from sklearn.ensemble import AdaBoostClassifier as sk_AdaBoostClassifier, Gradie
 from sklearn.tree import DecisionTreeClassifier
 from time import perf_counter
 
-from src.DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingClassifier, AdaBoostClassifier, XGBoostingClassifier, LGBMClassifier
-from src.DLL.Data.Preprocessing import data_split
-from src.DLL.Data.Metrics import accuracy, roc_curve, auc
+from DLL.MachineLearning.SupervisedLearning.Trees import GradientBoostingClassifier, AdaBoostClassifier, XGBoostingClassifier, LGBMClassifier
+from DLL.Data.Preprocessing import data_split
+from DLL.Data.Metrics import accuracy, roc_curve, auc
 
 n_classes = 2
 X, y = datasets.make_blobs(n_samples=200, n_features=2, cluster_std=3, centers=n_classes, random_state=3)
@@ -83,33 +95,35 @@ if n_classes == 2:
     fpr2, tpr2 = roc_curve(y_pred_proba2, y_test, thresholds)
     fpr4, tpr4 = roc_curve(y_pred_proba4, y_test, thresholds)
     fpr5, tpr5 = roc_curve(y_pred_proba5, y_test, thresholds)
-    fig, ax = plt.subplots(2, 2)
+    fig, ax = plt.subplots(2, 2, figsize=(8, 8))
+    plt.subplots_adjust(hspace=0.5)
     ax = ax.ravel()
-    ax[0].set_title(f"gradient boosting ROC, auc = {auc(fpr, tpr)}")
+    ax[0].set_title(f"gradient boosting ROC | auc = {auc(fpr, tpr):.3f}")
     ax[0].plot([0, 1], [0, 1])
     ax[0].step(fpr, tpr)
     ax[0].set_xlabel("False positive rate")
     ax[0].set_ylabel("True positive rate")
 
-    ax[1].set_title(f"ada boost ROC, auc = {auc(fpr2, tpr2)}")
+    ax[1].set_title(f"ada boost ROC | auc = {auc(fpr2, tpr2):.3f}")
     ax[1].plot([0, 1], [0, 1])
     ax[1].step(fpr2, tpr2)
     ax[1].set_xlabel("False positive rate")
     ax[1].set_ylabel("True positive rate")
 
-    ax[2].set_title(f"XG boost ROC, auc = {auc(fpr4, tpr4)}")
+    ax[2].set_title(f"XG boost ROC | auc = {auc(fpr4, tpr4):.3f}")
     ax[2].plot([0, 1], [0, 1])
     ax[2].step(fpr4, tpr4)
     ax[2].set_xlabel("False positive rate")
     ax[2].set_ylabel("True positive rate")
 
-    ax[3].set_title(f"LGBM ROC, auc = {auc(fpr5, tpr5)}")
+    ax[3].set_title(f"LGBM ROC | auc = {auc(fpr5, tpr5):.3f}")
     ax[3].plot([0, 1], [0, 1])
     ax[3].step(fpr5, tpr5)
     ax[3].set_xlabel("False positive rate")
     ax[3].set_ylabel("True positive rate")
 
-fig, ax = plt.subplots(2, 2)
+fig, ax = plt.subplots(2, 2, figsize=(8, 8))
+plt.subplots_adjust(hspace=0.5)
 ax = ax.ravel()
 ax[0].scatter(x_test[:, 0], x_test[:, 1], c=y_test, alpha=((model.predict(x_test) != y_test) + 0.2) / 1.2)
 ax[0].set_title("Gradient boosting")

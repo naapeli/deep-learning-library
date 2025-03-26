@@ -1,0 +1,2568 @@
+{
+ "ADADELTA": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADADELTA",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA"
+  }
+ ],
+ "ADAGRAD": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAGRAD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD"
+  }
+ ],
+ "ADAM": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  }
+ ],
+ "LBFGS": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._LBFGS",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS"
+  }
+ ],
+ "RMSPROP": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  }
+ ],
+ "SGD": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._SGD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SGD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SGD"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "X.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "Y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "Y.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "Z": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "Z.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "colors": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "contour": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.contour",
+   "module_short": "matplotlib.contour",
+   "name": "QuadContourSet"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "QuadContourSet"
+  }
+ ],
+ "epoch": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "f": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "f_prime": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "initial_point": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "line_style": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "tuple"
+  }
+ ],
+ "marker_size": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "max_iter": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "minimize": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "scipy.optimize",
+   "module_short": "scipy.optimize",
+   "name": "minimize"
+  }
+ ],
+ "np.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "linspace"
+  }
+ ],
+ "np.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "_ArrayFunctionDispatcher"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "stack"
+  }
+ ],
+ "optimiser1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._LBFGS",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LBFGS"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LBFGS"
+  }
+ ],
+ "optimiser1.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._LBFGS",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LBFGS.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LBFGS.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser1.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._LBFGS",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LBFGS.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LBFGS.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser1.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._LBFGS",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "LBFGS.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LBFGS.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LBFGS.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "optimiser2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._SGD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SGD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SGD"
+  }
+ ],
+ "optimiser2.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._SGD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SGD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SGD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser2.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._SGD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SGD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SGD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser2.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._SGD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "SGD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SGD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SGD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "optimiser3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM"
+  }
+ ],
+ "optimiser3.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser3.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser3.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "optimiser4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAGRAD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAGRAD"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAGRAD"
+  }
+ ],
+ "optimiser4.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAGRAD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAGRAD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAGRAD.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser4.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAGRAD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAGRAD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAGRAD.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser4.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAGRAD",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAGRAD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAGRAD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAGRAD.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "optimiser5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADADELTA",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADADELTA"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADADELTA"
+  }
+ ],
+ "optimiser5.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADADELTA",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADADELTA.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADADELTA.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser5.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADADELTA",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADADELTA.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADADELTA.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser5.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADADELTA",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADADELTA.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADADELTA.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADADELTA.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "optimiser6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP"
+  }
+ ],
+ "optimiser6.initialise_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.initialise_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.initialise_parameters"
+  }
+ ],
+ "optimiser6.update_parameters": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.update_parameters"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.update_parameters"
+  }
+ ],
+ "optimiser6.zero_grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._RMSPROP",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RMSPROP.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser.zero_grad"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC.zero_grad"
+  }
+ ],
+ "plt.cm.gist_rainbow": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.colors",
+   "module_short": "matplotlib.colors",
+   "name": "LinearSegmentedColormap"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "LinearSegmentedColormap"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot.cm",
+   "module_short": "matplotlib.pyplot.cm",
+   "name": "gist_rainbow"
+  }
+ ],
+ "plt.colorbar": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "colorbar"
+  }
+ ],
+ "plt.contourf": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "contourf"
+  }
+ ],
+ "plt.cycler": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "cycler"
+  }
+ ],
+ "plt.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "figure"
+  }
+ ],
+ "plt.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "legend"
+  }
+ ],
+ "plt.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "plot"
+  }
+ ],
+ "plt.rcParams": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "RcParams"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib",
+   "name": "rcParams"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.xlim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "xlim"
+  }
+ ],
+ "plt.ylim": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "ylim"
+  }
+ ],
+ "points1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points1.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points2.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points3.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points4.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points5.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "points6.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "scipy_func": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  }
+ ],
+ "scipy_points": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "scipy_points.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "linspace"
+  }
+ ],
+ "torch.meshgrid": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "meshgrid"
+  }
+ ],
+ "torch.set_printoptions": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "set_printoptions"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "torch.tensor": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "tensor"
+  }
+ ],
+ "x1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x1.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x1.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x2.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x2.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x3.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x3.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x4.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x4.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x5.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x5.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x6.clone": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x6.grad": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_vals": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_vals": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

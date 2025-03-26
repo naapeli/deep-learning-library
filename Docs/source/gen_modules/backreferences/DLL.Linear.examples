@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.Linear``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of Support Vector Regression (SVR) to model and predict a synthetic 3D surface. The objective is to train the model to approximate the surface defined by the equation:">
+
+.. only:: html
+
+  .. image:: /auto_examples/SVM/images/thumb/sphx_glr_SupportVectorRegression_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_SVM_SupportVectorRegression.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Support Vector Regression for 3D Surface Fitting</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_SVM_SupportVectorRegression.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

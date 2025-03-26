@@ -1,9 +1,17 @@
+"""
+Naive Bayes Classifiers on Iris and Synthetic Datasets
+======================================================
+
+This script demonstrates the use of different Naive Bayes classifiers (Gaussian, Bernoulli, and 
+Multinomial) on multiple datasets: the Iris dataset and a synthetic dataset. The classifiers are 
+evaluated based on their accuracy in predicting the target values.
+"""
 import torch
 from sklearn import datasets
 
-from src.DLL.Data.Preprocessing import data_split
-from src.DLL.Data.Metrics import accuracy
-from src.DLL.MachineLearning.SupervisedLearning.NaiveBayes import GaussianNaiveBayes, BernoulliNaiveBayes, MultinomialNaiveBayes
+from DLL.Data.Preprocessing import data_split
+from DLL.Data.Metrics import accuracy
+from DLL.MachineLearning.SupervisedLearning.NaiveBayes import GaussianNaiveBayes, BernoulliNaiveBayes, MultinomialNaiveBayes
 
 
 iris = datasets.load_iris()

@@ -1,13 +1,20 @@
+"""
+Comparison of clustering algorithms using silhouette scores
+===============================================================
+
+This script evaluates and visualizes various clustering algorithms on synthetic datasets. For each algorithm, 
+a silhouette plot is produced, which is used for comparison of the algorithms. If one wants to experiment with 
+differently shaped datasets, one should run the script locally and experiment with changing the "dataset" parameter.
+"""
 import torch
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from sklearn.datasets import make_blobs, make_classification, make_moons
-from sklearn.metrics import silhouette_score as sk_silhouette_score, silhouette_samples
 import numpy as np
 
-from src.DLL.MachineLearning.UnsupervisedLearning.Clustering import KMeansClustering, GaussianMixture, SpectralClustering, DBScan
-from src.DLL.MachineLearning.SupervisedLearning.Kernels import RBF
-from src.DLL.Data.Metrics import silhouette_score
+from DLL.MachineLearning.UnsupervisedLearning.Clustering import KMeansClustering, GaussianMixture, SpectralClustering, DBScan
+from DLL.MachineLearning.SupervisedLearning.Kernels import RBF
+from DLL.Data.Metrics import silhouette_score
 
 n_samples=1000
 dataset = "basic"
@@ -16,7 +23,8 @@ if dataset == "narrow": X, y = make_classification(n_samples=n_samples, n_featur
 if dataset == "moons": X, y = make_moons(n_samples=n_samples, noise=0.05, random_state=0)
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
-fig, ax = plt.subplots(2, 3)
+fig, ax = plt.subplots(3, 2, figsize=(8, 12))
+plt.subplots_adjust(hspace=0.3, wspace=0.3)
 ax = ax.ravel()
 ax[0].scatter(X[:, 0], X[:, 1], c=y)
 ax[0].set_title("True classes")
@@ -67,7 +75,8 @@ ax[4].scatter(X[:, 0], X[:, 1], c=dbscan_labels)
 ax[4].set_title("Density based scanning")
 dbscan_samples = silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1], return_samples=True)
 
-fig, ax = plt.subplots(2, 2)
+fig, ax = plt.subplots(2, 2, figsize=(8, 8))
+plt.subplots_adjust(hspace=0.5, wspace=0.5)
 ax = ax.ravel()
 y_lower_k_means = 10
 y_lower_gaussian_mixture = 10
@@ -126,8 +135,8 @@ ax[1].set_ylabel("Clusters")
 ax[2].set_ylabel("Clusters")
 ax[3].set_ylabel("Clusters")
 
-ax[0].set_title(f"K-means - {round(silhouette_score(X, k_mean_labels), 3)}, {round(sk_silhouette_score(X.numpy(), k_mean_labels.numpy()), 3)}")
-ax[1].set_title(f"Gaussian mixture - {round(silhouette_score(X, gaussian_mixture_labels), 3)}, {round(sk_silhouette_score(X.numpy(), gaussian_mixture_labels.numpy()), 3)}")
-ax[2].set_title(f"Spectral - {round(silhouette_score(X, spectral_labels), 3)}, {round(sk_silhouette_score(X.numpy(), spectral_labels.numpy()), 3)}")
-ax[3].set_title(f"DB scan - {round(silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1]), 3)}, {round(sk_silhouette_score(X[dbscan_labels != -1].numpy(), dbscan_labels[dbscan_labels != -1].numpy()), 3)}")
+ax[0].set_title(f"K-means - {round(silhouette_score(X, k_mean_labels), 3)}")
+ax[1].set_title(f"Gaussian mixture - {round(silhouette_score(X, gaussian_mixture_labels), 3)}")
+ax[2].set_title(f"Spectral - {round(silhouette_score(X, spectral_labels), 3)}")
+ax[3].set_title(f"DB scan - {round(silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1]), 3)}")
 plt.show()

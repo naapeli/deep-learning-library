@@ -3,7 +3,7 @@ Dimensionality reduction
 
 
 Principal Component Analysis
-------------
+--------------------------------------------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.PCA
    :members:
@@ -11,7 +11,7 @@ Principal Component Analysis
    :show-inheritance:
 
 Robust Principal Component Analysis
-------------
+--------------------------------------------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.RobustPCA
    :members:
@@ -19,7 +19,7 @@ Robust Principal Component Analysis
    :show-inheritance:
 
 t-Distributed Stochastic Neighbor Embedding
-------------
+--------------------------------------------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.TSNE
    :members:
@@ -27,7 +27,7 @@ t-Distributed Stochastic Neighbor Embedding
    :show-inheritance:
 
 Uniform Manifold Approximation and Projection
-----------------------
+--------------------------------------------------
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.UMAP
    :members:
    :undoc-members:
@@ -37,7 +37,7 @@ Uniform Manifold Approximation and Projection
 Discriminant Analysis
 ========================================
 Linear Discriminant Analysis
-------------
+--------------------------------------------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.LDA
    :members:
@@ -45,7 +45,7 @@ Linear Discriminant Analysis
    :show-inheritance:
 
 Quadratic Discriminant Analysis
-------------
+--------------------------------------------------
 
 .. autoclass:: DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction.QDA
    :members:

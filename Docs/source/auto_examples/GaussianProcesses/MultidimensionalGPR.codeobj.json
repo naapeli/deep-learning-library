@@ -1,0 +1,915 @@
+{
+ "GaussianProcessRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses._GaussianProcessRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor"
+  }
+ ],
+ "RBF": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "name": "RBF"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RBF"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RBF"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RBF"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "name": "_Base"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "_Base"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "_Base"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "_Base"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Kernels",
+   "name": "RBF"
+  }
+ ],
+ "StandardScaler": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "StandardScaler"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "StandardScaler"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "StandardScaler"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "StandardScaler"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "X.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "Y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "Y.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "_": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "ax": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d.axes3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits",
+   "module_short": "mpl_toolkits",
+   "name": "Axes3D"
+  }
+ ],
+ "ax.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d.axes3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits",
+   "module_short": "mpl_toolkits",
+   "name": "Axes3D.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes._axes",
+   "module_short": "matplotlib.axes",
+   "name": "Axes.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes",
+   "module_short": "matplotlib.axes",
+   "name": "Axes.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Axes.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes._base",
+   "module_short": "matplotlib.axes._base",
+   "name": "_AxesBase.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes",
+   "module_short": "matplotlib.axes",
+   "name": "_AxesBase.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "_AxesBase.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.artist",
+   "module_short": "matplotlib.artist",
+   "name": "Artist.legend"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Artist.legend"
+  }
+ ],
+ "ax.scatter": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d.axes3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Axes3D.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits",
+   "module_short": "mpl_toolkits",
+   "name": "Axes3D.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes._axes",
+   "module_short": "matplotlib.axes",
+   "name": "Axes.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes",
+   "module_short": "matplotlib.axes",
+   "name": "Axes.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Axes.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes._base",
+   "module_short": "matplotlib.axes._base",
+   "name": "_AxesBase.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.axes",
+   "module_short": "matplotlib.axes",
+   "name": "_AxesBase.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "_AxesBase.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.artist",
+   "module_short": "matplotlib.artist",
+   "name": "Artist.scatter"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Artist.scatter"
+  }
+ ],
+ "covariance": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "data_split": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "data_split"
+  }
+ ],
+ "fig": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure"
+  }
+ ],
+ "fig.add_subplot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "FigureBase.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "FigureBase.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.artist",
+   "module_short": "matplotlib.artist",
+   "name": "Artist.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Artist.add_subplot"
+  }
+ ],
+ "mean": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "model": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses._GaussianProcessRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GaussianProcessRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GaussianProcessRegressor"
+  }
+ ],
+ "model.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses._GaussianProcessRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GaussianProcessRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GaussianProcessRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GaussianProcessRegressor.fit"
+  }
+ ],
+ "model.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses._GaussianProcessRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GaussianProcessRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GaussianProcessRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GaussianProcessRegressor.predict"
+  }
+ ],
+ "model.train_kernel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses._GaussianProcessRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.train_kernel"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.GaussianProcesses",
+   "name": "GaussianProcessRegressor.train_kernel"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GaussianProcessRegressor.train_kernel"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GaussianProcessRegressor.train_kernel"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GaussianProcessRegressor.train_kernel"
+  }
+ ],
+ "n": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "plt.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "figure"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "surf": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d.art3d",
+   "module_short": "mpl_toolkits.mplot3d.art3d",
+   "name": "Path3DCollection"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits.mplot3d",
+   "module_short": "mpl_toolkits.mplot3d",
+   "name": "Path3DCollection"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "mpl_toolkits",
+   "module_short": "mpl_toolkits",
+   "name": "Path3DCollection"
+  }
+ ],
+ "torch.Tensor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch._C",
+   "module_short": "torch._C",
+   "name": "TensorBase"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "TensorBase"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "linspace"
+  }
+ ],
+ "torch.meshgrid": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "meshgrid"
+  }
+ ],
+ "torch.randn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "randn"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "transformer": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "StandardScaler"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "StandardScaler"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "StandardScaler"
+  }
+ ],
+ "transformer.fit_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "StandardScaler.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "StandardScaler.fit_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "StandardScaler.fit_transform"
+  }
+ ],
+ "transformer.inverse_transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "StandardScaler.inverse_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "StandardScaler.inverse_transform"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "StandardScaler.inverse_transform"
+  }
+ ],
+ "x": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_test": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_train": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_test": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_train": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

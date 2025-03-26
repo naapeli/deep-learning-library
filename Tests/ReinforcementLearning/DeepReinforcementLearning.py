@@ -1,26 +1,40 @@
+"""
+Deep Q-Learning Agent for CartPole-v1
+===========================================
+
+This script implements a Deep Q-Network (DQN) by training an agent to 
+balance a pole in the CartPole-v1 environment from OpenAI Gymnasium. The script also 
+implements a custom training loop of a `DLL.DeepLearning.Model.Model` to train the model.
+
+.. image:: _static/cartpole.gif
+
+"""
+
 import torch
 from collections import deque
 import random
 import gymnasium as gym
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
-from src.DLL.DeepLearning.Model import Model
-from src.DLL.DeepLearning.Layers import Dense
-from src.DLL.DeepLearning.Layers.Activations import ReLU
-from src.DLL.DeepLearning.Optimisers import RMSPROP, ADAM
-from src.DLL.DeepLearning.Initialisers import Kaiming_Uniform
+from DLL.DeepLearning.Model import Model
+from DLL.DeepLearning.Layers import Dense
+from DLL.DeepLearning.Layers.Activations import Tanh
+from DLL.DeepLearning.Optimisers import RMSPROP, ADAM
+from DLL.DeepLearning.Initialisers import Xavier_Normal
 
 
 GAMMA = 0.99
 LR = 0.001
-BATCH_SIZE = 128
+BATCH_SIZE = 16
 MEMORY_SIZE = 10000
 EPSILON_START = 1.0
 EPSILON_END = 0.01
 EPISODES = 5000  # For optimal results, one should experiment with increasing the amount of episodes in training. About 5000 to 10000 episodes should be sufficient for pretty much optimal agent.
 MOVING_AVERAGE = 50
 MAX_EPISODE_LENGTH = 500
+SAVE_IMG = False
 
 class ReplayBuffer:
     def __init__(self, capacity):
@@ -54,11 +68,13 @@ env = gym.make("CartPole-v1")
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.n
 
-hidden_dim = 24
+torch.manual_seed(1)
+
+hidden_dim = 64
 agent = Model(int(state_dim))
-agent.add(Dense(hidden_dim, activation=ReLU(), initialiser=Kaiming_Uniform()))
-agent.add(Dense(hidden_dim, activation=ReLU(), initialiser=Kaiming_Uniform()))
-agent.add(Dense(int(action_dim), initialiser=Kaiming_Uniform()))
+agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
+agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
+agent.add(Dense(int(action_dim), initialiser=Xavier_Normal()))
 agent.compile(optimiser=RMSPROP(learning_rate=LR))  # default to MSE loss, The chosen optimiser affects the training results VERY much. ADAM and RMSPROP produce good results, while other optimisers fail to reach the optimum.
 replay_buffer = ReplayBuffer(MEMORY_SIZE)
 
@@ -68,7 +84,7 @@ epsilon_decay = (EPSILON_START - EPSILON_END) / EPISODES
 rewards_memory = []
 
 for episode in range(EPISODES):
-    state = env.reset()[0]
+    state = env.reset(seed=episode)[0]
     total_reward = 0
 
     step = 0
@@ -90,7 +106,7 @@ for episode in range(EPISODES):
             break
         
         # Modify the reward to try to keep the pole in the center. These lines can be removed, however, they make the training faster and more stable.
-        # If these lines are included, the agent does not fail, whereas, if they are not, the agent might make a mistake. The istake almost always
+        # If these lines are included, the agent does not fail, whereas, if they are not, the agent might make a mistake. The mistake almost always
         # after collecting 500 total reward, which was considerd to be good enough for the agent to stop the training.
 
         # Locations
@@ -112,17 +128,19 @@ for episode in range(EPISODES):
         agent.optimiser.zero_grad()
 
         # Compute target Q-values
+        agent.eval()
         next_q_values = agent.predict(next_states).max(dim=1)[0]
         targets = rewards + GAMMA * next_q_values * (1 - dones)
 
         # Compute current Q-values
-        q_values = agent.predict(states, training=True)
+        agent.train()
+        q_values = agent.predict(states)
         q_values = q_values.gather(1, actions.unsqueeze(1)).squeeze(1)
 
         initial_gradient = agent.loss.gradient(q_values, targets)
         gradient = torch.zeros((BATCH_SIZE, action_dim))
         gradient[torch.arange(BATCH_SIZE), actions] = initial_gradient  # backpropagate through the q_values.gather line
-        agent.backward(gradient, training=True)
+        agent.backward(gradient)
         agent.optimiser.update_parameters()
 
     rewards_memory.append(total_reward)
@@ -140,26 +158,38 @@ plt.xlabel("Episode")
 plt.show()
 
 
-# render an example cart
-env = gym.make("CartPole-v1", render_mode="human")
-state = env.reset()[0]
-steps = []
-
-stop = ""
-while stop != "stop":
-    state = env.reset()[0]
-    done = False
-    total_reward = 0
-    env.render()
-    while not done:
-        state = torch.from_numpy(state).unsqueeze(0)
-        best_action = agent.predict(state).argmax(dim=1).item()
-        
-        next_state, reward, done, truncated, info = env.step(best_action)
-        total_reward += reward
-        state = next_state
+if SAVE_IMG:
+    agent.eval()
     
-    print(f"Total reward: {total_reward}")
-    stop = input('Write "stop" to stop animation or press "enter" to play another episode: ')
+    # render an example cart
+    env = gym.make("CartPole-v1", render_mode="rgb_array")
 
-env.close()
+    while input('Write "stop" to stop the animation and press enter to rerun: ') != "stop":
+        state = env.reset()[0]
+        frames = []
+
+        # Collect frames for animation
+        done = False
+        i = 0
+        while not done:
+            frames.append(env.render())  # Capture frame
+            state = torch.from_numpy(state).unsqueeze(0)
+            best_action = agent.predict(state).argmax(dim=1).item()
+            state, _, done, _, _ = env.step(best_action)
+            if i > 2000:
+                break
+
+        env.close()
+
+        # Create animation
+        fig, ax = plt.subplots()
+        img = ax.imshow(frames[0])
+
+        def update(frame):
+            img.set_array(frames[frame])
+            return img,
+
+        ani = animation.FuncAnimation(fig, update, frames=len(frames), interval=0.1, repeat=False)
+        ani.save("./Docs/source/auto_examples/ReinforcementLearning/_static/cartpole.gif", writer="pillow")
+
+        plt.show()

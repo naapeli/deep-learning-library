@@ -1,0 +1,2090 @@
+{
+ "ADAM": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._ADAM",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ADAM"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "module_short": "DLL.DeepLearning.Optimisers._BaseOptimiser",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseOptimiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Optimisers",
+   "module_short": "DLL.DeepLearning.Optimisers",
+   "name": "ADAM"
+  }
+ ],
+ "CCE": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses._CCE",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "CCE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "CCE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "CCE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "CCE"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses._BaseLoss",
+   "module_short": "DLL.DeepLearning.Losses._BaseLoss",
+   "name": "BaseLoss"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "BaseLoss"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLoss"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLoss"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Losses",
+   "module_short": "DLL.DeepLearning.Losses",
+   "name": "CCE"
+  }
+ ],
+ "Compose": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.transforms.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "Compose"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "Compose"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "Compose"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "Compose"
+  }
+ ],
+ "Conv2D": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._Conv2D",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Conv2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Conv2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Conv2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Conv2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Conv2D"
+  }
+ ],
+ "Dense": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._Dense",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Dense"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dense"
+  }
+ ],
+ "Dropout": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation._Dropout",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "Dropout"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "Dropout"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Dropout"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Dropout"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Dropout"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation._BaseRegularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation._BaseRegularisation",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "Dropout"
+  }
+ ],
+ "Flatten": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._Flatten",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Flatten"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Flatten"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Flatten"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Flatten"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Flatten"
+  }
+ ],
+ "Kaiming_Normal": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Kaiming_He",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Kaiming_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Kaiming_Normal"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Initialiser",
+   "module_short": "DLL.DeepLearning.Initialisers._Initialiser",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Normal"
+  }
+ ],
+ "Kaiming_Uniform": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Kaiming_He",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Uniform"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Uniform"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Kaiming_Uniform"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Kaiming_Uniform"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers._Initialiser",
+   "module_short": "DLL.DeepLearning.Initialisers._Initialiser",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Initialiser"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "abc",
+   "module_short": "abc",
+   "name": "ABC"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Initialisers",
+   "module_short": "DLL.DeepLearning.Initialisers",
+   "name": "Kaiming_Uniform"
+  }
+ ],
+ "LayerNorm": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation._LayerNormalisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "LayerNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "LayerNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "LayerNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "LayerNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LayerNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation._GroupNormalisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "GroupNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "GroupNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "GroupNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "GroupNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GroupNorm"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation._BaseRegularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation._BaseRegularisation",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseRegularisation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Regularisation",
+   "module_short": "DLL.DeepLearning.Layers.Regularisation",
+   "name": "LayerNorm"
+  }
+ ],
+ "MNIST": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.datasets.mnist",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.datasets",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "MNIST"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.datasets.vision",
+   "module_short": "torchvision.datasets",
+   "name": "VisionDataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.datasets",
+   "module_short": "torchvision.datasets",
+   "name": "VisionDataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "VisionDataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch.utils.data.dataset",
+   "module_short": "torch.utils.data",
+   "name": "Dataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch.utils.data",
+   "module_short": "torch.utils.data",
+   "name": "Dataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch.utils",
+   "module_short": "torch.utils",
+   "name": "Dataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Dataset"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "typing",
+   "module_short": "typing",
+   "name": "Generic"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.datasets",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  }
+ ],
+ "MaxPooling2D": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._MaxPooling2D",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "MaxPooling2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "MaxPooling2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "MaxPooling2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "MaxPooling2D"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "MaxPooling2D"
+  }
+ ],
+ "Model": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  }
+ ],
+ "OneHotEncoder": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "OneHotEncoder"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "OneHotEncoder"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "OneHotEncoder"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "OneHotEncoder"
+  }
+ ],
+ "ReLU": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._ReLU",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "ReLU"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "ReLU"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "ReLU"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "ReLU"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ReLU"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "ReLU"
+  }
+ ],
+ "SoftMax": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._SoftMax",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "SoftMax"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "SoftMax"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "SoftMax"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "SoftMax"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "SoftMax"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations._Activation",
+   "module_short": "DLL.DeepLearning.Layers.Activations._Activation",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Activation"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers._BaseLayer",
+   "module_short": "DLL.DeepLearning.Layers._BaseLayer",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers",
+   "module_short": "DLL.DeepLearning.Layers",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "BaseLayer"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Layers.Activations",
+   "module_short": "DLL.DeepLearning.Layers.Activations",
+   "name": "SoftMax"
+  }
+ ],
+ "ToTensor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.transforms.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "ToTensor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "ToTensor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "ToTensor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "ToTensor"
+  }
+ ],
+ "_": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "accuracy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Metrics",
+   "module_short": "DLL.Data.Metrics",
+   "name": "accuracy"
+  }
+ ],
+ "ax": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "ax.ravel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "data_split": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "data_split"
+  }
+ ],
+ "device": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "device"
+  }
+ ],
+ "fig": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure"
+  }
+ ],
+ "history": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
+ "i": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "label_encoder": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "OneHotEncoder"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "OneHotEncoder"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "OneHotEncoder"
+  }
+ ],
+ "label_encoder.encode": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "OneHotEncoder.encode"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "OneHotEncoder.encode"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "OneHotEncoder.encode"
+  }
+ ],
+ "label_encoder.fit_encode": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "OneHotEncoder.fit_encode"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "OneHotEncoder.fit_encode"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "OneHotEncoder.fit_encode"
+  }
+ ],
+ "model": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model"
+  }
+ ],
+ "model.add": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.add"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.add"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.add"
+  }
+ ],
+ "model.compile": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.compile"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.compile"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.compile"
+  }
+ ],
+ "model.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.fit"
+  }
+ ],
+ "model.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.predict"
+  }
+ ],
+ "model.summary": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning.Model",
+   "module_short": "DLL.DeepLearning.Model",
+   "name": "Model.summary"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.DeepLearning",
+   "module_short": "DLL.DeepLearning",
+   "name": "Model.summary"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "Model.summary"
+  }
+ ],
+ "n": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "plt.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "figure"
+  }
+ ],
+ "plt.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "legend"
+  }
+ ],
+ "plt.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "plot"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.subplot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplot"
+  }
+ ],
+ "plt.subplots": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots"
+  }
+ ],
+ "plt.xlabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "xlabel"
+  }
+ ],
+ "plt.ylabel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "ylabel"
+  }
+ ],
+ "test_dataset": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.datasets.mnist",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.datasets",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "MNIST"
+  }
+ ],
+ "test_images": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "test_images.max": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "test_images.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ],
+ "test_images.to": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "test_labels": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "test_labels.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ],
+ "test_labels.to": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "test_pred": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "torch.cuda.is_available": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch.cuda",
+   "module_short": "torch.cuda",
+   "name": "is_available"
+  }
+ ],
+ "torch.device": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "device"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "device"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "torch.tensor": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "tensor"
+  }
+ ],
+ "train_dataset": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.datasets.mnist",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.datasets",
+   "module_short": "torchvision.datasets",
+   "name": "MNIST"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "MNIST"
+  }
+ ],
+ "train_images": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "train_images.max": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "train_images.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ],
+ "train_images.to": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "train_labels": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "train_labels.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ],
+ "train_labels.to": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "transform": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.transforms.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "Compose"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision.transforms",
+   "module_short": "torchvision.transforms",
+   "name": "Compose"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torchvision",
+   "module_short": "torchvision",
+   "name": "Compose"
+  }
+ ],
+ "validation_images": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "validation_images.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ],
+ "validation_labels": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "validation_labels.shape": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Size"
+  }
+ ]
+}
