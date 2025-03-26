@@ -1,8 +1,15 @@
+"""
+Comparison of dimensionality reduction algorithms
+===============================================================
+
+This script evaluates and visualizes various dimensionality reduction algorithms on the iris dataset. 
+For each algorithm, a visualization of the latent space, which is used for comparison of the algorithms.
+"""
 import torch
 import matplotlib.pyplot as plt
 from sklearn import datasets
 
-from src.DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA, LDA, RobustPCA, TSNE, UMAP
+from DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA, LDA, RobustPCA, TSNE, UMAP
 
 
 # import tensorflow as tf
@@ -34,26 +41,26 @@ reduced_TSNE = transformer_TSNE.fit_transform(X, epochs=50)
 transformer_UMAP2 = UMAP(n_components=2, init="spectral", p=1, n_neighbor=30, min_dist=2, learning_rate=1)
 reduced_UMAP2 = transformer_UMAP2.fit_transform(X, epochs=300)
 
-plt.figure()
+fig, axes = plt.subplots(3, 2, figsize=(8, 12))
+plt.subplots_adjust(hspace=0.3, wspace=0.3)
+axes = axes.ravel()
+axes[0].scatter(reduced_pca[:, 0], reduced_pca[:, 1], c=y, s=5)
+axes[0].set_title("PCA")
+axes[2].scatter(reduced_lda[:, 0], reduced_lda[:, 1], c=y, s=5)
+axes[2].set_title("LDA")
+axes[4].scatter(reduced_UMAP1[:, 0], reduced_UMAP1[:, 1], c=y, s=5)
+axes[4].set_title("UMAP | min_dist=0.1")
+axes[1].scatter(reduced_robustPCA[:, 0], reduced_robustPCA[:, 1], c=y, s=5)
+axes[1].set_title("Robust PCA")
+axes[3].scatter(reduced_TSNE[:, 0], reduced_TSNE[:, 1], c=y, s=5)
+axes[3].set_title("T-SNE")
+axes[5].scatter(reduced_UMAP2[:, 0], reduced_UMAP2[:, 1], c=y, s=5)
+axes[5].set_title("UMAP | min_dist=2")
+
+plt.figure(figsize=(8, 8))
 plt.semilogy(transformer_TSNE.history, label="T-SNE (KL Divergence)")
 plt.semilogy(transformer_UMAP2.history, label="UMAP (Cross entropy)")
 plt.xlabel("Epoch")
 plt.ylabel("loss")
 plt.legend()
-
-
-fig, axes = plt.subplots(2, 3)
-axes = axes.ravel()
-axes[0].scatter(reduced_pca[:, 0], reduced_pca[:, 1], c=y, s=5)
-axes[0].set_title("Own implementation PCA")
-axes[1].scatter(reduced_lda[:, 0], reduced_lda[:, 1], c=y, s=5)
-axes[1].set_title("Own implementation LDA")
-axes[2].scatter(reduced_UMAP1[:, 0], reduced_UMAP1[:, 1], c=y, s=5)
-axes[2].set_title("Own implementation UMAP with min_dist=0.1")
-axes[3].scatter(reduced_robustPCA[:, 0], reduced_robustPCA[:, 1], c=y, s=5)
-axes[3].set_title("Own implementation Robust PCA")
-axes[4].scatter(reduced_TSNE[:, 0], reduced_TSNE[:, 1], c=y, s=5)
-axes[4].set_title("Own implementation T-SNE")
-axes[5].scatter(reduced_UMAP2[:, 0], reduced_UMAP2[:, 1], c=y, s=5)
-axes[5].set_title("Own implementation UMAP with min_dist=2")
 plt.show()

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from src.DLL.DeepLearning.Layers import RNN, LSTM, Bidirectional
+from DLL.DeepLearning.Layers import RNN, LSTM, Bidirectional
 
 
 data = torch.rand(size=(3, 1), dtype=torch.float32, requires_grad=True)

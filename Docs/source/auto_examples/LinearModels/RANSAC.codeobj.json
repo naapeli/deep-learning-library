@@ -1,0 +1,560 @@
+{
+ "LinearRegression": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._LinearRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression"
+  }
+ ],
+ "PolynomialFeatures": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "PolynomialFeatures"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.Data",
+   "module_short": "DLL.Data",
+   "name": "PolynomialFeatures"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "PolynomialFeatures"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "PolynomialFeatures"
+  }
+ ],
+ "RANSACRegression": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._RANSAC",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "indices": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "lr": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._LinearRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LinearRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LinearRegression"
+  }
+ ],
+ "lr.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._LinearRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LinearRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LinearRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LinearRegression.fit"
+  }
+ ],
+ "lr.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._LinearRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LinearRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LinearRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LinearRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LinearRegression.predict"
+  }
+ ],
+ "num_inliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "num_outliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "plt.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "legend"
+  }
+ ],
+ "plt.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "plot"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "ransac": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._RANSAC",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RANSACRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RANSACRegression"
+  }
+ ],
+ "ransac.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._RANSAC",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RANSACRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RANSACRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RANSACRegression.fit"
+  }
+ ],
+ "ransac.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._RANSAC",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RANSACRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RANSACRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RANSACRegression.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RANSACRegression.predict"
+  }
+ ],
+ "torch.cat": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "cat"
+  }
+ ],
+ "torch.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "linspace"
+  }
+ ],
+ "torch.rand": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "rand"
+  }
+ ],
+ "torch.randn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "randn"
+  }
+ ],
+ "torch.randperm": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "randperm"
+  }
+ ],
+ "x_inliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_inliers.unsqueeze": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "x_outliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_inliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_outliers": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

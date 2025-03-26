@@ -1,0 +1,2681 @@
+{
+ "AdaBoostRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._AdaBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor"
+  }
+ ],
+ "DecisionTreeRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.tree._classes",
+   "module_short": "sklearn.tree",
+   "name": "DecisionTreeRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.tree",
+   "module_short": "sklearn.tree",
+   "name": "DecisionTreeRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "DecisionTreeRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.tree._classes",
+   "module_short": "sklearn.tree",
+   "name": "BaseDecisionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.tree",
+   "module_short": "sklearn.tree",
+   "name": "BaseDecisionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseDecisionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MultiOutputMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MultiOutputMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.tree",
+   "module_short": "sklearn.tree",
+   "name": "DecisionTreeRegressor"
+  }
+ ],
+ "GradientBoostingRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._GradientBoostingRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor"
+  }
+ ],
+ "LGBMRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._LGBMRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor"
+  }
+ ],
+ "RandomForestRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionForest",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor"
+  }
+ ],
+ "RegressionTree": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionTree",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "X.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "XGBoostingRegressor": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._XGBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor"
+  }
+ ],
+ "Y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "Y.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "_": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "abr": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble._weight_boosting",
+   "name": "BaseWeightBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseWeightBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseWeightBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor"
+  }
+ ],
+ "ax": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "ax.ravel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "ax.scatter": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "data_split": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.Data.Preprocessing",
+   "module_short": "DLL.Data.Preprocessing",
+   "name": "data_split"
+  }
+ ],
+ "errors5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "fig": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure"
+  }
+ ],
+ "fig.add_subplot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "FigureBase.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "FigureBase.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.artist",
+   "module_short": "matplotlib.artist",
+   "name": "Artist.add_subplot"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Artist.add_subplot"
+  }
+ ],
+ "gbr": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble._gb",
+   "name": "BaseGradientBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseGradientBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseGradientBoosting"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor"
+  }
+ ],
+ "history3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
+ "history7": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
+ "history8": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "dict"
+  }
+ ],
+ "loss_adaboost": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "str"
+  }
+ ],
+ "model": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionTree",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RegressionTree"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RegressionTree"
+  }
+ ],
+ "model.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionTree",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RegressionTree.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RegressionTree.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RegressionTree.fit"
+  }
+ ],
+ "model.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionTree",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RegressionTree.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RegressionTree.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RegressionTree.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RegressionTree.predict"
+  }
+ ],
+ "model2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionForest",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RandomForestRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RandomForestRegressor"
+  }
+ ],
+ "model2.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionForest",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RandomForestRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RandomForestRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RandomForestRegressor.fit"
+  }
+ ],
+ "model2.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._RegressionForest",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "RandomForestRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RandomForestRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RandomForestRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RandomForestRegressor.predict"
+  }
+ ],
+ "model3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._GradientBoostingRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GradientBoostingRegressor"
+  }
+ ],
+ "model3.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._GradientBoostingRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GradientBoostingRegressor.fit"
+  }
+ ],
+ "model3.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._GradientBoostingRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "GradientBoostingRegressor.predict"
+  }
+ ],
+ "model4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "GradientBoostingRegressor"
+  }
+ ],
+ "model4.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "GradientBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble._gb",
+   "name": "BaseGradientBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseGradientBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseGradientBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble._base",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester.fit"
+  }
+ ],
+ "model4.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "GradientBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._gb",
+   "module_short": "sklearn.ensemble._gb",
+   "name": "BaseGradientBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseGradientBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseGradientBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble._base",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester.predict"
+  }
+ ],
+ "model5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._AdaBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "AdaBoostRegressor"
+  }
+ ],
+ "model5.confidences": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "model5.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._AdaBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "AdaBoostRegressor.fit"
+  }
+ ],
+ "model5.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._AdaBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "AdaBoostRegressor.predict"
+  }
+ ],
+ "model6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "AdaBoostRegressor"
+  }
+ ],
+ "model6.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "AdaBoostRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble._weight_boosting",
+   "name": "BaseWeightBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseWeightBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseWeightBoosting.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble._base",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester.fit"
+  }
+ ],
+ "model6.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "AdaBoostRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "RegressorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "RegressorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._weight_boosting",
+   "module_short": "sklearn.ensemble._weight_boosting",
+   "name": "BaseWeightBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseWeightBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseWeightBoosting.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble._base",
+   "module_short": "sklearn.ensemble._base",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.ensemble",
+   "module_short": "sklearn.ensemble",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEnsemble.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "MetaEstimatorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "MetaEstimatorMixin.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.base",
+   "module_short": "sklearn.base",
+   "name": "BaseEstimator.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "BaseEstimator.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils._metadata_requests",
+   "module_short": "sklearn.utils._metadata_requests",
+   "name": "_MetadataRequester.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn.utils",
+   "module_short": "sklearn.utils",
+   "name": "_MetadataRequester.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "sklearn",
+   "module_short": "sklearn",
+   "name": "_MetadataRequester.predict"
+  }
+ ],
+ "model7": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._XGBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "XGBoostingRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "XGBoostingRegressor"
+  }
+ ],
+ "model7.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._XGBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "XGBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "XGBoostingRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "XGBoostingRegressor.fit"
+  }
+ ],
+ "model7.n_trees": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "model7.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._XGBoostRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "XGBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "XGBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "XGBoostingRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "XGBoostingRegressor.predict"
+  }
+ ],
+ "model8": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._LGBMRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LGBMRegressor"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LGBMRegressor"
+  }
+ ],
+ "model8.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._LGBMRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LGBMRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LGBMRegressor.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LGBMRegressor.fit"
+  }
+ ],
+ "model8.n_trees": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "model8.predict": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees._LGBMRegressor",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.Trees",
+   "name": "LGBMRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LGBMRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LGBMRegressor.predict"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LGBMRegressor.predict"
+  }
+ ],
+ "n": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "perf_counter": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "time",
+   "module_short": "time",
+   "name": "perf_counter"
+  }
+ ],
+ "plt.figure": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "figure"
+  }
+ ],
+ "plt.legend": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "legend"
+  }
+ ],
+ "plt.plot": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "plot"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.subplots": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots"
+  }
+ ],
+ "plt.subplots_adjust": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots_adjust"
+  }
+ ],
+ "rand_feats": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "start": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "torch.cat": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "cat"
+  }
+ ],
+ "torch.float32": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "dtype"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "float32"
+  }
+ ],
+ "torch.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "linspace"
+  }
+ ],
+ "torch.meshgrid": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "meshgrid"
+  }
+ ],
+ "torch.normal": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "normal"
+  }
+ ],
+ "torch.rand": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "rand"
+  }
+ ],
+ "torch.randint_like": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "randint_like"
+  }
+ ],
+ "torch.randn": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "randn"
+  }
+ ],
+ "torch.sin": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "sin"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "x": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_test": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_test_rand_feats": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x_train": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y.ravel": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y.squeeze": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred2.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred3.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "y_pred5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred5.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "y_pred7": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred7.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_pred8": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_pred8.numpy": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "y_test": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y_train": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z4": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "z5": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z6": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "z7": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "z8": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

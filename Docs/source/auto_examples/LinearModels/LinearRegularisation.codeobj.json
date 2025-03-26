@@ -1,0 +1,639 @@
+{
+ "ElasticNetRegression": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._Elasticnet",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  }
+ ],
+ "LASSORegression": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._LassoRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LASSORegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LASSORegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "LASSORegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "LASSORegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "LASSORegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "LASSORegression"
+  }
+ ],
+ "RidgeRegression": [
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._RidgeRegression",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RidgeRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RidgeRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "RidgeRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "RidgeRegression"
+  },
+  {
+   "is_class": true,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "RidgeRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "RidgeRegression"
+  }
+ ],
+ "X": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "XX1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "XX1.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "XX2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "XX2.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "XX3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "XX3.flatten": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "alpha": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "float"
+  }
+ ],
+ "alphas": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "list"
+  }
+ ],
+ "axes": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "numpy",
+   "module_short": "numpy",
+   "name": "ndarray"
+  }
+ ],
+ "fig": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.figure",
+   "module_short": "matplotlib.figure",
+   "name": "Figure"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib",
+   "module_short": "matplotlib",
+   "name": "Figure"
+  }
+ ],
+ "log10": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "math",
+   "module_short": "math",
+   "name": "log10"
+  }
+ ],
+ "model": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._Elasticnet",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ElasticNetRegression"
+  }
+ ],
+ "model.beta.tolist": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._Elasticnet",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "ElasticNetRegression"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ElasticNetRegression"
+  }
+ ],
+ "model.fit": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels._Elasticnet",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "module_short": "DLL.MachineLearning.SupervisedLearning.LinearModels",
+   "name": "ElasticNetRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning.SupervisedLearning",
+   "module_short": "DLL.MachineLearning.SupervisedLearning",
+   "name": "ElasticNetRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL.MachineLearning",
+   "module_short": "DLL.MachineLearning",
+   "name": "ElasticNetRegression.fit"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "DLL",
+   "module_short": "DLL",
+   "name": "ElasticNetRegression.fit"
+  }
+ ],
+ "model.weights.tolist": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  }
+ ],
+ "n": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "int"
+  }
+ ],
+ "plt.show": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "show"
+  }
+ ],
+ "plt.subplots": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "matplotlib.pyplot",
+   "module_short": "matplotlib.pyplot",
+   "name": "subplots"
+  }
+ ],
+ "row": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "torch.linspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "linspace"
+  }
+ ],
+ "torch.logspace": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "logspace"
+  }
+ ],
+ "torch.meshgrid": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "function"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "meshgrid"
+  }
+ ],
+ "torch.normal": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "normal"
+  }
+ ],
+ "torch.stack": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "stack"
+  }
+ ],
+ "torch.tensor": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "builtins",
+   "module_short": "builtins",
+   "name": "builtin_function_or_method"
+  },
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "tensor"
+  }
+ ],
+ "weight_elasticnet": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weight_elasticnet.T": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weight_elasticnet.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights.T": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights_lasso": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights_lasso.T": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "weights_lasso.append": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x1": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x2": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "x3": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ],
+ "y": [
+  {
+   "is_class": false,
+   "is_explicit": false,
+   "module": "torch",
+   "module_short": "torch",
+   "name": "Tensor"
+  }
+ ]
+}

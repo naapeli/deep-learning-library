@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.DeepLearning.Xavier_Normal``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model using Kolmogorov-Arnold networks. It fits to a simple  quadratic surface using only a few parameters.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_KANs_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_KANs.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Kolmogorov-Arnold Networks</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_DeepLearning_KANs.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

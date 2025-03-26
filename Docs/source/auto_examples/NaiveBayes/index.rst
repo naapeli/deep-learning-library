@@ -1,0 +1,44 @@
+
+
+.. _sphx_glr_auto_examples_NaiveBayes:
+
+Naive Bayes
+====================
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of different Naive Bayes classifiers (Gaussian, Bernoulli, and  Multinomial) on multiple datasets: the Iris dataset and a synthetic dataset. The classifiers are  evaluated based on their accuracy in predicting the target values.">
+
+.. only:: html
+
+  .. image:: /auto_examples/NaiveBayes/images/thumb/sphx_glr_NaiveBayes_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_NaiveBayes_NaiveBayes.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Naive Bayes Classifiers on Iris and Synthetic Datasets</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/NaiveBayes/NaiveBayes
+

@@ -1,9 +1,17 @@
+"""
+Locally Weighted Regression on a Sine Function
+==============================================
+
+This script demonstrates Locally Weighted Regression (LWR), using a Gaussian kernel 
+to assign weights to training samples based on their distance from a test 
+point.
+"""
 import torch
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression
-from src.DLL.Data.Metrics import r2_score
-from src.DLL.Data.Preprocessing import data_split
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression
+from DLL.Data.Metrics import r2_score
+from DLL.Data.Preprocessing import data_split
 
 
 X = torch.linspace(0, 2 * torch.pi, 1000).unsqueeze(1)
@@ -28,7 +36,8 @@ def get_pred(tau):
 
 n = 4
 m = 4
-fig, axes = plt.subplots(m, n)
+fig, axes = plt.subplots(m, n, figsize=(15, 10))
+plt.subplots_adjust(hspace=0.5)
 axes = axes.ravel()
 taus = torch.logspace(torch.log(torch.Tensor([0.5]).squeeze()), torch.log(torch.Tensor([2.0]).squeeze()), m * n)
 for i, ax in enumerate(axes):
@@ -37,5 +46,4 @@ for i, ax in enumerate(axes):
     ax.scatter(X_test, y_pred, s=10, c="r", label="prediction")
     ax.scatter(X_test, y_test, s=10, c="b", label="true")
     ax.grid()
-
 plt.show()

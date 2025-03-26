@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.DeepLearning.Initialisers.Kaiming_Normal``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script implements a model to classify the MNIST dataset. The model mainly consists of  convolutonal layers and pooling layers with a few dense layers at the end. As the script is  only for demonstration purposes, only 100 first datapoints are used to make the training faster.  For a full example, change the parameter n to 60000. If n is increased, more epochs may need  to be added and other hyperparameters tuned.">
+
+.. only:: html
+
+  .. image:: /auto_examples/DeepLearning/images/thumb/sphx_glr_ImageClassification_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_DeepLearning_ImageClassification.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">MNIST Image classification</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_DeepLearning_ImageClassification.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

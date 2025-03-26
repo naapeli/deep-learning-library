@@ -1,0 +1,42 @@
+
+
+Examples using ``DLL.MachineLearning.LASSORegression.fit``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates the use of linear regression models and their regularized counterparts (Ridge,  LASSO, and ElasticNet) on synthetic data. The models are fitted to 1D and 2D datasets, and performance  is evaluated through residual analysis, summary statistics, and visualizations.">
+
+.. only:: html
+
+  .. image:: /auto_examples/LinearModels/images/thumb/sphx_glr_LinearModels_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_LinearModels_LinearModels.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Linear and Regularized Regression Models on Synthetic Data</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_LinearModels_LinearModels.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

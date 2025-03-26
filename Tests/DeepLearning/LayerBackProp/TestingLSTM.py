@@ -1,6 +1,6 @@
 import torch
 
-from src.DLL.DeepLearning.Layers import LSTM
+from DLL.DeepLearning.Layers import LSTM
 
 torch.manual_seed(0)
 data = torch.rand(size=(5, 1), dtype=torch.float64, requires_grad=True)

@@ -1,10 +1,17 @@
+"""
+Logistic Regression on the Iris Dataset
+=======================================
+
+This script trains a logistic regression model on the Iris dataset using 
+gradient descent. It supports both binary and multi-class classification.
+"""
 import torch
 from sklearn import datasets
 import matplotlib.pyplot as plt
 
-from src.DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
-from src.DLL.Data.Preprocessing import MinMaxScaler, CategoricalEncoder, data_split
-from src.DLL.Data.Metrics import accuracy
+from DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegression
+from DLL.Data.Preprocessing import MinMaxScaler, CategoricalEncoder, data_split
+from DLL.Data.Metrics import accuracy
 
 
 iris = datasets.load_iris()
@@ -30,11 +37,11 @@ print(y_pred, y_test)
 print(accuracy(y_pred, y_test))
 
 plt.plot(history["accuracy"])
-plt.xlabel("epoch / 10")
+plt.xlabel("epoch / 100")
 plt.ylabel("accuracy")
 
 plt.figure()
 plt.semilogy(history["loss"])
-plt.xlabel("epoch / 10")
+plt.xlabel("epoch / 100")
 plt.ylabel("loss")
 plt.show()
