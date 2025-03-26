@@ -27,6 +27,7 @@ class Model:
         self.loss = None
         self.data_type = data_type
         self.device = device
+        self.training = False
 
     def compile(self, optimiser=None, loss=None, metrics=("loss",), callbacks=tuple()):
         """
@@ -83,6 +84,18 @@ class Model:
         layer.initialise_layer(input_shape=self.layers[-1].output_shape, data_type=self.data_type, device=self.device)
         self.layers.append(layer)
     
+    def train(self):
+        """
+        Change the state of the model to training state. Effects some layers, but other layers remain the same.
+        """
+        self.training = True
+
+    def eval(self):
+        """
+        Change the state of the model to evaluation state. Effects some layers, but other layers remain the same.
+        """
+        self.training = False
+    
     def summary(self):
         """
         Prints the summary of the model containing its architecture and the number of parameters of the model.
@@ -103,13 +116,12 @@ class Model:
         message += f"Total number of parameters: {total_params}"
         return message
 
-    def predict(self, X, training=False):
+    def predict(self, X):
         """
         Applies the fitted Model to the input data, predicting wanted values by forward propagation.
 
         Args:
             X (torch.Tensor of shape (n_samples, *input_shape)): The input data that goes through the model by forward propagation.
-            training (bool, optional): A flag if the model is in the training phase or the prediction phase. If training=False, regularisation layers, such as a Dropout layer, are disabled. Defaults to False.
         
         Raises:
             NotCompiledError: If the Model has not been compiled before predicting.
@@ -123,17 +135,17 @@ class Model:
 
         current = X
         for layer in self.layers:
-            current = layer.forward(current, training=training)
+            current = layer.forward(current, training=self.training)
         return current
     
-    def backward(self, initial_gradient, training=False):
+    def backward(self, initial_gradient):
         """
         :meta private:
         """
         reversedLayers = reversed(self.layers)
         gradient = initial_gradient
         for layer in reversedLayers:
-            gradient = layer.backward(gradient, training=training)
+            gradient = layer.backward(gradient, training=self.training)
         return gradient
 
     def fit(self, X, Y, val_data=None, epochs=10, callback_frequency=1, batch_size=None, shuffle_every_epoch=True, shuffle_data=True, verbose=False):
@@ -191,23 +203,25 @@ class Model:
         train_metrics = [metric for metric in self.metrics if metric[:4] != "val_"]
         val_metrics = [metric for metric in self.metrics if metric[:4] == "val_"]
 
-        self.train = True  # boolean for callbacks to stop the training
+        self.stop_training = False  # boolean for callbacks to stop the training
         for callback in self.callbacks:
             callback.set_model(self)
             callback.on_train_start()
 
         for epoch in range(epochs):
-            if not self.train:
+            if self.stop_training:
                 break
+            self.train()
             for x, y in data_reader.get_data():
                 self.optimiser.zero_grad()
-                predictions = self.predict(x, training=True)
+                predictions = self.predict(x)
                 initial_gradient = self.loss.gradient(predictions, y)
-                self.backward(initial_gradient, training=True)
+                self.backward(initial_gradient)
                 self.optimiser.update_parameters()
                 for callback in self.callbacks:
                     callback.on_batch_end(epoch)
 
+            self.eval()
             if epoch % callback_frequency == 0:
                 values = calculate_metrics(data=(self.predict(X), Y), metrics=train_metrics, loss=self.loss.loss)
                 if val_data is not None:

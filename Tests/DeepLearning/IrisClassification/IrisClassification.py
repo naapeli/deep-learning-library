@@ -65,7 +65,7 @@ _ = ax.legend(
 plt.show()
 
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=500, batch_size=32, verbose=True)
-save_model(model, "./Tests/DeepLearning/IrisClassification/model.pkl")
+# save_model(model, "./Tests/DeepLearning/IrisClassification/model.pkl")
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
 

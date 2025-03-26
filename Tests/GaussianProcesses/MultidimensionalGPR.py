@@ -29,7 +29,7 @@ model = GaussianProcessRegressor(RBF(correlation_length=torch.Tensor([1, 1])))
 model.fit(x_train, y_train)
 model.train_kernel(epochs=10, verbose=True)
 mean, covariance = model.predict(x_test)
-z = transformer.inverse_transform(mean)
+z = transformer.inverse_transform(mean.squeeze())
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

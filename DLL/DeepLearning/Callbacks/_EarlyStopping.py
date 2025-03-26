@@ -8,7 +8,7 @@ class EarlyStopping(Callback):
 
     Args:
         monitor (str, optional): The quantity, which is monitored for the early stop. Must be in the metrics of the model. Defaults to "val_loss".
-        patience (int, optional): The number of epochs the model waits without improvement. Must be a positive integer. Defaults to 0.
+        patience (int, optional): The number of epochs the model waits without improvement. Must be a positive integer. Defaults to 1.
         mode (str, optional): Determines if the monitored metric better if it is maximized or minimized. Must be in ["min", "max"]. Defaults to "min".
         restore_best_model (bool, optional): Determines if the best model is restored after the training is finished. Defaults to False.
         warmup_length (int, optional): Determines how many epochs are trained no matter what. Must be non-negative. Defaults to 0.
@@ -16,7 +16,7 @@ class EarlyStopping(Callback):
     Note:
         Using restore_best_model = True considerably slows down training as the best model must be saved every epoch the model improves.
     """
-    def __init__(self, monitor="val_loss", patience=0, mode="min", restore_best_model=False, warmup_length=0, verbose=False):
+    def __init__(self, monitor="val_loss", patience=1, mode="min", restore_best_model=False, warmup_length=0, verbose=False):
         if not isinstance(patience, int) or patience <= 0:
             raise ValueError("patience must be a positive integer.")
         if mode not in ["min", "max"]:
@@ -37,7 +37,7 @@ class EarlyStopping(Callback):
 
     def set_model(self, model):
         """
-        Lets the callback know about the chosen model. Is automatically called when using Model.train()
+        Lets the callback know about the chosen model. Is automatically called when using Model.fit()
 
         Args:
             Model (:ref:`models_section_label`): The chosen model.
@@ -99,4 +99,4 @@ class EarlyStopping(Callback):
             self.wait += 1
             if self.wait >= self.patience:
                 if self.verbose: print(f"Stopped training early at epoch {epoch + 1} after {self.patience} epochs of no improvement. The monitored metric is currently {value:.3f} and the best model has the value of {self.mode * self.best_value:.3f}.")
-                self.model.train = False
+                self.model.stop_training = True
