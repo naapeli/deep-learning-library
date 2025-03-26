@@ -128,17 +128,19 @@ for episode in range(EPISODES):
         agent.optimiser.zero_grad()
 
         # Compute target Q-values
+        agent.eval()
         next_q_values = agent.predict(next_states).max(dim=1)[0]
         targets = rewards + GAMMA * next_q_values * (1 - dones)
 
         # Compute current Q-values
-        q_values = agent.predict(states, training=True)
+        agent.train()
+        q_values = agent.predict(states)
         q_values = q_values.gather(1, actions.unsqueeze(1)).squeeze(1)
 
         initial_gradient = agent.loss.gradient(q_values, targets)
         gradient = torch.zeros((BATCH_SIZE, action_dim))
         gradient[torch.arange(BATCH_SIZE), actions] = initial_gradient  # backpropagate through the q_values.gather line
-        agent.backward(gradient, training=True)
+        agent.backward(gradient)
         agent.optimiser.update_parameters()
 
     rewards_memory.append(total_reward)
@@ -157,6 +159,8 @@ plt.show()
 
 
 if SAVE_IMG:
+    agent.eval()
+    
     # render an example cart
     env = gym.make("CartPole-v1", render_mode="rgb_array")
 

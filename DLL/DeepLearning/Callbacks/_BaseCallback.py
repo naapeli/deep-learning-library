@@ -4,7 +4,7 @@ from abc import ABC
 class Callback(ABC):
     def set_model(self, model):
         """
-        Lets the callback know about the chosen model. Is automatically called when using Model.train()
+        Lets the callback know about the chosen model. Is automatically called when using Model.fit()
 
         Args:
             Model (:ref:`models_section_label`): The chosen model.

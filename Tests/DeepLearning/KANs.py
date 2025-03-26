@@ -9,7 +9,7 @@ import torch
 import matplotlib.pyplot as plt
 
 from DLL.DeepLearning.Layers._DenseKAN import _get_basis_functions, _NeuronKAN
-from DLL.DeepLearning.Layers import DenseKAN
+from DLL.DeepLearning.Layers import DenseKAN, Dense
 from DLL.DeepLearning.Layers.Activations import Tanh
 from DLL.DeepLearning.Model import Model
 from DLL.DeepLearning.Optimisers import ADAM
@@ -33,7 +33,8 @@ model = Model(2)
 # model.add(DenseKAN(1, activation=Tanh(), initialiser=Xavier_Normal()))
 model.add(DenseKAN(2, activation=Tanh(), initialiser=Xavier_Normal()))
 # model.add(DenseKAN(2, activation=Tanh(), initialiser=Xavier_Normal()))
-model.add(DenseKAN(0, initialiser=Xavier_Normal()))
+model.add(DenseKAN(2, initialiser=Xavier_Normal()))
+model.add(Dense(0, initialiser=Xavier_Normal()))
 model.compile(ADAM(0.01), MSE())
 model.summary()
 
