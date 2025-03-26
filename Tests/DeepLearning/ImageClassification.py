@@ -10,8 +10,7 @@ to be added and other hyperparameters tuned.
 """
 import torch
 import matplotlib.pyplot as plt
-from torchvision.datasets import MNIST
-from torchvision.transforms import ToTensor, Compose
+import tensorflow as tf
 
 from DLL.DeepLearning.Model import Model
 from DLL.DeepLearning.Layers import Dense, Conv2D, Flatten, MaxPooling2D, Reshape
@@ -19,6 +18,7 @@ from DLL.DeepLearning.Layers.Regularisation import Dropout, BatchNorm, GroupNorm
 from DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from DLL.DeepLearning.Losses import CCE
 from DLL.DeepLearning.Optimisers import SGD, ADAM
+from DLL.DeepLearning.Callbacks import EarlyStopping
 from DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming_Normal, Kaiming_Uniform
 from DLL.Data.Preprocessing import OneHotEncoder, data_split
 from DLL.Data.Metrics import accuracy
@@ -26,19 +26,12 @@ from DLL.Data.Metrics import accuracy
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-transform = Compose([ToTensor()])
-train_dataset = MNIST(root="./mnist", train=True, transform=transform, download=True)
-test_dataset = MNIST(root="./mnist", train=False, transform=transform, download=True)
-
 n = 100  # 60000
-train_images = torch.stack([train_dataset[i][0] for i in range(len(train_dataset))])
-train_labels = torch.tensor([train_dataset[i][1] for i in range(len(train_dataset))])
-test_images = torch.stack([test_dataset[i][0] for i in range(len(test_dataset))])
-test_labels = torch.tensor([test_dataset[i][1] for i in range(len(test_dataset))])
-train_images = train_images.to(dtype=torch.float32, device=device)[:n]
-train_labels = train_labels.to(dtype=torch.float32, device=device)[:n]
-test_images = test_images.to(dtype=torch.float32, device=device)[:n]
-test_labels = test_labels.to(dtype=torch.float32, device=device)[:n]
+(train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
+train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:100]
+train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:100]
+test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:100]
+test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:100]
 train_images = train_images / train_images.max()
 test_images = test_images / test_images.max()
 
@@ -59,14 +52,14 @@ model.add(LayerNorm())
 model.add(Conv2D(kernel_size=3, output_depth=32, initialiser=Kaiming_Uniform(), activation=ReLU()))
 model.add(MaxPooling2D(pool_size=2))
 # model.add(InstanceNorm())
-model.add(LayerNorm())
-# model.add(GroupNorm(num_groups=16))
+# model.add(LayerNorm())
+model.add(GroupNorm(num_groups=16))
 model.add(Dropout(p=0.5))
 model.add(Flatten())
 # model.add(Reshape(800))
 model.add(Dense(200, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
-model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
+model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=(EarlyStopping(restore_best_model=True, patience=3),))
 model.summary()
 
 history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=25, batch_size=4096, verbose=True)
