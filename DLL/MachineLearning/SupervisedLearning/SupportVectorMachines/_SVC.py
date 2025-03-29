@@ -83,16 +83,16 @@ class SVC:
         if self.opt_method == "cvxopt":
             y_vec = y.reshape((-1, 1)).to(X.dtype)
 
-            P = cvxopt.matrix((y_vec @ y_vec.T * K).numpy())
+            P = cvxopt.matrix((y_vec @ y_vec.T * K).numpy().astype(np.double))
             q = cvxopt.matrix(-np.ones((n, 1)))
-            A = cvxopt.matrix((y_vec.T).numpy())
+            A = cvxopt.matrix((y_vec.T).numpy().astype(np.double))
             b = cvxopt.matrix(np.zeros(1))
             G = cvxopt.matrix(np.vstack((-np.eye(n), np.eye(n))))
             h = cvxopt.matrix(np.vstack((np.zeros((n, 1)), np.ones((n, 1)) * self.C)))
             
             cvxopt.solvers.options['show_progress'] = False
             sol = cvxopt.solvers.qp(P, q, G, h, A, b)
-            self.alpha = torch.tensor(np.array(sol["x"])).squeeze()
+            self.alpha = torch.tensor(np.array(sol["x"])).squeeze().to(X.dtype)
         
         elif self.opt_method == "coord_ascent":
             alpha = torch.zeros(n, dtype=X.dtype)
@@ -255,3 +255,39 @@ class SVC:
                 votes[:, class_i] += (predictions == 1)  # If prediction is 1, vote for class_i
                 votes[:, class_j] += (predictions == 0)  # If prediction is 0, vote for class_j
             return torch.argmax(votes, dim=1)
+    
+    def predict_proba(self, X):
+        """
+        Predicts class probabilities for the given input.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data.
+
+        Returns:
+            torch.Tensor of shape (n_samples, n_classes) or (n_samples,): The predicted probabilities.
+        """
+        if not hasattr(self, "multiclass"):
+            raise NotFittedError("SVC.fit() must be called before predicting.")
+
+        if not self.multiclass:
+            scores = self._decision_function(self._kernel_matrix(self.X, X))
+            return 1 / (1 + torch.exp(-scores))
+
+        votes = torch.zeros((X.shape[0], self.n_classes))
+        if self.method == "ovr":
+            for i, classifier in enumerate(self.classifiers):
+                scores = classifier._decision_function(classifier._kernel_matrix(classifier.X, X))
+                proba = 1 / (1 + torch.exp(-scores))
+                votes[:, i] = proba
+        elif self.method == "ovo":
+            pairwise_counts = torch.zeros((self.n_classes,), dtype=torch.float32)
+            for classifier, class_i, class_j in self.classifiers:
+                scores = classifier._decision_function(classifier._kernel_matrix(classifier.X, X))
+                proba = 1 / (1 + torch.exp(-scores))
+                votes[:, class_i] += proba
+                votes[:, class_j] += 1 - proba
+                pairwise_counts[class_i] += 1
+                pairwise_counts[class_j] += 1
+            votes /= pairwise_counts
+
+        return votes / votes.sum(dim=1, keepdim=True)

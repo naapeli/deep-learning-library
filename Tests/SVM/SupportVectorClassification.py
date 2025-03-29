@@ -20,7 +20,7 @@ from sklearn import svm
 from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
 from DLL.MachineLearning.SupervisedLearning import Kernels
 from DLL.Data.Preprocessing import data_split
-from DLL.Data.Metrics import accuracy
+from DLL.Data.Metrics import accuracy, prob_to_pred
 
 
 X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=4, random_state=3)
@@ -34,9 +34,9 @@ X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
 
 model1 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="cvxopt")
 start1 = perf_counter()
-model1.fit(X_train, y_train, epochs=2, multi_method="ovr")
+model1.fit(X_train, y_train, epochs=2, multi_method="ovo")
 end1 = perf_counter()
-predictions = model1.predict(X_test)
+predictions = prob_to_pred(model1.predict_proba(X_test))
 print(round(accuracy(predictions, y_test), 3))
 
 n = 100
@@ -51,9 +51,9 @@ grid_predictions = model1.predict(X_grid).reshape((n, n))
 
 model2 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="smo")
 start2 = perf_counter()
-model2.fit(X_train, y_train, epochs=5, multi_method="ovr")
+model2.fit(X_train, y_train, epochs=5, multi_method="ovo")
 end2 = perf_counter()
-predictions = model2.predict(X_test)
+predictions = prob_to_pred(model2.predict_proba(X_test))
 print(round(accuracy(predictions, y_test), 3))
 
 x_min, X_max = X[:, 0].min(), X[:, 0].max()
