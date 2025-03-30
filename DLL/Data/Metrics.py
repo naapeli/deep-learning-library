@@ -382,6 +382,48 @@ def exponential_loss(predictions, true_output):
     
     return Exponential().loss(predictions, true_output).item()
 
+def calibration_curve(y_true, y_prob, n_bins=5, strategy="quantile"):
+    """
+    Computes a calibration curve.
+
+    Parameters:
+        y_true (torch.Tensor of shape (n_samples,)): True binary labels.
+        y_prob (torch.Tensor of shape (n_samples,)): Predicted probabilities.
+        n_bins (int, optional): Number of bins to discretize predictions. Must be a positive integer. Defaults to 5.
+        strategy (str, optional): The binning strategy. Must be in ["uniform", "quantile"]. Defaults to "quantile".
+
+    Returns:
+        prob_true, prob_pred (tuple[torch.Tensor, torch.Tensor]): A tuple of the fraction of positives in each bin and the mean predicted probability in each bin.
+    """
+    if not isinstance(y_true, torch.Tensor) or y_true.ndim != 1:
+        raise ValueError("y_true must be a torch.Tensor of shape (n_samples,).")
+    if not isinstance(y_prob, torch.Tensor) or y_prob.ndim != 1:
+        raise ValueError("y_prob must be a torch.Tensor of shape (n_samples,).")
+    if not isinstance(n_bins, int) or n_bins <= 0:
+        raise ValueError("n_bins must be a positive integer.")
+    if strategy not in ["quantile", "uniform"]:
+        raise ValueError('strategy must be in ["uniform", "quantile"].')
+
+    y_true, y_prob = y_true.float(), y_prob.float()
+
+    if strategy == 'uniform':
+        bins = torch.linspace(0, 1, n_bins + 1)
+    elif strategy == 'quantile':
+        bins = torch.quantile(y_prob, torch.linspace(0, 1, n_bins + 1))
+
+    bin_ids = torch.bucketize(y_prob, bins, right=True) - 1
+    
+    prob_true_list = []
+    prob_pred_list = []
+
+    for i in range(n_bins):
+        mask = bin_ids == i
+        if mask.any():
+            prob_true_list.append(y_true[mask].mean().item())
+            prob_pred_list.append(y_prob[mask].mean().item())
+
+    return torch.tensor(prob_true_list), torch.tensor(prob_pred_list)
+
 
 # ===============================REGRESSION===============================
 def mean_squared_error(predictions, true_output):
