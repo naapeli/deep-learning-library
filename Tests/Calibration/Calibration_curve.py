@@ -1,3 +1,11 @@
+"""
+Calibration of Classification Models
+===================================================
+
+This script evaluates the calibration of multiple classification models using different calibration methods.
+It generates calibration curves for logistic regression, Gaussian Naive Bayes, and support vector classification (SVC),
+with and without calibration, and visualizes the results in a series of plots.
+"""
 import torch
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs, make_classification
