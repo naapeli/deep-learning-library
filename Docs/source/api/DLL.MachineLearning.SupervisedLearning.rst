@@ -11,3 +11,4 @@ Supervised learning
    DLL.MachineLearning.SupervisedLearning.Trees
    DLL.MachineLearning.SupervisedLearning.SupportVectorMachines
    DLL.MachineLearning.SupervisedLearning.Kernels
+   DLL.MachineLearning.SupervisedLearning.Calibration
