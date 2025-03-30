@@ -16,13 +16,15 @@ class IsotonicRegression:
             weight (torch.Tensor of shape (n_samples,) | None, optional): Sample weights. Must be a non-negative torch tensor. Defaults to None, which corresponds to uniform weights.
             increasing (bool, optional): Deterimines if the final predictions should be increasing or decreasing. Must be a boolean. Defaults to True.
         """
-        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor) or not isinstance(weight, torch.Tensor):
-            raise TypeError("The inpu matrix X, the label matrix y and the weight matrix must be PyTorch tensors.")
+        if not isinstance(X, torch.Tensor) or not isinstance(y, torch.Tensor):
+            raise TypeError("The input matrix X and the label matrix y must be PyTorch tensors.")
+        if not isinstance(weight, torch.Tensor | None):
+            raise TypeError("The weight matrix must be a PyTorch tensor or None.")
         if X.ndim != 1:
             raise ValueError("The input matrix must be a 1 dimensional tensor.")
         if y.ndim != 1 or len(y) != len(X):
             raise ValueError("The labels must be 1 dimensional with the same number of samples as the input data.")
-        if weight.ndim != 1 or len(weight) != len(X):
+        if weight is not None and (weight.ndim != 1 or len(weight) != len(X)):
             raise ValueError("The weights must be 1 dimensional with the same number of samples as the input data.")
         if not isinstance(increasing, bool):
             raise TypeError("increasing must be a boolean.")
