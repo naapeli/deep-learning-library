@@ -28,7 +28,7 @@ strategy = "quantile"
 
 
 
-plt.figure(figsize=(8, 24))
+plt.figure(figsize=(8, 18))
 plt.subplots_adjust(hspace=0.5)
 plt.subplot(3, 1, 1)
 
@@ -97,21 +97,21 @@ plt.subplot(3, 1, 3)
 model = CalibratedClassifier(LogisticRegression(learning_rate=0.01), method="logistic")
 model.fit(Xtrain, ytrain, epochs=500)
 yprob = model.predict_proba(Xtest)
-print(f"Logistic regression accuracy: {accuracy(model.predict(Xtest), ytest)}")
+print(f"Logistically Calibrated Logistic regression accuracy: {accuracy(model.predict(Xtest), ytest)}")
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred, prob_true, marker="o", label="Logistic Regression")
 
 model = CalibratedClassifier(GaussianNaiveBayes(), method="logistic")
 model.fit(Xtrain, ytrain)
 yprob = model.predict_proba(Xtest)
-print(f"Calibrated Gaussian naive bayes accuracy: {accuracy(model.predict(Xtest), ytest)}")
+print(f"Logistically Calibrated Gaussian naive bayes accuracy: {accuracy(model.predict(Xtest), ytest)}")
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred.squeeze(), prob_true.squeeze(), marker="o", label="Calibrated Gaussian Naive Bayes")
 
 model = CalibratedClassifier(SVC(kernel=Linear(), opt_method="cvxopt"), method="logistic")
 model.fit(Xtrain, ytrain)
 yprob = model.predict_proba(Xtest)
-print(f"Support vector classification accuracy: {accuracy(model.predict(Xtest), ytest)}")
+print(f"Logistically Calibrated Support vector classification accuracy: {accuracy(model.predict(Xtest), ytest)}")
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred, prob_true, marker="o", label="SVC")
 
