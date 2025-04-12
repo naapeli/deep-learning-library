@@ -30,7 +30,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install sphinx sphinx_rtd_theme sphinx-gallery
-          pip install -r requirements.txt
+          pip install -r test_requirements.txt
 
       - name: Build Sphinx documentation
         run: |
