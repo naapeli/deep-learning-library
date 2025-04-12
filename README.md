@@ -6,17 +6,20 @@ DLL is a deep learning library inspired by TensorFlow and PyTorch. This is my la
 
 Checkout the documentation of DLL [here](https://naapeli.github.io/deep-learning-library/).
 
-## Upcoming topics:
+## Installation
 
-- embedding layer
-- concatenate layer
-- multi headed cross attention
-- hyperparameter tuning with grid search and random search
-- multiclass classification with OvO and OvR
+One can get an installation of this library by the following command:
+
+```
+pip install PyDLLib
+```
+
+After installation, one can use the library as described in the [documentation](https://naapeli.github.io/deep-learning-library/api/DLL.html) and in the [examples](https://naapeli.github.io/deep-learning-library/auto_examples/index.html).
+
 
 ## Running Tests
 
-To run the tests, navigate to the deep-learning-library-folder and use eg. the following command:
+To run the tests, one can clone the GitHub [repository](https://github.com/naapeli/deep-learning-library) to a local folder, navigate to the deep-learning-library-folder and use eg. the following command:
 
 ```
 python -m Tests.ReinforcementLearning.DeepReinforcementLearning
