@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyDLLib"
-version = "1.0"
+version = "1.0.1"
 authors = [
     {name = "Aatu Selkee", email = "aatu.selkee@gmail.com"},
 ]
