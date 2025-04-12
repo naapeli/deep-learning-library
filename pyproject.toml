@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=42.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DLL"
+version = "1.0"
+authors = [
+    {name = "Aatu Selkee", email = "aatu.selkee@gmail.com"},
+]
+description = "A deep and machine learning library. Made for learning purposes and ease of understanding."
+readme = "README.md"
+requires-python = ">=3.11.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://naapeli.github.io/deep-learning-library/index.html"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools]
+packages = {find = {where = ["DLL"]}}
