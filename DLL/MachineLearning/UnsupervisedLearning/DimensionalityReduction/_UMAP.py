@@ -46,7 +46,7 @@ class UMAP:
 
     def _solve_params(self):
         def func(d, a, b):
-            return 1 / (1 + a * d ** (2 * b))
+            return 1 / (1 + a * (d + 1e-10) ** (2 * b))
         
         x = torch.linspace(0, 3, 300)
         y = torch.full_like(x, 1)
