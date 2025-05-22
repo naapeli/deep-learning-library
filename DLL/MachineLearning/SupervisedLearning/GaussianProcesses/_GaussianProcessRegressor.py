@@ -70,7 +70,8 @@ class GaussianProcessRegressor:
         self.X = X
         self.Y = y.unsqueeze(dim=1)
         self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
-        self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
+        self._L = torch.linalg.cholesky(self.prior_covariance_matrix)
+        self._alpha = torch.cholesky_solve(self.Y, self._L)
 
     def predict(self, X):
         """
@@ -85,7 +86,7 @@ class GaussianProcessRegressor:
             TypeError: If the input matrix is not a PyTorch tensor.
             ValueError: If the input matrix is not the correct shape.
         """
-        if not hasattr(self, "inverse_prior_covariance_matrix"):
+        if not hasattr(self, "prior_covariance_matrix"):
             raise NotFittedError("GaussianProcessRegressor.fit() must be called before predicting.")
         if not isinstance(X, torch.Tensor):
             raise TypeError("The input matrix must be a PyTorch tensor.")
@@ -94,8 +95,9 @@ class GaussianProcessRegressor:
 
         k_1 = self._get_covariance_matrix(self.X, X)
         k_2 = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
-        mean = k_1.T @ self.inverse_prior_covariance_matrix @ self.Y
-        posterior_covariance = k_2 - k_1.T @ self.inverse_prior_covariance_matrix @ k_1
+        mean = (k_1.T @ self._alpha).squeeze(-1)
+        V = torch.linalg.solve_triangular(self._L, k_1, upper=False)
+        posterior_covariance = k_2 - V.T @ V
         return mean, posterior_covariance
     
     def log_marginal_likelihood(self):
@@ -105,13 +107,17 @@ class GaussianProcessRegressor:
         Returns:
             log marginal likelihood (float): The log marginal likelihood of the current model.
         """
-        if not hasattr(self, "inverse_prior_covariance_matrix"):
+        if not hasattr(self, "prior_covariance_matrix"):
             raise NotFittedError("GaussianProcessRegressor.fit() must be called before calculating the log marginal likelihood.")
 
-        L = torch.linalg.cholesky(self.prior_covariance_matrix)
-        alpha = torch.cholesky_solve(self.Y, L)
-        lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, device=self.device))
+        lml = -0.5 * self.Y.T @ self._alpha - torch.sum(torch.log(torch.diagonal(self._L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, dtype=self.Y.dtype, device=self.device))
         return lml
+    
+    def derivative(self, parameter_derivative):
+        inner = self._alpha @ self._alpha.T - torch.cholesky_inverse(self._L)
+        derivative = 0.5 * torch.trace(inner @ parameter_derivative).unsqueeze(-1)
+        # minus sign, since goal is to maximise the log_marginal_likelihood
+        return -derivative
     
     def train_kernel(self, epochs=10, optimiser=None, callback_frequency=1, verbose=False):
         """
@@ -131,7 +137,7 @@ class GaussianProcessRegressor:
             TypeError: If the parameters are of wrong type.
             ValueError: If epochs is not a positive integer.
         """
-        if not hasattr(self, "inverse_prior_covariance_matrix"):
+        if not hasattr(self, "prior_covariance_matrix"):
             raise NotFittedError("GaussianProcessRegressor.fit() must be called before calculating the log marginal likelihood.")
         if not isinstance(epochs, int) or epochs <= 0:
             raise ValueError("epochs must be a positive integer.")
@@ -146,27 +152,15 @@ class GaussianProcessRegressor:
         history = {"log marginal likelihood": torch.zeros(floor(epochs / callback_frequency))}
 
         for epoch in range(epochs):
-            # form the derivative function
-            def derivative(parameter_derivative):
-                derivative = 0.5 * self.Y.T @ self.inverse_prior_covariance_matrix @ parameter_derivative @ self.inverse_prior_covariance_matrix @ self.Y
-
-                if parameter_derivative.ndim == 2:
-                    derivative = derivative.squeeze(1)
-                    derivative -= 0.5 * torch.trace(self.inverse_prior_covariance_matrix @ parameter_derivative)
-                else:
-                    derivative = derivative.squeeze((1, 2))
-                    derivative -= 0.5 * (self.inverse_prior_covariance_matrix @ parameter_derivative).diagonal(dim1=1, dim2=2).sum(dim=-1)
-                # minus sign, since goal is to maximise the log_marginal_likelihood
-                return -derivative
-
             # calculate the derivatives
-            self.covariance_function.update(derivative, self.X)
+            self.covariance_function.update(self.derivative, self.X)
 
             # update the parameters
             optimiser.update_parameters()
 
             self.prior_covariance_matrix = self._get_covariance_matrix(self.X, self.X) + (self.noise + self.epsilon) * torch.eye(len(self.X), device=self.device)
-            self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
+            self._L = torch.linalg.cholesky(self.prior_covariance_matrix)
+            self._alpha = torch.cholesky_solve(self.Y, self._L)
             if epoch % callback_frequency == 0:
                 lml = self.log_marginal_likelihood().item()
                 history["log marginal likelihood"][int(epoch / callback_frequency)] = lml
