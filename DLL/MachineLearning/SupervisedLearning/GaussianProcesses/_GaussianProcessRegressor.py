@@ -5,7 +5,6 @@ from ..Kernels import _Base
 from ....DeepLearning.Optimisers import ADAM
 from ....DeepLearning.Optimisers._BaseOptimiser import BaseOptimiser
 from ....Exceptions import NotFittedError
-from ....Data.Metrics import _round_dictionary
 
 
 class GaussianProcessRegressor:
@@ -16,7 +15,7 @@ class GaussianProcessRegressor:
         covariance_function (:ref:`kernel_section_label`, optional): The kernel function expressing how similar are different samples.
         noise (int | float, optional): The artificially added noise to the model. Is added as variance to each sample. Must be non-negative. Defaults to 0.
         epsilon (float, optional): Implemented similarly to noise. Makes sure the covariance matrix is positive definite and hence invertible. Must be positive. Defaults to 1e-5. If one gets a RunTimeError for a matrix not being invertible, one should increase this parameter.
-        device (torch.device, optional): The device of all matricies. Defaults to torch.device("cpu").
+        device (torch.device, optional): The device of all matrices. Defaults to torch.device("cpu").
         
     Attributes:
         n_features (int): The number of features. Available after fitting.
@@ -25,7 +24,7 @@ class GaussianProcessRegressor:
         if not isinstance(covariance_function, _Base):
             raise TypeError("covariance_function must be from DLL.MachineLearning.Supervisedlearning.Kernels.")
         if not isinstance(noise, int | float) or noise < 0:
-            raise ValueError("noise must b non-negative.")
+            raise ValueError("noise must be non-negative.")
         if not isinstance(epsilon, int | float) or epsilon <= 0:
             raise ValueError("epsilon must be positive.")
         if not isinstance(device, torch.device):
@@ -112,7 +111,7 @@ class GaussianProcessRegressor:
         L = torch.linalg.cholesky(self.prior_covariance_matrix)
         alpha = torch.cholesky_solve(self.Y, L)
         lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, device=self.device))
-        return lml.item()
+        return lml
     
     def train_kernel(self, epochs=10, optimiser=None, callback_frequency=1, verbose=False):
         """
@@ -169,7 +168,7 @@ class GaussianProcessRegressor:
             self.prior_covariance_matrix = self._get_covariance_matrix(self.X, self.X) + (self.noise + self.epsilon) * torch.eye(len(self.X), device=self.device)
             self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
             if epoch % callback_frequency == 0:
-                lml = self.log_marginal_likelihood()
+                lml = self.log_marginal_likelihood().item()
                 history["log marginal likelihood"][int(epoch / callback_frequency)] = lml
                 if verbose:
                     params = {}
