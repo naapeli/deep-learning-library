@@ -1,1 +1,2 @@
 from ._GaussianProcessRegressor import GaussianProcessRegressor
+from ._GaussianProcessClassifier import GaussianProcessClassifier
