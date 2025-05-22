@@ -273,7 +273,7 @@ class Linear(_Base):
             self.sigma = self.sigma.to(X1.device)
             self.sigma_bias = self.sigma_bias.to(X1.device)
         
-        return self.sigma_bias ** 2 + self.sigma ** 2 * X1 @ X2.T
+        return self.sigma_bias + self.sigma ** 2 * X1 @ X2.T
 
     def derivative_sigma(self, X1, X2):
         """
@@ -294,7 +294,8 @@ class Linear(_Base):
         :meta private:
         """
         if not self.train_sigma_bias: return torch.zeros((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
-        val = (2 * self.sigma_bias).to(X1.dtype)
+        # val = (2 * self.sigma_bias).to(X1.dtype)
+        val = torch.ones((len(X1), len(X2)), dtype=X1.dtype, device=X1.device)
         # descrete = -self(X1, X2)
         # eps = 1e-6
         # self.sigma_bias += eps
