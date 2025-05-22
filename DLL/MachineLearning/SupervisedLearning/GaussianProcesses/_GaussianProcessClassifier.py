@@ -7,9 +7,9 @@ from ....DeepLearning.Optimisers._BaseOptimiser import BaseOptimiser
 from ....Exceptions import NotFittedError
 
 
-class GaussianProcessRegressor:
+class GaussianProcessClassifier:
     """
-    Implements the Gaussian process regression model.
+    Implements the Gaussian process classification model for binary classes. This model can be extended to multiclass classification by OvO or OvR.
 
     Args:
         covariance_function (:ref:`kernel_section_label`, optional): The kernel function expressing how similar are different samples.
@@ -20,11 +20,11 @@ class GaussianProcessRegressor:
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, covariance_function, noise=0, epsilon=1e-5, device=torch.device("cpu")):
+    def __init__(self, covariance_function, noise=0, n_iter_laplace_mode=100, epsilon=1e-5, device=torch.device("cpu")):
         if not isinstance(covariance_function, _Base):
             raise TypeError("covariance_function must be from DLL.MachineLearning.Supervisedlearning.Kernels.")
         if not isinstance(noise, int | float) or noise < 0:
-            raise ValueError("noise must be non-negative.")
+            raise ValueError("noise must b non-negative.")
         if not isinstance(epsilon, int | float) or epsilon <= 0:
             raise ValueError("epsilon must be positive.")
         if not isinstance(device, torch.device):
@@ -32,6 +32,7 @@ class GaussianProcessRegressor:
 
         self.covariance_function = covariance_function
         self.noise = noise
+        self.n_iter_laplace_mode = n_iter_laplace_mode
         self.epsilon = epsilon
         self.device = device
 
@@ -40,11 +41,11 @@ class GaussianProcessRegressor:
 
     def fit(self, X, y):
         """
-        Fits the GaussianProcessRegressor model to the input data.
+        Fits the GaussianProcessClassifier model to the input data.
 
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
-            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Should be normalized to zero mean and one variance.
+            y (torch.Tensor of shape (n_samples,)): The target values corresponding to each sample. Should be normalized to zero mean and one variance. Every element must be in [0, 1].
         Returns:
             None
         Raises:
@@ -59,6 +60,9 @@ class GaussianProcessRegressor:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
         if len(y) < 2:
             raise ValueError("There must be atleast 2 samples.")
+        vals = torch.unique(y).numpy()
+        if set(vals) != {0, 1}:
+            raise ValueError("y must only contain the values in [0, 1].")
         # variance = torch.var(y)
         # mean = torch.mean(y)
         # if not torch.allclose(variance, torch.ones_like(variance)):
@@ -68,9 +72,10 @@ class GaussianProcessRegressor:
 
         self.n_features = X.shape[1]
         self.X = X
-        self.Y = y.unsqueeze(dim=1)
+        self.Y = y
         self.prior_covariance_matrix = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
         self.inverse_prior_covariance_matrix = torch.linalg.inv(self.prior_covariance_matrix)
+        _, (self._pi, self._W_sr, self._L, _, _) = self._posterior_mode()  # save necessary things for the predictions
 
     def predict(self, X):
         """
@@ -92,11 +97,43 @@ class GaussianProcessRegressor:
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
-        k_1 = self._get_covariance_matrix(self.X, X)
-        k_2 = self._get_covariance_matrix(X, X) + (self.noise + self.epsilon) * torch.eye(len(X), device=self.device)
-        mean = k_1.T @ self.inverse_prior_covariance_matrix @ self.Y
-        posterior_covariance = k_2 - k_1.T @ self.inverse_prior_covariance_matrix @ k_1
-        return mean, posterior_covariance
+        K = self._get_covariance_matrix(self.X, X)
+        f_star = K.T @ (self.Y - self._pi)
+        return torch.where(f_star > 0, 1, 0)
+    
+    def predict_proba(self, X):
+        """
+        Applies the fitted GaussianProcessRegressor model to the input data, predicting the probabilities of each class.
+
+        Args:
+            X (torch.Tensor of shape (n_samples, n_features)): The input data to be regressed.
+        Returns:
+            probabilities (tuple[torch.Tensor of shape (n_samples,)): The probabilities that the class belongs to class 1.
+        Raises:
+            NotFittedError: If the GaussianProcessRegressor model has not been fitted before predicting.
+            TypeError: If the input matrix is not a PyTorch tensor.
+            ValueError: If the input matrix is not the correct shape.
+        """
+        if not hasattr(self, "inverse_prior_covariance_matrix"):
+            raise NotFittedError("GaussianProcessRegressor.fit() must be called before predicting.")
+        if not isinstance(X, torch.Tensor):
+            raise TypeError("The input matrix must be a PyTorch tensor.")
+        if X.ndim != 2 or X.shape[1] != self.n_features:
+            raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
+
+        K = self._get_covariance_matrix(self.X, X)
+        f_star = K.T @ (self.Y - self._pi)
+        v = torch.linalg.solve(self._L, self._W_sr.unsqueeze(-1) * K)
+        var_f_star = torch.diag(self._get_covariance_matrix(X, X)) - torch.diag(v.T @ v)
+
+        LAMBDAS = torch.tensor([0.41, 0.4, 0.37, 0.44, 0.39]).unsqueeze(-1)
+        COEFS = torch.tensor([-1854.8214151, 3516.89893646, 221.29346712, 128.12323805, -2010.49422654]).unsqueeze(-1)
+        alpha = 1 / (2 * var_f_star)
+        gamma = LAMBDAS * f_star
+        integrals = torch.sqrt(torch.pi / alpha) * torch.erf(gamma * torch.sqrt(alpha / (alpha + LAMBDAS ** 2))) / (2 * torch.sqrt(var_f_star * 2 * torch.pi))
+        pi_star = (COEFS * integrals).sum(axis=0) + 0.5 * COEFS.sum()
+        # return torch.vstack((1 - pi_star, pi_star)).T
+        return pi_star
     
     def log_marginal_likelihood(self):
         """
@@ -108,10 +145,29 @@ class GaussianProcessRegressor:
         if not hasattr(self, "inverse_prior_covariance_matrix"):
             raise NotFittedError("GaussianProcessRegressor.fit() must be called before calculating the log marginal likelihood.")
 
-        L = torch.linalg.cholesky(self.prior_covariance_matrix)
-        alpha = torch.cholesky_solve(self.Y, L)
-        lml = -0.5 * self.Y.T @ alpha - torch.sum(torch.log(torch.diagonal(L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, device=self.device))
-        return lml
+        return self._posterior_mode()[0]
+    
+    def _posterior_mode(self):
+        # adapted from sklearn source code: https://github.com/scikit-learn/scikit-learn/blob/98ed9dc73a86f5f11781a0e21f24c8f47979ec67/sklearn/gaussian_process/_gpc.py#L269
+        f = self._f_cached if hasattr(self, "_f_cached") else torch.zeros_like(self.Y)
+        log_marginal_likelihood = -torch.inf
+        K = self.prior_covariance_matrix
+        for _ in range(self.n_iter_laplace_mode):
+            pi = 1 / (1 + torch.exp(-f))
+            W = pi * (1 - pi)
+            W_sr = torch.sqrt(W)
+            W_sr_K = W_sr.unsqueeze(-1) * K
+            B = torch.eye(len(W)) + W_sr_K * W_sr
+            L = torch.linalg.cholesky(B)
+            b = W * f + (self.Y - pi)
+            a = b - W_sr * torch.cholesky_solve((W_sr_K @ b).unsqueeze(-1), L).squeeze(-1)
+            f = K @ a
+            lml = -0.5 * a @ f - torch.log1p(torch.exp(-(self.Y * 2 - 1) * f)).sum() - torch.log(torch.diag(L)).sum()
+            if lml - log_marginal_likelihood < 1e-10:
+                break
+            log_marginal_likelihood = lml
+        self._f_cached = f
+        return log_marginal_likelihood, (pi, W_sr, L, b, a)
     
     def train_kernel(self, epochs=10, optimiser=None, callback_frequency=1, verbose=False):
         """
@@ -148,16 +204,18 @@ class GaussianProcessRegressor:
         for epoch in range(epochs):
             # form the derivative function
             def derivative(parameter_derivative):
-                derivative = 0.5 * self.Y.T @ self.inverse_prior_covariance_matrix @ parameter_derivative @ self.inverse_prior_covariance_matrix @ self.Y
-
-                if parameter_derivative.ndim == 2:
-                    derivative = derivative.squeeze(1)
-                    derivative -= 0.5 * torch.trace(self.inverse_prior_covariance_matrix @ parameter_derivative)
-                else:
-                    derivative = derivative.squeeze((1, 2))
-                    derivative -= 0.5 * (self.inverse_prior_covariance_matrix @ parameter_derivative).diagonal(dim1=1, dim2=2).sum(dim=-1)
+                K = self.prior_covariance_matrix
+                _, (pi, W_sr, L, b, a) = self._posterior_mode()
+                R = W_sr.unsqueeze(-1) * torch.cholesky_solve(torch.diag(W_sr), L)
+                C = torch.linalg.solve(L, W_sr.unsqueeze(-1) * K)
+                s_2 = -0.5 * (torch.diag(K) - torch.diag(C.T @ C)) * (pi * (1 - pi) * (1 - 2 * pi))
+                C = parameter_derivative
+                s_1 = 0.5 * (a @ C) @ a - 0.5 * R.T.ravel() @ C.ravel()
+                b = C @ (self.Y - pi)
+                s_3 = b - K @ (R @ b)
+                derivative = s_1 + s_2 @ s_3
                 # minus sign, since goal is to maximise the log_marginal_likelihood
-                return -derivative
+                return -derivative.unsqueeze(-1)
 
             # calculate the derivatives
             self.covariance_function.update(derivative, self.X)
@@ -179,6 +237,8 @@ class GaussianProcessRegressor:
                         for i, param_ in enumerate(param):
                             params[key + "_" + str(i + 1)] = round(param_.item(), 3)
                     print(f"Epoch: {epoch + 1} - Log marginal likelihood: {lml} - Parameters: {params}")
+        
+        _, (self._pi, self._W_sr, self._L, _, _) = self._posterior_mode()  # save necessary things for the predictions
         return history
 
     # def is_positive_definite(matrix):
