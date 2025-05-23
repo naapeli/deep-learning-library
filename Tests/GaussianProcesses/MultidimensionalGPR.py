@@ -21,9 +21,10 @@ n = 30
 X, Y = torch.meshgrid(torch.linspace(0, 1, n, dtype=torch.float32), torch.linspace(-1, 1, n, dtype=torch.float32), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
-transformer = StandardScaler()
-y = transformer.fit_transform(y)
 x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
+transformer = StandardScaler()
+y_train = transformer.fit_transform(y_train)
+y_test = transformer.transform(y_test)
 
 
 model = GaussianProcessRegressor(RBF(correlation_length=torch.tensor([10.0, 10.0],)) + WhiteGaussian())
