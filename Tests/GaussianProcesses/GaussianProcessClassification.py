@@ -29,19 +29,14 @@ y = torch.from_numpy(y).to(X.dtype)
 
 X_train, y_train, _, _, X_test, y_test = data_split(X, y, train_split=0.7, validation_split=0.0)
 
-untrained_model = GaussianProcessClassifier(RBF(correlation_length=3), n_iter_laplace_mode=50)
+# untrained_model = GaussianProcessClassifier(RBF(correlation_length=torch.tensor([1.0, 1.0])), n_iter_laplace_mode=50)  # anisotropic kernel (each coordinate has different length scale)
+untrained_model = GaussianProcessClassifier(RBF(correlation_length=3), n_iter_laplace_mode=50)  # isotropic kernel (each coordinate has the same length scale)
 model = deepcopy(untrained_model)
 untrained_model.fit(X_train, y_train)
 model.fit(X_train, y_train)
 
 optimizer = ADAM(0.1)  # make the learning rate a little larger than default as 0.001 takes a long time to converge. Could increase even more if wanted the true optimum for the sigma as well.
 lml = model.train_kernel(epochs=200, optimiser=optimizer, callback_frequency=10, verbose=True)["log marginal likelihood"]
-plt.figure(figsize=(8, 8))
-plt.plot(lml.numpy())
-plt.title("Log marginal likelihood as a function of training iterations")
-plt.ylabel("Log marginal likelihood")
-plt.xlabel("Epochs")
-plt.grid()
 
 y_pred = model.predict(X_test)
 print("Trained model test accuracy:", accuracy(y_pred, y_test))
@@ -77,4 +72,12 @@ for ax, proba, title in zip(
     ax.legend()
 
 fig.colorbar(contour, ax=axs.ravel().tolist(), label="$\\mathbb{P}(y = 1)$")
+
+plt.figure(figsize=(8, 8))
+plt.plot(lml.numpy())
+plt.title("Log marginal likelihood as a function of training iterations")
+plt.ylabel("Log marginal likelihood")
+plt.xlabel("Epochs")
+plt.grid()
+
 plt.show()
