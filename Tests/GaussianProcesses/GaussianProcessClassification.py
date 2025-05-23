@@ -4,7 +4,7 @@ Gaussian Process Classification (GPC)
 
 This script demonstrates the use of a Gaussian Process Classification (GPC) 
 model with a the RBF kernel on generated data. The model is trained using 
-the Adam optimizer to obtain optimal hypperparameters. The final model is
+the Adam optimizer to obtain optimal hyperparameters. The final model is
 compared against the untrained model.
 """
 import torch
