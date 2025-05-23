@@ -1,5 +1,6 @@
 import torch
 from math import floor
+from warnings import warn
 
 from ..Kernels import _Base
 from ....DeepLearning.Optimisers import ADAM
@@ -59,12 +60,12 @@ class GaussianProcessRegressor:
             raise ValueError("The targets must be 1 dimensional with the same number of samples as the input data")
         if len(y) < 2:
             raise ValueError("There must be atleast 2 samples.")
-        # variance = torch.var(y)
-        # mean = torch.mean(y)
-        # if not torch.allclose(variance, torch.ones_like(variance)):
-        #     raise ValueError("y must have one variance. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
-        # if not torch.allclose(mean, torch.zeros_like(mean)):
-        #     raise ValueError("y must have zero mean. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
+        variance = torch.var(y)
+        mean = torch.mean(y)
+        if not torch.allclose(variance, torch.ones_like(variance)):
+            warn("y should have one variance for optimal results. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
+        if not torch.allclose(mean, torch.zeros_like(mean)):
+            warn("y should have zero mean for optimal results. Use DLL.Data.Preprocessing.StandardScaler to scale the data.")
 
         self.n_features = X.shape[1]
         self.X = X
@@ -113,9 +114,13 @@ class GaussianProcessRegressor:
         lml = -0.5 * self.Y.T @ self._alpha - torch.sum(torch.log(torch.diagonal(self._L))) - 0.5 * len(self.Y) * torch.log(torch.tensor(2 * torch.pi, dtype=self.Y.dtype, device=self.device))
         return lml
     
-    def derivative(self, parameter_derivative):
+    def _derivative(self, parameter_derivative):
         inner = self._alpha @ self._alpha.T - torch.cholesky_inverse(self._L)
-        derivative = 0.5 * torch.trace(inner @ parameter_derivative).unsqueeze(-1)
+        # derivative = 0.5 * torch.trace(inner @ parameter_derivative).unsqueeze(-1)
+        if parameter_derivative.dim() == 2:
+            derivative = 0.5 * torch.trace(inner @ parameter_derivative).unsqueeze(-1)
+        elif parameter_derivative.dim() == 3:
+            derivative = 0.5 * torch.einsum("ij,kji->k", inner, parameter_derivative)
         # minus sign, since goal is to maximise the log_marginal_likelihood
         return -derivative
     
@@ -153,7 +158,7 @@ class GaussianProcessRegressor:
 
         for epoch in range(epochs):
             # calculate the derivatives
-            self.covariance_function.update(self.derivative, self.X)
+            self.covariance_function.update(self._derivative, self.X)
 
             # update the parameters
             optimiser.update_parameters()

@@ -7,13 +7,18 @@ from ....DeepLearning.Optimisers._BaseOptimiser import BaseOptimiser
 from ....Exceptions import NotFittedError
 
 
+LAMBDAS = torch.tensor([0.41, 0.4, 0.37, 0.44, 0.39]).unsqueeze(-1)
+COEFS = torch.tensor([-1854.8214151, 3516.89893646, 221.29346712, 128.12323805, -2010.49422654]).unsqueeze(-1)
+
+
 class GaussianProcessClassifier:
     """
-    Implements the Gaussian process classification model for binary classes. This model can be extended to multiclass classification by OvO or OvR. This implementation is adapted from the sklearn implementation and is based chapters 3 and 5 of on `this article <https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603>`_. The "smo"-optimization algorithm is based on `this book <https://gaussianprocess.org/gpml/chapters/RW.pdf>`_.
+    Implements the Gaussian process classification model for binary classes. This model can be extended to multiclass classification by OvO or OvR. This implementation is adapted from the sklearn implementation and is based chapters 3 and 5 of on `this book <https://gaussianprocess.org/gpml/chapters/RW.pdf>`_.
 
     Args:
         covariance_function (:ref:`kernel_section_label`, optional): The kernel function expressing how similar are different samples.
         noise (int | float, optional): The artificially added noise to the model. Is added as variance to each sample. Must be non-negative. Defaults to 0.
+        n_iter_laplace_mode (int, optional): The max amount of Newton iterations used to find the mode of the Laplace approximation. Must be a positive integer. Defaults to 100.
         epsilon (float, optional): Implemented similarly to noise. Makes sure the covariance matrix is positive definite and hence invertible. Must be positive. Defaults to 1e-5. If one gets a RunTimeError for a matrix not being invertible, one should increase this parameter.
         device (torch.device, optional): The device of all matrices. Defaults to torch.device("cpu").
         
@@ -24,7 +29,9 @@ class GaussianProcessClassifier:
         if not isinstance(covariance_function, _Base):
             raise TypeError("covariance_function must be from DLL.MachineLearning.Supervisedlearning.Kernels.")
         if not isinstance(noise, int | float) or noise < 0:
-            raise ValueError("noise must b non-negative.")
+            raise ValueError("noise must be non-negative.")
+        if not isinstance(n_iter_laplace_mode, int) or n_iter_laplace_mode <= 0:
+            raise ValueError("n_iter_laplace_mode must be a positive integer.")
         if not isinstance(epsilon, int | float) or epsilon <= 0:
             raise ValueError("epsilon must be positive.")
         if not isinstance(device, torch.device):
@@ -119,13 +126,10 @@ class GaussianProcessClassifier:
         v = torch.linalg.solve(self._L, self._W_sr.unsqueeze(-1) * K)
         var_f_star = torch.diag(self._get_covariance_matrix(X, X)) - torch.diag(v.T @ v)
 
-        LAMBDAS = torch.tensor([0.41, 0.4, 0.37, 0.44, 0.39]).unsqueeze(-1)
-        COEFS = torch.tensor([-1854.8214151, 3516.89893646, 221.29346712, 128.12323805, -2010.49422654]).unsqueeze(-1)
         alpha = 1 / (2 * var_f_star)
         gamma = LAMBDAS * f_star
         integrals = torch.sqrt(torch.pi / alpha) * torch.erf(gamma * torch.sqrt(alpha / (alpha + LAMBDAS ** 2))) / (2 * torch.sqrt(var_f_star * 2 * torch.pi))
         pi_star = (COEFS * integrals).sum(axis=0) + 0.5 * COEFS.sum()
-        # return torch.vstack((1 - pi_star, pi_star)).T
         return pi_star
     
     def log_marginal_likelihood(self):
@@ -162,19 +166,34 @@ class GaussianProcessClassifier:
         self._f_cached = f
         return log_marginal_likelihood, (pi, W_sr, L, b, a)
     
-    def derivative(self, parameter_derivative):
+    def _derivative(self, parameter_derivative):
         K = self.prior_covariance_matrix
         _, (pi, W_sr, L, b, a) = self._posterior_mode()
         R = W_sr.unsqueeze(-1) * torch.cholesky_solve(torch.diag(W_sr), L)
         C = torch.linalg.solve(L, W_sr.unsqueeze(-1) * K)
         s_2 = -0.5 * (torch.diag(K) - torch.diag(C.T @ C)) * (pi * (1 - pi) * (1 - 2 * pi))
-        C = parameter_derivative
-        s_1 = 0.5 * (a @ C) @ a - 0.5 * R.T.ravel() @ C.ravel()
-        b = C @ (self.Y - pi)
-        s_3 = b - K @ (R @ b)
-        derivative = s_1 + s_2 @ s_3
-        # minus sign, since goal is to maximise the log_marginal_likelihood
-        return -derivative.unsqueeze(-1)
+        if parameter_derivative.ndim == 2:
+            C = parameter_derivative
+            s_1 = 0.5 * (a @ C) @ a - 0.5 * R.T.ravel() @ C.ravel()
+            b = C @ (self.Y - pi)
+            s_3 = b - K @ (R @ b)
+            derivative = (s_1 + s_2 @ s_3).unsqueeze(-1)
+        else:
+            d = parameter_derivative.shape[0]
+            a = a.view(1, -1)
+            s_1 = 0.5 * (a @ parameter_derivative @ a.transpose(1, 0)).squeeze()
+            s_1 -= 0.5 * (R.ravel() * parameter_derivative.view(d, -1)).sum(dim=1)
+
+            Y_minus_pi = (self.Y - pi).unsqueeze(0)
+            b = torch.matmul(parameter_derivative, Y_minus_pi.unsqueeze(-1)).squeeze(-1)
+            Rb = (R.T @ b.T).T
+            s_3 = b - (K @ Rb.T).T
+
+            s_2 = s_2.unsqueeze(0)
+            s_2_s_3 = (s_2 * s_3).sum(dim=1)
+
+            derivative = s_1 + s_2_s_3
+        return -derivative
     
     def train_kernel(self, epochs=10, optimiser=None, callback_frequency=1, verbose=False):
         """
@@ -210,7 +229,7 @@ class GaussianProcessClassifier:
 
         for epoch in range(epochs):
             # calculate the derivatives
-            self.covariance_function.update(self.derivative, self.X)
+            self.covariance_function.update(self._derivative, self.X)
 
             # update the parameters
             optimiser.update_parameters()
