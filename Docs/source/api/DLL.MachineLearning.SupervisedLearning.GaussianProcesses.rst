@@ -8,3 +8,12 @@ GaussianProcessRegressor
    :members:
    :undoc-members:
    :show-inheritance:
+
+GaussianProcessClassifier
+----------------------------------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.SupervisedLearning.GaussianProcesses.GaussianProcessClassifier
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
