@@ -26,7 +26,10 @@ from DLL.Data.Metrics import accuracy
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-n = 100  # 60000
+torch.manual_seed(0)
+torch.cuda.manual_seed(0)
+
+n = 512  # 60000
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
 train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:n]
 train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:n]
@@ -59,10 +62,10 @@ model.add(Flatten())
 # model.add(Reshape(800))
 model.add(Dense(200, activation=ReLU()))
 model.add(Dense(10, activation=SoftMax()))
-model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=(EarlyStopping(restore_best_model=True, patience=3),))
+model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=(EarlyStopping(patience=3),))
 model.summary()
 
-history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=25, batch_size=4096, verbose=True)
+history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=25, batch_size=256, verbose=True)
 
 plt.figure(figsize=(8, 6))
 plt.subplot(1, 2, 1)
