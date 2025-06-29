@@ -28,10 +28,10 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 n = 100  # 60000
 (train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.mnist.load_data()
-train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:100]
-train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:100]
-test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:100]
-test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:100]
+train_images = torch.from_numpy(train_images).to(dtype=torch.float32, device=device).reshape(60000, 1, 28, 28)[:n]
+train_labels = torch.from_numpy(train_labels).to(dtype=torch.float32, device=device)[:n]
+test_images = torch.from_numpy(test_images).to(dtype=torch.float32, device=device).reshape(10000, 1, 28, 28)[:n]
+test_labels = torch.from_numpy(test_labels).to(dtype=torch.float32, device=device)[:n]
 train_images = train_images / train_images.max()
 test_images = test_images / test_images.max()
 
@@ -54,7 +54,7 @@ model.add(MaxPooling2D(pool_size=2))
 # model.add(InstanceNorm())
 # model.add(LayerNorm())
 model.add(GroupNorm(num_groups=16))
-model.add(Dropout(p=0.5))
+model.add(Dropout(p=0.2))
 model.add(Flatten())
 # model.add(Reshape(800))
 model.add(Dense(200, activation=ReLU()))
