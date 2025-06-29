@@ -1,6 +1,6 @@
 """
 Gaussian Process Classification (GPC)
-===================================
+======================================
 
 This script demonstrates the use of a Gaussian Process Classification (GPC) 
 model with a the RBF kernel on generated data. The model is trained using 
