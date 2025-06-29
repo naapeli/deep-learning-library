@@ -228,6 +228,8 @@ class GaussianProcessClassifier:
         history = {"log marginal likelihood": torch.zeros(floor(epochs / callback_frequency))}
 
         for epoch in range(epochs):
+            optimiser.zero_grad()
+
             # calculate the derivatives
             self.covariance_function.update(self._derivative, self.X)
 
