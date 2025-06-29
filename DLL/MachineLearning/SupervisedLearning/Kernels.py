@@ -185,8 +185,8 @@ class RBF(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad += derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
 
     def parameters(self):
         """
@@ -311,8 +311,8 @@ class Linear(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_sigma_bias = self.derivative_sigma_bias(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
-        self.sigma_bias.grad = derivative_function(derivative_covariance_sigma_bias).to(dtype=self.sigma_bias.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.sigma_bias.grad += derivative_function(derivative_covariance_sigma_bias).to(dtype=self.sigma_bias.dtype)
 
     def parameters(self):
         """
@@ -405,7 +405,7 @@ class WhiteGaussian(_Base):
         """
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
 
     def parameters(self):
         """
@@ -550,9 +550,9 @@ class Periodic(_Base):
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         derivative_covariance_period = self.derivative_period(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
-        self.period.grad = derivative_function(derivative_covariance_period).to(dtype=self.period.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad += derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.period.grad += derivative_function(derivative_covariance_period).to(dtype=self.period.dtype)
 
     def parameters(self):
         """
@@ -697,9 +697,9 @@ class RationalQuadratic(_Base):
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
         derivative_covariance_alpha = self.derivative_alpha(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
-        self.alpha.grad = derivative_function(derivative_covariance_alpha).to(dtype=self.alpha.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad += derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.alpha.grad += derivative_function(derivative_covariance_alpha).to(dtype=self.alpha.dtype)
 
     def parameters(self):
         """
@@ -838,8 +838,8 @@ class Matern(_Base):
         derivative_covariance_sigma = self.derivative_sigma(X, X)
         derivative_covariance_corr_len = self.derivative_corr_len(X, X)
 
-        self.sigma.grad = derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
-        self.correlation_length.grad = derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
+        self.sigma.grad += derivative_function(derivative_covariance_sigma).to(dtype=self.sigma.dtype)
+        self.correlation_length.grad += derivative_function(derivative_covariance_corr_len).to(dtype=self.correlation_length.dtype)
 
     def parameters(self):
         """
