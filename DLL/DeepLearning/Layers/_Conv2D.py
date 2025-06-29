@@ -46,12 +46,13 @@ class Conv2D(BaseLayer):
         self.input_depth = input_depth
         self.output_shape = (self.output_depth, input_height - self.kernel_size + 1, input_width - self.kernel_size + 1)
         self.kernels_shape = (self.output_depth, input_depth, self.kernel_size, self.kernel_size)
-        self.nparams = np.prod(self.kernels_shape) + np.prod(self.output_shape)
+        self.nparams = np.prod(self.kernels_shape) + self.output_depth
         
         super().initialise_layer(input_shape, data_type, device)
 
         self.kernels = self.initialiser.initialise(self.kernels_shape, data_type=self.data_type, device=self.device)
-        self.biases = torch.zeros(self.output_shape)
+        # self.biases = torch.zeros(self.output_shape)
+        self.biases = torch.zeros((self.output_depth,), dtype=self.data_type, device=self.device)
         
         if self.activation:
             self.activation.initialise_layer(self.output_shape, self.data_type, self.device)
@@ -87,11 +88,12 @@ class Conv2D(BaseLayer):
 
         batch_size = input.shape[0]
         self.input = input
-        self.output = self.biases.clone().repeat(batch_size, 1, 1, 1)
+        self.output = torch.zeros((batch_size, *self.output_shape), dtype=self.data_type, device=self.device)
         for i in range(self.output_depth):
             for j in range(self.input_depth):
                 conv_output = F.conv2d(input[:, j:j+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding="valid")
                 self.output[:, i, :, :] += conv_output[:, 0, :, :]
+        self.output += self.biases.view(1, -1, 1, 1)
                 
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)
@@ -122,7 +124,7 @@ class Conv2D(BaseLayer):
                 kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], dCdy[:, i:i+1, :, :], padding="valid")[0, 0, :, :]
                 dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=(2, 3)), padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
                 
-        self.biases.grad += dCdy.mean(dim=0)
+        self.biases.grad += dCdy.mean(dim=(0, 2, 3))
         self.kernels.grad += kernel_gradient / batch_size
         return dCdx
     
