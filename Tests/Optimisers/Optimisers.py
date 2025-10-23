@@ -12,6 +12,7 @@ Rosenbrock function, a well-known test problem in optimization.
     - **ADAGRAD** (Adaptive Gradient Algorithm)
     - **ADADELTA** (Adaptive Delta)
     - **RMSPROP** (Root Mean Square Propagation)
+    - **BFGS** (Broyden-Fletcher-Goldfarb-Shanno Algorithm)
 """
 
 import torch
