@@ -10,20 +10,16 @@ class LBFGS(BaseOptimiser):
 
     Args:
         loss (Callable[[], float]): The target function. For a deep learning model, one could use eg. lambda: model.loss.loss(model.predict(x_train), y_train).
-        learning_rate (float, optional): The learning rate of the optimiser. Must be positive. Defaults to 0.001.
         history_size (int, optional): The number of old changes in position and gradient stored. Must be a non-negative integer. Defaults to 10.
         maxiterls (int, optional): The maximum number of iterations in the line search. Must be a non-negative integer. Defaults to 20.
     """
-    def __init__(self, loss, learning_rate=0.001, history_size=10, maxiterls=20):
-        if not isinstance(learning_rate, int | float) or learning_rate <= 0:
-            raise ValueError("learning_rate must be a positive real number.")
+    def __init__(self, loss, history_size=10, maxiterls=20):
         if not isinstance(history_size, int) or history_size < 0:
             raise ValueError("history_size must be a non-negative integer.")
         if not isinstance(maxiterls, int) or maxiterls < 0:
             raise ValueError("maxiterls must be a non-negative integer.")
         
         self.loss = loss
-        self.learning_rate = learning_rate
         self.history_size = history_size
         self.maxiterls = maxiterls
     
@@ -42,7 +38,6 @@ class LBFGS(BaseOptimiser):
         self.s_history = [deque([], maxlen=self.history_size) for _ in model_parameters]
         self.y_history = [deque([], maxlen=self.history_size) for _ in model_parameters]
         self.prevs = [param.clone() for param in model_parameters]
-        self.prev_Bs = [torch.ones_like(param.flatten()) for param in model_parameters]
     
     def update_parameters(self):
         """
@@ -62,13 +57,11 @@ class LBFGS(BaseOptimiser):
                 self.s_history[i].append(s)  # automatically pops the oldest values as maxlen is spesified for the deque
                 self.y_history[i].append(y)  # automatically pops the oldest values as maxlen is spesified for the deque
 
-            Bs = self.learning_rate * self._recursion_two_loops(i)
-
-            learning_rate = self._line_search(param, Bs)
-            param -= learning_rate * Bs.view_as(param)
+            direction = self._recursion_two_loops(i)
+            learning_rate = self._line_search(param, direction)
+            param -= learning_rate * direction.view_as(param)
             
             self.prevs[i] = current
-            self.prev_Bs[i] = Bs
     
     def _recursion_two_loops(self, i):
         q = self.model_parameters[i].grad.clone().flatten()
@@ -94,27 +87,42 @@ class LBFGS(BaseOptimiser):
             r += (alphas[j] - beta) * s
         return r
     
+    def _loss_param(self, param, new_value):
+        param.data = new_value
+        loss = self.loss()
+        return loss
+    
     def _line_search(self, param, direction):
-        step = 1.0
-        initial_func_value = self.loss()
-        grad_dot_direction = torch.sum(param.grad.flatten() * direction)
+        invphi = 2 / (1 + 5 ** 0.5)
+
+        a, b = 0.0, 10.0
+        tol = 1e-5
+
         orig_param = param.clone()
-        c = 1e-4
-        
+        direction = direction.view_as(orig_param)
+
+        l = a + (1 - invphi) * (b - a)
+        mu = a + invphi * (b - a)
+
+        loss_l = self._loss_param(param, orig_param - l * direction)
+        loss_mu = self._loss_param(param, orig_param - mu * direction)
+
         iter = 0
-        while iter < self.maxiterls:
-            new_param_value = orig_param - step * direction.view_as(orig_param)
-            param.data = new_param_value
-            new_func_value = self.loss()
-            
-            # Does not include the other wolfe condition as it requires us to calculate the gradient of the parameter
-            # at the new point, which is only possible to calculate using finite differences with current architecture.
-            if new_func_value <= initial_func_value + c * step * grad_dot_direction:
-                break
+        while b - a > tol and iter < self.maxiterls:
+            if loss_l > loss_mu:
+                a = l
+                l = mu
+                mu = a + invphi * (b - a)
+                loss_l = loss_mu
+                loss_mu = self._loss_param(param, orig_param - mu * direction)
             else:
-                step *= 0.5
-            
+                b = mu
+                mu = l
+                l = a + (1 - invphi) * (b - a)
+                loss_mu = loss_l
+                loss_l = self._loss_param(param, orig_param - l * direction)
             iter += 1
-        
+
+        step = (a + b) / 2
         param.data = orig_param.data
         return step
