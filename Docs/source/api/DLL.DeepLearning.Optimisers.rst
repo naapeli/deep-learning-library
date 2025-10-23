@@ -50,3 +50,10 @@ LBFGS
    :members:
    :undoc-members:
    :show-inheritance:
+
+BFGS
+--------------------
+.. autoclass:: DLL.DeepLearning.Optimisers.BFGS
+   :members:
+   :undoc-members:
+   :show-inheritance:
