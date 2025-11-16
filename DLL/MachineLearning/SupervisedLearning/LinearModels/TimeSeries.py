@@ -1,6 +1,9 @@
 import torch
+import numpy as np
+from scipy.optimize import minimize
+from scipy.stats import norm
 
-from . import LinearRegression
+from ....Exceptions import NotFittedError
 
 
 class SARIMA:
@@ -31,57 +34,28 @@ class SARIMA:
         self._discarded = {}
         if self.d > 0: series = self._differentiate(series, order=self.d)
         if self.D > 0: series = self._differentiate(series, lag=self.S, order=self.D)
-        self.diff_series = series
+        self.diff_series = series.numpy()
 
         min_length = max(self.p, self.q, self.P * self.S, self.Q * self.S)
         if len(self.diff_series) <= min_length:
             raise ValueError(f"Differentiated series' length {len(self.diff_series)} is less than or equal minimum required length {min_length} for the given orders.")
-
-    def fit(self):
-        """
-        Fits the ARMA model to the given time series. Currently, the function fits two linear regression models separately for the AR and MA components.
-
-        Note:
-            This approach is suboptimal for the MA component, as it should be fitted using Kalman filters for correctness.
-        """
-        residuals = self._fit_ar()
-        self._fit_ma(residuals)
     
-    def _fit_ar(self):
-        X, y = self._train_data(part="ar")
-
-        self.ar_model = LinearRegression()
-        self.ar_model.fit(X, y)
-        return y - self.ar_model.predict(X)
-
-    def _fit_ma(self, residuals):
-        X, _ = self._train_data(part="ma")
-        length = min(len(X), len(residuals))
-        X, residuals = X[-length:], residuals[-length:]
-
-        self.ma_model = LinearRegression()
-        self.ma_model.fit(X, residuals)
+    def _expand_seasonal_poly(self, coefs):
+        poly = np.array([1.0])
+        for i, c in enumerate(coefs, 1):
+            p = np.zeros(i * self.S + 1)
+            p[0] = 1.0
+            p[i * self.S] = c
+            poly = np.convolve(poly, p)
+        return poly
     
-    def _train_data(self, part):
-        if part == "ar":
-            X_series, X_targets = self._lagged_terms(order=self.p)
-            seasonal_X_series, seasonal_X_targets = self._lagged_terms(order=self.P, lag=self.S)
-        elif part == "ma":
-            X_series, X_targets = self._lagged_terms(order=self.q)
-            seasonal_X_series, seasonal_X_targets = self._lagged_terms(order=self.Q, lag=self.S)
-        length = min(len(X_series), len(seasonal_X_series))
-        X = torch.cat((X_series[-length:], seasonal_X_series[-length:]), dim=1)
-        y = X_targets if len(X_targets) < len(seasonal_X_targets) else seasonal_X_targets
-        return X, y
-
-    def _lagged_terms(self, order, lag=1):
-        points = []
-        for i in range(lag * order, len(self.diff_series)):
-            indicies = i - lag * torch.arange(1, order + 1)
-            features = self.diff_series[indicies]
-            points.append(features)
-        targets = self.diff_series[lag * order:]
-        return torch.stack(points, dim=0), targets
+    def _difference_series(self, y):
+        z = np.array(y, dtype=float)
+        for _ in range(self.d):
+            z = np.diff(z, n=1)
+        for _ in range(self.D):
+            z = z[self.S:] - z[:-self.S]
+        return z
 
     def _differentiate(self, series, lag=1, order=1):
         discarded = []
@@ -90,58 +64,195 @@ class SARIMA:
             series = series[lag:] - series[:-lag]
         self._discarded[lag] = torch.stack(discarded, dim=0)
         return series
+    
+    def _arma_state_space(self, phi, theta):
+        p = len(phi)
+        q = len(theta)
+        r = max(p, q + 1)
+        T = np.zeros((r, r))
+        if p > 0:
+            T[0, :p] = phi
+        if r > 1:
+            T[1:, :-1] = np.eye(r - 1)
+        Z = np.zeros((1, r)); Z[0, 0] = 1.0
+        R = np.zeros((r, 1)); R[0, 0] = 1.0
+        for i in range(1, min(q + 1, r)):
+            R[i, 0] = theta[i - 1]
+        return T, Z, R, r
+
+    def _kalman_loglik(self, phi, theta, sigma2):
+        T, Z, R, r = self._arma_state_space(phi, theta)
+        n = len(self.diff_series)
+        a = np.zeros((r, 1))
+        P = np.eye(r) * 1e6
+        loglik = 0.0
+        fitted = np.zeros(n)
+        for t in range(n):
+            a_pred = T @ a
+            P_pred = T @ P @ T.T + (R @ R.T) * sigma2
+            v = self.diff_series[t] - (Z @ a_pred).item()
+            f = (Z @ P_pred @ Z.T).item()
+            f = max(f, 1e-9)
+            K = (P_pred @ Z.T) / f
+            a = a_pred + K * v
+            P = P_pred - K @ (Z @ P_pred)
+            loglik += -0.5 * (np.log(2 * np.pi * f) + v ** 2 / f)
+            fitted[t] = (Z @ a_pred).item()
+        return loglik, fitted
+    
+    def _sarima_loglik(self, phi, theta, Phi, Theta, sigma2):
+        phi_ns = np.r_[1, -np.array(phi)] if len(phi) > 0 else np.array([1.0])
+        theta_ns = np.r_[1, np.array(theta)] if len(theta) > 0 else np.array([1.0])
+        Phi_seas = np.r_[1, -np.array(Phi)] if len(Phi) > 0 else np.array([1.0])
+        Theta_seas = np.r_[1, np.array(Theta)] if len(Theta) > 0 else np.array([1.0])
+        phi_full = np.convolve(phi_ns, self._expand_seasonal_poly(Phi_seas[1:]))
+        theta_full = np.convolve(theta_ns, self._expand_seasonal_poly(Theta_seas[1:]))
+        phi_final = -phi_full[1:]
+        theta_final = theta_full[1:]
+        ll, fit = self._kalman_loglik(phi_final, theta_final, sigma2)
+        return ll, fit
+    
+    def _neg_loglik(self, params):
+            i = 0
+            phi = params[i:i + self.p]
+            i += self.p
+            theta = params[i:i + self.q]
+            i += self.q
+            Phi = params[i:i + self.P]
+            i += self.P
+            Theta = params[i:i + self.Q]
+            i += self.Q
+            sigma2 = np.exp(params[-1])
+            ll, _ = self._sarima_loglik(phi, theta, Phi, Theta, sigma2)
+            return -ll
+
+    def fit(self):
+        """
+        Fits the ARMA model to the given time series. Currently, the function fits two linear regression models separately for the AR and MA components.
+
+        Note:
+            Due to some bug, this suffers from instability if the series is long.
+        """
+        init_params = np.r_[np.zeros(self.p + self.q + self.P + self.Q), np.log(1.0)]
+
+        res = minimize(self._neg_loglik, init_params, method="L-BFGS-B")
+        
+        params = res.x
+        self.phi = params[0:self.p]
+        self.theta = params[self.p:self.p + self.q]
+        self.Phi = params[self.p + self.q:self.p + self.q + self.P]
+        self.Theta = params[self.p + self.q + self.P:self.p + self.q + self.P + self.Q]
+        self.sigma2 = np.exp(params[-1])
+    
+        self.loglikelihood, self.fitted_values = self._sarima_loglik(self.phi, self.theta, self.Phi, self.Theta, self.sigma2)
+
+    def summary(self):
+        if not hasattr(self, "phi"):
+            raise NotFittedError("One must call model.fit() before computing the summary")
+        
+        return f"Model:          ({self.p}, {self.d}, {self.q})x({self.P}, {self.D}, {self.Q}, {self.S})\nar:             {[round(p.item(), 3) for p in self.phi]}\nma:             {[round(p.item(), 3) for p in self.theta]}\nar.S:           {[round(p.item(), 3) for p in self.Phi]}\nma.S:           {[round(p.item(), 3) for p in self.Theta]}\nsigma2:         {self.sigma2:.3f}\nLog Likelihood: {self.loglikelihood:.3f}"
 
     def _integrate(self, differenced, lag=1, order=1):
+        z = np.array(differenced, dtype=float)
         for j in range(order):
-            restored = torch.zeros(len(differenced) + lag)
-            restored[:lag] = self._discarded[lag][-j - 1]
+            # restored length = len(z) + lag
+            restored = np.zeros(len(z) + lag, dtype=float)
+            # pick the correct discarded values (stack of shape (order, lag))
+            init = self._discarded[lag][-j - 1].numpy().astype(float)
+            restored[:lag] = init
             for i in range(lag, len(restored)):
-                restored[i] = differenced[i - lag] + restored[i - lag]
-            differenced = restored
-        return differenced
+                restored[i] = z[i - lag] + restored[i - lag]
+            z = restored
+        return z
 
-    def predict(self, steps=1, fit_between_steps=False):
+    def _integrate_var(self, var_differenced, lag=1, order=1):
+        v = np.array(var_differenced, dtype=float)
+        for _ in range(order):
+            restored_var = np.zeros(len(v) + lag, dtype=float)
+            # historical initial lag variances are zero (observations known)
+            for i in range(lag, len(restored_var)):
+                restored_var[i] = v[i - lag] + restored_var[i - lag]
+            v = restored_var
+        return v
+
+    def predict(self, n_ahead, alpha=0.05):
         """
-        Predicts the next values of the given time series.
+        Predicts the future values of the series.
 
         Args:
-            steps (int, optional): The number of next values to predict. Must be a positive integer. Defaults to 1.
-            fit_between_steps (bool, optional): Determines if the model should be refitted between each prediction. Defaults to False.
-
-        Returns:
-            torch.Tensor: The predicted values as a one-dimensional torch Tensor.
+            n_ahead (int, optional): The number of next values to predict. Must be a positive integer. Defaults to 1.
         """
-        if not isinstance(steps, int) or steps <= 0:
-            raise ValueError("steps must be a positive integer.")
-        if not isinstance(fit_between_steps, bool):
-            raise TypeError("fit_between_steps must be a boolean.")
+        if not isinstance(n_ahead, int) or n_ahead <= 0:
+            raise ValueError("n_ahead must be a positive integer.")
+        if not hasattr(self, "phi"):
+            raise NotFittedError("One must call model.fit() before prediction")
 
-        diff_series = self.diff_series.clone()
-        original_diff_series = self.diff_series.clone()
-        for _ in range(steps):
-            pred = self._predict_next(diff_series)
-            diff_series = torch.cat((diff_series, pred), dim=0)
+        diff_hist = np.array(self.diff_series, dtype=float)
+        y_hist = list(diff_hist)
 
-            if fit_between_steps:
-                self.diff_series = diff_series
-                residuals = self._fit_ar()
-                self._fit_ma(residuals)
-        
-        if self.D > 0: diff_series = self._integrate(diff_series, lag=self.S, order=self.D)
-        if self.d > 0: diff_series = self._integrate(diff_series, order=self.d)
-        self.diff_series = original_diff_series
-        result = diff_series
-        return result[-steps:]
+        r = max(len(self.theta), len(self.Theta) * self.S, 1)
+        eps_hist = [0.0] * r
+        forecasts_diff = []
+        ma_coeffs = np.r_[1, self.theta]
+        if len(self.Theta) > 0:
+            seas_ma = np.zeros(self.S * len(self.Theta) + 1)
+            seas_ma[0] = 1
+            seas_ma[self.S * np.arange(1, len(self.Theta) + 1)] = self.Theta
+            ma_coeffs = np.convolve(ma_coeffs, seas_ma)
 
-    def _predict_next(self, diff_series):
-        indicies = -torch.arange(1, self.p + 1)
-        indicies = torch.cat((-self.S * torch.arange(1, self.P + 1), indicies), dim=0)
-        X_ar = diff_series[indicies].unsqueeze(0)
+        psi = ma_coeffs.copy()
+        forecasts_var_diff = np.zeros(n_ahead)
 
-        indicies = -torch.arange(1, self.q + 1)
-        indicies = torch.cat((-self.S * torch.arange(1, self.Q + 1), indicies), dim=0)
-        X_ma = diff_series[indicies].unsqueeze(0)
+        for t in range(n_ahead):
+            # AR part (on differenced series)
+            ar_part = sum(self.phi[i] * y_hist[-i - 1] for i in range(len(self.phi)))
+            ar_part += sum(self.Phi[i] * y_hist[-(i + 1) * self.S] for i in range(len(self.Phi)))
 
-        ar_pred = self.ar_model.predict(X_ar)
-        ma_correction = self.ma_model.predict(X_ma)
-        return ar_pred + ma_correction
+            # MA part (zero future epsilons)
+            ma_part = sum(self.theta[i] * eps_hist[-i - 1] for i in range(len(self.theta)))
+            ma_part += sum(self.Theta[i] * eps_hist[-(i + 1) * self.S] for i in range(len(self.Theta)))
+
+            y_next = ar_part + ma_part
+            y_hist.append(y_next)
+            eps_hist.append(0.0)
+            forecasts_diff.append(y_next)
+
+            # update psi (psi-weights for forecast variance)
+            if t >= len(ma_coeffs):
+                next_psi = 0.0
+                for j in range(len(self.phi)):
+                    if j < len(psi):
+                        next_psi += self.phi[j] * psi[-j - 1]
+                for j in range(len(self.Phi)):
+                    if (j + 1) * self.S <= len(psi):
+                        next_psi += self.Phi[j] * psi[-(j + 1) * self.S]
+                psi = np.append(psi, next_psi)
+
+            # variance in differenced space
+            forecasts_var_diff[t] = self.sigma2 * np.sum(psi[: t + 1] ** 2)
+
+        forecasts_diff = np.array(forecasts_diff, dtype=float)
+        forecast_var_diff = np.array(forecasts_var_diff, dtype=float)
+
+        combined_diff = np.concatenate([diff_hist, forecasts_diff])
+        combined_var_diff = np.concatenate([np.zeros(len(diff_hist), dtype=float), forecast_var_diff])
+
+        if self.D > 0:
+            combined_diff = self._integrate(combined_diff, lag=self.S, order=self.D)
+            combined_var = self._integrate_var(combined_var_diff, lag=self.S, order=self.D)
+        else:
+            combined_var = combined_var_diff.copy()
+
+        if self.d > 0:
+            combined_diff = self._integrate(combined_diff, lag=1, order=self.d)
+            combined_var = self._integrate_var(combined_var, lag=1, order=self.d)
+
+        restored_forecasts = combined_diff[-n_ahead:]
+        restored_var = combined_var[-n_ahead:]
+
+        z = norm.ppf(1 - alpha / 2)
+        ci_width = z * np.sqrt(restored_var)
+        lower = restored_forecasts - ci_width
+        upper = restored_forecasts + ci_width
+
+        return torch.from_numpy(restored_forecasts), torch.from_numpy(lower), torch.from_numpy(upper)
