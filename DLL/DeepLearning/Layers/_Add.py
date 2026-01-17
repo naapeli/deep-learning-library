@@ -24,7 +24,7 @@ class Add(BaseLayer):
         if not isinstance(normalisation, BaseRegularisation) and normalisation is not None:
             raise ValueError("normalisation must be from DLL.DeepLearning.Layers.Regularisation or None.")
 
-        super().__init__(layer1.output_shape, activation=activation, normalisation=normalisation, **kwargs)
+        super().__init__(output_shape=None, activation=activation, normalisation=normalisation, **kwargs)
         self.name = "Add"
         self.layer1 = layer1
         self.layer2 = layer2
@@ -33,13 +33,14 @@ class Add(BaseLayer):
         """
         :meta private:
         """
-        if self.layer1.output_shape is None and input_shape != self.layer2.output_shape:
-            raise ValueError(f"Layers must have the same output shape {input_shape} vs {self.layer2.output_shape}.")
-        if self.layer2.output_shape is None and input_shape != self.layer1.output_shape:
-            raise ValueError(f"Layers must have the same output shape {input_shape} vs {self.layer1.output_shape}.")
-
         self.layer1.initialise_layer(input_shape, data_type, device)
         self.layer2.initialise_layer(input_shape, data_type, device)
+
+        self.output_shape = self.layer1.output_shape
+
+        if self.layer2.output_shape != self.layer1.output_shape:
+            raise ValueError(f"Layers must have the same output shape {self.layer1.output_shape} vs {self.layer2.output_shape}.")
+
         super().initialise_layer(input_shape, data_type, device)
 
     def forward(self, input, training=False, **kwargs):
