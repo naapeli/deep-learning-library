@@ -47,5 +47,5 @@ class ReLU(Activation):
         if dCdy.shape != self.input.shape:
             raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output_shape}).")
 
-        dCdx = dCdy * (self.input > 0)
+        dCdx = dCdy * (self.input > 0).to(dCdy.dtype)
         return dCdx
