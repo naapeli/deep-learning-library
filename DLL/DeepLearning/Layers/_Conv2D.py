@@ -44,14 +44,19 @@ class Conv2D(BaseLayer):
         """
         input_depth, input_height, input_width = input_shape
         self.input_depth = input_depth
-        self.output_shape = (self.output_depth, input_height - self.kernel_size + 1, input_width - self.kernel_size + 1)
+        self.output_shape = (self.output_depth, input_height, input_width)
+        
+        pad_total = self.kernel_size - 1
+        self.pad_beg = pad_total // 2
+        self.pad_end = pad_total - self.pad_beg
+        self.padding_tuple = (self.pad_beg, self.pad_end, self.pad_beg, self.pad_end)
+
         self.kernels_shape = (self.output_depth, input_depth, self.kernel_size, self.kernel_size)
         self.nparams = np.prod(self.kernels_shape) + self.output_depth
         
         super().initialise_layer(input_shape, data_type, device)
 
         self.kernels = self.initialiser.initialise(self.kernels_shape, data_type=self.data_type, device=self.device)
-        # self.biases = torch.zeros(self.output_shape)
         self.biases = torch.zeros((self.output_depth,), dtype=self.data_type, device=self.device)
         
         if self.activation:
@@ -77,26 +82,24 @@ class Conv2D(BaseLayer):
             training (bool, optional): The boolean flag deciding if the model is in training mode. Defaults to False.
             
         Returns:
-            torch.Tensor of shape (n_samples, output_depth, height - kernel_size + 1, width - kernel_size + 1): The output tensor after the transformations with the spesified shape.
+            torch.Tensor of shape (n_samples, output_depth, input_height, input_width): The output tensor after the transformations with the spesified shape.
         """
         if not isinstance(input, torch.Tensor):
             raise TypeError("input must be a torch.Tensor.")
         if input.shape[1:] != self.input_shape:
-            raise ValueError(f"input is not the same shape as the spesified input_shape ({input.shape[1:], self.input_shape}).")
+            raise ValueError(f"input is not the same shape as the specified input_shape ({input.shape[1:], self.input_shape}).")
         if not isinstance(training, bool):
             raise TypeError("training must be a boolean.")
 
-        batch_size = input.shape[0]
         self.input = input
-        self.output = torch.zeros((batch_size, *self.output_shape), dtype=self.data_type, device=self.device)
-        for i in range(self.output_depth):
-            for j in range(self.input_depth):
-                conv_output = F.conv2d(input[:, j:j+1, :, :], self.kernels[i:i+1, j:j+1, :, :], padding="valid")
-                self.output[:, i, :, :] += conv_output[:, 0, :, :]
-        self.output += self.biases.view(1, -1, 1, 1)
-                
-        if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
-        if self.activation: self.output = self.activation.forward(self.output)
+        
+        self.output = F.conv2d(self.input, self.kernels, bias=self.biases, padding="same")
+
+        if self.normalisation: 
+            self.output = self.normalisation.forward(self.output, training=training)
+        if self.activation: 
+            self.output = self.activation.forward(self.output)
+            
         return self.output
     
     def backward(self, dCdy, **kwargs):
@@ -112,20 +115,29 @@ class Conv2D(BaseLayer):
         if not isinstance(dCdy, torch.Tensor):
             raise TypeError("dCdy must be a torch.Tensor.")
         if dCdy.shape[1:] != self.output_shape:
-            raise ValueError(f"dCdy is not the same shape as the spesified output_shape ({dCdy.shape[1:], self.output_shape}).")
+            raise ValueError(f"dCdy is not the same shape as the specified output_shape ({dCdy.shape[1:], self.output_shape}).")
 
-        if self.activation: dCdy = self.activation.backward(dCdy)
-        if self.normalisation: dCdy = self.normalisation.backward(dCdy)
-        kernel_gradient = torch.zeros_like(self.kernels, device=self.device, dtype=self.data_type)
-        dCdx = torch.zeros_like(self.input, device=self.device, dtype=self.data_type)
-        batch_size = self.input.shape[0]
-        for i in range(self.output_depth):
-            for j in range(self.input_depth):
-                kernel_gradient[i, j] = F.conv2d(self.input[:, j:j+1, :, :], dCdy[:, i:i+1, :, :], padding="valid")[0, 0, :, :]
-                dCdx[:, j] += F.conv2d(dCdy[:, i:i+1, :, :], torch.flip(self.kernels[i:i+1, j:j+1, :, :], dims=(2, 3)), padding=[self.kernel_size - 1, self.kernel_size - 1])[0, 0, :, :]
-                
-        self.biases.grad += dCdy.mean(dim=(0, 2, 3))
-        self.kernels.grad += kernel_gradient / batch_size
+        if self.activation: 
+            dCdy = self.activation.backward(dCdy)
+        if self.normalisation: 
+            dCdy = self.normalisation.backward(dCdy)
+        
+        self.biases.grad += dCdy.sum(dim=(0, 2, 3))
+
+        input_padded = F.pad(self.input, self.padding_tuple)
+        
+        input_permuted = input_padded.transpose(0, 1)
+        grad_permuted = dCdy.transpose(0, 1)
+
+        grad_kernels = F.conv2d(input_permuted, grad_permuted)
+        
+        self.kernels.grad += grad_kernels.transpose(0, 1)
+
+        dCdx_full = F.conv_transpose2d(dCdy, self.kernels, padding=0)
+        
+        height, width = self.input.shape[2], self.input.shape[3]
+        dCdx = dCdx_full[:, :, self.pad_beg : self.pad_beg + height, self.pad_beg : self.pad_beg + width]
+
         return dCdx
     
     def get_parameters(self):
