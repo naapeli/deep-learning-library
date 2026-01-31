@@ -15,15 +15,18 @@ class RandomForestClassifier:
         n_trees (int, optional): The number of trees used for predicting. Defaults to 10. Must be a positive integer.
         max_depth (int, optional): The maximum depth of the tree. Defaults to 10. Must be a positive integer.
         min_samples_split (int, optional): The minimum required samples in a leaf to make a split. Defaults to 2. Must be a positive integer.
+        ccp_alpha (non-negative float, optional): Determines how easily subtrees are pruned in cost-complexity pruning. The larger the value, more subtrees are pruned. Defaults to 0.0.
         n_jobs (int, optional): The number of parallel workers used to fit the model.
     """
-    def __init__(self, n_trees=10, max_depth=10, min_samples_split=2, criterion="gini", ccp_alpha=0, n_jobs=-1):
+    def __init__(self, n_trees=10, max_depth=10, min_samples_split=2, criterion="gini", ccp_alpha=0.0, n_jobs=-1):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(max_depth, int) or max_depth < 1:
             raise ValueError("max_depth must be a positive integer.")
         if not isinstance(min_samples_split, int) or min_samples_split < 1:
             raise ValueError("min_samples_split must be a positive integer.")
+        if not isinstance(ccp_alpha, int | float) or ccp_alpha < 0:
+            raise ValueError("ccp_alpha must be non-negative.")
         if not isinstance(n_jobs, int) or n_jobs <= -2 or n_jobs > os.cpu_count():
             raise ValueError("n_jobs must be an integer between -1 and os.cpu_count()")
         
@@ -37,7 +40,7 @@ class RandomForestClassifier:
 
     def _fit_single_tree(self, X, y):
         X_boot, y_boot = self._bootstrap_sample(X, y)
-        tree = DecisionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
+        tree = DecisionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, ccp_alpha=self.ccp_alpha)
         tree.fit(X_boot, y_boot)
         return tree
 
