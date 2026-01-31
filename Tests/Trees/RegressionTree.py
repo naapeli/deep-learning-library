@@ -28,8 +28,10 @@ x_test_rand_feats = torch.randint_like(x_test, 2)
 x_test = torch.cat([x_test, x_test_rand_feats], dim=1)
 y_pred = model.predict(x_test)
 
-model2 = RandomForestRegressor(n_trees=3)
+model2 = RandomForestRegressor(n_trees=50, max_depth=10)
+start = perf_counter()
 model2.fit(x, y)
+print(f"RandomForestRegressor time with {model2.n_trees} weak learners: {perf_counter() - start}")
 y_pred2 = model2.predict(x_test)
 
 model3 = GradientBoostingRegressor(n_trees=50, learning_rate=0.05, loss="absolute", max_depth=3)
@@ -72,7 +74,6 @@ plt.plot(x_test[:, 0].numpy(), y_pred6, color="pink", label="SKlearn AdaBoostReg
 plt.plot(x_test[:, 0].numpy(), y_pred7.numpy(), color="lightblue", label="XGBoostRegressor")
 plt.plot(x_test[:, 0].numpy(), y_pred8.numpy(), color="black", label="LGBMRegressor")
 plt.legend(loc="upper left")
-plt.show()
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 plt.subplots_adjust(hspace=0.5, wspace=0.5)
@@ -95,7 +96,6 @@ ax[3].plot(history8["loss"])
 ax[3].set_ylabel("Loss")
 ax[3].set_xlabel("Tree")
 ax[3].set_title("Light gradient boosting machine regressor")
-plt.show()
 
 n = 20
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32), torch.linspace(-1, 1, n, dtype=torch.float32), indexing="xy")
@@ -139,7 +139,6 @@ ax.scatter(x_test[:, 0], x_test[:, 1], z6, color="pink", label="SKlearn AdaBoost
 ax.scatter(x_test[:, 0], x_test[:, 1], z7, color="lightblue", label="XGBoostRegressor")
 ax.scatter(x_test[:, 0], x_test[:, 1], z8, color="black", label="LGBMRegressor")
 plt.legend(loc="upper left")
-plt.show()
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 plt.subplots_adjust(hspace=0.5, wspace=0.5)
