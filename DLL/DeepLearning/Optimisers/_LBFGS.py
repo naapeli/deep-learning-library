@@ -65,8 +65,8 @@ class LBFGS(BaseOptimiser):
     
     def _recursion_two_loops(self, i):
         q = self.model_parameters[i].grad.clone().flatten()
-        alphas = torch.zeros(self.history_size)
-        rhos = torch.tensor([1.0 / (self.y_history[i][j].flatten() @ self.s_history[i][j].flatten()) for j in range(self.history_size) if len(self.s_history[i]) > j])
+        alphas = torch.zeros(len(self.s_history[i]), dtype=q.dtype, device=q.device)
+        rhos = [1.0 / (y.flatten() @ s.flatten()) for s, y in zip(self.s_history[i], self.y_history[i])]
 
         for j, (s, y) in enumerate(zip(reversed(self.s_history[i]), reversed(self.y_history[i]))):
             j = len(self.s_history[i]) - j - 1
@@ -76,7 +76,7 @@ class LBFGS(BaseOptimiser):
         
         if len(self.s_history[i]) > 0:
             last_s, last_y = self.s_history[i][-1].flatten(), self.y_history[i][-1].flatten()
-            Hk_0 = (last_s @ last_y) / last_y @ last_y
+            Hk_0 = (last_s @ last_y) / (last_y @ last_y)
         else:
             Hk_0 = 1
         r = Hk_0 * q
