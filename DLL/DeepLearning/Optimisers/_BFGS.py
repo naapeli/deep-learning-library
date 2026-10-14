@@ -28,7 +28,7 @@ class BFGS(BaseOptimiser):
         self.model_parameters = model_parameters
         self.prevs = [param.clone() for param in model_parameters]
         self.prev_grads = [torch.zeros_like(param) for param in model_parameters]
-        self.Hs = [torch.eye(param.numel()) for param in model_parameters]
+        self.Hs = [torch.eye(param.numel(), dtype=param.dtype, device=param.device) for param in model_parameters]
 
     def update_parameters(self):
         """
