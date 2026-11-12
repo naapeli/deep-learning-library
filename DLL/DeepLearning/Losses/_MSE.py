@@ -62,7 +62,7 @@ class MSE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return 2 * (prediction - true_output) / prediction.shape[0]
+            return 2 * (prediction - true_output) / prediction.numel()
         return 2 * (prediction - true_output)
     
     def hessian(self, prediction, true_output):
@@ -82,5 +82,5 @@ class MSE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return torch.full((len(true_output),), 2 / prediction.shape[0])
+            return torch.full((len(true_output),), 2 / prediction.numel())
         return torch.full((len(true_output),), 2)

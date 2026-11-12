@@ -77,7 +77,7 @@ class Huber(BaseLoss):
         quadratic_grad = error
         linear_grad = self.delta * torch.sign(error)
         if self.reduction == "mean":
-            return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.shape[0]
+            return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.numel()
         return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad)
     
     def hessian(self, prediction, true_output):
@@ -100,5 +100,5 @@ class Huber(BaseLoss):
         quadratic_grad = torch.full((len(true_output),), 1)
         linear_grad = torch.full((len(true_output),), 0)
         if self.reduction == "mean":
-            return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.shape[0]
+            return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.numel()
         return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad)

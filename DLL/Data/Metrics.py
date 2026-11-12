@@ -9,7 +9,7 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
     Calculates the values of different metrics based on training predictions and true values.
 
     Args:
-        data (tuple[torch.Tensor, torch.Tensor]): A tuple of predictions and the true outputs of a model.
+        data (tuple[torch.Tensor, torch.Tensor]): A tuple of predictions and the true outputs of a model. The tensors must have the same shape. If they have more than 2 dimensions, for instance (n_samples, seq_len, n_classes), every position is treated as its own sample, i.e. the leading dimensions are flattened to a tensor of shape (n_samples * seq_len, n_classes) before calculating the metrics. The loss is calculated with the original tensors.
         metrics (tuple | list): A list metric names to calculate. Each element must be in ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber", "median_absolute"].
         loss (Callable[[predictions, true values], float], optional): The wanted loss function. If Defaults to None.
         validation (bool, optional): Determines if "val_" is appended before each metric. If true, the each element of the metrics must be for instance "val_loss" or "val_mse". Defaults to False.
@@ -24,8 +24,6 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
         raise TypeError("The elements of data must be torch tensors.")
     if true_output.shape != predictions.shape:
         raise ValueError("The shapes of the predictions and the output do not match.")
-    if true_output.ndim > 2 or predictions.ndim > 2:
-        raise ValueError(f"The shapes of the data are not 1 or 2 dimensional. Currently {true_output.ndim, predictions.ndim}.")
     available_metrics = ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber", "median_absolute"]
     if any([(metric[4:] if validation else metric) not in available_metrics for metric in metrics]):
         raise ValueError(f"Only the following metrics are supported {available_metrics}. Currently {metrics}.")
@@ -34,9 +32,13 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
 
     val = "val_" if validation else ""
     values = {}
+    original_predictions, original_true_output = predictions, true_output
+    if predictions.ndim > 2:
+        predictions = predictions.reshape(-1, predictions.shape[-1])
+        true_output = true_output.reshape(-1, true_output.shape[-1])
     for metric in metrics:
         if metric == (val + "loss") and loss is not None:
-            metric_value = loss(predictions, true_output).item()
+            metric_value = loss(original_predictions, original_true_output).item()
         elif metric == (val + "accuracy"):
             metric_value = accuracy(predictions, true_output)
         elif metric == (val + "precision"):

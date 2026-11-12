@@ -98,8 +98,8 @@ class Dense(BaseLayer):
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
         dCdx = dCdy @ self.weights.T
         dCdW = self.input.transpose(-1, -2) @ dCdy
-        self.weights.grad += torch.mean(dCdW, dim=tuple(range(self.input.ndim - 2))) if self.input.ndim > 2 else dCdW
-        self.biases.grad += torch.mean(dCdy, dim=tuple(range(self.input.ndim - 1))) if self.bias else torch.zeros_like(self.biases)
+        self.weights.grad += torch.sum(dCdW, dim=tuple(range(self.input.ndim - 2))) if self.input.ndim > 2 else dCdW
+        self.biases.grad += torch.sum(dCdy, dim=tuple(range(self.input.ndim - 1))) if self.bias else torch.zeros_like(self.biases)
         return dCdx
     
     def get_parameters(self):

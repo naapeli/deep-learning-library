@@ -64,7 +64,7 @@ class BCE(BaseLoss):
             raise ValueError("The classes must be labelled 0 and 1.")
 
         if self.reduction == "mean":
-            return (prediction - true_output) / ((prediction * (1 - prediction) + 1e-10) * prediction.shape[0])
+            return (prediction - true_output) / ((prediction * (1 - prediction) + 1e-10) * prediction.numel())
         return (prediction - true_output) / (prediction * (1 - prediction) + 1e-10)
     
     def hessian(self, prediction, true_output):
@@ -91,6 +91,6 @@ class BCE(BaseLoss):
         hess = first_term + second_term + third_term
 
         if self.reduction == "mean":
-            return hess / prediction.shape[0]
+            return hess / prediction.numel()
         return hess
         

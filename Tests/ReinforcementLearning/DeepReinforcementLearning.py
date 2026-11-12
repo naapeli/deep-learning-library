@@ -84,16 +84,16 @@ def epsilon_greedy_policy(state, agent, epsilon, action_space):
 env = gym.make("CartPole-v1")
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.n
-
-torch.manual_seed(1)
-
 hidden_dim = 64
-agent = Model(int(state_dim))
-agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
-agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
-agent.add(Dense(int(action_dim), initialiser=Xavier_Normal()))
-agent.compile(optimiser=RMSPROP(learning_rate=LR))  # default to MSE loss, The chosen optimiser affects the training results VERY much. ADAM and RMSPROP produce good results, while other optimisers fail to reach the optimum.
-replay_buffer = ReplayBuffer(MEMORY_SIZE)
+
+
+def build_agent():
+    agent = Model(int(state_dim))
+    agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
+    agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
+    agent.add(Dense(int(action_dim), initialiser=Xavier_Normal()))
+    agent.compile(optimiser=RMSPROP(learning_rate=LR))  # default to MSE loss, The chosen optimiser affects the training results VERY much. ADAM and RMSPROP produce good results, while other optimisers fail to reach the optimum.
+    return agent
 
 # %%
 # Training
@@ -103,91 +103,121 @@ replay_buffer = ReplayBuffer(MEMORY_SIZE)
 # the predicted Q-values towards :math:`r + \gamma \max_{a'} Q(s', a')` with a custom training loop. The reward
 # is shaped to keep the cart and the pole near the centre, and the training stops once the average reward of the
 # last 50 episodes exceeds 490.
+#
+# Deep Q-learning is sensitive to the random initialisation and to the random actions taken during the training,
+# so the agent is trained with three different random seeds.
 
-epsilon = EPSILON_START
-epsilon_decay = (EPSILON_START - EPSILON_END) / EPISODES
 
-rewards_memory = []
+def train_agent(seed):
+    torch.manual_seed(seed)
+    random.seed(seed)
+    env.action_space.seed(seed)
+    agent = build_agent()
+    replay_buffer = ReplayBuffer(MEMORY_SIZE)
+    epsilon = EPSILON_START
+    epsilon_decay = (EPSILON_START - EPSILON_END) / EPISODES
+    rewards_memory = []
 
-for episode in range(EPISODES):
-    state = env.reset(seed=episode)[0]
-    total_reward = 0
+    for episode in range(EPISODES):
+        state = env.reset(seed=seed * EPISODES + episode)[0]
+        total_reward = 0
 
-    step = 0
-    while True:
-        step += 1
-        action = epsilon_greedy_policy(state, agent, epsilon, env.action_space)
-        next_state, reward, done, truncated, info = env.step(action)
+        step = 0
+        while True:
+            step += 1
+            action = epsilon_greedy_policy(state, agent, epsilon, env.action_space)
+            next_state, reward, done, truncated, info = env.step(action)
 
-        old_state = state
-        state = next_state
-        total_reward += reward
+            old_state = state
+            state = next_state
+            total_reward += reward
 
-        if done or truncated:
-            if step < MAX_EPISODE_LENGTH:
-                reward = -5  # make the reward lower if the cart fails to balance or goes out-of-bounds.
-            if step == MAX_EPISODE_LENGTH:
-                reward = 5
+            if done or truncated:
+                if step < MAX_EPISODE_LENGTH:
+                    reward = -5  # make the reward lower if the cart fails to balance or goes out-of-bounds.
+                if step == MAX_EPISODE_LENGTH:
+                    reward = 5
+                replay_buffer.add((old_state, action, reward, next_state, done or truncated))
+                break
+
+            # Modify the reward to try to keep the pole in the center. These lines can be removed, however, they make the training faster and more stable.
+            # If these lines are included, the agent does not fail, whereas, if they are not, the agent might make a mistake. The mistake almost always
+            # after collecting 500 total reward, which was considerd to be good enough for the agent to stop the training.
+
+            # Locations
+            reward -= abs(state[0]) / 4.8
+            reward -= abs(state[2]) / 0.418
+
+            # Speeds
+            # reward -= abs(state[1]) / 5
+            # reward -= abs(state[3]) / 5
+
             replay_buffer.add((old_state, action, reward, next_state, done or truncated))
+
+        epsilon = max(EPSILON_END, epsilon - epsilon_decay)
+
+        # Train the model
+        if replay_buffer.size() >= BATCH_SIZE:
+            states, actions, rewards, next_states, dones = replay_buffer.sample(BATCH_SIZE)
+
+            agent.optimiser.zero_grad()
+
+            # Compute target Q-values
+            agent.eval()
+            next_q_values = agent.predict(next_states).max(dim=1)[0]
+            targets = rewards + GAMMA * next_q_values * (1 - dones)
+
+            # Compute current Q-values
+            agent.train()
+            q_values = agent.predict(states)
+            q_values = q_values.gather(1, actions.unsqueeze(1)).squeeze(1)
+
+            initial_gradient = agent.loss.gradient(q_values, targets)
+            gradient = torch.zeros((BATCH_SIZE, action_dim))
+            gradient[torch.arange(BATCH_SIZE), actions] = initial_gradient  # backpropagate through the q_values.gather line
+            agent.backward(gradient)
+            agent.optimiser.update_parameters()
+
+        rewards_memory.append(total_reward)
+        moving_average = sum(rewards_memory[-MOVING_AVERAGE:]) / MOVING_AVERAGE
+        if (episode + 1) % 500 == 0:
+            print(f"Seed {seed} | Episode {episode + 1} | Average reward of the last {MOVING_AVERAGE} episodes: {moving_average:.1f} / 500 | Epsilon: {epsilon:.2f}")
+
+        if moving_average > 490:
+            print(f"Seed {seed} | Average reward is over 490 after {episode + 1} episodes. The training is stopped.")
             break
-        
-        # Modify the reward to try to keep the pole in the center. These lines can be removed, however, they make the training faster and more stable.
-        # If these lines are included, the agent does not fail, whereas, if they are not, the agent might make a mistake. The mistake almost always
-        # after collecting 500 total reward, which was considerd to be good enough for the agent to stop the training.
+    else:
+        print(f"Seed {seed} | The average reward did not reach 490 in {EPISODES} episodes.")
+    return agent, rewards_memory
 
-        # Locations
-        reward -= abs(state[0]) / 4.8
-        reward -= abs(state[2]) / 0.418
 
-        # Speeds
-        # reward -= abs(state[1]) / 5
-        # reward -= abs(state[3]) / 5
-
-        replay_buffer.add((old_state, action, reward, next_state, done or truncated))
-
-    epsilon = max(EPSILON_END, epsilon - epsilon_decay)
-
-    # Train the model
-    if replay_buffer.size() >= BATCH_SIZE:
-        states, actions, rewards, next_states, dones = replay_buffer.sample(BATCH_SIZE)
-
-        agent.optimiser.zero_grad()
-
-        # Compute target Q-values
-        agent.eval()
-        next_q_values = agent.predict(next_states).max(dim=1)[0]
-        targets = rewards + GAMMA * next_q_values * (1 - dones)
-
-        # Compute current Q-values
-        agent.train()
-        q_values = agent.predict(states)
-        q_values = q_values.gather(1, actions.unsqueeze(1)).squeeze(1)
-
-        initial_gradient = agent.loss.gradient(q_values, targets)
-        gradient = torch.zeros((BATCH_SIZE, action_dim))
-        gradient[torch.arange(BATCH_SIZE), actions] = initial_gradient  # backpropagate through the q_values.gather line
-        agent.backward(gradient)
-        agent.optimiser.update_parameters()
-
-    rewards_memory.append(total_reward)
-    print(f"Episode {episode + 1} | Total Reward: {int(total_reward)} / 500 | Epsilon: {epsilon:.2f}")
-
-    if sum(rewards_memory[-MOVING_AVERAGE:]) / MOVING_AVERAGE > 490:
-        print("Average reward is over 490. The training is stopped.")
-        break
+seeds = [0, 1, 2]
+results = [train_agent(seed) for seed in seeds]
 
 # %%
 # Rewards during training
 # -----------------------
 #
-# The total reward of every episode and its moving average over 50 episodes.
+# The lines are the moving averages of the total reward over 50 episodes, and the shaded areas show the spread of
+# the actual rewards: the 10th to the 90th percentile of the same 50 episodes. The training of a seed stops early
+# once the moving average exceeds 490 (thin black line).
 
-# plot how the reward changed during training
-plt.plot(rewards_memory)
-plt.plot(np.arange(MOVING_AVERAGE - 1, len(rewards_memory)), np.convolve(rewards_memory, np.ones(MOVING_AVERAGE) / MOVING_AVERAGE, mode='valid'))
-plt.ylabel("Total reward")
+plt.figure(figsize=(10, 5))
+colors = ["#08306b", "#2171b5", "#6baed6"]
+for seed, (_, rewards_memory), color in zip(seeds, results, colors):
+    windows = np.lib.stride_tricks.sliding_window_view(np.array(rewards_memory), MOVING_AVERAGE)
+    episodes = np.arange(MOVING_AVERAGE, len(rewards_memory) + 1)
+    lower, upper = np.percentile(windows, [10, 90], axis=1)
+    plt.fill_between(episodes, lower, upper, color=color, alpha=0.15, linewidth=0)
+    plt.plot(episodes, windows.mean(axis=1), color=color, linewidth=2, label=f"seed {seed}")
+plt.axhline(490, color="black", linewidth=0.8, label="stopping threshold")
+plt.ylabel("Total reward per episode")
 plt.xlabel("Episode")
+plt.legend()
 plt.show()
+
+# the agent of the seed with the highest final moving average is used for the animation
+agent = max(results, key=lambda result: np.mean(result[1][-MOVING_AVERAGE:]))[0]
 
 # %%
 # Animating the agent

@@ -30,8 +30,8 @@ class CCE(BaseLoss):
         where :math:`f(x_i)` is the predicted value and :math:`y_i` is the true value.
 
         Args:
-            prediction (torch.Tensor): A tensor of predicted values as a probability distribution. Must be the same shape as the true_output.
-            true_output (torch.Tensor): A one-hot encoded tensor of true values. Must be the same shape as the prediction.
+            prediction (torch.Tensor): A tensor of predicted values as a probability distribution over the last dimension. Must be the same shape as the true_output.
+            true_output (torch.Tensor): A one-hot encoded tensor of true values. Must be the same shape as the prediction. If the tensors have more than 2 dimensions, for instance (n_samples, seq_len, n_classes), every position is treated as its own sample.
 
         Returns:
             torch.Tensor: A tensor containing a single value with the loss.
@@ -42,7 +42,7 @@ class CCE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
 
         if self.reduction == "mean":
-            return -torch.mean(torch.sum(true_output * torch.log(prediction + 1e-5), dim=1))
+            return -torch.mean(torch.sum(true_output * torch.log(prediction + 1e-5), dim=-1))
         return -torch.sum(true_output * torch.log(prediction + 1e-5))
 
     def gradient(self, prediction, true_output):
@@ -62,7 +62,7 @@ class CCE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return -true_output / ((prediction + 1e-5) * prediction.shape[0])
+            return -true_output / ((prediction + 1e-5) * (prediction.numel() // prediction.shape[-1]))
         return -true_output / (prediction + 1e-5)
     
     def hessian(self, prediction, true_output):
@@ -83,5 +83,5 @@ class CCE(BaseLoss):
 
         grad = true_output / (prediction ** 2 + 1e-5)
         if self.reduction == "mean":
-            return grad / prediction.shape[0]
+            return grad / (prediction.numel() // prediction.shape[-1])
         return grad

@@ -72,7 +72,7 @@ class Exponential(BaseLoss):
         true_output = 2 * true_output - 1
         grad = -2 * true_output * torch.exp(-prediction * true_output)
         if self.reduction == "mean":
-            return grad / prediction.shape[0]
+            return grad / prediction.numel()
         return grad
     
     def hessian(self, prediction, true_output):
@@ -97,5 +97,5 @@ class Exponential(BaseLoss):
         true_output = 2 * true_output - 1
         grad = 4 * true_output ** 2 * torch.exp(-prediction * true_output)
         if self.reduction == "mean":
-            return grad / prediction.shape[0]
+            return grad / prediction.numel()
         return grad

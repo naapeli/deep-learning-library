@@ -179,11 +179,11 @@ class LSTM(BaseLayer):
         _, seq_len, _ = self.input.size()
 
         if self.return_last: self.wy.grad += self.hidden_states[seq_len - 1].T @ dCdy
-        if self.return_last: self.by.grad += torch.mean(dCdy, axis=0)
+        if self.return_last: self.by.grad += torch.sum(dCdy, axis=0)
 
         for t in reversed(range(seq_len)):
             if not self.return_last: self.wy.grad += self.hidden_states[t].T @ dCdy[:, t]
-            if not self.return_last: self.by.grad += torch.mean(dCdy[:, t], axis=0)
+            if not self.return_last: self.by.grad += torch.sum(dCdy[:, t], axis=0)
             dCdh_t = dCdh_next + dCdy[:, t] @ self.wy.T if not self.return_last else dCdh_next # hidden state
 
             dCdo = self._tanh(self.cell_states[t]) * dCdh_t # output
@@ -224,10 +224,10 @@ class LSTM(BaseLayer):
             self.ui.grad += self.hidden_states[t - 1].T @ dCdsig_i
             self.uf.grad += self.hidden_states[t - 1].T @ dCdsig_f
 
-            self.bo.grad += torch.mean(dCdsig_o, dim=0)
-            self.bc.grad += torch.mean(dCdsig_c, dim=0)
-            self.bi.grad += torch.mean(dCdsig_i, dim=0)
-            self.bf.grad += torch.mean(dCdsig_f, dim=0)
+            self.bo.grad += torch.sum(dCdsig_o, dim=0)
+            self.bc.grad += torch.sum(dCdsig_c, dim=0)
+            self.bi.grad += torch.sum(dCdsig_i, dim=0)
+            self.bf.grad += torch.sum(dCdsig_f, dim=0)
         return dCdx
     
     def _sigmoid(self, input, derivative=False):
