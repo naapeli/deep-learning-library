@@ -10,6 +10,14 @@ KMeans
    :undoc-members:
    :show-inheritance:
 
+e-means
+-----------------------------------------------------------------
+
+.. autoclass:: DLL.MachineLearning.UnsupervisedLearning.Clustering.EMeansClustering
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Gaussian mixture models
 -----------------------------------------------------------------
 
