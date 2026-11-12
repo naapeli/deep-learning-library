@@ -17,6 +17,11 @@ from DLL.DeepLearning.Losses import MSE
 from DLL.DeepLearning.Initialisers import Xavier_Normal
 from DLL.Data.Preprocessing import data_split
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of the surface :math:`z = x^2 + y^2 - 5` on a 30 x 30 grid, of which 80 % are used for training.
 
 # X = torch.linspace(-1, 1, 100).unsqueeze(1)
 # y = torch.sin(4 * X).squeeze()
@@ -28,6 +33,11 @@ x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size()) - 5
 X, y, _, _, X_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
 
+# %%
+# The model
+# ---------
+#
+# Two ``DenseKAN`` layers followed by a dense output layer.
 
 model = Model(2)
 # model.add(DenseKAN(1, activation=Tanh(), initialiser=Xavier_Normal()))
@@ -38,7 +48,15 @@ model.add(Dense(0, initialiser=Xavier_Normal()))
 model.compile(ADAM(0.01), MSE())
 model.summary()
 
+# %%
+# Training
+# --------
+
 history = model.fit(X, y, epochs=300, verbose=True)
+
+# %%
+# Predictions
+# -----------
 
 # X_test = 2 * torch.rand_like(X) - 1
 # y_test = torch.sin(4 * X_test).squeeze()
@@ -56,6 +74,9 @@ ax.scatter(X_test[:, 0], X_test[:, 1], y_test, label="True test points")
 ax.scatter(X_test[:, 0], X_test[:, 1], model.predict(X_test), label="Predictions")
 plt.legend()
 
+# %%
+# Learning curve
+# --------------
 
 plt.figure(figsize=(8, 8))
 plt.plot(history["loss"])
@@ -63,6 +84,13 @@ plt.title("Loss function as a function of epoch")
 plt.ylabel("MSE")
 plt.xlabel("Epoch")
 plt.show()
+
+# %%
+# Basis functions
+# ---------------
+#
+# Every connection of a ``DenseKAN`` layer is a learned combination of B-spline basis functions. Here are 10
+# basis functions of degree 5 on [-1, 1] and their derivatives.
 
 n_fun = 10
 basis_funcs, basis_func_derivatives = _get_basis_functions(n_fun, degree=5, bounds=(-1, 1))

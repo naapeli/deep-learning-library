@@ -21,6 +21,11 @@ import torch
 import matplotlib.pyplot as plt
 from sklearn import datasets
 
+# %%
+# Data
+# ----
+#
+# The features of the iris dataset are scaled to [0, 1], and the labels are one-hot encoded.
 
 iris = datasets.load_iris()
 
@@ -39,6 +44,14 @@ y_val = y_val.to(device=device)
 x_test = x_test.to(device=device)
 y_test = y_test.to(device=device)
 
+# %%
+# The model
+# ---------
+#
+# A residual network that uses batch, group and layer normalisation. Three callbacks are used during training:
+# ``EarlyStopping`` stops when the validation accuracy stops improving, ``BackUp`` saves the model every 100
+# epochs and ``ReduceLROnPlateau`` lowers the learning rate when the validation loss plateaus.
+
 # can get better results with only batch normalisation
 model = Model(4, data_type=torch.float32, device=device)
 layers = LayerList(
@@ -56,6 +69,12 @@ callbacks = (
 model.compile(optimiser=SGD(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=callbacks)
 print(model)  # model.summary()
 
+# %%
+# Visualising the data
+# --------------------
+#
+# The first two features of the iris dataset.
+
 _, ax = plt.subplots()
 scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
 ax.set(xlabel=iris.feature_names[0], ylabel=iris.feature_names[1])
@@ -64,10 +83,18 @@ _ = ax.legend(
 )
 plt.show()
 
+# %%
+# Training
+# --------
+
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=500, batch_size=32, verbose=True)
 # save_model(model, "./Tests/DeepLearning/IrisClassification/model.pkl")
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
+
+# %%
+# Learning curves
+# ---------------
 
 plt.semilogy(errors["loss"], label="loss")
 plt.semilogy(errors["val_loss"], label="val_loss")
@@ -76,6 +103,8 @@ plt.xlabel("Epochs")
 plt.ylabel("Categorical cross entropy")
 plt.show()
 
+# %%
+
 plt.plot(errors["accuracy"], label="accuracy")
 plt.plot(errors["val_accuracy"], label="val_accuracy")
 plt.legend()
@@ -83,11 +112,12 @@ plt.xlabel("Epochs")
 plt.ylabel("Accuracy")
 plt.show()
 
+# %%
+# Loading a saved model
+# ---------------------
+#
+# The model saved by the ``BackUp`` callback is loaded and used to predict the whole dataset.
 
-
-
-
-# TESTING MODEL SERIALIZATION
 model = load_model(filepath="./Tests/DeepLearning/IrisClassification/model.pkl")
 
 

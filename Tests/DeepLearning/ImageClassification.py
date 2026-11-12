@@ -23,6 +23,12 @@ from DLL.DeepLearning.Initialisers import Xavier_Normal, Xavier_Uniform, Kaiming
 from DLL.Data.Preprocessing import OneHotEncoder, data_split
 from DLL.Data.Metrics import accuracy
 
+# %%
+# Data
+# ----
+#
+# The images are scaled to [0, 1], 20 % of the training images are used for validation, and the labels are
+# one-hot encoded.
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
@@ -52,6 +58,14 @@ test_labels = label_encoder.encode(test_labels)
 print(train_images.shape, train_labels.shape, validation_images.shape, validation_labels.shape, test_images.shape, test_labels.shape)
 print(train_labels[:2])
 
+# %%
+# The model
+# ---------
+#
+# Three stages of convolutional layers with residual connections, each followed by max pooling and batch
+# normalisation, and two dense layers at the end. Training stops early if the validation loss has not improved
+# in 3 epochs.
+
 model = Model((1, 28, 28), device=device)
 model.train()
 
@@ -78,12 +92,19 @@ model.add(Dense(10, activation=SoftMax()))
 model.compile(optimiser=ADAM(learning_rate=0.001), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"], callbacks=(EarlyStopping(patience=3),))
 model.summary()
 
+# %%
+# Training
+# --------
 
 history = model.fit(train_images, train_labels, val_data=(validation_images, validation_labels), epochs=25, batch_size=256, verbose=True)
 
 model.eval()
 test_pred = model.predict(test_images)
 print(accuracy(test_pred, test_labels))
+
+# %%
+# Learning curves
+# ---------------
 
 plt.figure(figsize=(8, 6))
 plt.subplot(1, 2, 1)
@@ -99,6 +120,10 @@ plt.xlabel("Epoch")
 plt.ylabel("Accuracy")
 plt.legend()
 plt.show()
+
+# %%
+# Predictions on test images
+# --------------------------
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 ax = ax.ravel()

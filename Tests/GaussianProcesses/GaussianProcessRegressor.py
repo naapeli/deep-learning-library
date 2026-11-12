@@ -19,6 +19,11 @@ from DLL.MachineLearning.SupervisedLearning.Kernels import RBF, Linear, WhiteGau
 from DLL.DeepLearning.Optimisers import ADAM
 from DLL.Data.Preprocessing import StandardScaler
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of :math:`\sin(6 \pi x) + 3x^2` at 100 random points in [0, 1]. The targets are standardised.
 
 torch.manual_seed(0)
 # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -32,6 +37,14 @@ Y = transformer.fit_transform(Y).squeeze(dim=1)
 
 train_kernel = True  # try to changing this line of code to see how the covariance kernel learns the correct parameters
 
+# %%
+# Training the kernel
+# -------------------
+#
+# The kernel is the sum of a squared linear kernel, a periodic kernel and white noise. Its parameters are
+# trained by maximising the log marginal likelihood. Scikit-learn's model with a similar kernel is fitted for
+# comparison.
+
 # WhiteGaussian kernel is quite important as without it, the noise of the model has to be a lot larger.
 model = GaussianProcessRegressor(Linear(sigma=0.2, sigma_bias=1) ** 2 + Periodic(1, 2, period=0.5) + WhiteGaussian(), noise=0.001, device=device)
 sk_model = GPR(ConstantKernel(constant_value=0.2, constant_value_bounds=(1e-6, 1e1)) * DotProduct(sigma_0=1) ** 2 + ExpSineSquared(length_scale_bounds=(1e-6, 1e1)) + WhiteKernel())
@@ -44,7 +57,13 @@ if train_kernel:
     plt.title("The change in log marginal likelihood during kernel training")
     plt.grid()
 
-sk_model.fit(X, Y)
+_ = sk_model.fit(X, Y)
+
+# %%
+# Predictions
+# -----------
+#
+# The model is evaluated on [0, 2], so the right half of the plot extrapolates beyond the training data.
 
 x_test = torch.linspace(0, 2, 100, dtype=torch.float64, device=device).unsqueeze(1)
 mean, covariance = model.predict(x_test)
@@ -73,6 +92,12 @@ plt.legend()
 plt.xlabel("x")
 plt.ylabel("y")
 plt.title("Predictions with the GPR model")
+
+# %%
+# Samples from the posterior
+# --------------------------
+#
+# Five random functions drawn from the predicted distribution.
 
 try:
     distribution = torch.distributions.MultivariateNormal(mean, covariance)

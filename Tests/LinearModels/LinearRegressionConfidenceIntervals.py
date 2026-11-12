@@ -17,10 +17,22 @@ x = torch.linspace(0, 10, 100)
 y = 2.5 * x + 3 + 5 * torch.randn(len(x))
 x = x.unsqueeze(1)
 
+# %%
+# Fitting the model
+# -----------------
+
 model = LinearRegression()
 model.fit(x, y)
 y_pred = model.predict(x)
 x = x.squeeze()
+
+# %%
+# Confidence interval
+# -------------------
+#
+# The 95 % confidence interval of the regression line at :math:`x` is :math:`\hat{y} \pm t_{0.975, n - 2} \, s
+# \sqrt{1 / n + (x - \bar{x})^2 / \sum_i (x_i - \bar{x})^2}`, where :math:`s` is the standard error of the
+# residuals.
 
 n = len(x)
 dof = n - 2
@@ -33,6 +45,10 @@ conf_margin = t_crit * s_err * torch.sqrt(1/n + (x - x_mean)**2 / sum_sq_x)
 
 y_upper = y_pred + conf_margin
 y_lower = y_pred - conf_margin
+
+# %%
+# Visualisation
+# -------------
 
 plt.figure(figsize=(8, 8))
 plt.scatter(x.numpy(), y.numpy(), s=10, label="Data", alpha=0.6)

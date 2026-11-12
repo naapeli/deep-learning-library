@@ -11,6 +11,11 @@ import matplotlib.pyplot as plt
 
 from DLL.MachineLearning.UnsupervisedLearning.OutlierDetection import IsolationForest
 
+# %%
+# Data
+# ----
+#
+# 2000 samples from a standard normal distribution, with the first point moved to (5, 5) as an outlier.
 
 mean = [0, 0]
 cov = [[1, 0], [0, 1]]
@@ -20,6 +25,12 @@ X1[0] = 5
 X2[0] = 5
 X = torch.from_numpy(np.array([X1, X2]).T)
 
+# %%
+# Detecting outliers
+# ------------------
+#
+# Points that are isolated with few random splits get a high anomaly score. The sorted scores are printed, and
+# points above the threshold are labelled as outliers.
 
 model = IsolationForest(n_trees=25, threshold=6)
 predictions = model.fit_predict(X)

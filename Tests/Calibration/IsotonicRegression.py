@@ -11,6 +11,12 @@ from sklearn.isotonic import IsotonicRegression as sk_isotonic
 from DLL.Data.Preprocessing import data_split
 from DLL.MachineLearning.SupervisedLearning.Calibration import IsotonicRegression
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of the increasing function :math:`y = x^2 + 1`. Setting ``increasing = False`` flips the sign of
+# the targets to test a decreasing relationship.
 
 torch.manual_seed(0)
 X = torch.linspace(0, 1, 100)
@@ -19,6 +25,12 @@ Xtrain, ytrain, _, _, Xtest, ytest = data_split(X, y, train_split=0.8, validatio
 
 increasing = True
 if not increasing: ytrain, ytest = -ytrain, -ytest
+
+# %%
+# Fitting the model
+# -----------------
+#
+# The fit is compared with the isotonic regression of scikit-learn.
 
 model = IsotonicRegression()
 model.fit(Xtrain, ytrain, increasing=increasing)
@@ -29,6 +41,10 @@ model = sk_isotonic(increasing=increasing)
 model.fit(Xtrain, ytrain)
 sk_ypred = model.predict(Xtest)
 print(sk_ypred)
+
+# %%
+# Predictions
+# -----------
 
 plt.scatter(Xtrain, ytrain, label="Train", alpha=0.5)
 plt.scatter(Xtest, ytest, label="Test", alpha=0.5)

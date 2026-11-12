@@ -13,6 +13,11 @@ from DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegressi
 from DLL.Data.Preprocessing import MinMaxScaler, CategoricalEncoder, data_split
 from DLL.Data.Metrics import accuracy
 
+# %%
+# Data
+# ----
+#
+# The iris features are scaled to [0, 1]. Set ``binary = True`` to classify only the first two species.
 
 iris = datasets.load_iris()
 
@@ -29,12 +34,20 @@ x = scaler.fit_transform(x)
 y = encoder.fit_encode(y)
 x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.7, validation_split=0.0)
 
+# %%
+# Training
+# --------
+
 model = LogisticRegression(learning_rate=0.001)
 history = model.fit(x_train, y_train, epochs=5000, metrics=["loss", "accuracy"], callback_frequency=100, verbose=True)
 y_pred = model.predict(x_test)
 print(y_pred, model.predict_proba(x_test))
 print(y_pred, y_test)
 print(accuracy(y_pred, y_test))
+
+# %%
+# Training history
+# ----------------
 
 plt.plot(history["accuracy"])
 plt.xlabel("epoch / 100")

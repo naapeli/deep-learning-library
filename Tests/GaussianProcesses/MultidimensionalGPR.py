@@ -16,6 +16,11 @@ from DLL.MachineLearning.SupervisedLearning.Kernels import RBF, WhiteGaussian
 from DLL.Data.Preprocessing import data_split, StandardScaler
 from DLL.DeepLearning.Optimisers import ADAM
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of the surface :math:`z = x^2 + y^2 - 5` on a 30 x 30 grid, of which 80 % are used for training.
 
 n = 30
 X, Y = torch.meshgrid(torch.linspace(0, 1, n, dtype=torch.float32), torch.linspace(-1, 1, n, dtype=torch.float32), indexing="xy")
@@ -26,6 +31,11 @@ transformer = StandardScaler()
 y_train = transformer.fit_transform(y_train)
 y_test = transformer.transform(y_test)
 
+# %%
+# Training the kernel
+# -------------------
+#
+# The RBF kernel has a separate length scale for each input dimension.
 
 model = GaussianProcessRegressor(RBF(correlation_length=torch.tensor([10.0, 10.0],)) + WhiteGaussian())
 model.fit(x_train, y_train)
@@ -33,6 +43,12 @@ optimizer = ADAM(0.01)
 lml = model.train_kernel(epochs=1000, optimiser=optimizer, callback_frequency=100, verbose=True)["log marginal likelihood"]
 mean, _ = model.predict(x_test)
 z = transformer.inverse_transform(mean)
+
+# %%
+# Results
+# -------
+#
+# Predictions and true values on the test set, and the log marginal likelihood during training.
 
 fig = plt.figure(figsize=(14, 6))
 ax = fig.add_subplot(121, projection='3d')

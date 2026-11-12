@@ -18,6 +18,11 @@ from DLL.MachineLearning.SupervisedLearning.LinearModels import LogisticRegressi
 from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy, roc_curve, auc
 
+# %%
+# Data
+# ----
+#
+# Two Gaussian blobs in two dimensions, 70 % of which are used for training.
 
 np.random.seed(0)
 X, y = datasets.make_blobs(n_features=2, n_samples=1000, centers=2)
@@ -25,11 +30,22 @@ plt.scatter(X[:, 0], X[:, 1], c=y)
 
 x_train, y_train, _, _, x_test, y_test = data_split(torch.from_numpy(X).to(dtype=torch.float32), torch.from_numpy(y), train_split=0.7, validation_split=0.0)
 
+# %%
+# Training
+# --------
+
 model = LogisticRegression(learning_rate=0.001)
 model.fit(x_train, y_train, epochs=2000, metrics=["loss", "accuracy"], callback_frequency=10, verbose=True)
 y_pred = model.predict_proba(x_test)
 print(y_pred[:10], y_test[:10])
 print(accuracy(y_pred, y_test))
+
+# %%
+# ROC curve
+# ---------
+#
+# The true and false positive rates are computed for 100 thresholds of the predicted probability. The area under
+# the curve is compared with scikit-learn's ``auc``.
 
 thresholds = torch.linspace(0, 1, 100)
 fpr, tpr = roc_curve(y_pred, y_test, thresholds)

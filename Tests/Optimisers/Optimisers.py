@@ -22,6 +22,12 @@ import numpy as np
 
 from DLL.DeepLearning.Optimisers import LBFGS, ADAM, SGD, ADAGRAD, ADADELTA, RMSPROP, BFGS
 
+# %%
+# The Rosenbrock function
+# -----------------------
+#
+# :math:`f(x, y) = (1 - x)^2 + 100(y - x^2)^2` has its minimum at (1, 1), at the bottom of a narrow curved
+# valley, which makes it hard for first-order methods.
 
 torch.set_printoptions(sci_mode=False)
 
@@ -36,6 +42,13 @@ def f_prime(x):
 
 # def f_prime(x):
 #     return torch.tensor([2 * x[0], 2 * x[1]], dtype=x.dtype)
+
+# %%
+# The optimisers
+# --------------
+#
+# Every optimiser starts from (-0.11, 2.5). LBFGS and BFGS also need the function itself for their line
+# searches.
 
 initial_point = [-0.11, 2.5]
 x1 = torch.tensor(initial_point, dtype=torch.float32)
@@ -59,6 +72,12 @@ optimiser4.initialise_parameters([x4])
 optimiser5.initialise_parameters([x5])
 optimiser6.initialise_parameters([x6])
 optimiser7.initialise_parameters([x7])
+
+# %%
+# Optimisation
+# ------------
+#
+# Every optimiser takes 5000 steps with the exact gradient, and the points along the way are stored.
 
 # with 30 iterations, LBFGS algorithms (my and scipy) converge, while ADAM and SGD converge with around 1000 iterations using initial_point == [-0.11, 2.5]. ADAGRAD takes around 5000.
 max_iter = 30
@@ -100,6 +119,12 @@ for epoch in range(max_iter):
     points6.append(x6.clone())
     points7.append(x7.clone())
 
+# %%
+# Reference
+# ---------
+#
+# Scipy's L-BFGS-B for comparison.
+
 scipy_points = []
 def scipy_func(x):
     scipy_points.append(x)
@@ -108,8 +133,13 @@ def scipy_func(x):
 #     scipy_points.append(x)
 #     return x[0] ** 2 + x[1] ** 2
 
-minimize(scipy_func, initial_point, method="L-BFGS-B", options={"maxiter": max_iter})  # options={"maxls": 1, "maxiter": max_iter}
+_ = minimize(scipy_func, initial_point, method="L-BFGS-B", options={"maxiter": max_iter})  # options={"maxls": 1, "maxiter": max_iter}
 
+# %%
+# Optimisation paths
+# ------------------
+#
+# Optimisers whose final point is farther than 0.1 from the optimum are printed as failed.
 
 colors = plt.cm.gist_rainbow(np.linspace(0, 1, 6))
 plt.rcParams['axes.prop_cycle'] = plt.cycler(color=colors)

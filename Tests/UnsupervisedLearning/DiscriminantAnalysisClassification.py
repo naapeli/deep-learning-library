@@ -15,12 +15,24 @@ from DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import LDA
 from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy
 
+# %%
+# Data
+# ----
+#
+# Four overlapping Gaussian blobs in two dimensions.
 
 X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=4, random_state=3)
 
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
+
+# %%
+# Linear discriminant analysis
+# ----------------------------
+#
+# LDA assumes that all classes share one covariance matrix, which makes the decision boundaries linear. The
+# decision regions are evaluated on a 100 x 100 grid, and the model is compared with scikit-learn's.
 
 model1 = LDA()
 model1.fit(X_train, y_train)
@@ -41,6 +53,12 @@ predictions2 = model2.predict(X_test)
 print(f"SKlearn LDA accuracy: {round(accuracy(torch.from_numpy(predictions2), y_test), 3)}")
 grid_predictions2 = model2.predict(X_grid).reshape((n, n))
 
+# %%
+# Quadratic discriminant analysis
+# -------------------------------
+#
+# QDA fits a covariance matrix for every class, which gives quadratic decision boundaries.
+
 model3 = QDA()
 model3.fit(X_train, y_train)
 predictions3 = model3.predict(X_test)
@@ -52,6 +70,12 @@ model4.fit(X_train, y_train)
 predictions4 = model4.predict(X_test)
 print(f"SKlearn LDA accuracy: {round(accuracy(torch.from_numpy(predictions4), y_test), 3)}")
 grid_predictions4 = model4.predict(X_grid).reshape((n, n))
+
+# %%
+# Decision regions
+# ----------------
+#
+# The class means are drawn in red.
 
 fig, axes = plt.subplots(2, 2, figsize=(8, 8))
 axes = axes.ravel()

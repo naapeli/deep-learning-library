@@ -13,6 +13,11 @@ from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy
 from DLL.MachineLearning.SupervisedLearning.NaiveBayes import GaussianNaiveBayes, BernoulliNaiveBayes, MultinomialNaiveBayes
 
+# %%
+# Gaussian naive Bayes
+# --------------------
+#
+# The continuous iris features are modelled with a normal distribution per class.
 
 iris = datasets.load_iris()
 X = torch.tensor(iris.data, dtype=torch.float32)
@@ -28,6 +33,12 @@ predictions = model.predict(X_test)
 # print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 
+# %%
+# Bernoulli naive Bayes
+# ---------------------
+#
+# Every feature is binarised by comparing it with its mean, and the task is to tell setosa from the other two
+# species.
 
 y_bernoulli = (y != 0).to(torch.int32)
 X_bernoulli = (X > torch.mean(X, dim=0)).to(torch.int32)
@@ -39,6 +50,11 @@ predictions = model.predict(X_test)
 # print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 
+# %%
+# Multinomial naive Bayes
+# -----------------------
+#
+# Count data drawn from a Poisson distribution, with a label that depends on the first three features.
 
 n_samples = 2000
 n_features = 10

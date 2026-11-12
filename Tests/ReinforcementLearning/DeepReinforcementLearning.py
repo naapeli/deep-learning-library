@@ -24,6 +24,9 @@ from DLL.DeepLearning.Layers.Activations import Tanh
 from DLL.DeepLearning.Optimisers import RMSPROP, ADAM
 from DLL.DeepLearning.Initialisers import Xavier_Normal
 
+# %%
+# Hyperparameters
+# ---------------
 
 GAMMA = 0.99
 LR = 0.001
@@ -35,6 +38,14 @@ EPISODES = 5000  # For optimal results, one should experiment with increasing th
 MOVING_AVERAGE = 50
 MAX_EPISODE_LENGTH = 500
 SAVE_IMG = False
+
+# %%
+# Replay buffer and policy
+# ------------------------
+#
+# The replay buffer stores past transitions, and mini-batches are sampled from it at random to break the
+# correlation between consecutive steps. The epsilon-greedy policy takes a random action with probability
+# epsilon and otherwise the action with the largest predicted Q-value.
 
 class ReplayBuffer:
     def __init__(self, capacity):
@@ -64,6 +75,12 @@ def epsilon_greedy_policy(state, agent, epsilon, action_space):
         state = torch.from_numpy(np.array(state, dtype=np.float32)).unsqueeze(0)
         return agent.predict(state).argmax(dim=1).item()
 
+# %%
+# The agent
+# ---------
+#
+# A small dense network maps the 4-dimensional state to a Q-value for each of the two actions.
+
 env = gym.make("CartPole-v1")
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.n
@@ -77,6 +94,15 @@ agent.add(Dense(hidden_dim, activation=Tanh(), initialiser=Xavier_Normal()))
 agent.add(Dense(int(action_dim), initialiser=Xavier_Normal()))
 agent.compile(optimiser=RMSPROP(learning_rate=LR))  # default to MSE loss, The chosen optimiser affects the training results VERY much. ADAM and RMSPROP produce good results, while other optimisers fail to reach the optimum.
 replay_buffer = ReplayBuffer(MEMORY_SIZE)
+
+# %%
+# Training
+# --------
+#
+# Epsilon decreases linearly from 1 to 0.01. After every episode, one mini-batch from the replay buffer moves
+# the predicted Q-values towards :math:`r + \gamma \max_{a'} Q(s', a')` with a custom training loop. The reward
+# is shaped to keep the cart and the pole near the centre, and the training stops once the average reward of the
+# last 50 episodes exceeds 490.
 
 epsilon = EPSILON_START
 epsilon_decay = (EPSILON_START - EPSILON_END) / EPISODES
@@ -150,6 +176,12 @@ for episode in range(EPISODES):
         print("Average reward is over 490. The training is stopped.")
         break
 
+# %%
+# Rewards during training
+# -----------------------
+#
+# The total reward of every episode and its moving average over 50 episodes.
+
 # plot how the reward changed during training
 plt.plot(rewards_memory)
 plt.plot(np.arange(MOVING_AVERAGE - 1, len(rewards_memory)), np.convolve(rewards_memory, np.ones(MOVING_AVERAGE) / MOVING_AVERAGE, mode='valid'))
@@ -157,6 +189,11 @@ plt.ylabel("Total reward")
 plt.xlabel("Episode")
 plt.show()
 
+# %%
+# Animating the agent
+# -------------------
+#
+# Set ``SAVE_IMG = True`` to render the trained agent and save the animation shown at the top of the page.
 
 if SAVE_IMG:
     agent.eval()

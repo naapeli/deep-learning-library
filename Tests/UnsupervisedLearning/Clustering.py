@@ -16,6 +16,13 @@ from DLL.MachineLearning.UnsupervisedLearning.Clustering import KMeansClustering
 from DLL.MachineLearning.SupervisedLearning.Kernels import RBF
 from DLL.Data.Metrics import silhouette_score
 
+# %%
+# Data
+# ----
+#
+# 1000 samples from three Gaussian blobs. Change ``dataset`` to ``"narrow"`` or ``"moons"`` to try differently
+# shaped clusters.
+
 n_samples=1000
 dataset = "basic"
 if dataset == "basic": X, y = make_blobs(n_samples=n_samples, n_features=2, cluster_std=1, centers=3, random_state=3)
@@ -23,6 +30,15 @@ if dataset == "narrow": X, y = make_classification(n_samples=n_samples, n_featur
 if dataset == "moons": X, y = make_moons(n_samples=n_samples, noise=0.05, random_state=0)
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
+
+# %%
+# Clustering
+# ----------
+#
+# The data is clustered with k-means, a Gaussian mixture model, spectral clustering and DBSCAN. The centroids of
+# k-means and the means of the Gaussian mixture are drawn in red. DBSCAN finds the number of clusters itself and
+# labels some points as noise.
+
 fig, ax = plt.subplots(3, 2, figsize=(8, 12))
 plt.subplots_adjust(hspace=0.3, wspace=0.3)
 ax = ax.ravel()
@@ -74,6 +90,14 @@ dbscan_labels = model.predict()
 ax[4].scatter(X[:, 0], X[:, 1], c=dbscan_labels)
 ax[4].set_title("Density based scanning")
 dbscan_samples = silhouette_score(X[dbscan_labels != -1], dbscan_labels[dbscan_labels != -1], return_samples=True)
+
+# %%
+# Silhouette plots
+# ----------------
+#
+# The silhouette coefficient of a point compares its mean distance to the other points of its cluster with the
+# mean distance to the nearest other cluster. Values close to 1 mean well separated clusters. The dashed line is
+# the mean over all points; for DBSCAN, the noise points are left out.
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 plt.subplots_adjust(hspace=0.5, wspace=0.5)
