@@ -28,6 +28,13 @@ from DLL.DeepLearning.Optimisers import LBFGS, ADAM
 
 plt.style.use(["grid", "notebook"])
 
+# %%
+# Helper functions
+# ----------------
+#
+# ``summary`` prints the residual quantiles, the coefficient of determination and the adjusted coefficient of
+# determination. The plotting functions draw the fitted line or plane and the residuals.
+
 def summary(predictions, true_values, n_features):
     print("======================== SUMMARY ========================")
     residuals = true_values - predictions
@@ -73,6 +80,11 @@ def plot2d(model, X, true_values, title):
     ax.legend()
     ax.set_title(title)
 
+# %%
+# Two-dimensional data
+# --------------------
+#
+# Noisy samples of the plane :math:`z = 2x - 5y` on a 20 x 20 grid.
 
 x = torch.linspace(0, 1, 20)
 y = torch.linspace(0, 1, 20)
@@ -82,6 +94,13 @@ Y = YY.flatten()
 X_input = torch.stack((X, Y), dim=1)
 Z = 2 * X - 5 * Y + torch.normal(0, 1, size=X.size())
 
+# %%
+# Linear regression
+# -----------------
+#
+# The linear regression is fitted with total least squares (``method="tls"``). The residual plot and the Q-Q
+# plot check whether the residuals look normally distributed.
+
 model1 = LinearRegression()
 model2 = RidgeRegression(alpha=1.0)
 model3 = LASSORegression(alpha=1.0)
@@ -90,16 +109,38 @@ model1.fit(X_input, Z, method="tls")
 summary(model1.predict(X_input), Z, X_input.shape[1])
 plot2d(model1, X_input, Z, "Linear regression")
 plot_residuals(model1.predict(X_input), Z)
+
+# %%
+# Ridge regression
+# ----------------
+
 model2.fit(X_input, Z)
 summary(model2.predict(X_input), Z, X_input.shape[1])
 plot2d(model2, X_input, Z, "Ridge regression")
+
+# %%
+# LASSO regression
+# ----------------
+
 model3.fit(X_input, Z, epochs=100)
 summary(model3.predict(X_input), Z, X_input.shape[1])
 plot2d(model3, X_input, Z, "LASSO regression")
+
+# %%
+# ElasticNet regression
+# ---------------------
+
 model4.fit(X_input, Z, epochs=100)
 summary(model4.predict(X_input), Z, X_input.shape[1])
 plot2d(model4, X_input, Z, "Elasticnet regression")
 plt.show()
+
+# %%
+# Sample weights
+# --------------
+#
+# The first 50 samples follow :math:`y = -2x` and the remaining 50 follow :math:`y = 2x`. Only the first 50
+# samples have a nonzero weight, so the weighted models should follow :math:`y = -2x`.
 
 X = torch.linspace(0, 1, 100).unsqueeze(dim=1)
 weight = torch.zeros_like(X.squeeze())
@@ -120,6 +161,12 @@ plot1d(X, y, model3.predict(X), "LASSO regression")
 history_elasticnet = model4.fit(X, y, sample_weight=weight, epochs=100, metrics=["loss", "rmse"])
 summary(model4.predict(X), 2 * X.squeeze(), 1)
 plot1d(X, y, model4.predict(X), "Elasticnet regression with all weight on first 50 samples")
+
+# %%
+# Training history
+# ----------------
+#
+# The RMSE and the loss of the ElasticNet and LASSO models during the weighted training.
 
 fig, ax = plt.subplots(1, 2)
 ax[0].plot(history_elasticnet["rmse"], label="rmse")

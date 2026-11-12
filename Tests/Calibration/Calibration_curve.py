@@ -19,6 +19,13 @@ from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
 from DLL.MachineLearning.SupervisedLearning.Kernels import Linear
 from DLL.MachineLearning.SupervisedLearning.Calibration import CalibratedClassifier
 
+# %%
+# Data
+# ----
+#
+# A binary classification problem with 20 features, of which only 2 are informative. Only 10 % of the data is
+# used for training, and the calibration curves are computed on the rest with quantile bins.
+
 # X, y = make_blobs(n_samples=100_000, n_features=2, centers=2, cluster_std=5)
 X, y = make_classification(n_samples=10_000, n_features=20, n_informative=2, n_redundant=10, random_state=42)
 X, y = torch.from_numpy(X).to(torch.float32), torch.from_numpy(y).to(torch.float32)
@@ -26,11 +33,15 @@ Xtrain, ytrain, _, _, Xtest, ytest = data_split(X, y, train_split=0.1, validatio
 
 strategy = "quantile"
 
+# %%
+# Uncalibrated models
+# -------------------
+#
+# Logistic regression, Gaussian naive Bayes and a linear support vector classifier are fitted as such. A
+# perfectly calibrated model lies on the diagonal: of the samples predicted with probability p, a fraction p is
+# positive.
 
-
-plt.figure(figsize=(8, 18))
-plt.subplots_adjust(hspace=0.5)
-plt.subplot(3, 1, 1)
+plt.figure(figsize=(8, 6))
 
 model = LogisticRegression(learning_rate=0.01)
 model.fit(Xtrain, ytrain, epochs=500)
@@ -60,8 +71,14 @@ plt.title("Calibration Curve")
 plt.legend()
 plt.grid(True)
 
+# %%
+# Isotonic calibration
+# --------------------
+#
+# Every model is wrapped in a ``CalibratedClassifier`` with ``method="isotonic"``. Part of the training data is
+# held out and used to fit a monotonic mapping from the predicted probabilities to the observed frequencies.
 
-plt.subplot(3, 1, 2)
+plt.figure(figsize=(8, 6))
 
 model = CalibratedClassifier(LogisticRegression(learning_rate=0.01), method="isotonic")
 model.fit(Xtrain, ytrain, epochs=500)
@@ -91,8 +108,14 @@ plt.title("Isotonic Calibration Curve")
 plt.legend(loc="upper left")
 plt.grid(True)
 
+# %%
+# Logistic calibration
+# --------------------
+#
+# With ``method="logistic"``, the mapping is a logistic regression fitted on the predicted probabilities of the
+# held out data.
 
-plt.subplot(3, 1, 3)
+plt.figure(figsize=(8, 6))
 
 model = CalibratedClassifier(LogisticRegression(learning_rate=0.01), method="logistic")
 model.fit(Xtrain, ytrain, epochs=500)

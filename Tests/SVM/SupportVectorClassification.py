@@ -22,6 +22,12 @@ from DLL.MachineLearning.SupervisedLearning import Kernels
 from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy, prob_to_pred
 
+# %%
+# Data
+# ----
+#
+# Four overlapping Gaussian blobs in two dimensions. Every model uses an RBF kernel with a length scale of 5 and
+# C = 1, and the decision regions are evaluated on a 100 x 100 grid.
 
 X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=4, random_state=3)
 
@@ -31,6 +37,13 @@ X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
+
+# %%
+# CVXOPT solver
+# -------------
+#
+# The dual problem is solved as a quadratic program with CVXOPT. The four classes are handled with one-vs-one
+# classifiers.
 
 model1 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="cvxopt")
 start1 = perf_counter()
@@ -49,6 +62,12 @@ Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions = model1.predict(X_grid).reshape((n, n))
 
+# %%
+# SMO solver
+# ----------
+#
+# Sequential minimal optimisation, also one-vs-one.
+
 model2 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="smo")
 start2 = perf_counter()
 model2.fit(X_train, y_train, epochs=5, multi_method="ovo")
@@ -64,6 +83,12 @@ Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
 
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions2 = model2.predict(X_grid).reshape((n, n))
+
+# %%
+# Coordinate ascent solver
+# ------------------------
+#
+# Coordinate ascent on the dual problem, with one-vs-rest classifiers.
 
 model3 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="coord_ascent")
 start3 = perf_counter()
@@ -81,6 +106,12 @@ Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions3 = model3.predict(X_grid).reshape((n, n))
 
+# %%
+# Scikit-learn
+# ------------
+#
+# Scikit-learn's SVC with the same kernel for reference.
+
 model4 = svm.SVC(kernel="rbf", C=1, gamma=1/(2 * 5 ** 2), decision_function_shape='ovr')
 start4 = perf_counter()
 model4.fit(X_train, y_train)
@@ -96,6 +127,10 @@ Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
 
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions4 = model4.predict(X_grid).reshape((n, n))
+
+# %%
+# Decision regions
+# ----------------
 
 fig, axes = plt.subplots(2, 2, figsize=(10, 10))
 axes[0, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions.numpy(), alpha=0.5)

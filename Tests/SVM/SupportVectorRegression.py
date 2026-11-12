@@ -23,6 +23,11 @@ from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVR
 from DLL.Data.Preprocessing import data_split
 from DLL.MachineLearning.SupervisedLearning.Kernels import Linear
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of :math:`z = 2x^2 - 5y^2` on a 20 x 20 grid.
 
 torch.manual_seed(10)
 
@@ -35,6 +40,13 @@ X_input = torch.stack((X, Y), dim=1)
 Z = 2 * X ** 2 - 5 * Y ** 2 + torch.normal(0, 1, size=X.size())
 x_train, y_train, x_test, y_test, _, _ = data_split(X_input, Z, train_split=0.8, validation_split=0.2)
 
+# %%
+# Fitting the models
+# ------------------
+#
+# The square of a linear kernel is a quadratic polynomial kernel, which matches the shape of the surface.
+# Scikit-learn's SVR with an RBF kernel is fitted for comparison.
+
 model = SVR(kernel=Linear() ** 2)
 # model = SVR()
 model.fit(x_train, y_train)
@@ -43,6 +55,10 @@ y_pred = model.predict(x_test)
 correct = svm.SVR(kernel="rbf", C=1)
 correct.fit(x_train, y_train)
 y_pred_true = correct.predict(x_test)
+
+# %%
+# Predictions on the test set
+# ---------------------------
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

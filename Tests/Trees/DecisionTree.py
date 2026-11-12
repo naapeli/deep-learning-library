@@ -17,12 +17,23 @@ from DLL.Data.Metrics import accuracy
 from DLL.Data.Preprocessing import data_split
 from DLL.MachineLearning.SupervisedLearning.Trees import DecisionTree, RandomForestClassifier
 
+# %%
+# Data
+# ----
+#
+# The breast cancer dataset, 80 % of which is used for training.
 
 breast_cancer = datasets.load_breast_cancer()
 
 x = torch.tensor(breast_cancer.data, dtype=torch.float32)
 y = torch.tensor(breast_cancer.target, dtype=torch.float32)
 x_train, y_train, _, _, x_test, y_test = data_split(x, y, train_split=0.8, validation_split=0.0)
+
+# %%
+# Decision trees
+# --------------
+#
+# A DLL decision tree of depth 1 that splits by entropy, compared with scikit-learn's.
 
 start = time.perf_counter()
 model = DecisionTree(max_depth=1, ccp_alpha=0.0, criterion="entropy")
@@ -38,6 +49,12 @@ model.fit(x_train.numpy(), y_train.numpy())
 predictions = model.predict(x_test)
 print(f"SKlearn decision tree accuracy: {accuracy(torch.tensor(predictions), y_test)}")
 print(f"SKlearn decision tree execution time: {time.perf_counter() - start}")
+
+# %%
+# Random forests
+# --------------
+#
+# Random forests of 10 such trees.
 
 start = time.perf_counter()
 model = RandomForestClassifier(n_trees=10, max_depth=1, criterion="entropy")

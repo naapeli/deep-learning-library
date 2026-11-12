@@ -11,6 +11,11 @@ from sklearn import datasets
 
 from DLL.MachineLearning.UnsupervisedLearning.DimensionalityReduction import PCA, LDA, RobustPCA, TSNE, UMAP
 
+# %%
+# Data
+# ----
+#
+# The four-dimensional iris dataset. The commented lines load other datasets or add outliers.
 
 # import tensorflow as tf
 # (images, labels), (_, _) = tf.keras.datasets.mnist.load_data()
@@ -24,6 +29,12 @@ y = torch.tensor(iris.target, dtype=torch.float32)
 # breast_cancer = datasets.load_breast_cancer()
 # X = torch.tensor(breast_cancer.data, dtype=torch.float32)
 # y = torch.tensor(breast_cancer.target, dtype=torch.float32)
+
+# %%
+# Fitting the methods
+# -------------------
+#
+# Every method reduces the data to two dimensions. LDA is the only one that uses the labels.
 
 transformer_pca = PCA(n_components=2)
 reduced_pca = transformer_pca.fit_transform(X, normalize=False)
@@ -42,6 +53,10 @@ reduced_TSNE = transformer_TSNE.fit_transform(X, epochs=50)
 
 transformer_UMAP2 = UMAP(n_components=2, init="spectral", p=1, n_neighbor=30, min_dist=2, learning_rate=1)
 reduced_UMAP2 = transformer_UMAP2.fit_transform(X, epochs=300)
+
+# %%
+# The latent spaces
+# -----------------
 
 fig, axes = plt.subplots(3, 2, figsize=(8, 12))
 plt.subplots_adjust(hspace=0.3, wspace=0.3)
@@ -62,6 +77,13 @@ axes[4].scatter(reduced_UMAP1[:, 0], reduced_UMAP1[:, 1], c=y, s=5)
 axes[4].set_title("UMAP | min_dist=0.1")
 axes[5].scatter(reduced_UMAP2[:, 0], reduced_UMAP2[:, 1], c=y, s=5)
 axes[5].set_title("UMAP | min_dist=2")
+
+# %%
+# Training losses
+# ---------------
+#
+# t-SNE minimises a KL divergence and UMAP a cross entropy between the neighbourhoods of the original data and
+# of the embedding.
 
 plt.figure(figsize=(8, 8))
 plt.semilogy(transformer_TSNE.history, label="T-SNE (KL Divergence)")

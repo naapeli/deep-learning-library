@@ -13,10 +13,22 @@ from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression
 from DLL.Data.Metrics import r2_score
 from DLL.Data.Preprocessing import data_split
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of the sine function on :math:`[0, 2\pi]`.
 
 X = torch.linspace(0, 2 * torch.pi, 1000).unsqueeze(1)
 y = torch.sin(X).squeeze() + 0.2 * torch.randn_like(X.squeeze())
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
+
+# %%
+# Locally weighted predictions
+# ----------------------------
+#
+# For every test point, a linear regression is fitted with the training samples weighted by a Gaussian kernel,
+# :math:`w_i = \exp(-\|x_i - x\|^2 / (2\tau^2))`, and only the prediction at that test point is kept.
 
 def get_weight(train, test, tau):
     d2 = torch.sum((train - test) ** 2, dim=1)
@@ -33,6 +45,13 @@ def get_pred(tau):
 
     y_pred = torch.stack(y_pred).reshape(-1,)
     return y_pred
+
+# %%
+# Effect of the bandwidth
+# -----------------------
+#
+# A small :math:`\tau` gives a flexible fit that follows the noise, while a large :math:`\tau` approaches a
+# single straight line.
 
 n = 4
 m = 4

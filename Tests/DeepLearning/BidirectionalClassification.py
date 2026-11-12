@@ -17,6 +17,12 @@ import torch
 import matplotlib.pyplot as plt
 from sklearn import datasets
 
+# %%
+# Data
+# ----
+#
+# The four features of the iris dataset are scaled to [0, 1] and treated as a sequence of length 4 with one
+# feature per step. The labels are one-hot encoded.
 
 iris = datasets.load_iris()
 
@@ -36,11 +42,24 @@ y_val = y_val.to(device=device)
 x_test = x_test.to(device=device)
 y_test = y_test.to(device=device)
 
+# %%
+# The model
+# ---------
+#
+# A bidirectional LSTM reads the sequence in both directions, and an RNN layer with a softmax activation outputs
+# the class probabilities from the last step.
+
 model = Model((4, 1), data_type=torch.float32, device=device)
 model.add(Bidirectional(LSTM((4, 20), 10, return_last=False, activation=ReLU())))
 model.add(RNN((3,), 10, return_last=True, activation=SoftMax()))
 model.compile(optimiser=ADAM(), loss=CCE(), metrics=["loss", "val_loss", "val_accuracy", "accuracy"])
 model.summary()
+
+# %%
+# Visualising the data
+# --------------------
+#
+# The first two features of the iris dataset.
 
 _, ax = plt.subplots(figsize=(8, 8))
 scatter = ax.scatter(iris.data[:, 0], iris.data[:, 1], c=iris.target)
@@ -49,9 +68,17 @@ _ = ax.legend(
     scatter.legend_elements()[0], iris.target_names, loc="lower right", title="Classes"
 )
 
+# %%
+# Training
+# --------
+
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=200, batch_size=32, verbose=True)
 test_predictions = model.predict(x_test)
 print(f"Test accuracy: {accuracy(test_predictions, y_test)}")
+
+# %%
+# Learning curves
+# ---------------
 
 plt.figure(figsize=(8, 8))
 plt.plot(errors["loss"], label="loss")

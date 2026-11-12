@@ -18,6 +18,12 @@ from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy
 from DLL.DeepLearning.Optimisers import ADAM
 
+# %%
+# Data
+# ----
+#
+# 100 samples of the two moons dataset, 70 % of which are used for training. Change ``dataset`` to try the other
+# datasets.
 
 n_samples = 100
 dataset = "moons"
@@ -29,11 +35,22 @@ y = torch.from_numpy(y).to(X.dtype)
 
 X_train, y_train, _, _, X_test, y_test = data_split(X, y, train_split=0.7, validation_split=0.0)
 
+# %%
+# The models
+# ----------
+#
+# Two identical classifiers with an RBF kernel are fitted. The kernel parameters of one of them are then trained
+# by maximising the log marginal likelihood with Adam.
+
 # untrained_model = GaussianProcessClassifier(RBF(correlation_length=torch.tensor([1.0, 1.0])), n_iter_laplace_mode=50)  # anisotropic kernel (each coordinate has different length scale)
 untrained_model = GaussianProcessClassifier(RBF(correlation_length=3), n_iter_laplace_mode=50)  # isotropic kernel (each coordinate has the same length scale)
 model = deepcopy(untrained_model)
 untrained_model.fit(X_train, y_train)
 model.fit(X_train, y_train)
+
+# %%
+# Training the kernel
+# -------------------
 
 optimizer = ADAM(0.1)  # make the learning rate a little larger than default as 0.001 takes a long time to converge. Could increase even more if wanted the true optimum for the sigma as well.
 lml = model.train_kernel(epochs=200, optimiser=optimizer, callback_frequency=10, verbose=True)["log marginal likelihood"]
@@ -43,6 +60,12 @@ print("Trained model test accuracy:", accuracy(y_pred, y_test))
 y_pred = untrained_model.predict(X_test)
 print("Untrained model test accuracy:", accuracy(y_pred, y_test))
 
+# %%
+# Predicted probabilities
+# -----------------------
+#
+# The probability of class 1 on a grid, before and after training the kernel. Circles are training points and
+# triangles test points.
 
 x_min, x_max = X[:, 0].min() - 1.0, X[:, 0].max() + 1.0
 y_min, y_max = X[:, 1].min() - 1.0, X[:, 1].max() + 1.0
@@ -71,7 +94,11 @@ for ax, proba, title in zip(
     ax.set_ylabel("$X_2$")
     ax.legend()
 
-fig.colorbar(contour, ax=axs.ravel().tolist(), label="$\\mathbb{P}(y = 1)$")
+_ = fig.colorbar(contour, ax=axs.ravel().tolist(), label="$\\mathbb{P}(y = 1)$")
+
+# %%
+# Log marginal likelihood
+# -----------------------
 
 plt.figure(figsize=(8, 8))
 plt.plot(lml.numpy())

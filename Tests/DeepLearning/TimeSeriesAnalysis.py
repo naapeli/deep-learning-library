@@ -17,6 +17,13 @@ from DLL.DeepLearning.Losses import MSE
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
+# %%
+# Data
+# ----
+#
+# The sine function is sampled at the integers 0, ..., 299. Each input is a window of 20 consecutive values, and
+# the target is the value that follows it.
+
 size = 300
 sequence_length = 20
 data = torch.sin(torch.arange(size, dtype=torch.float32))
@@ -29,12 +36,28 @@ x = torch.stack(x).reshape(len(x), sequence_length, 1).to(device=device)
 y = torch.stack(y).reshape(len(y), 1).to(device=device)
 print(x.shape, y.shape)
 
+# %%
+# The model
+# ---------
+#
+# A single recurrent layer reads the window and outputs the next value.
+
 model = Model((sequence_length, 1), device=device)
 model.add(RNN((1,), 10, activation=Tanh()))
 model.compile(optimiser=ADAM(), loss=MSE(), metrics=["loss", "val_loss"])
 model.summary()
 
-model.fit(x, y, epochs=20, batch_size=1, verbose=True)
+# %%
+# Training
+# --------
+
+_ = model.fit(x, y, epochs=20, batch_size=1, verbose=True)
+
+# %%
+# Predictions
+# -----------
+#
+# The model predicts the value after each of the first 30 windows.
 
 data = torch.sin(torch.arange(size, dtype=torch.float32, device=device))
 prediction = []

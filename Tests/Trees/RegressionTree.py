@@ -13,6 +13,12 @@ from time import perf_counter
 from DLL.MachineLearning.SupervisedLearning.Trees import RegressionTree, RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, XGBoostingRegressor, LGBMRegressor
 from DLL.Data.Preprocessing import data_split
 
+# %%
+# One-dimensional data
+# --------------------
+#
+# Noisy samples of :math:`0.2 \sin(20x) + x^2`, together with a random binary feature that carries no
+# information.
 
 n = 100
 x = torch.linspace(0, 1, n).unsqueeze(-1)
@@ -20,6 +26,10 @@ y = 0.2 * torch.sin(20 * x) + x * x + torch.normal(mean=0, std=0.05, size=(n, 1)
 y = y.squeeze()
 rand_feats = torch.randint_like(x, 2)
 x = torch.cat([x, rand_feats], dim=1)
+
+# %%
+# Fitting the models
+# ------------------
 
 model = RegressionTree()
 model.fit(x, y)
@@ -63,6 +73,10 @@ history8 = model8.fit(x, y, metrics=["loss"])
 print(f"LGBM time with {model8.n_trees} weak learners: {perf_counter() - start}")
 y_pred8 = model8.predict(x_test)
 
+# %%
+# Predictions in one dimension
+# ----------------------------
+
 plt.figure(figsize=(8, 8))
 plt.plot(x[:, 0].numpy(), y.numpy(), color="Blue", label="True data")
 plt.plot(x_test[:, 0].numpy(), y_pred.numpy(), color="Red", label="Regression tree")
@@ -74,6 +88,13 @@ plt.plot(x_test[:, 0].numpy(), y_pred6, color="pink", label="SKlearn AdaBoostReg
 plt.plot(x_test[:, 0].numpy(), y_pred7.numpy(), color="lightblue", label="XGBoostRegressor")
 plt.plot(x_test[:, 0].numpy(), y_pred8.numpy(), color="black", label="LGBMRegressor")
 plt.legend(loc="upper left")
+
+# %%
+# Training history in one dimension
+# ---------------------------------
+#
+# The loss of the gradient boosting models and the errors and confidences of AdaBoost as a function of the
+# number of trees.
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 plt.subplots_adjust(hspace=0.5, wspace=0.5)
@@ -96,6 +117,12 @@ ax[3].plot(history8["loss"])
 ax[3].set_ylabel("Loss")
 ax[3].set_xlabel("Tree")
 ax[3].set_title("Light gradient boosting machine regressor")
+
+# %%
+# Two-dimensional data
+# --------------------
+#
+# The same models are refitted to noisy samples of the surface :math:`z = x^2 + y^2 - 5`.
 
 n = 20
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32), torch.linspace(-1, 1, n, dtype=torch.float32), indexing="xy")
@@ -127,6 +154,10 @@ z7 = model7.predict(x_test)
 history8 = model8.fit(x_train, y_train)
 z8 = model8.predict(x_test)
 
+# %%
+# Predictions in two dimensions
+# -----------------------------
+
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(x_test[:, 0], x_test[:, 1], y_test, color="Blue", label="True data")
@@ -139,6 +170,10 @@ ax.scatter(x_test[:, 0], x_test[:, 1], z6, color="pink", label="SKlearn AdaBoost
 ax.scatter(x_test[:, 0], x_test[:, 1], z7, color="lightblue", label="XGBoostRegressor")
 ax.scatter(x_test[:, 0], x_test[:, 1], z8, color="black", label="LGBMRegressor")
 plt.legend(loc="upper left")
+
+# %%
+# Training history in two dimensions
+# ----------------------------------
 
 fig, ax = plt.subplots(2, 2, figsize=(8, 8))
 plt.subplots_adjust(hspace=0.5, wspace=0.5)

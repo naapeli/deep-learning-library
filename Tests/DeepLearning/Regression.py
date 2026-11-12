@@ -20,6 +20,12 @@ from DLL.Data.Preprocessing import data_split
 
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
+# %%
+# The model
+# ---------
+#
+# A small network with batch normalisation, a residual connection and dropout.
+
 model = Model(2, data_type=torch.float32, device=device)
 model.add(Dense(6, initialiser=Xavier_Uniform(), normalisation=BatchNorm(), activation=ReLU()))
 model.add(Add(Dense(6, activation=ReLU()), Identity(), normalisation=BatchNorm()))
@@ -32,13 +38,28 @@ model.add(Dense(0, initialiser=Xavier_Normal()))
 model.compile(optimiser=RMSPROP(learning_rate=0.01), loss=MSE(), metrics=["loss", "val_loss", "median_absolute"])
 model.summary()
 
+# %%
+# Data
+# ----
+#
+# Noisy samples of the surface :math:`z = x^2 + y^2 - 5` on a 30 x 30 grid, split into training, validation and
+# test sets.
+
 n = 30
 X, Y = torch.meshgrid(torch.linspace(-1, 1, n, dtype=torch.float32, device=device), torch.linspace(-1, 1, n, dtype=torch.float32, device=device), indexing="xy")
 x = torch.stack((X.flatten(), Y.flatten()), dim=1)
 y = X.flatten() ** 2 + Y.flatten() ** 2 + 0.1 * torch.randn(size=Y.flatten().size(), device=device) - 5
 x_train, y_train, x_val, y_val, x_test, y_test = data_split(x, y, train_split=0.6, validation_split=0.2)
 
+# %%
+# Training
+# --------
+
 errors = model.fit(x_train, y_train, val_data=(x_val, y_val), epochs=50, batch_size=64, verbose=True)
+
+# %%
+# Learning curves
+# ---------------
 
 plt.figure(figsize=(8, 8))
 plt.semilogy(errors["loss"], label="loss")
@@ -48,6 +69,12 @@ plt.legend()
 plt.xlabel("Epochs")
 plt.ylabel("Metric")
 z = model.predict(x_test).cpu().numpy()
+
+# %%
+# Predictions
+# -----------
+#
+# Predictions on the test set in blue and the true values in red.
 
 fig = plt.figure(figsize=(8, 8))
 ax = fig.add_subplot(111, projection='3d')

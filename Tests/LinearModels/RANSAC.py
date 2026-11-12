@@ -16,6 +16,9 @@ import matplotlib.pyplot as plt
 from DLL.MachineLearning.SupervisedLearning.LinearModels import LinearRegression, RANSACRegression
 from DLL.Data.Preprocessing import PolynomialFeatures
 
+# %%
+# Data
+# ----
 
 num_inliers = 100
 num_outliers = 20
@@ -29,10 +32,21 @@ y = torch.cat((y_inliers, y_outliers))
 indices = torch.randperm(len(X))
 X, y = X[indices], y[indices]
 
+# %%
+# Fitting the models
+# ------------------
+#
+# RANSAC repeatedly fits the model to a random subset of 10 % of the samples and keeps the fit with the most
+# inliers in its subset. Points whose residual exceeds the median absolute deviation of y count as outliers.
+
 lr = LinearRegression()
 lr.fit(X, y)
 ransac = RANSACRegression(estimator=LinearRegression())
 ransac.fit(X, y, min_samples=0.1)
+
+# %%
+# Comparison
+# ----------
 
 plt.plot(x_inliers, y_inliers, ".", label="inliers")
 plt.plot(x_outliers, y_outliers, ".", label="outliers")

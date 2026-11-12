@@ -15,6 +15,11 @@ from DLL.Data.Preprocessing import data_split
 from DLL.MachineLearning.SupervisedLearning.Neighbors import KNNClassifier, KNNRegressor
 from DLL.DeepLearning.Model import save_model, load_model
 
+# %%
+# Classification
+# --------------
+#
+# The iris dataset is classified with the 50 nearest neighbours in the Manhattan distance.
 
 torch.manual_seed(0)
 
@@ -32,6 +37,12 @@ print(model.predict_proba(X_test))
 print(accuracy(predictions, y_test))
 # save_model(model, filepath="./Tests/Neighbours/classifier.pkl")
 
+# %%
+# Regression
+# ----------
+#
+# Noisy samples of :math:`y = x^2` are predicted from the 5 nearest neighbours, weighted with a Gaussian of the
+# distance.
 
 X = torch.linspace(0, 1, 100)
 y = X ** 2 + torch.randn_like(X) * 0.05
