@@ -152,7 +152,7 @@ for name, trained_model in (("With attention", model), ("Without attention", bas
 #
 # The model generates text one character at a time. The window ends with the latest characters, the predicted
 # distribution at its last position is sharpened with a temperature of 0.5, and the next character is sampled
-# from it.
+# from it. The descriptions contain tables of numbers, so the generated text contains them too.
 
 
 def generate(model, prompt, n_chars, temperature=0.5):
@@ -173,7 +173,9 @@ print("\nWithout attention:\n" + generate(baseline, prompt, 200))
 # -----------------
 #
 # Every head assigns weights to the current and the previous characters, and the weights in each row sum to one.
-# The causal mask keeps everything above the diagonal at zero. Spaces are shown as ␣.
+# The causal mask keeps everything above the diagonal at zero. The first characters can only attend to a few
+# characters, so their weights are large. The colour scale of each head is therefore set by the rows from the
+# seventh character on, and larger weights are shown in the darkest colour. Spaces are shown as ␣.
 
 sample = "The number of instances "
 model.predict(encode(torch.tensor([char_to_index[char] for char in sample]).unsqueeze(0)))
@@ -182,7 +184,7 @@ labels = ["␣" if char == " " else char for char in sample]
 
 fig, axes = plt.subplots(1, 4, figsize=(16, 4.5))
 for head, ax in enumerate(axes):
-    ax.imshow(weights[head], cmap="Blues", vmin=0, vmax=1)
+    ax.imshow(weights[head], cmap="Blues", vmin=0, vmax=weights[head, 6:].max())
     ax.set_title(f"Head {head + 1}")
     ax.set_xticks(range(seq_len), labels, fontsize=7)
     ax.set_yticks(range(seq_len), labels, fontsize=7)
