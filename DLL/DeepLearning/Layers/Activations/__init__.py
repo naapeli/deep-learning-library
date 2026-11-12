@@ -2,3 +2,8 @@ from ._ReLU import ReLU
 from ._Sigmoid import Sigmoid
 from ._SoftMax import SoftMax
 from ._Tanh import Tanh
+from ._SiLU import SiLU
+from ._GELU import GELU
+from ._LeakyReLU import LeakyReLU
+from ._ELU import ELU
+from ._Softplus import Softplus
