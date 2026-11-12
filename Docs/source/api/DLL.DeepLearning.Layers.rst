@@ -43,6 +43,14 @@ MaxPooling2D
    :undoc-members:
    :show-inheritance:
 
+Upsampling2D
+-------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Upsampling2D
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 RNN
 ----------------------------------
 
@@ -140,6 +148,46 @@ Tanh
 -----------------------------------------------
 
 .. autoclass:: DLL.DeepLearning.Layers.Activations.Tanh
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+SiLU
+-----------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Activations.SiLU
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+GELU
+-----------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Activations.GELU
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+LeakyReLU
+-----------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Activations.LeakyReLU
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ELU
+-----------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Activations.ELU
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Softplus
+-----------------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Layers.Activations.Softplus
    :members:
    :undoc-members:
    :show-inheritance:

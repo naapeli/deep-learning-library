@@ -4,6 +4,7 @@ from ._Flatten import Flatten
 from ._Input import Input
 from ._LSTM import LSTM
 from ._MaxPooling2D import MaxPooling2D
+from ._Upsampling2D import Upsampling2D
 from ._Reshape import Reshape
 from ._RNN import RNN
 from ._Bidirectional import Bidirectional
