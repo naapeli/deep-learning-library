@@ -113,12 +113,14 @@ model.summary()
 # Training
 # --------
 #
-# Both models are trained for 40 epochs. The loss is the cross entropy of the next character, averaged over all
+# The model with attention is trained for 40 epochs. The baseline is trained five times longer, for 200 epochs,
+# to show that more training does not make up for the missing attention: its validation loss levels off far above
+# the loss of the attention model. The loss is the cross entropy of the next character, averaged over all
 # positions, and the accuracy is the fraction of positions where the most likely character is the correct one.
 # The validation set is evaluated after every epoch.
 
 history = model.fit(X_train, Y_train, val_data=(X_val, Y_val), epochs=40, batch_size=64)
-history_baseline = baseline.fit(X_train, Y_train, val_data=(X_val, Y_val), epochs=40, batch_size=64)
+history_baseline = baseline.fit(X_train, Y_train, val_data=(X_val, Y_val), epochs=200, batch_size=64)
 
 fig, ax = plt.subplots(1, 2, figsize=(12, 4.5))
 for hist, name, color in ((history, "with attention", "C0"), (history_baseline, "without attention", "C1")):
