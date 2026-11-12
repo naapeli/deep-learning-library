@@ -2,20 +2,20 @@
 Character-level language model with attention
 ================================================
 
-This script trains a tiny language model with
+This script trains a small language model with
 :class:`~DLL.DeepLearning.Layers.MultiHeadAttention`. The model reads 24 characters at a time and predicts the
 next character at every position, like a (very) small GPT. A causal mask makes sure that each position only
 attends to itself and the characters before it.
 
-The text is the Zen of Python, which is shipped with Python itself, so nothing has to be downloaded. The text
-is tiny, so the model mostly memorises it, but it is enough to show what attention adds: the same network
-without the attention layer can only look at the current character.
+The text is the descriptions of the toy datasets that are shipped with scikit-learn, so nothing has to be
+downloaded. The model is compared with the same network without the attention layer, which can only look at
+the current character.
 """
-import codecs
-import this  # importing this prints the Zen of Python
+import random
 
 import torch
 import matplotlib.pyplot as plt
+from sklearn import datasets
 
 from DLL.DeepLearning.Model import Model
 from DLL.DeepLearning.Layers import MultiHeadAttention, Dense, Add, Identity
@@ -23,29 +23,37 @@ from DLL.DeepLearning.Layers.Regularisation import LayerNorm
 from DLL.DeepLearning.Layers.Activations import ReLU, SoftMax
 from DLL.DeepLearning.Optimisers import ADAM
 from DLL.DeepLearning.Losses import CCE
+from DLL.Data.Metrics import accuracy
 
 
 torch.manual_seed(0)
+random.seed(0)
 
 # %%
 # Data
 # ----
 #
-# Every character is a token. A training sample is a window of 24 consecutive characters, and the target is the
-# same window shifted by one character. Each token is encoded as a one-hot vector of the character, followed by
-# a one-hot vector of its position in the window. Attention itself does not know the order of the tokens, so the
-# position has to be part of the input.
+# The text consists of about 15 000 characters. Its paragraphs are divided randomly into a training set (80 %),
+# a validation set (10 %) and a test set (10 %), so the model is evaluated on text it has never seen.
+#
+# Every character is a token. A sample is a window of 24 consecutive characters, and the target is the same
+# window shifted by one character. Each token is encoded as a one-hot vector of the character, followed by a
+# one-hot vector of its position in the window. Attention itself does not know the order of the tokens, so the
+# position has to be part of the input. To keep the example fast, a new window starts every 5 characters.
 
-text = codecs.decode(this.s, "rot13")
+loaders = [datasets.load_iris, datasets.load_wine, datasets.load_breast_cancer, datasets.load_diabetes, datasets.load_digits, datasets.load_linnerud]
+text = "\n\n".join(load().DESCR for load in loaders)
+paragraphs = [paragraph for paragraph in text.split("\n\n") if paragraph.strip()]
+random.shuffle(paragraphs)
+n_train, n_val = int(0.8 * len(paragraphs)), int(0.1 * len(paragraphs))
+train_text = "\n\n".join(paragraphs[:n_train])
+val_text = "\n\n".join(paragraphs[n_train:n_train + n_val])
+test_text = "\n\n".join(paragraphs[n_train + n_val:])
+
 chars = sorted(set(text))
 char_to_index = {char: i for i, char in enumerate(chars)}
-encoded_text = torch.tensor([char_to_index[char] for char in text])
 vocab_size = len(chars)
 seq_len = 24
-
-starts = torch.arange(len(encoded_text) - seq_len)
-input_ids = torch.stack([encoded_text[start:start + seq_len] for start in starts])
-target_ids = torch.stack([encoded_text[start + 1:start + seq_len + 1] for start in starts])
 
 
 def encode(ids):
@@ -54,9 +62,19 @@ def encode(ids):
     return torch.cat([one_hot_chars, positions], dim=2)
 
 
-X = encode(input_ids)
-Y = torch.eye(vocab_size)[target_ids]
-print(f"{len(text)} characters, {vocab_size} different characters, {len(X)} windows of {seq_len} characters")
+def make_windows(part, stride=5):
+    ids = torch.tensor([char_to_index[char] for char in part])
+    starts = torch.arange(0, len(ids) - seq_len, stride)
+    inputs = torch.stack([ids[start:start + seq_len] for start in starts])
+    targets = torch.stack([ids[start + 1:start + seq_len + 1] for start in starts])
+    return encode(inputs), torch.eye(vocab_size)[targets]
+
+
+X_train, Y_train = make_windows(train_text)
+X_val, Y_val = make_windows(val_text)
+X_test, Y_test = make_windows(test_text)
+print(f"{len(text)} characters, {vocab_size} different characters")
+print(f"Windows: {len(X_train)} for training, {len(X_val)} for validation and {len(X_test)} for testing")
 
 # %%
 # The models
@@ -82,7 +100,7 @@ def build_model(use_attention):
     model.add(Add(Dense((seq_len, embedding_dim), activation=ReLU()), Identity()))
     model.add(LayerNorm())
     model.add(Dense((seq_len, vocab_size), activation=SoftMax()))
-    model.compile(optimiser=ADAM(learning_rate=0.003), loss=CCE(), metrics=["loss", "accuracy"])
+    model.compile(optimiser=ADAM(learning_rate=0.003), loss=CCE(), metrics=["loss", "accuracy", "val_loss", "val_accuracy"])
     return model
 
 
@@ -95,26 +113,38 @@ model.summary()
 # Training
 # --------
 #
-# Both models are trained for 60 epochs. The loss is the cross entropy of the next character, averaged over all
+# Both models are trained for 40 epochs. The loss is the cross entropy of the next character, averaged over all
 # positions, and the accuracy is the fraction of positions where the most likely character is the correct one.
+# The validation set is evaluated after every epoch.
 
-history = model.fit(X, Y, epochs=60, batch_size=64)
-history_baseline = baseline.fit(X, Y, epochs=60, batch_size=64)
-print(f"With attention: loss {history['loss'][-1]:.3f}, accuracy {history['accuracy'][-1]:.3f}")
-print(f"Without attention: loss {history_baseline['loss'][-1]:.3f}, accuracy {history_baseline['accuracy'][-1]:.3f}")
+history = model.fit(X_train, Y_train, val_data=(X_val, Y_val), epochs=40, batch_size=64)
+history_baseline = baseline.fit(X_train, Y_train, val_data=(X_val, Y_val), epochs=40, batch_size=64)
 
 fig, ax = plt.subplots(1, 2, figsize=(12, 4.5))
-ax[0].plot(history["loss"], label="with attention")
-ax[0].plot(history_baseline["loss"], label="without attention")
+for hist, name, color in ((history, "with attention", "C0"), (history_baseline, "without attention", "C1")):
+    ax[0].plot(hist["loss"], color=color, linestyle="--", label=f"{name}, training")
+    ax[0].plot(hist["val_loss"], color=color, label=f"{name}, validation")
+    ax[1].plot(hist["accuracy"], color=color, linestyle="--", label=f"{name}, training")
+    ax[1].plot(hist["val_accuracy"], color=color, label=f"{name}, validation")
 ax[0].set_ylabel("Cross entropy per character")
-ax[1].plot(history["accuracy"], label="with attention")
-ax[1].plot(history_baseline["accuracy"], label="without attention")
 ax[1].set_ylabel("Next character accuracy")
 for a in ax:
     a.set_xlabel("Epoch")
     a.grid(alpha=0.3)
     a.legend()
 plt.tight_layout()
+
+# %%
+# Test set
+# --------
+#
+# The final models are evaluated on the test set, which was not used during training.
+
+for name, trained_model in (("With attention", model), ("Without attention", baseline)):
+    predictions = trained_model.predict(X_test)
+    test_loss = CCE().loss(predictions, Y_test).item()
+    test_accuracy = accuracy(predictions.reshape(-1, vocab_size), Y_test.reshape(-1, vocab_size))
+    print(f"{name}: test loss {test_loss:.3f}, test accuracy {test_accuracy:.3f}")
 
 # %%
 # Generating text
@@ -134,19 +164,18 @@ def generate(model, prompt, n_chars, temperature=0.5):
     return "".join(chars[i] for i in ids)
 
 
-prompt = "Beautiful is better than"
-print("With attention:\n" + generate(model, prompt, 150))
-print("\nWithout attention:\n" + generate(baseline, prompt, 150))
+prompt = "The dataset contains the "
+print("With attention:\n" + generate(model, prompt, 200))
+print("\nWithout attention:\n" + generate(baseline, prompt, 200))
 
 # %%
 # Attention weights
 # -----------------
 #
 # Every head assigns weights to the current and the previous characters, and the weights in each row sum to one.
-# The causal mask keeps everything above the diagonal at zero. The heads learn different patterns, for instance
-# looking at the previous character or at the start of the current word. Spaces are shown as ␣.
+# The causal mask keeps everything above the diagonal at zero. Spaces are shown as ␣.
 
-sample = "Simple is better than co"
+sample = "The number of instances "
 model.predict(encode(torch.tensor([char_to_index[char] for char in sample]).unsqueeze(0)))
 weights = attention.attention_scores[0]
 labels = ["␣" if char == " " else char for char in sample]
