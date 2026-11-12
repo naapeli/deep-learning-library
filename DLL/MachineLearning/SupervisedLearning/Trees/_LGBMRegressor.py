@@ -1,7 +1,8 @@
 import torch
 
 from ._LGBMTree import _LGBMTree, _ExclusiveFeatureBundling
-from ....DeepLearning.Losses import MSE, MAE, Huber
+from ._LeafRefit import _refit_leaves_to_quantile
+from ....DeepLearning.Losses import MSE, MAE, Huber, Quantile
 from ....Exceptions import NotFittedError
 from ....Data.Metrics import calculate_metrics
 
@@ -20,14 +21,15 @@ class LGBMRegressor:
         gamma (float | int, optional): The minimum gain to make a split. Must be a non-negative real number. Defaults to 0.
         large_error_proportion (float, optional): The proportion of the whole data with the largest error, which is always used to train the next weak learner. Defaults to 0.3.
         small_error_proportion (float, optional): The proportion of data randomly selected from the remaining (1 - large_error_proportion) percent of data to train the next weak learner. Defaults to 0.2.
-        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of "squared", "absolute" or "huber". Defaults to "squared".
+        loss (string, optional): The loss function used in calculations of the gradients and hessians. Must be one of "squared", "absolute", "huber" or "quantile". Defaults to "squared". With "quantile", the model predicts the chosen quantile of the target instead of the mean, which can be used to calculate prediction intervals.
         huber_delta (float | int, optional): The delta parameter for the possibly used huber loss. If loss is not "huber", this parameter is ignored.
+        quantile (float, optional): The predicted quantile for the possibly used quantile loss. Must be in range (0, 1). If loss is not "quantile", this parameter is ignored. Defaults to 0.5.
         max_conflict_rate (float, optional): The proportion of samples, which are allowed to be nonzero without featuers being bundled. Is ignored if use_efb=False. Defaults to 0.0.
         use_efb (bool, optional): Determines if the exclusive feature bundling algorithm is used. Defaults to True.
     Attributes:
         n_features (int): The number of features. Available after fitting.
     """
-    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, n_bins=30, reg_lambda=1, gamma=0, large_error_proportion=0.3, small_error_proportion=0.2, loss="squared", huber_delta=1, max_conflict_rate=0.0, use_efb=True):
+    def __init__(self, n_trees=50, learning_rate=0.5, max_depth=3, min_samples_split=2, n_bins=30, reg_lambda=1, gamma=0, large_error_proportion=0.3, small_error_proportion=0.2, loss="squared", huber_delta=1, quantile=0.5, max_conflict_rate=0.0, use_efb=True):
         if not isinstance(n_trees, int) or n_trees < 1:
             raise ValueError("n_trees must be a positive integer.")
         if not isinstance(learning_rate, float) or learning_rate <= 0 or learning_rate >= 1:
@@ -48,10 +50,12 @@ class LGBMRegressor:
             raise ValueError("small_error_proportion must be a float in range (0, 1).")
         if large_error_proportion + small_error_proportion > 1:
             raise ValueError("large_error_proportion and small_error_proportion must sum to a value less than 1.")
-        if loss not in ["squared", "absolute", "huber"]:
-            raise ValueError('loss must be one in ["squared", "absolute", "huber"].')
+        if loss not in ["squared", "absolute", "huber", "quantile"]:
+            raise ValueError('loss must be one in ["squared", "absolute", "huber", "quantile"].')
         if not isinstance(huber_delta, int | float) or huber_delta <= 0:
             raise ValueError("huber_delta must be a positive real number.")
+        if not isinstance(quantile, float) or quantile <= 0 or quantile >= 1:
+            raise ValueError("quantile must be a float in range (0, 1).")
         if not isinstance(max_conflict_rate, float) or max_conflict_rate < 0 or max_conflict_rate >= 1:
             raise ValueError("max_conflict_rate must be a float in range [0, 1).")
         if not isinstance(use_efb, bool):
@@ -67,17 +71,26 @@ class LGBMRegressor:
         self.trees = None
         self.large_error_proportion = large_error_proportion
         self.small_error_proportion = small_error_proportion
-        self.loss = self._choose_loss(loss, huber_delta)
+        self.loss_ = loss
+        self.loss = self._choose_loss(loss, huber_delta, quantile)
         self.use_efb = use_efb
         if self.use_efb: self.efb = _ExclusiveFeatureBundling(max_conflict_rate=max_conflict_rate, n_bins=n_bins)
 
-    def _choose_loss(self, loss, huber_delta):
+    def _choose_loss(self, loss, huber_delta, quantile):
         if loss == "squared":
             return MSE(reduction="sum")
         elif loss == "absolute":
             return MAE(reduction="sum")
         elif loss == "huber":
             return Huber(reduction="sum", delta=huber_delta)
+        elif loss == "quantile":
+            return Quantile(quantile=quantile, reduction="sum")
+
+    def _hessian(self, pred, y):
+        if self.loss_ in ["absolute", "huber", "quantile"]:
+            # The hessians of these losses are zero for (large) errors, which makes the Newton steps of the leaves explode. As in LightGBM, a constant hessian of 1 is used instead, which turns the Newton step into a gradient step.
+            return torch.ones_like(pred)
+        return self.loss.hessian(pred, y)
 
     def fit(self, X, y, metrics=["loss"]):
         """
@@ -105,7 +118,7 @@ class LGBMRegressor:
 
         if self.use_efb: X = self.efb.fit_transform(X)
 
-        self.initial_pred = y.mean()
+        self.initial_pred = torch.quantile(y, self.loss.quantile) if self.loss_ == "quantile" else y.mean()
         pred = torch.full(y.shape, self.initial_pred)
         trees = []
         history = {metric: torch.zeros(self.n_trees) for metric in metrics}
@@ -116,10 +129,12 @@ class LGBMRegressor:
 
         for i in range(self.n_trees):
             gradient = self.loss.gradient(pred, y).to(X.dtype)
-            hessian = self.loss.hessian(pred, y).to(X.dtype)
+            hessian = self._hessian(pred, y).to(X.dtype)
 
             # GOSS (gradient-based one-sided sampling)
-            indicies = torch.argsort(gradient, descending=True)
+            # sorted by the magnitude of the gradient, with ties broken randomly
+            permutation = torch.randperm(len(gradient))
+            indicies = permutation[torch.argsort(gradient[permutation].abs(), descending=True, stable=True)]
             large_error_indicies = indicies[:top_n]
             small_error_indicies = indicies[torch.randperm(len(indicies) - len(large_error_indicies))[:rand_n] + top_n]
             train_indicies = torch.cat([large_error_indicies, small_error_indicies])
@@ -127,6 +142,7 @@ class LGBMRegressor:
 
             tree = _LGBMTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, n_bins=self.n_bins, reg_lambda=self.reg_lambda, gamma=self.gamma)
             tree.fit(X[train_indicies], gradient[train_indicies], hessian[train_indicies])
+            if self.loss_ == "quantile": _refit_leaves_to_quantile(tree.root, X, y - pred, self.loss.quantile)
             prediction = tree.predict(X)
             pred += self.learning_rate * prediction
 

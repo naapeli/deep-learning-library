@@ -4,31 +4,38 @@ import numpy as np
 
 from ..Kernels import RBF, _Base
 from ....Exceptions import NotFittedError
+from ....DeepLearning.Losses import Hinge
 
 
 class SVC:
     """
-    The support vector machine classifier. "cvxopt"-optimization method's implementation is largly based on `this article <https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603>`_. The "smo"-optimization algorithm is based on `this paper <https://www.microsoft.com/en-us/research/uploads/prod/1998/04/sequential-minimal-optimization.pdf>`_.
+    The support vector machine classifier. "cvxopt"-optimization method's implementation is largly based on `this article <https://towardsdatascience.com/implement-multiclass-svm-from-scratch-in-python-b141e43dc084#a603>`_. The "smo"-optimization algorithm is based on `this paper <https://www.microsoft.com/en-us/research/uploads/prod/1998/04/sequential-minimal-optimization.pdf>`_. The "gradient_descent"-optimization method minimises the primal objective :math:`\frac{1}{2}\|f\|^2 + C\sum_{i=1}^n l(y_i, f(x_i))` directly, where :math:`l` is the hinge or the squared hinge loss, with the step sizes of `Pegasos <https://home.ttic.edu/~nati/Publications/PegasosMPB.pdf>`_.
 
     Args:
         kernel (:ref:`kernel_section_label`, optional): The non-linearity function for fitting the model. Defaults to RBF.
         C (float or int, optional): A regularization parameter. Defaults to 1. Must be positive real number.
-        opt_method (str, optional): The method that will be used in the optimization step. Must be in ["cvxopt", "smo", "coord_ascent"]. Defaults to "coord_ascent". For optimal results one should experiment with every optimization method, but as a rule of thumb, "coord_ascent" is the most efficient.
+        opt_method (str, optional): The method that will be used in the optimization step. Must be in ["cvxopt", "smo", "coord_ascent", "gradient_descent"]. Defaults to "coord_ascent". For optimal results one should experiment with every optimization method, but as a rule of thumb, "coord_ascent" is the most efficient. The other methods solve the dual problem of the hinge loss, while "gradient_descent" minimises the chosen loss in the primal form.
+        loss (str, optional): The loss function minimised by the "gradient_descent" optimization method. Must be one of "hinge" or "squared_hinge". Is ignored for the other optimization methods, which always use the hinge loss. Defaults to "hinge".
     Attributes:
         n_features (int): The number of features. Available after fitting.
         alpha (torch.Tensor of shape (n_samples,)): The optimized dual coefficients. Available after fitting.
+        history (dict[str, torch.Tensor]): The primal objective after every epoch under the key "loss". Available after fitting a binary classifier with opt_method="gradient_descent".
     """
-    def __init__(self, kernel=RBF(), C=1, opt_method="coord_ascent"):
+    def __init__(self, kernel=RBF(), C=1, opt_method="coord_ascent", loss="hinge"):
         if not isinstance(kernel, _Base):
             raise ValueError("kernel must be from DLL.MachineLearning.SupervisedLearning.Kernels")
         if not isinstance(C, float | int) or C <= 0:
             raise ValueError("C must be must be positive real number.")
-        if opt_method not in ["cvxopt", "smo", "coord_ascent"]:
-            raise ValueError('opt_method must be in ["cvxopt", "smo", "coord_ascent"].')
+        if opt_method not in ["cvxopt", "smo", "coord_ascent", "gradient_descent"]:
+            raise ValueError('opt_method must be in ["cvxopt", "smo", "coord_ascent", "gradient_descent"].')
+        if loss not in ["hinge", "squared_hinge"]:
+            raise ValueError('loss must be one of "hinge" or "squared_hinge".')
 
         self.kernel = kernel
         self.C = C
         self.opt_method = opt_method
+        self.loss_ = loss
+        self.loss = Hinge(squared=(loss == "squared_hinge"), reduction="sum")
 
         self._from_multi = False
         self.tol = 1e-5
@@ -43,7 +50,7 @@ class SVC:
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].
-            epochs (int, optional): The number of iterations the training loop runs. Defaults to 100. Must be a positive integer. Is ignored for opt_method="cvxopt".
+            epochs (int, optional): The number of iterations the training loop runs. Defaults to 10. Must be a positive integer. Is ignored for opt_method="cvxopt". The "gradient_descent" method usually needs a few hundred epochs.
             multi_method (str, optional): The method for multi-class classification. Is ignored for binary classification. Must be one of "ovr" or "ovo". Defaults to "ovr".
         Returns:
             None
@@ -104,6 +111,9 @@ class SVC:
                     new_val = min(self.C, max(new_val, 0))
                     alpha[i] = new_val
             self.alpha = alpha
+
+        elif self.opt_method == "gradient_descent":
+            self._gradient_descent(K, y, epochs)
 
         elif self.opt_method == "smo":
             self.alpha = torch.zeros(n, dtype=X.dtype)
@@ -172,11 +182,42 @@ class SVC:
         self.is_sv = (self.alpha - self.tol > 0) & (self.alpha <= self.C)
         self.margin_sv = torch.argmax(((0 < self.alpha - self.tol) & (self.alpha < self.C - self.tol)).to(torch.int32))
 
-        if self.opt_method != "smo":
+        if self.opt_method not in ["smo", "gradient_descent"]:
             x_s, y_s = self.X[self.margin_sv, torch.newaxis], self.y[self.margin_sv]
             alpha_sv, y_sv, X_sv = self.alpha[self.is_sv], self.y[self.is_sv], self.X[self.is_sv]
             self.b = y_s - torch.sum((alpha_sv * y_sv).unsqueeze(-1) * self._kernel_matrix(X_sv, x_s), dim=0)
     
+    def _gradient_descent(self, K, y, epochs):
+        # The decision function is f = K_1 @ beta, where K_1 = K + 1 and beta_i = alpha_i * y_i. Adding 1 to the kernel
+        # includes the bias b = sum(beta) in the model. The primal objective is
+        # J(beta) = 1 / 2 * beta^T K_1 beta + C * sum(loss(y, K_1 beta)), whose gradient is K_1 @ (beta + C * g) and
+        # hessian is K_1 @ (I + C * diag(h) @ K_1), where g and h are the gradient and the hessian of the loss with
+        # respect to f. Both are preconditioned with the inverse of K_1, which removes the kernel from the gradient.
+        n = len(y)
+        K_1 = K + 1
+        labels = ((y + 1) / 2).to(K.dtype)  # the hinge loss expects the labels 0 and 1
+        beta = torch.zeros(n, dtype=K.dtype)
+        history = torch.zeros(epochs)
+        for t in range(1, epochs + 1):
+            scores = K_1 @ beta
+            gradient = beta + self.C * self.loss.gradient(scores, labels)
+            if self.loss.squared:
+                # The squared hinge loss has a nonzero hessian, so Newton's method is used, which converges in a few iterations.
+                hessian = self.loss.hessian(scores, labels)
+                step = torch.linalg.solve(torch.eye(n, dtype=K.dtype) + self.C * hessian.unsqueeze(1) * K_1, gradient)
+            else:
+                # The hinge loss is piecewise linear, so a subgradient step with the step size 1 / (lambda * t) of
+                # Pegasos is used, where lambda = 1 / (C * n) is the regularisation parameter of the objective J / (C * n).
+                step = gradient / t
+            beta = beta - step
+            history[t - 1] = 0.5 * beta @ K_1 @ beta + self.C * self.loss.loss(K_1 @ beta, labels)
+            if self.loss.squared and torch.max(torch.abs(step)) < self.tol:
+                history = history[:t]
+                break
+        self.history = {"loss": history}
+        self.alpha = beta * y
+        self.b = beta.sum()
+
     def _select_j(self, i, n):
         j = i
         while j == i:
@@ -192,7 +233,7 @@ class SVC:
             self.classifiers = []
             for label in classes:
                 Xs, ys = X, torch.where(y == label, 1, 0)
-                classifier = SVC(kernel=self.kernel, C=self.C, opt_method=self.opt_method)
+                classifier = SVC(kernel=self.kernel, C=self.C, opt_method=self.opt_method, loss=self.loss_)
                 classifier.fit(Xs, ys, epochs)
                 self.classifiers.append(classifier)
 
@@ -205,7 +246,7 @@ class SVC:
                     indices = (y == class_i) | (y == class_j)
                     X_subset, y_subset = X[indices], y[indices]
                     y_subset = torch.where(y_subset == class_i, 1, 0)
-                    classifier = SVC(kernel=self.kernel, C=self.C, opt_method=self.opt_method)
+                    classifier = SVC(kernel=self.kernel, C=self.C, opt_method=self.opt_method, loss=self.loss_)
                     classifier.fit(X_subset, y_subset, epochs)
                     self.classifiers.append((classifier, class_i, class_j))
         

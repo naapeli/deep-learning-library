@@ -4,7 +4,7 @@ from math import sqrt
 from ..DeepLearning.Losses import MSE, MAE, BCE, CCE, Huber, Exponential
 
 
-def calculate_metrics(data, metrics, loss=None, validation=False):
+def calculate_metrics(data, metrics, loss=None, validation=False, loss_input=None):
     """
     Calculates the values of different metrics based on training predictions and true values.
 
@@ -13,6 +13,7 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
         metrics (tuple | list): A list metric names to calculate. Each element must be in ["loss", "accuracy", "precision", "recall", "f1_score", "rmse", "mae", "mse", "bce", "cce", "huber", "median_absolute"].
         loss (Callable[[predictions, true values], float], optional): The wanted loss function. If Defaults to None.
         validation (bool, optional): Determines if "val_" is appended before each metric. If true, the each element of the metrics must be for instance "val_loss" or "val_mse". Defaults to False.
+        loss_input (torch.Tensor | None, optional): The predictions passed to the loss function instead of the predictions in data. Used when the loss is calculated from logits, while the other metrics are calculated from probabilities. If None, the predictions in data are used. Defaults to None.
 
     Returns:
         dict[str, float]: A dictionary with metric name as the key and the metric as the value.
@@ -38,7 +39,7 @@ def calculate_metrics(data, metrics, loss=None, validation=False):
         true_output = true_output.reshape(-1, true_output.shape[-1])
     for metric in metrics:
         if metric == (val + "loss") and loss is not None:
-            metric_value = loss(original_predictions, original_true_output).item()
+            metric_value = loss(original_predictions if loss_input is None else loss_input, original_true_output).item()
         elif metric == (val + "accuracy"):
             metric_value = accuracy(predictions, true_output)
         elif metric == (val + "precision"):

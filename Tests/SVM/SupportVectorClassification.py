@@ -7,7 +7,8 @@ This script compares the performance of different Support Vector Machine (SVM) s
 1. **CVXOPT Solver**: Custom SVM optimization using the CVXOPT library.
 2. **SMO Solver**: Custom implementation of the Sequential Minimal Optimization (SMO) algorithm.
 3. **Coordinate Ascent Solver**: Custom implementation of the coordinate ascent optimization method for SVM.
-4. **Scikit-learn SVM**: Standard implementation from the Scikit-learn library.
+4. **Gradient Descent Solver**: Minimises the hinge loss or the squared hinge loss (:class:`~DLL.DeepLearning.Losses.Hinge`) directly in the primal form.
+5. **Scikit-learn SVM**: Standard implementation from the Scikit-learn library.
 
 The performance is evaluated based on prediction accuracy and training time. Visualizations of decision boundaries learned by each solver on the test set are provided for comparison.
 """
@@ -21,6 +22,7 @@ from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
 from DLL.MachineLearning.SupervisedLearning import Kernels
 from DLL.Data.Preprocessing import data_split
 from DLL.Data.Metrics import accuracy, prob_to_pred
+from DLL.DeepLearning.Losses import Hinge
 
 # %%
 # Data
@@ -107,6 +109,29 @@ X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
 grid_predictions3 = model3.predict(X_grid).reshape((n, n))
 
 # %%
+# Gradient descent solver
+# -----------------------
+#
+# The other solvers solve the dual problem. The gradient descent solver instead minimises the primal objective
+# :math:`\frac{1}{2}\|f\|^2 + C\sum_i l(y_i, f(x_i))` directly, where :math:`l` is the hinge loss. The gradient
+# of the hinge loss comes from :class:`~DLL.DeepLearning.Losses.Hinge`, and the step size decreases as in Pegasos.
+# With ``loss="squared_hinge"``, the loss is differentiable and has a nonzero hessian, so Newton's method is used.
+
+model5 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="gradient_descent", loss="hinge")
+start5 = perf_counter()
+model5.fit(X_train, y_train, epochs=300, multi_method="ovr")
+end5 = perf_counter()
+print(round(accuracy(model5.predict(X_test), y_test), 3))
+grid_predictions5 = model5.predict(X_grid).reshape((n, n))
+
+model6 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="gradient_descent", loss="squared_hinge")
+start6 = perf_counter()
+model6.fit(X_train, y_train, epochs=50, multi_method="ovr")
+end6 = perf_counter()
+print(round(accuracy(model6.predict(X_test), y_test), 3))
+grid_predictions6 = model6.predict(X_grid).reshape((n, n))
+
+# %%
 # Scikit-learn
 # ------------
 #
@@ -132,17 +157,50 @@ grid_predictions4 = model4.predict(X_grid).reshape((n, n))
 # Decision regions
 # ----------------
 
-fig, axes = plt.subplots(2, 2, figsize=(10, 10))
-axes[0, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions.numpy(), alpha=0.5)
-axes[1, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions2.numpy(), alpha=0.5)
-axes[0, 1].contourf(Xv.numpy(), Yv.numpy(), grid_predictions3.numpy(), alpha=0.5)
-axes[1, 1].contourf(Xv.numpy(), Yv.numpy(), grid_predictions4, alpha=0.5)
-axes[0, 0].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[0, 1].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[1, 0].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[1, 1].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[0, 0].set_title(f"cvxopt solver - time to train: {round(end1 - start1, 3)}")
-axes[1, 0].set_title(f"My SMO solver - time to train: {round(end2 - start2, 3)}")
-axes[0, 1].set_title(f"My coordinate ascent solver - time to train: {round(end3 - start3, 3)}")
-axes[1, 1].set_title(f"SKlearn implementation - time to train: {round(end4 - start4, 3)}")
+fig, axes = plt.subplots(3, 2, figsize=(10, 15))
+results = [
+    (grid_predictions, f"cvxopt solver - time to train: {round(end1 - start1, 3)}"),
+    (grid_predictions3, f"My coordinate ascent solver - time to train: {round(end3 - start3, 3)}"),
+    (grid_predictions2, f"My SMO solver - time to train: {round(end2 - start2, 3)}"),
+    (torch.from_numpy(grid_predictions4), f"SKlearn implementation - time to train: {round(end4 - start4, 3)}"),
+    (grid_predictions5, f"Hinge loss gradient descent - time to train: {round(end5 - start5, 3)}"),
+    (grid_predictions6, f"Squared hinge loss Newton - time to train: {round(end6 - start6, 3)}"),
+]
+for ax, (grid, title) in zip(axes.ravel(), results):
+    ax.contourf(Xv.numpy(), Yv.numpy(), grid.numpy(), alpha=0.5)
+    ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
+    ax.set_title(title, fontsize=10)
+plt.tight_layout()
+
+# %%
+# Convergence of the primal objective
+# -----------------------------------
+#
+# A binary problem between the first two classes. The gradient descent solver stores the primal objective after
+# every epoch in ``model.history``. The hinge loss needs many small subgradient steps, while Newton's method
+# converges in a few iterations for the squared hinge loss. The objective of the dual solvers is evaluated with the
+# hinge loss for comparison.
+
+binary = y_train < 2
+X_binary, y_binary = X_train[binary], y_train[binary]
+hinge = Hinge(reduction="sum")
+fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+for loss, epochs in [("hinge", 300), ("squared_hinge", 50)]:
+    model = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="gradient_descent", loss=loss)
+    model.fit(X_binary, y_binary, epochs=epochs)
+    ax[0 if loss == "hinge" else 1].plot(model.history["loss"], label=f"gradient descent ({loss})")
+for opt_method in ["cvxopt", "coord_ascent"]:
+    model = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method=opt_method)
+    model.fit(X_binary, y_binary, epochs=5)
+    beta = model.alpha * model.y
+    scores = beta @ model._kernel_matrix(X_binary, X_binary) + model.b
+    objective = 0.5 * beta @ model._kernel_matrix(X_binary, X_binary) @ beta + hinge.loss(scores, y_binary.to(scores.dtype))
+    ax[0].axhline(objective.item(), linestyle="--", color="C1" if opt_method == "cvxopt" else "C2", label=f"{opt_method} (hinge)")
+ax[0].set_yscale("log")
+for a in ax:
+    a.set_xlabel("epoch")
+    a.set_ylabel("primal objective")
+    a.grid(alpha=0.3)
+    a.legend()
+plt.tight_layout()
 plt.show()

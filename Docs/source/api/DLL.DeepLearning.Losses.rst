@@ -49,3 +49,27 @@ Huber
    :members:
    :undoc-members:
    :show-inheritance:
+
+Quantile
+------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Losses.Quantile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Hinge
+------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Losses.Hinge
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Focal
+------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Losses.Focal
+   :members:
+   :undoc-members:
+   :show-inheritance:

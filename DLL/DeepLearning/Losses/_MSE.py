@@ -80,5 +80,5 @@ class MSE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return torch.full((len(true_output),), 2 / prediction.numel())
-        return torch.full((len(true_output),), 2)
+            return torch.full_like(prediction, 2 / prediction.numel())
+        return torch.full_like(prediction, 2)

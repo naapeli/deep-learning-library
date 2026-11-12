@@ -35,7 +35,7 @@ class Model:
 
         Args:
             optimiser (:ref:`optimisers_section_label` | None, optional): The optimiser used for training the model. If None, the ADAM optimiser is used.
-            loss (:ref:`losses_section_label` | None, optional): The loss function used for training the model. If None, the MSE loss is used.
+            loss (:ref:`losses_section_label` | None, optional): The loss function used for training the model. If None, the MSE loss is used. With a loss constructed with ``from_logits=True``, the last layer should not have a sigmoid or a softmax activation. The training metrics are then calculated from the probabilities, while ``predict`` returns the logits.
             metrics (tuple[str], optional): The metrics that will be tracked during training. Defaults to ("loss").
             callbacks (tuple[:ref:`callbacks_section_label`], optional): The callbacks used by the model. Defaults to ().
         Raises:
@@ -127,7 +127,7 @@ class Model:
             NotCompiledError: If the Model has not been compiled before predicting.
 
         Returns:
-            torch.Tensor of shape (n_samples, *last_layer.output_shape)): The predictions made by the model.
+            torch.Tensor of shape (n_samples, *last_layer.output_shape)): The predictions made by the model. If the loss was constructed with ``from_logits=True``, these are logits, which can be turned to probabilities with ``model.loss.transform_prediction``.
         """
         from ..Exceptions import NotCompiledError
         if self.optimiser is None:
@@ -223,9 +223,12 @@ class Model:
 
             self.eval()
             if epoch % callback_frequency == 0:
-                values = calculate_metrics(data=(self.predict(X), Y), metrics=train_metrics, loss=self.loss.loss)
+                # with from_logits=True losses, the loss is calculated from the logits and the other metrics from the probabilities
+                predictions = self.predict(X)
+                values = calculate_metrics(data=(self.loss.transform_prediction(predictions), Y), metrics=train_metrics, loss=self.loss.loss, loss_input=predictions)
                 if val_data is not None:
-                    val_values = calculate_metrics(data=(self.predict(val_data[0]), val_data[1]), metrics=val_metrics, loss=self.loss.loss, validation=True)
+                    val_predictions = self.predict(val_data[0])
+                    val_values = calculate_metrics(data=(self.loss.transform_prediction(val_predictions), val_data[1]), metrics=val_metrics, loss=self.loss.loss, validation=True, loss_input=val_predictions)
                     values |= val_values
                 for metric, value in values.items():
                     history[metric].append(value)
