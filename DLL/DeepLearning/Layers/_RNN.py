@@ -71,14 +71,12 @@ class RNN(BaseLayer):
 
         .. math::
         
-            \\begin{align*}
                 h_t &= \\text{tanh}(x_tW_{ih}^T + h_{t - 1}W_{hh}^T + b_h),\\\\
                 y_{t} &= h_tW_o^T + b_o,\\\\
-                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
+                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence\\_length}),\\\\
                 y_{activ} &= g(y_{reg}),
-            \\end{align*}
 
-        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W_{ih}` is the input to hidden weights, :math:`W_{hh}` is the hidden to hidden weights, :math:`b_h` is the hidden bias, :math:`W_o` is the output weights, :math:`b_o` is the output bias, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
+        where :math:`t\in[1,\dots, \\text{sequence\\_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W_{ih}` is the input to hidden weights, :math:`W_{hh}` is the hidden to hidden weights, :math:`b_h` is the hidden bias, :math:`W_o` is the output weights, :math:`b_o` is the output bias, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
 
         Args:
             input (torch.Tensor of shape (batch_size, sequence_length, input_size)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.

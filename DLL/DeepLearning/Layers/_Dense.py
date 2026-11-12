@@ -49,11 +49,9 @@ class Dense(BaseLayer):
 
         .. math::
         
-            \\begin{align*}
                 y_{lin} = xW + b,\\\\
                 y_{reg} = f(y_{lin}),\\\\
                 y_{activ} = g(y_{reg}),
-            \\end{align*}
         
         where :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
 

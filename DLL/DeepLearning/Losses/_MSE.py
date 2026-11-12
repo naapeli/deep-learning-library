@@ -22,10 +22,8 @@ class MSE(BaseLoss):
 
         .. math::
 
-            \\begin{align*}
                 l_i &= (y_i - f(x_i))^2,\\\\
                 L_{sum} &= \\sum_{i=1}^n l_i \\text{ or } L_{mean} = \\frac{1}{n}\\sum_{i=1}^n l_i,
-            \\end{align*}
         
         where :math:`f(x_i)` is the predicted value and :math:`y_i` is the true value.
 

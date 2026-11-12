@@ -69,13 +69,11 @@ class Conv2D(BaseLayer):
         Applies the convolutional transformation.
 
         .. math::
-            \\begin{align*}
-                y_{i, j} &= \\text{bias}_j + \\sum_{k = 1}^{\\text{d_in}} \\text{kernel}(j, k) \star \\text{input}(i, k),\\\\
+                y_{i, j} &= \\text{bias}_j + \\sum_{k = 1}^{\\text{d\\_in}} \\text{kernel}(j, k) \star \\text{input}(i, k),\\\\
                 y_{reg_{i, j}} &= f(y_{i, j}),\\\\
                 y_{activ_{i, j}} &= g(y_{reg}),
-            \\end{align*}
         
-        where :math:`\star` is the cross-correlation operator, :math:`\\text{d_in}` is the input_depth, :math:`i\in [1,\dots, \\text{batch_size}]`, :math:`j\in[1,\dots, \\text{output_depth}]`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
+        where :math:`\star` is the cross-correlation operator, :math:`\\text{d\\_in}` is the input_depth, :math:`i\in [1,\dots, \\text{batch\\_size}]`, :math:`j\in[1,\dots, \\text{output\\_depth}]`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function.
 
         Args:
             input (torch.Tensor of shape (n_samples, input_depth, input_height, input_width)): The input to the layer. Must be a torch.Tensor of the spesified shape.

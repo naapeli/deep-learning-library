@@ -81,13 +81,11 @@ class MultiHeadAttention(BaseLayer):
 
         .. math::
         
-            \\begin{align*}
-                y_{\\text{MultiHead}} &= \\text{Concat}(head_1, \\dots, head_{\\text{n_heads}})W_O + b_O,\\\\
+                y_{\\text{MultiHead}} &= \\text{Concat}(head_1, \\dots, head_{\\text{n\\_heads}})W_O + b_O,\\\\
                 y_{reg} &= f(y_{\\text{MultiHead}}),\\\\
                 y_{activ} &= g(y_{reg}),
-            \\end{align*}
         
-        where :math:`head_i = \\text{softmax}\\left(\\frac{Q_iK_i^T}{\\sqrt{d_{\\text{head}}}}\\right)V_i`, :math:`d_{\\text{head}} = \\text{output_dim} / \\text{n_heads}`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which are obtained by transforming the input with a linear layer and splitting the result on the feature axis. :math:`Q_i, K_i` and :math:`V_i` are the parts of them belonging to head :math:`i`, and :math:`W_O` and :math:`b_O` are the weights and the bias of the output projection. If use_mask is True, the softmax only considers the current and the past tokens.
+        where :math:`head_i = \\text{softmax}\\left(\\frac{Q_iK_i^T}{\\sqrt{d_{\\text{head}}}}\\right)V_i`, :math:`d_{\\text{head}} = \\text{output\\_dim} / \\text{n\\_heads}`, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. :math:`Q, K` and :math:`V` are the query, key and value matricies, which are obtained by transforming the input with a linear layer and splitting the result on the feature axis. :math:`Q_i, K_i` and :math:`V_i` are the parts of them belonging to head :math:`i`, and :math:`W_O` and :math:`b_O` are the weights and the bias of the output projection. If use_mask is True, the softmax only considers the current and the past tokens.
 
         Args:
             input (torch.Tensor of shape (n_samples, seq_len, output_dim)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.
