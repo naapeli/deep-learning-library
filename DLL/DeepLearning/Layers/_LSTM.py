@@ -79,7 +79,6 @@ class LSTM(BaseLayer):
 
         .. math::
         
-            \\begin{align*}
                 f_t &= \\sigma(W_fx_t + U_fh_{t - 1} + b_f),\\\\
                 i_t &= \\sigma(W_ix_t + U_ih_{t - 1} + b_i),\\\\
                 o_t &= \\sigma(W_ox_t + U_oh_{t - 1} + b_o),\\\\
@@ -87,11 +86,10 @@ class LSTM(BaseLayer):
                 c_t &= f_t\\odot c_{t - 1} + i_t\\odot\\widetilde{c}_t,\\\\
                 h_t &= o_t\\odot\\text{tanh}(c_t),\\\\
                 y_t &= W_yh_t + b_y,\\\\
-                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence_length}),\\\\
+                y_{reg} &= f(y) \\text{ or } f(y_\\text{sequence\\_length}),\\\\
                 y_{activ} &= g(y_{reg}),
-            \\end{align*}
 
-        where :math:`t\in[1,\dots, \\text{sequence_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W` and :math:`U` are the weight matricies, :math:`b` are the biases, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. Also :math:`\\odot` represents the hadamard or the element-wise product and :math:`\\sigma` represents the sigmoid function.
+        where :math:`t\in[1,\dots, \\text{sequence\\_length}]`, :math:`x` is the input, :math:`h_t` is the hidden state, :math:`W` and :math:`U` are the weight matricies, :math:`b` are the biases, :math:`f` is the possible regularisation function and :math:`g` is the possible activation function. Also :math:`\\odot` represents the hadamard or the element-wise product and :math:`\\sigma` represents the sigmoid function.
 
         Args:
             input (torch.Tensor of shape (batch_size, sequence_length, input_size)): The input to the layer. Must be a torch.Tensor of the spesified shape given by layer.input_shape.

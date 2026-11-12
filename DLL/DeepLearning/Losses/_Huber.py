@@ -26,13 +26,11 @@ class Huber(BaseLoss):
 
         .. math::
         
-            \\begin{align*}
                 l_i &= \\begin{cases}
                     \\frac{1}{2}(y_i - f(x_i))^2 & \\text{if } |y_i - f(x_i)| \\leq \\delta,\\\\
                     \\delta|y_i - f(x_i)| - \\frac{1}{2}\\delta^2 & \\text{otherwise},
                 \end{cases}\\\\
                 L_{sum} &= \\sum_{i=1}^n l_i \\text{ or } L_{mean} = \\frac{1}{n}\\sum_{i=1}^n l_i,
-            \\end{align*}
 
         where :math:`f(x_i)` is the predicted value and :math:`y_i` is the true value.
 
