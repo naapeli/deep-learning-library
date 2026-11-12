@@ -1,5 +1,4 @@
 import torch
-from functools import lru_cache, partial
 
 from ._BaseLayer import BaseLayer
 from .Activations._Activation import Activation
@@ -8,79 +7,58 @@ from ..Initialisers import Xavier_Uniform
 from ..Initialisers._Initialiser import Initialiser
 
 
-@lru_cache
-def _bspline_basis(i, n_fun, knots, x):
-    if n_fun == 0:
-        return ((knots[i] <= x) & (x < knots[i + 1])).float()
-    
-    denom1 = knots[i + n_fun] - knots[i]
-    denom2 = knots[i + n_fun + 1] - knots[i + 1]
+def _make_knots(n_splines, degree, bounds, data_type=torch.float32, device=torch.device("cpu")):
+    """
+    Uniform knot vector for ``n_splines`` B-splines of the given degree. The knots are extended by ``degree``
+    steps past both bounds, so the splines form a partition of unity on the whole interval ``bounds``.
+    """
+    n_intervals = n_splines - degree  # number of knot intervals inside bounds
+    step = (bounds[1] - bounds[0]) / n_intervals
+    knots = bounds[0] + step * torch.arange(-degree, n_splines + 1, dtype=data_type, device=device)
+    return knots  # (n_splines + degree + 1,)
 
-    term1 = (x - knots[i]) / denom1 * _bspline_basis(i, n_fun - 1, knots, x) if denom1 > 0 else torch.zeros_like(x)
-    term2 = (knots[i + n_fun + 1] - x) / denom2 * _bspline_basis(i + 1, n_fun - 1, knots, x) if denom2 > 0 else torch.zeros_like(x)
-    return term1 + term2
-
-@lru_cache
-def _bspline_basis_derivative(i, n_fun, knots, x):
-    if n_fun == 0:
-        return torch.zeros(x)
-
-    denom1 = knots[i + n_fun] - knots[i]
-    denom2 = knots[i + n_fun + 1] - knots[i + 1]
-
-    term1 = _bspline_basis(i, n_fun - 1, knots, x) / denom1 if denom1 > 0 else torch.zeros_like(x)
-    term2 = _bspline_basis(i + 1, n_fun - 1, knots, x) / denom2 if denom2 > 0 else torch.zeros_like(x)
-
-    return n_fun * (term1 - term2)
 
 def _SiLU(x):
-    return x / (1 + torch.exp(-x))
+    return x * torch.sigmoid(x)
+
 
 def _SiLU_der(x):
-    return (1 + torch.exp(-x) + x * torch.exp(-x)) / (1 + torch.exp(-x)) ** 2
-
-def make_basis_func(i, degree, t, x):
-    return _bspline_basis(i, degree, t, x)
-
-def make_basis_func_der(i, degree, t, x):
-    return _bspline_basis_derivative(i, degree, t, x)
-
-def _get_basis_functions(n_fun, degree=3, bounds=(-1, 1)):
-    grid_len = n_fun - degree + 1
-    step = (bounds[1] - bounds[0]) / (grid_len - 1)
-    edge_funcs, edge_func_ders = [], []
-
-    # SiLU bias function
-    edge_funcs.append(_SiLU)
-    edge_func_ders.append(_SiLU_der)
-
-    # B-splines
-    t = torch.linspace(bounds[0] - degree * step, bounds[1] + degree * step, grid_len + 2 * degree)
-    t[degree], t[-degree - 1] = bounds[0], bounds[1]
-    for ind_spline in range(n_fun - 1):
-        edge_funcs.append(partial(make_basis_func, ind_spline, degree, t))
-        edge_func_ders.append(partial(make_basis_func_der, ind_spline, degree, t))
-    return edge_funcs, edge_func_ders
+    sigmoid = torch.sigmoid(x)
+    return sigmoid * (1 + x * (1 - sigmoid))
 
 
-class _NeuronKAN:
-    def __init__(self, input_length, n_basis_funcs, bounds, initialiser, data_type, device, basis_func_degree=3):
-        self.edge_fun, self.edge_fun_der = _get_basis_functions(n_fun=n_basis_funcs, degree=basis_func_degree, bounds=bounds)
-        self.weights = initialiser.initialise((n_basis_funcs, input_length), data_type=data_type, device=device)
+def _evaluate_basis(x, knots, degree, derivative=False):
+    """
+    Evaluates the SiLU function and every B-spline basis function at once using the Cox-de Boor recursion.
 
-    def forward(self, input, **kwargs):
-        self.input = input
-        self.edge_func_values = torch.stack([func(input) for func in self.edge_fun], dim=1)  # (n, n_basis_funcs, input_length)
-        output = (self.weights.unsqueeze(0) * self.edge_func_values).sum(dim=(1, 2))
-        return output
+    Args:
+        x (torch.Tensor of shape (...)): The evaluation points.
+        knots (torch.Tensor of shape (n_splines + degree + 1,) or None): The knot vector. If None, only SiLU is used.
+        degree (int): The degree of the B-splines.
+        derivative (bool, optional): If True, also returns the derivatives of the basis functions. Defaults to False.
 
-    def backward(self, dCdy, **kwargs):
-        dCdy = dCdy.view(len(dCdy), 1, 1)  # (n, 1, 1)
-        self.weights.grad += torch.sum(dCdy * self.edge_func_values, dim=0)
-        dCdx = dCdy * self.weights.unsqueeze(0)  # (n, n_basis_funcs, input_length)
-        edge_func_derivatives = torch.stack([func(self.input) for func in self.edge_fun_der], dim=1)
-        dCdx = torch.sum(dCdx * edge_func_derivatives, dim=1)
-        return dCdx
+    Returns:
+        torch.Tensor of shape (..., n_splines + 1), and optionally the derivatives of the same shape. Index 0 is SiLU.
+    """
+    values = [_SiLU(x).unsqueeze(-1)]
+    derivatives = [_SiLU_der(x).unsqueeze(-1)] if derivative else None
+
+    if knots is not None:
+        x = x.unsqueeze(-1)
+        splines = ((knots[:-1] <= x) & (x < knots[1:])).to(x.dtype)  # degree 0 splines (..., n_knots - 1)
+        for k in range(1, degree + 1):
+            previous = splines
+            left_denom = knots[k:-1] - knots[:-k - 1]  # the knots are strictly increasing, so never zero
+            right_denom = knots[k + 1:] - knots[1:-k]
+            splines = (x - knots[:-k - 1]) / left_denom * previous[..., :-1] + (knots[k + 1:] - x) / right_denom * previous[..., 1:]
+        values.append(splines)
+        if derivative:
+            derivatives.append(degree * (previous[..., :-1] / left_denom - previous[..., 1:] / right_denom))
+
+    values = torch.cat(values, dim=-1)
+    if derivative:
+        return values, torch.cat(derivatives, dim=-1)
+    return values
 
 
 class DenseKAN(BaseLayer):
@@ -89,24 +67,24 @@ class DenseKAN(BaseLayer):
 
     Args:
         output_shape (tuple[int] or int): The output_shape of the model not containing the batch_size dimension. Must contain non-negative integers. If is int, returned shape is (n_samples, int). If is the length is zero, the returned tensor is of shape (n_samples,). Otherwise the returned tensor is of shape (n_samples, *output_shape).
-        n_basis_funcs (int, optional): The number of basis functions used for fitting. If 1, only SiLU is used. Otherwise 1 SiLU and n_basis_funcs - 1 Bsplines basis functions are used. Must be a positive integer. Defaults to 10.
-        bounds (tuple[int], optional): The theoretical min and max of the data that will be passed to the forward method. Must be a tuple containing two integers. Defaults to (-1, 1).
+        n_basis_funcs (int, optional): The number of basis functions used for fitting. If 1, only SiLU is used. Otherwise 1 SiLU and n_basis_funcs - 1 Bsplines basis functions are used. Must be 1 or an integer of at least basis_func_degree + 2. Defaults to 10.
+        bounds (tuple[int | float], optional): The theoretical min and max of the data that will be passed to the forward method. The B-splines form a partition of unity on this interval. Must be a tuple containing two numbers. Defaults to (-1, 1).
         basis_func_degree (int, optional): The degree of the Bspline basis functions. Must be positive. Defaults to 3.
         initialiser (:ref:`initialisers_section_label`, optional): The initialisation method for models weights. Defaults to Xavier_uniform.
         activation (:ref:`activations_section_label` | None, optional): The activation used after this layer. If is set to None, no activation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
         normalisation (:ref:`regularisation_layers_section_label` | None, optional): The regularisation layer used after this layer. If is set to None, no regularisation is used. Defaults to None. If both activation and regularisation is used, the regularisation is performed first in the forward propagation.
     Note:
-        n_basis_funcs and basis_func_degree should be different to avoid certain errors.
+        All edge functions of the layer are stored in a single weight tensor of shape (output_dim, input_dim, n_basis_funcs) and the basis functions are evaluated only once per forward pass, so the whole layer is computed with a single matrix multiplication.
     """
     def __init__(self, output_shape, n_basis_funcs=10, bounds=(-1, 1), basis_func_degree=3, initialiser=Xavier_Uniform(), activation=None, normalisation=None, **kwargs):
         if not isinstance(n_basis_funcs, int) or n_basis_funcs <= 0:
             raise ValueError("n_basis_funcs must be a positive integer.")
-        if not isinstance(bounds, tuple) or len(bounds) != 2 or not isinstance(bounds[0], int) or not isinstance(bounds[1], int) or bounds[0] >= bounds[1]:
+        if not isinstance(bounds, tuple) or len(bounds) != 2 or not all(isinstance(bound, (int, float)) for bound in bounds) or bounds[0] >= bounds[1]:
             raise ValueError("bounds should be a tuple of length 2 containing the theoretical minimum and maximum of the data that will be passed in.")
         if not isinstance(basis_func_degree, int) or basis_func_degree <= 0:
             raise ValueError("basis_func_degree must be a positive integer.")
-        if n_basis_funcs == basis_func_degree:
-            raise ValueError("n_basis_funcs and basis_func_degree should be different.")
+        if n_basis_funcs != 1 and n_basis_funcs < basis_func_degree + 2:
+            raise ValueError("n_basis_funcs must be 1 (only SiLU) or at least basis_func_degree + 2.")
         if not isinstance(initialiser, Initialiser):
             raise ValueError('initialiser must be an instance of DLL.DeepLearning.Initialisers')
         if not isinstance(activation, Activation) and activation is not None:
@@ -118,6 +96,8 @@ class DenseKAN(BaseLayer):
         self.name = "DenseKAN"
         self.initialiser = initialiser
         self.n_basis_funcs = n_basis_funcs
+        self.bounds = bounds
+        self.basis_func_degree = basis_func_degree
 
     def initialise_layer(self, input_shape, data_type, device):
         """
@@ -125,11 +105,16 @@ class DenseKAN(BaseLayer):
         """
         super().initialise_layer(input_shape, data_type, device)
         
-        input_dim = input_shape[-1]
+        if len(input_shape) != 1:
+            raise ValueError("input_shape must be of the form (n_features,).")
+
+        input_dim = input_shape[0]
         output_dim = 1 if len(self.output_shape) == 0 else self.output_shape[-1]
-        
-        self.neurons = [_NeuronKAN(input_dim, self.n_basis_funcs, (-1, 1), self.initialiser, data_type, device, 3) for _ in range(output_dim)]  # TODO: Change the hard coded values to actual parameters
-        self.nparams = self.n_basis_funcs * output_dim * input_dim
+
+        n_splines = self.n_basis_funcs - 1
+        self.knots = _make_knots(n_splines, self.basis_func_degree, self.bounds, data_type=data_type, device=device) if n_splines > 0 else None
+        self.weights = self.initialiser.initialise((output_dim, input_dim, self.n_basis_funcs), data_type=data_type, device=device)
+        self.nparams = self.weights.numel()
 
     def forward(self, input, training=False, **kwargs):
         """
@@ -150,7 +135,12 @@ class DenseKAN(BaseLayer):
             raise TypeError("training must be a boolean.")
 
         self.input = input
-        output = torch.stack([neuron.forward(input) for neuron in self.neurons], dim=1)
+        if training:
+            self.basis_values, self.basis_derivatives = _evaluate_basis(input, self.knots, self.basis_func_degree, derivative=True)
+        else:
+            self.basis_values, self.basis_derivatives = _evaluate_basis(input, self.knots, self.basis_func_degree), None
+        # (n, input_dim * n_basis_funcs) @ (input_dim * n_basis_funcs, output_dim)
+        output = self.basis_values.flatten(start_dim=1) @ self.weights.flatten(start_dim=1).T
         if self.normalisation: output = self.normalisation.forward(output, training=training)
         if self.activation: output = self.activation.forward(output)
         if len(self.output_shape) == 0: output = output.squeeze(dim=1)  # If the output_shape is a 1d tensor, remove the last dimension
@@ -174,11 +164,16 @@ class DenseKAN(BaseLayer):
         if len(self.output_shape) == 0: dCdy = dCdy.unsqueeze(dim=1)  # If the output shape was a 1d tensor, add an extra dimension to the end
         if self.activation: dCdy = self.activation.backward(dCdy)
         if self.normalisation: dCdy = self.normalisation.backward(dCdy)
-        dCdx = sum([neuron.backward(dCdy[:, i]) for i, neuron in enumerate(self.neurons)])
+        if self.basis_derivatives is None:
+            self.basis_values, self.basis_derivatives = _evaluate_basis(self.input, self.knots, self.basis_func_degree, derivative=True)
+
+        self.weights.grad += (dCdy.T @ self.basis_values.flatten(start_dim=1)).view_as(self.weights)
+        dCdbasis = (dCdy @ self.weights.flatten(start_dim=1)).view_as(self.basis_values)  # (n, input_dim, n_basis_funcs)
+        dCdx = (dCdbasis * self.basis_derivatives).sum(dim=-1)
         return dCdx
 
     def get_parameters(self):
         """
         :meta private:
         """
-        return (*(neuron.weights for neuron in self.neurons), *super().get_parameters())
+        return (self.weights, *super().get_parameters())
