@@ -198,15 +198,20 @@ results = [train_agent(seed) for seed in seeds]
 # Rewards during training
 # -----------------------
 #
-# The moving average of the total reward over 50 episodes for each seed. The training of a seed stops early once
-# the moving average exceeds 490 (dashed line).
+# The lines are the moving averages of the total reward over 50 episodes, and the shaded areas show the spread of
+# the actual rewards: the 10th to the 90th percentile of the same 50 episodes. The training of a seed stops early
+# once the moving average exceeds 490 (thin black line).
 
 plt.figure(figsize=(10, 5))
-for seed, (_, rewards_memory) in zip(seeds, results):
-    moving_average = np.convolve(rewards_memory, np.ones(MOVING_AVERAGE) / MOVING_AVERAGE, mode="valid")
-    plt.plot(np.arange(MOVING_AVERAGE, len(rewards_memory) + 1), moving_average, label=f"seed {seed}")
-plt.axhline(490, color="black", linestyle="--", linewidth=1, label="stopping threshold")
-plt.ylabel(f"Average total reward of the last {MOVING_AVERAGE} episodes")
+colors = ["#08306b", "#2171b5", "#6baed6"]
+for seed, (_, rewards_memory), color in zip(seeds, results, colors):
+    windows = np.lib.stride_tricks.sliding_window_view(np.array(rewards_memory), MOVING_AVERAGE)
+    episodes = np.arange(MOVING_AVERAGE, len(rewards_memory) + 1)
+    lower, upper = np.percentile(windows, [10, 90], axis=1)
+    plt.fill_between(episodes, lower, upper, color=color, alpha=0.15, linewidth=0)
+    plt.plot(episodes, windows.mean(axis=1), color=color, linewidth=2, label=f"seed {seed}")
+plt.axhline(490, color="black", linewidth=0.8, label="stopping threshold")
+plt.ylabel("Total reward per episode")
 plt.xlabel("Episode")
 plt.legend()
 plt.show()
