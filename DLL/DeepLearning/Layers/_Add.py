@@ -62,7 +62,7 @@ class Add(BaseLayer):
             raise TypeError("training must be a boolean.")
 
         val1 = self.layer1.forward(input, training=training)
-        val2 = self.layer2.forward(input.flip(1), training=training)
+        val2 = self.layer2.forward(input, training=training)
         self.output = val1 + val2
         if self.normalisation: self.output = self.normalisation.forward(self.output, training=training)
         if self.activation: self.output = self.activation.forward(self.output)

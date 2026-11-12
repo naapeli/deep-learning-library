@@ -63,7 +63,7 @@ class MAE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return torch.sign(prediction - true_output) / prediction.shape[0]
+            return torch.sign(prediction - true_output) / prediction.numel()
         return torch.sign(prediction - true_output)
     
     def hessian(self, prediction, true_output):

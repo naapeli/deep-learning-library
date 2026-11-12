@@ -62,7 +62,7 @@ class CCE(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         if self.reduction == "mean":
-            return -true_output / ((prediction + 1e-5) * prediction.shape[0])
+            return -true_output / ((prediction + 1e-5) * (prediction.numel() // prediction.shape[-1]))
         return -true_output / (prediction + 1e-5)
     
     def hessian(self, prediction, true_output):
@@ -83,5 +83,5 @@ class CCE(BaseLoss):
 
         grad = true_output / (prediction ** 2 + 1e-5)
         if self.reduction == "mean":
-            return grad / prediction.shape[0]
+            return grad / (prediction.numel() // prediction.shape[-1])
         return grad
