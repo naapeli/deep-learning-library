@@ -57,7 +57,7 @@ print(f"Gaussian naive bayes accuracy: {accuracy(model.predict(Xtest), ytest)}")
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred, prob_true, marker="o", label="Gaussian Naive Bayes")
 
-model = SVC(kernel=Linear(), opt_method="cvxopt")
+model = SVC(kernel=Linear())
 model.fit(Xtrain, ytrain)
 yprob = model.predict_proba(Xtest)
 print(f"Support vector classification accuracy: {accuracy(model.predict(Xtest), ytest)}")
@@ -94,7 +94,7 @@ print(f"Isotonically Calibrated Calibrated Gaussian naive bayes accuracy: {accur
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred.squeeze(), prob_true.squeeze(), marker="o", label="Calibrated Gaussian Naive Bayes")
 
-model = CalibratedClassifier(SVC(kernel=Linear(), opt_method="cvxopt"), method="isotonic")
+model = CalibratedClassifier(SVC(kernel=Linear()), method="isotonic")
 model.fit(Xtrain, ytrain)
 yprob = model.predict_proba(Xtest)
 print(f"Isotonically Calibrated Support vector classification accuracy: {accuracy(model.predict(Xtest), ytest)}")
@@ -131,7 +131,7 @@ print(f"Logistically Calibrated Gaussian naive bayes accuracy: {accuracy(model.p
 prob_true, prob_pred = calibration_curve(ytest, yprob, n_bins=10, strategy=strategy)
 plt.plot(prob_pred.squeeze(), prob_true.squeeze(), marker="o", label="Calibrated Gaussian Naive Bayes")
 
-model = CalibratedClassifier(SVC(kernel=Linear(), opt_method="cvxopt"), method="logistic")
+model = CalibratedClassifier(SVC(kernel=Linear()), method="logistic")
 model.fit(Xtrain, ytrain)
 yprob = model.predict_proba(Xtest)
 print(f"Logistically Calibrated Support vector classification accuracy: {accuracy(model.predict(Xtest), ytest)}")

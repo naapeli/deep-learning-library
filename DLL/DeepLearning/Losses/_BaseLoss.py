@@ -75,3 +75,24 @@ def _log_sigmoid(logits):
 
 def _log_softmax(logits):
     return logits - torch.logsumexp(logits, dim=-1, keepdim=True)
+
+
+def _check_smoothing(smoothing, squared):
+    if not isinstance(smoothing, int | float) or smoothing < 0:
+        raise ValueError("smoothing must be a non-negative real number.")
+    if smoothing > 0 and squared:
+        raise ValueError("smoothing can only be used with squared=False.")
+
+
+def _margin_loss(margins, squared, smoothing):
+    # returns the loss of the non-negative margins and its first and second derivatives with respect to the margins
+    if squared:
+        return margins ** 2, 2 * margins, 2 * (margins > 0).to(margins.dtype)
+    if smoothing > 0:
+        # quadratic for margins below the smoothing parameter and linear above it
+        quadratic = margins < smoothing
+        loss = torch.where(quadratic, margins ** 2 / (2 * smoothing), margins - smoothing / 2)
+        first = torch.where(quadratic, margins / smoothing, 1.0).to(margins.dtype)
+        second = ((margins > 0) & quadratic).to(margins.dtype) / smoothing
+        return loss, first, second
+    return margins, (margins > 0).to(margins.dtype), torch.zeros_like(margins)

@@ -73,3 +73,11 @@ Focal
    :members:
    :undoc-members:
    :show-inheritance:
+
+EpsilonInsensitive
+------------------------------------
+
+.. autoclass:: DLL.DeepLearning.Losses.EpsilonInsensitive
+   :members:
+   :undoc-members:
+   :show-inheritance:

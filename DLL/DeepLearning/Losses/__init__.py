@@ -7,3 +7,4 @@ from ._Exponential import Exponential
 from ._Quantile import Quantile
 from ._Hinge import Hinge
 from ._Focal import Focal
+from ._EpsilonInsensitive import EpsilonInsensitive

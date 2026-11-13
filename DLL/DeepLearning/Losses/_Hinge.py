@@ -1,6 +1,6 @@
 import torch
 
-from ._BaseLoss import BaseLoss, _check_reduction, _check_bool, _check_binary_labels
+from ._BaseLoss import BaseLoss, _check_reduction, _check_bool, _check_binary_labels, _check_smoothing, _margin_loss
 
 
 class Hinge(BaseLoss):
@@ -11,15 +11,18 @@ class Hinge(BaseLoss):
         squared (bool, optional): If True, the squared hinge loss is used, which is differentiable and penalises large violations more. Defaults to False.
         categorical (bool, optional): If False, every element is an independent binary problem with labels 0 and 1, which are mapped to -1 and 1. If True, the last dimension is the class dimension and the labels are one-hot encoded, and the multi-class hinge loss of Weston and Watkins is used. Defaults to False.
         reduction (str, optional): The reduction method. Must be one of "mean" or "sum". Defaults to "mean".
+        smoothing (int | float, optional): If positive, the corner of the hinge is replaced by a quadratic function on the margins in [0, smoothing], which makes the loss differentiable with a nonzero hessian. As the smoothing goes to zero, the loss approaches the hinge loss. Can only be used with squared=False. Defaults to 0.
     """
-    def __init__(self, squared=False, categorical=False, reduction="mean"):
+    def __init__(self, squared=False, categorical=False, reduction="mean", smoothing=0):
         _check_bool(squared, "squared")
         _check_bool(categorical, "categorical")
         _check_reduction(reduction)
+        _check_smoothing(smoothing, squared)
 
         self.squared = squared
         self.categorical = categorical
         self.reduction = reduction
+        self.smoothing = smoothing
 
     def _check(self, prediction, true_output):
         self._check_inputs(prediction, true_output)
@@ -64,8 +67,7 @@ class Hinge(BaseLoss):
         """
         self._check(prediction, true_output)
 
-        margins = self._margins(prediction, true_output)
-        loss = margins ** 2 if self.squared else margins
+        loss, _, _ = _margin_loss(self._margins(prediction, true_output), self.squared, self.smoothing)
         return self._reduce(loss, self._n_samples(prediction))
 
     def gradient(self, prediction, true_output):
@@ -81,9 +83,8 @@ class Hinge(BaseLoss):
         """
         self._check(prediction, true_output)
 
-        margins = self._margins(prediction, true_output)
         # derivative of the loss with respect to each margin
-        dloss_dmargin = 2 * margins if self.squared else (margins > 0).to(prediction.dtype)
+        _, dloss_dmargin, _ = _margin_loss(self._margins(prediction, true_output), self.squared, self.smoothing)
         if self.categorical:
             # the margin of class j grows with f_j and shrinks with f_y
             grad = dloss_dmargin - true_output * dloss_dmargin.sum(dim=-1, keepdim=True)
@@ -93,7 +94,7 @@ class Hinge(BaseLoss):
 
     def hessian(self, prediction, true_output):
         """
-        Calculates the diagonal of the hessian matrix of the hinge loss. The hinge loss is piecewise linear, so its hessian is zero. The squared hinge loss has the hessian 2 for every active margin.
+        Calculates the diagonal of the hessian matrix of the hinge loss. The hinge loss is piecewise linear, so its hessian is zero. The squared hinge loss has the hessian 2 for every active margin, and the smoothed hinge loss 1 / smoothing for every margin in (0, smoothing).
 
         Args:
             prediction (torch.Tensor): A tensor of predicted scores. Must be the same shape as the true_output.
@@ -104,11 +105,10 @@ class Hinge(BaseLoss):
         """
         self._check(prediction, true_output)
 
-        if not self.squared:
-            return torch.zeros_like(prediction)
-        active = (self._margins(prediction, true_output) > 0).to(prediction.dtype)
+        # the margins are linear in the predictions, so only the second derivative with respect to the margins remains
+        _, _, d2loss_dmargin2 = _margin_loss(self._margins(prediction, true_output), self.squared, self.smoothing)
         if self.categorical:
-            hess = 2 * active + 2 * true_output * active.sum(dim=-1, keepdim=True)
+            hess = d2loss_dmargin2 + true_output * d2loss_dmargin2.sum(dim=-1, keepdim=True)
         else:
-            hess = 2 * active
+            hess = d2loss_dmargin2
         return self._scale(hess, self._n_samples(prediction))
