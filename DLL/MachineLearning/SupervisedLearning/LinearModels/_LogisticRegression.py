@@ -36,6 +36,7 @@ class LogisticRegression:
         Args:
             X (torch.Tensor of shape (n_samples, n_features)): The input data, where each row is a sample and each column is a feature.
             y (torch.Tensor of shape (n_samples,)): The labels corresponding to each sample. Every element must be in [0, ..., n_classes - 1].
+            sample_weight (torch.Tensor of shape (n_samples,) | None, optional): The non-negative weights of the samples in the loss. The loss of every batch is the weighted average of the losses of its samples. If None, every sample has the same weight. Defaults to None.
             val_data (tuple[X_val, y_val] | None, optional): Optional validation samples. If None, no validation data is used. Defaults to None.
             epochs (int, optional): The number of training iterations. Must be a positive integer. Defaults to 100.
             optimiser (:ref:`optimisers_section_label` | None, optional): The optimiser used for training the model. If None, the Adam optimiser is used.
@@ -86,6 +87,8 @@ class LogisticRegression:
             raise TypeError("sample_weight must be torch.Tensor or None.")
         if isinstance(sample_weight, torch.Tensor) and (sample_weight.ndim != 1 or len(X) != len(sample_weight)):
             raise ValueError("sample_weight must be of shape (n_samples,)")
+        if isinstance(sample_weight, torch.Tensor) and (torch.any(sample_weight < 0) or torch.sum(sample_weight) <= 0):
+            raise ValueError("sample_weight must be non-negative with a positive sum.")
 
         n_samples, self.n_features = X.shape
         if len(vals) == 2:
@@ -107,11 +110,12 @@ class LogisticRegression:
 
         history = {metric: torch.zeros(floor(epochs / callback_frequency)) for metric in metrics}
         batch_size = n_samples if batch_size is None else batch_size
-        data_reader = DataReader(X, y, batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
+        # the data reader gives the indices of the samples in every batch, which are used to find the labels and the weights
+        data_reader = DataReader(X, torch.arange(n_samples), batch_size=batch_size, shuffle=shuffle_data, shuffle_every_epoch=shuffle_every_epoch)
 
         if sample_weight is None:
             sample_weight = torch.ones(n_samples)
-        sample_weight = sample_weight / torch.sum(sample_weight)
+        sample_weight = sample_weight.to(X.dtype)
 
         self.weights = torch.randn(weight_shape)
         self.bias = torch.zeros((1,)) if len(weight_shape) == 1 else torch.zeros(y.shape[1])
@@ -120,10 +124,16 @@ class LogisticRegression:
         optimiser.initialise_parameters([self.weights, self.bias])
 
         for epoch in range(epochs):
-            for x_batch, y_batch in data_reader.get_data():
+            for x_batch, indices in data_reader.get_data():
+                y_batch, weight_batch = y[indices], sample_weight[indices]
+                if weight_batch.sum() == 0:
+                    continue
                 logits = x_batch @ self.weights + self.bias
-                # the loss works with logits, so its gradient is directly the gradient with respect to the linear output
-                dCdy = self.loss.gradient(logits, y_batch)
+                # The loss works with logits, so its gradient is directly the gradient with respect to the linear output.
+                # The gradient of the mean loss is multiplied by the batch size to get the gradient of every sample,
+                # which is then weighted by the share of the sample of the total weight of the batch.
+                weight_batch = len(indices) * weight_batch / weight_batch.sum()
+                dCdy = self.loss.gradient(logits, y_batch) * (weight_batch[:, None] if self.multiclass else weight_batch)
                 self.weights.grad = x_batch.T @ dCdy
                 self.bias.grad = torch.sum(dCdy, dim=0, keepdim=(y.ndim == 1))
                 optimiser.update_parameters()
