@@ -2,6 +2,7 @@ import torch
 from math import log
 
 from ...SupervisedLearning.Trees._DecisionTree import Node
+from ...SupervisedLearning.Trees._TreeUtils import _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -77,7 +78,7 @@ class IsolationForest:
 
         scores = torch.zeros((self.n_trees, len(X)))
         for i, tree in enumerate(self.trees):
-            tree_scores = torch.tensor([tree._path_length(point, tree.root) for point in X])
+            tree_scores = tree._path_lengths(X)
             scores[i] = tree_scores
         scores = 2 ** -(torch.mean(scores, dim=0) / self._c(len(X)))
         if return_scores: return scores
@@ -165,6 +166,10 @@ class IsolationTree:
         left_indicies = torch.argwhere(feature_values <= threshold).flatten()
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
+
+    def _path_lengths(self, X):
+        # the depth of the leaf of every sample, with all samples routed through the tree at once
+        return _predict_values(self.root, X, attribute="depth", is_leaf=lambda node: node.depth is not None)
 
     def _path_length(self, point, current_node):
         if current_node.depth is not None:

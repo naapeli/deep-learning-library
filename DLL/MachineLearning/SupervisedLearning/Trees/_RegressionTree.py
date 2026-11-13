@@ -1,6 +1,7 @@
 import torch
 
 from ._DecisionTree import Node
+from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -69,19 +70,19 @@ class RegressionTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, x, y, feature_indicies):
-        max_variance_reduction = -1
+        max_variance_reduction = -float("inf")
         split_index = None
         split_threshold = None
 
+        y = y.to(torch.float64)
+        y = y - y.mean()  # the variance does not change, but the sums of y^2 lose less precision
+        statistics = torch.stack([y, y ** 2], dim=1)
         for index in feature_indicies:
-            feature_values = x[:, index]
-            possible_thresholds = torch.unique(feature_values)
-            for threshold in possible_thresholds:
-                variance_reduction = self._variance_reduction(y, feature_values, threshold)
-                if variance_reduction > max_variance_reduction:
-                    max_variance_reduction = variance_reduction
-                    split_index = index
-                    split_threshold = threshold
+            variance_reduction, threshold = self._variance_reduction(x[:, index], statistics)
+            if variance_reduction > max_variance_reduction:
+                max_variance_reduction = variance_reduction
+                split_index = index
+                split_threshold = threshold
         if max_variance_reduction <= 0: return None, None
         return split_threshold, split_index
 
@@ -90,12 +91,20 @@ class RegressionTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _variance_reduction(self, y, feature_values, threshold):
-        left_indicies, right_indicies = self._split(feature_values, threshold)
-        if len(left_indicies) <= 1 or len(right_indicies) <= 1:
-            return 0
-        n = len(y)
-        return torch.var(y) - len(left_indicies) / n * torch.var(y[left_indicies]) - len(right_indicies) / n * torch.var(y[right_indicies])
+    def _variance_reduction(self, feature_values, statistics):
+        # The reduction of the (unbiased) variance for every threshold at once from the sums of y and y^2 of the children.
+        candidates, n_left, left, total = _split_statistics(feature_values, statistics)
+        n = len(feature_values)
+        n_right = n - n_left
+        right = total - left
+
+        def variance(sums, counts):
+            return (sums[..., 1] - sums[..., 0] ** 2 / counts) / (counts - 1)
+
+        n_left, n_right = n_left.to(torch.float64), n_right.to(torch.float64)
+        reduction = variance(total, torch.tensor(n, dtype=torch.float64)) - n_left / n * variance(left, n_left) - n_right / n * variance(right, n_right)
+        # both children must contain at least two samples for their variance to be defined
+        return _best_threshold(candidates, reduction, (n_left > 1) & (n_right > 1))
 
     def predict(self, X):
         """
@@ -116,16 +125,7 @@ class RegressionTree:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
-
-    def _predict_single(self, x, current_node):
-        if current_node.is_leaf():
-            return current_node.value
-        
-        if x[current_node.feature_index] <= current_node.threshold:
-            return self._predict_single(x, current_node.left)
-        
-        return self._predict_single(x, current_node.right)
+        return _predict_values(self.root, X)
     
     def _prune(self, node, X, y):
         if node.is_leaf():

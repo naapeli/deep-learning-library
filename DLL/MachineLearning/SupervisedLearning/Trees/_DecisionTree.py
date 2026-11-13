@@ -1,5 +1,6 @@
 import torch
 
+from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -96,19 +97,18 @@ class DecisionTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, x, y, feature_indicies):
-        max_entropy_gain = -1
+        max_entropy_gain = -float("inf")
         split_index = None
         split_threshold = None
 
+        # the class counts of the children are the sums of the one-hot encoded labels
+        statistics = torch.nn.functional.one_hot(y.to(torch.int64)).to(torch.float64)
         for index in feature_indicies:
-            feature_values = x[:, index]
-            possible_thresholds = torch.unique(feature_values)
-            for threshold in possible_thresholds:
-                entropy_gain = self._information_gain(y, feature_values, threshold)
-                if entropy_gain > max_entropy_gain:
-                    max_entropy_gain = entropy_gain
-                    split_index = index
-                    split_threshold = threshold
+            entropy_gain, threshold = self._information_gain(x[:, index], statistics)
+            if entropy_gain > max_entropy_gain:
+                max_entropy_gain = entropy_gain
+                split_index = index
+                split_threshold = threshold
         if max_entropy_gain <= 0: return None, None
         return split_threshold, split_index
 
@@ -117,30 +117,22 @@ class DecisionTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _information_gain(self, y, feature_values, threshold):
-        if self.criterion == "gini":
-            information_func = self._gini
-        elif self.criterion == "entropy":
-            information_func = self._entropy
-
-        left_indicies, right_indicies = self._split(feature_values, threshold)
-        if len(left_indicies) == 0 or len(right_indicies) == 0:
-            return 0
-        n = len(y)
-        return information_func(y) - len(left_indicies) / n * information_func(y[left_indicies]) - len(right_indicies) / n * information_func(y[right_indicies])
+    def _information_gain(self, feature_values, statistics):
+        # The information gain of every threshold at once from the class counts of the children.
+        information_func = self._gini if self.criterion == "gini" else self._entropy
+        candidates, n_left, left, total = _split_statistics(feature_values, statistics)
+        n = len(feature_values)
+        n_right = n - n_left
+        n_left, n_right = n_left.to(torch.float64), n_right.to(torch.float64)
+        gain = information_func(total / n) - n_left / n * information_func(left / n_left[:, None]) - n_right / n * information_func((total - left) / n_right[:, None])
+        # both children must contain at least one sample
+        return _best_threshold(candidates, gain, (n_left > 0) & (n_right > 0))
     
-    def _entropy(self, values):
-        n = len(values)
-        data_type = values.dtype
-        p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
-        p = p[p != 0]  # remove non-zero classes from messing up the calculations
-        return -torch.sum(p * torch.log(p))
+    def _entropy(self, p):
+        return -torch.sum(torch.xlogy(p, p), dim=-1)  # xlogy(0, 0) = 0, so the empty classes do not contribute
     
-    def _gini(self, values):
-        n = len(values)
-        data_type = values.dtype
-        p = torch.bincount(values.to(dtype=torch.int32)).to(dtype=data_type) / n
-        return torch.sum(p * (1 - p))
+    def _gini(self, p):
+        return torch.sum(p * (1 - p), dim=-1)
 
     def predict(self, X):
         """
@@ -161,18 +153,7 @@ class DecisionTree:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
-
-    def _predict_single(self, x, current_node, proba=False):
-        if current_node.is_leaf():
-            if proba:
-                return current_node.probabilities
-            return current_node.value
-        
-        if x[current_node.feature_index] <= current_node.threshold:
-            return self._predict_single(x, current_node.left, proba=proba)
-        
-        return self._predict_single(x, current_node.right, proba=proba)
+        return _predict_values(self.root, X)
     
     def predict_proba(self, X):
         """
@@ -193,7 +174,7 @@ class DecisionTree:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        return torch.stack([self._predict_single(datapoint, self.root, proba=True) for datapoint in X])
+        return _predict_values(self.root, X, attribute="probabilities")
 
     def _prune(self, node, X, y):
         classes, counts = torch.unique(y, return_counts=True)

@@ -36,9 +36,9 @@ def generate(n):
     return X, y
 
 
-X_train, y_train = generate(300)
-X_test, y_test = generate(1000)
-X_plot = torch.linspace(0, 10, 200).unsqueeze(1)
+X_train, y_train = generate(800)
+X_test, y_test = generate(4000)
+X_plot = torch.linspace(0, 10, 300).unsqueeze(1)
 quantiles = [0.05, 0.5, 0.95]
 
 # %%
@@ -49,9 +49,9 @@ quantiles = [0.05, 0.5, 0.95]
 # should be close to the quantile itself.
 
 models = {
-    "Gradient boosting": lambda q: GradientBoostingRegressor(n_trees=40, learning_rate=0.2, max_depth=2, loss="quantile", quantile=q),
-    "XGBoost": lambda q: XGBoostingRegressor(n_trees=40, learning_rate=0.2, max_depth=2, loss="quantile", quantile=q),
-    "LightGBM": lambda q: LGBMRegressor(n_trees=40, learning_rate=0.2, max_depth=2, loss="quantile", quantile=q),
+    "Gradient boosting": lambda q: GradientBoostingRegressor(n_trees=100, learning_rate=0.1, max_depth=3, loss="quantile", quantile=q),
+    "XGBoost": lambda q: XGBoostingRegressor(n_trees=100, learning_rate=0.1, max_depth=3, loss="quantile", quantile=q),
+    "LightGBM": lambda q: LGBMRegressor(n_trees=100, learning_rate=0.1, max_depth=3, loss="quantile", quantile=q),
 }
 predictions = {}
 for name, model_class in models.items():

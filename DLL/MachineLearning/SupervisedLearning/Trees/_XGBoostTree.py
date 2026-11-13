@@ -1,6 +1,7 @@
 import torch
 
 from ._DecisionTree import Node
+from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -56,19 +57,17 @@ class _XGBoostTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, X, gradient, hessian, feature_indicies):
-        max_gain = -1
+        max_gain = -float("inf")
         split_index = None
         split_threshold = None
 
+        statistics = torch.stack([gradient, hessian], dim=1).to(torch.float64)
         for index in feature_indicies:
-            feature_values = X[:, index]
-            possible_thresholds = torch.unique(feature_values)
-            for threshold in possible_thresholds:
-                gain = self._gain(gradient, hessian, feature_values, threshold)
-                if gain > max_gain:
-                    max_gain = gain
-                    split_index = index
-                    split_threshold = threshold
+            gain, threshold = self._gain(X[:, index], statistics)
+            if gain > max_gain:
+                max_gain = gain
+                split_index = index
+                split_threshold = threshold
         if max_gain <= 0: return None, None
         return split_threshold, split_index
 
@@ -77,14 +76,17 @@ class _XGBoostTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _gain(self, gradient, hessian, feature_values, threshold):
-        left_indicies, right_indicies = self._split(feature_values, threshold)
-        if len(left_indicies) <= 1 or len(right_indicies) <= 1:
-            return 0
-        return self._gain_node(gradient, hessian) - self._gain_node(gradient[left_indicies], hessian[left_indicies]) - self._gain_node(gradient[right_indicies], hessian[right_indicies]) - self.gamma
+    def _gain(self, feature_values, statistics, candidates=None):
+        # The gain of every threshold at once from the sums of the gradients and the hessians of the children.
+        candidates, n_left, left, total = _split_statistics(feature_values, statistics, candidates)
+        right = total - left
+        gain = self._gain_node(total) - self._gain_node(left) - self._gain_node(right) - self.gamma
+        # both children must contain at least two samples
+        return _best_threshold(candidates, gain, (n_left > 1) & (len(feature_values) - n_left > 1))
 
-    def _gain_node(self, gradient, hessian):
-        return -(gradient.sum() ** 2) / (hessian.sum() + self.reg_lambda)
+    def _gain_node(self, sums):
+        # sums[..., 0] is the sum of the gradients and sums[..., 1] the sum of the hessians
+        return -(sums[..., 0] ** 2) / (sums[..., 1] + self.reg_lambda)
 
     def predict(self, X):
         if self.root is None:
@@ -93,13 +95,4 @@ class _XGBoostTree:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
-
-    def _predict_single(self, x, current_node):
-        if current_node.is_leaf():
-            return current_node.value
-        
-        if x[current_node.feature_index] <= current_node.threshold:
-            return self._predict_single(x, current_node.left)
-        
-        return self._predict_single(x, current_node.right)
+        return _predict_values(self.root, X)

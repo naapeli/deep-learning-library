@@ -67,7 +67,8 @@ class RandomForestRegressor:
         if X.ndim != 2 or X.shape[1] != self.trees[0].n_features:
             raise ValueError("The input matrix must be 2D with the correct number of features.")
 
-        tree_preds = Parallel(n_jobs=self.n_jobs)(delayed(tree.predict)(X) for tree in self.trees)
+        # every tree predicts all samples at once, so this is faster in a single process than in parallel workers
+        tree_preds = [tree.predict(X) for tree in self.trees]
         return torch.stack(tree_preds).mean(dim=0)
     
     def _bootstrap_sample(self, X, y):
