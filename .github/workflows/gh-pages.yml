@@ -33,9 +33,14 @@ jobs:
           pip install -r test_requirements.txt
 
       - name: Build Sphinx documentation
+        # The gallery examples run in parallel, one process per CPU core (-j auto). Every example is limited to a
+        # single thread, so that the processes do not compete for the same cores.
+        env:
+          OMP_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
         run: |
           cd Docs
-          make html
+          make html SPHINXOPTS="-j auto"
           cd ..
 
       - name: Upload artifact
