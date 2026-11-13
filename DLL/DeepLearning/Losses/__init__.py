@@ -4,3 +4,7 @@ from ._BCE import BCE
 from ._CCE import CCE
 from ._Huber import Huber
 from ._Exponential import Exponential
+from ._Quantile import Quantile
+from ._Hinge import Hinge
+from ._Focal import Focal
+from ._EpsilonInsensitive import EpsilonInsensitive

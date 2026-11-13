@@ -74,10 +74,10 @@ class LGBMClassifier:
         self.n_classes = len(classes)
         if self.loss_ == "log_loss":
             if self.n_classes == 2:
-                self.loss = BCE(reduction="sum")
+                self.loss = BCE(reduction="sum", from_logits=True)
                 self.activation = Sigmoid()
             else:
-                self.loss = CCE(reduction="sum")
+                self.loss = CCE(reduction="sum", from_logits=True)
                 self.activation = SoftMax()
         elif self.loss_ == "exponential":
             if self.n_classes != 2:
@@ -123,7 +123,13 @@ class LGBMClassifier:
         else:
             self._multi_fit(X, y)
     
-    def _binary_hessian_diag(self, prob, true_output):
+    def _binary_gradient_and_hessian(self, pred, true_output):
+        if self.loss_ == "log_loss":
+            # the loss is calculated from the logits, so no chain rule through the sigmoid is needed
+            return self.loss.gradient(pred, true_output), self.loss.hessian(pred, true_output)
+
+        # the exponential loss is calculated from the probabilities, so the chain rule through the sigmoid is applied
+        prob = self.activation.forward(pred)
         loss_gradient = self.loss.gradient(prob, true_output)
         loss_hessian = self.loss.hessian(prob, true_output)
         sigmoid_value = prob
@@ -132,18 +138,7 @@ class LGBMClassifier:
         first_term = sigmoid_gradient * (1 - sigmoid_value) * loss_gradient
         second_term = -sigmoid_value * sigmoid_gradient * loss_gradient
         third_term = sigmoid_value * (1 - sigmoid_value) * loss_hessian  # is the same as self.activation.backward(loss_hessian)
-        return first_term + second_term + third_term
-    
-    def _multi_hessian_diag(self, prob, true_output):
-        loss_gradient = self.loss.gradient(prob, true_output)
-        loss_hessian = self.loss.hessian(prob, true_output)
-        softmax_value = prob
-        softmax_gradient = self.activation.backward(loss_gradient)
-
-        softmax_hessian = softmax_value * (1 - softmax_value) * (1 - 2 * softmax_value)
-        
-        # From Mathematica: D[f[g[x]], {x, 2}] = Derivative[1][g][x]^2 (f^\[Prime]\[Prime])[g[x]] + Derivative[1][f][g[x]] (g^\[Prime]\[Prime])[x]
-        return softmax_gradient ** 2 * loss_hessian + loss_gradient * softmax_hessian
+        return sigmoid_gradient, first_term + second_term + third_term
 
     def _binary_fit(self, X, y, metrics=["loss"]):
         positive_ratio = y.mean()
@@ -157,12 +152,12 @@ class LGBMClassifier:
         fact = (1 - self.large_error_proportion) / self.small_error_proportion
 
         for i in range(self.n_trees):
-            prob = self.activation.forward(pred)
-            gradient = self.activation.backward(self.loss.gradient(prob, y))
-            hessian = self._binary_hessian_diag(prob, y)
+            gradient, hessian = self._binary_gradient_and_hessian(pred, y)
 
             # GOSS (gradient-based one-sided sampling)
-            indicies = torch.argsort(gradient, descending=True)
+            # sorted by the magnitude of the gradient, with ties broken randomly
+            permutation = torch.randperm(len(gradient))
+            indicies = permutation[torch.argsort(gradient[permutation].abs(), descending=True, stable=True)]
             large_error_indicies = indicies[:top_n]
             small_error_indicies = indicies[torch.randperm(len(indicies) - len(large_error_indicies))[:rand_n] + top_n]
             train_indicies = torch.cat([large_error_indicies, small_error_indicies])
@@ -175,7 +170,7 @@ class LGBMClassifier:
 
             trees.append(tree)
 
-            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss)
+            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss, loss_input=pred if self.loss_ == "log_loss" else None)
             for metric, value in values.items():
                 history[metric][i] = value
         
@@ -197,12 +192,14 @@ class LGBMClassifier:
         for class_index in range(self.n_classes):
             class_trees = []
             for _ in range(self.n_trees):
-                prob = self.activation.forward(pred)
-                gradient = self.activation.backward(self.loss.gradient(prob, y))[:, class_index]
-                hessian = self._multi_hessian_diag(prob, y)[:, class_index]
+                # the loss is calculated from the logits, so the gradient and the hessian need no chain rule through the softmax
+                gradient = self.loss.gradient(pred, y)[:, class_index]
+                hessian = self.loss.hessian(pred, y)[:, class_index]
 
                 # GOSS (gradient-based one-sided sampling)
-                indicies = torch.argsort(gradient, descending=True)
+                # sorted by the magnitude of the gradient, with ties broken randomly
+                permutation = torch.randperm(len(gradient))
+                indicies = permutation[torch.argsort(gradient[permutation].abs(), descending=True, stable=True)]
                 large_error_indicies = indicies[:top_n]
                 small_error_indicies = indicies[torch.randperm(len(indicies) - len(large_error_indicies))[:rand_n] + top_n]
                 train_indicies = torch.cat([large_error_indicies, small_error_indicies])
@@ -238,7 +235,7 @@ class LGBMClassifier:
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
-        if self.use_efb: X = self.efb.fit_transform(X)
+        if self.use_efb: X = self.efb.transform(X)
 
         if self.n_classes > 2:
             return self._multi_predict_proba(X)
@@ -270,8 +267,6 @@ class LGBMClassifier:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        
-        if self.use_efb: X = self.efb.fit_transform(X)
 
         prob = self.predict_proba(X)
         return prob_to_pred(prob)

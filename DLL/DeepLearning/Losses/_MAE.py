@@ -80,4 +80,4 @@ class MAE(BaseLoss):
         if prediction.shape != true_output.shape:
             raise ValueError("prediction and true_output must have the same shape.")
         
-        return torch.full((len(true_output),), 0)
+        return torch.zeros_like(prediction)

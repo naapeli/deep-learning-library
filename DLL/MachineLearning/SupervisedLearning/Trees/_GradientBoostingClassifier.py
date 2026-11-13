@@ -45,16 +45,23 @@ class GradientBoostingClassifier:
         self.n_classes = len(classes)
         if self.loss_ == "log_loss":
             if self.n_classes == 2:
-                self.loss = BCE(reduction="sum")
+                self.loss = BCE(reduction="sum", from_logits=True)
                 self.activation = Sigmoid()
             else:
-                self.loss = CCE(reduction="sum")
+                self.loss = CCE(reduction="sum", from_logits=True)
                 self.activation = SoftMax()
         elif self.loss_ == "exponential":
             if self.n_classes != 2:
                 raise ValueError("The exponential loss is only applicable in binary classification. Use log_loss for multiclass classification instead.")
             self.loss = Exponential(reduction="sum")
             self.activation = Sigmoid()
+
+    def _gradient(self, pred, y):
+        if self.loss_ == "log_loss":
+            # the loss is calculated from the logits, so no chain rule through the sigmoid is needed
+            return self.loss.gradient(pred, y)
+        prob = self.activation.forward(pred)
+        return self.activation.backward(self.loss.gradient(prob, y))
 
     def fit(self, X, y, metrics=["loss"]):
         """
@@ -100,8 +107,7 @@ class GradientBoostingClassifier:
         history = {metric: torch.zeros(self.n_trees) for metric in metrics}
 
         for i in range(self.n_trees):
-            prob = self.activation.forward(pred)
-            residual = -self.activation.backward(self.loss.gradient(prob, y))
+            residual = -self._gradient(pred, y)
 
             tree = RegressionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
             tree.fit(X, residual)
@@ -110,7 +116,7 @@ class GradientBoostingClassifier:
 
             trees.append(tree)
 
-            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss)
+            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss, loss_input=pred if self.loss_ == "log_loss" else None)
             for metric, value in values.items():
                 history[metric][i] = value
         
@@ -128,8 +134,7 @@ class GradientBoostingClassifier:
         for class_index in range(self.n_classes):
             class_trees = []
             for _ in range(self.n_trees):
-                prob = self.activation.forward(pred)
-                residual = -self.activation.backward(self.loss.gradient(prob, y))[:, class_index]
+                residual = -self.loss.gradient(pred, y)[:, class_index]
 
                 tree = RegressionTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split)
                 tree.fit(X, residual)

@@ -16,8 +16,9 @@ from sklearn.datasets import load_digits
 
 from DLL.DeepLearning.Model import Model
 from DLL.DeepLearning.Layers import Dense
-from DLL.DeepLearning.Layers.Activations import ReLU, Tanh, Sigmoid
+from DLL.DeepLearning.Layers.Activations import ReLU, Tanh
 from DLL.DeepLearning.Optimisers import ADAM
+from DLL.DeepLearning.Losses import BCE
 
 
 torch.manual_seed(0)
@@ -38,7 +39,10 @@ noise_dim = 16
 # ------------
 #
 # The generator maps 16 random numbers to the 64 pixels of an image. The discriminator maps an image to the
-# probability that it is a real image. Both use the Adam parameters that are common for GANs.
+# logit of the probability that it is a real image, i.e. its last layer has no sigmoid activation. The sigmoid is
+# instead applied inside the binary cross entropy with ``from_logits=True``, which is numerically stable and gives
+# the simple gradient :math:`\sigma(z) - y` with respect to the logit. Both networks use the Adam parameters that
+# are common for GANs.
 
 generator = Model(noise_dim)
 generator.add(Dense(128, activation=ReLU()))
@@ -49,7 +53,7 @@ generator.compile(optimiser=ADAM(learning_rate=0.0005, beta1=0.5))
 discriminator = Model(n_pixels)
 discriminator.add(Dense(256, activation=ReLU()))
 discriminator.add(Dense(128, activation=ReLU()))
-discriminator.add(Dense(0, activation=Sigmoid()))
+discriminator.add(Dense(0))
 discriminator.compile(optimiser=ADAM(learning_rate=0.0005, beta1=0.5))
 
 # %%
@@ -62,12 +66,12 @@ discriminator.compile(optimiser=ADAM(learning_rate=0.0005, beta1=0.5))
 #    for the generated images with the binary cross entropy. The real and generated images go through the
 #    discriminator as one batch, because a model remembers only its latest forward pass for the backward pass.
 # 2. The generator is trained to make the discriminator output 1 for new generated images, i.e. it minimises
-#    :math:`-\log D(G(z))`. The gradient flows through the discriminator, which returns the gradient with respect
+#    :math:`-\log D(G(z))`, which is the binary cross entropy with the target 1. The gradient flows through the discriminator, which returns the gradient with respect
 #    to its input, and from there into the generator. Only the generator's parameters are updated in this part.
 
 n_steps = 6000
 batch_size = 64
-eps = 1e-6
+bce = BCE(from_logits=True)
 fixed_noise = torch.randn(40, noise_dim)
 snapshots = {}
 history = {"discriminator": [], "generator": [], "real": [], "fake": []}
@@ -79,22 +83,23 @@ for step in range(n_steps):
     fake = generator.predict(torch.randn(batch_size, noise_dim))
     labels = torch.cat([torch.ones(batch_size), torch.zeros(batch_size)])
     discriminator.optimiser.zero_grad()
-    p = discriminator.predict(torch.cat([real, fake])).clamp(eps, 1 - eps)
-    discriminator_loss = -(labels * torch.log(p) + (1 - labels) * torch.log(1 - p)).mean()
-    discriminator.backward((p - labels) / (p * (1 - p)) / len(p))
+    logits = discriminator.predict(torch.cat([real, fake]))
+    discriminator_loss = bce.loss(logits, labels)
+    discriminator.backward(bce.gradient(logits, labels))
     discriminator.optimiser.update_parameters()
 
     # 2. generator step
     generator.optimiser.zero_grad()
     fake = generator.predict(torch.randn(batch_size, noise_dim))
-    p_fake = discriminator.predict(fake).clamp(eps, 1 - eps)
-    generator_loss = -torch.log(p_fake).mean()
-    dL_dfake = discriminator.backward(-1 / (p_fake * batch_size))
+    fake_logits = discriminator.predict(fake)
+    generator_loss = bce.loss(fake_logits, torch.ones(batch_size))
+    dL_dfake = discriminator.backward(bce.gradient(fake_logits, torch.ones(batch_size)))
     generator.backward(dL_dfake)
     generator.optimiser.update_parameters()
 
     history["discriminator"].append(discriminator_loss.item())
     history["generator"].append(generator_loss.item())
+    p = torch.sigmoid(logits)
     history["real"].append(p[:batch_size].mean().item())
     history["fake"].append(p[batch_size:].mean().item())
     if (step + 1) in (200, 1000, 3000, n_steps):
@@ -176,7 +181,7 @@ conditional_generator.compile(optimiser=ADAM(learning_rate=0.0005, beta1=0.5))
 conditional_discriminator = Model(n_pixels + 10)
 conditional_discriminator.add(Dense(256, activation=ReLU()))
 conditional_discriminator.add(Dense(128, activation=ReLU()))
-conditional_discriminator.add(Dense(0, activation=Sigmoid()))
+conditional_discriminator.add(Dense(0))
 conditional_discriminator.compile(optimiser=ADAM(learning_rate=0.0005, beta1=0.5))
 
 conditional_generator.train()
@@ -188,16 +193,16 @@ for step in range(n_steps):
     fake = conditional_generator.predict(torch.cat([torch.randn(batch_size, noise_dim), fake_labels], dim=1))
     targets = torch.cat([torch.ones(batch_size), torch.zeros(batch_size)])
     conditional_discriminator.optimiser.zero_grad()
-    p = conditional_discriminator.predict(torch.cat([torch.cat([real, real_labels], dim=1), torch.cat([fake, fake_labels], dim=1)])).clamp(eps, 1 - eps)
-    conditional_discriminator.backward((p - targets) / (p * (1 - p)) / len(p))
+    logits = conditional_discriminator.predict(torch.cat([torch.cat([real, real_labels], dim=1), torch.cat([fake, fake_labels], dim=1)]))
+    conditional_discriminator.backward(bce.gradient(logits, targets))
     conditional_discriminator.optimiser.update_parameters()
 
     conditional_generator.optimiser.zero_grad()
     fake_labels = torch.eye(10)[torch.randint(0, 10, (batch_size,))]
     fake = conditional_generator.predict(torch.cat([torch.randn(batch_size, noise_dim), fake_labels], dim=1))
-    p_fake = conditional_discriminator.predict(torch.cat([fake, fake_labels], dim=1)).clamp(eps, 1 - eps)
+    fake_logits = conditional_discriminator.predict(torch.cat([fake, fake_labels], dim=1))
     # the discriminator returns the gradient with respect to its whole input; the first columns belong to the image
-    dL_dfake = conditional_discriminator.backward(-1 / (p_fake * batch_size))[:, :n_pixels]
+    dL_dfake = conditional_discriminator.backward(bce.gradient(fake_logits, torch.ones(batch_size)))[:, :n_pixels]
     conditional_generator.backward(dL_dfake)
     conditional_generator.optimiser.update_parameters()
     if (step + 1) % 2000 == 0:

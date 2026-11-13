@@ -23,7 +23,7 @@ modindex_common_prefix = ["DLL."]
 add_module_names = True
 templates_path = ['_templates']
 exclude_patterns = []
-autodoc_mock_imports = ["torch", "numpy", "scipy", "matplotlib", "cvxopt", "scienceplots"]
+autodoc_mock_imports = ["torch", "numpy", "scipy", "matplotlib", "scienceplots"]
 
 # -- Options for HTML output --
 html_theme = 'sphinx_rtd_theme'

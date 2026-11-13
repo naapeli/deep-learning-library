@@ -53,10 +53,10 @@ class XGBoostingClassifier:
         self.n_classes = len(classes)
         if self.loss_ == "log_loss":
             if self.n_classes == 2:
-                self.loss = BCE(reduction="sum")
+                self.loss = BCE(reduction="sum", from_logits=True)
                 self.activation = Sigmoid()
             else:
-                self.loss = CCE(reduction="sum")
+                self.loss = CCE(reduction="sum", from_logits=True)
                 self.activation = SoftMax()
         elif self.loss_ == "exponential":
             if self.n_classes != 2:
@@ -100,7 +100,13 @@ class XGBoostingClassifier:
         else:
             self._multi_fit(X, y)
     
-    def _binary_hessian_diag(self, prob, true_output):
+    def _binary_gradient_and_hessian(self, pred, true_output):
+        if self.loss_ == "log_loss":
+            # the loss is calculated from the logits, so no chain rule through the sigmoid is needed
+            return self.loss.gradient(pred, true_output), self.loss.hessian(pred, true_output)
+
+        # the exponential loss is calculated from the probabilities, so the chain rule through the sigmoid is applied
+        prob = self.activation.forward(pred)
         loss_gradient = self.loss.gradient(prob, true_output)
         loss_hessian = self.loss.hessian(prob, true_output)
         sigmoid_value = prob
@@ -109,18 +115,7 @@ class XGBoostingClassifier:
         first_term = sigmoid_gradient * (1 - sigmoid_value) * loss_gradient
         second_term = -sigmoid_value * sigmoid_gradient * loss_gradient
         third_term = sigmoid_value * (1 - sigmoid_value) * loss_hessian  # is the same as self.activation.backward(loss_hessian)
-        return first_term + second_term + third_term
-    
-    def _multi_hessian_diag(self, prob, true_output):
-        loss_gradient = self.loss.gradient(prob, true_output)
-        loss_hessian = self.loss.hessian(prob, true_output)
-        softmax_value = prob
-        softmax_gradient = self.activation.backward(loss_gradient)
-
-        softmax_hessian = softmax_value * (1 - softmax_value) * (1 - 2 * softmax_value)
-        
-        # From Mathematica: D[f[g[x]], {x, 2}] = Derivative[1][g][x]^2 (f^\[Prime]\[Prime])[g[x]] + Derivative[1][f][g[x]] (g^\[Prime]\[Prime])[x]
-        return softmax_gradient ** 2 * loss_hessian + loss_gradient * softmax_hessian
+        return sigmoid_gradient, first_term + second_term + third_term
 
     def _binary_fit(self, X, y, metrics=["loss"]):
         positive_ratio = y.mean()
@@ -130,9 +125,7 @@ class XGBoostingClassifier:
         history = {metric: torch.zeros(self.n_trees) for metric in metrics}
 
         for i in range(self.n_trees):
-            prob = self.activation.forward(pred)
-            gradient = self.activation.backward(self.loss.gradient(prob, y))
-            hessian = self._binary_hessian_diag(prob, y)
+            gradient, hessian = self._binary_gradient_and_hessian(pred, y)
 
             tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, reg_lambda=self.reg_lambda, gamma=self.gamma)
             tree.fit(X, gradient, hessian)
@@ -141,7 +134,7 @@ class XGBoostingClassifier:
 
             trees.append(tree)
 
-            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss)
+            values = calculate_metrics(data=(self.activation.forward(pred), y), metrics=metrics, loss=self.loss.loss, loss_input=pred if self.loss_ == "log_loss" else None)
             for metric, value in values.items():
                 history[metric][i] = value
         
@@ -159,9 +152,9 @@ class XGBoostingClassifier:
         for class_index in range(self.n_classes):
             class_trees = []
             for _ in range(self.n_trees):
-                prob = self.activation.forward(pred)
-                gradient = self.activation.backward(self.loss.gradient(prob, y))[:, class_index]
-                hessian = self._multi_hessian_diag(prob, y)[:, class_index]
+                # the loss is calculated from the logits, so the gradient and the hessian need no chain rule through the softmax
+                gradient = self.loss.gradient(pred, y)[:, class_index]
+                hessian = self.loss.hessian(pred, y)[:, class_index]
 
                 tree = _XGBoostTree(max_depth=self.max_depth, min_samples_split=self.min_samples_split, reg_lambda=self.reg_lambda, gamma=self.gamma)
                 tree.fit(X, gradient, hessian)

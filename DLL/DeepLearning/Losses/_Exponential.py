@@ -1,6 +1,6 @@
 import torch
 
-from ._BaseLoss import BaseLoss
+from ._BaseLoss import BaseLoss, _check_binary_labels
 
 
 class Exponential(BaseLoss):
@@ -38,8 +38,7 @@ class Exponential(BaseLoss):
             raise TypeError("prediction and true_output must be torch tensors.")
         if prediction.shape != true_output.shape:
             raise ValueError("prediction and true_output must have the same shape.")
-        if set(torch.unique(true_output).numpy()) != {0, 1}:
-            raise ValueError("The classes must be labelled 0 and 1.")
+        _check_binary_labels(true_output)
 
         prediction = 2 * prediction - 1
         true_output = 2 * true_output - 1
@@ -63,8 +62,7 @@ class Exponential(BaseLoss):
             raise TypeError("prediction and true_output must be torch tensors.")
         if prediction.shape != true_output.shape:
             raise ValueError("prediction and true_output must have the same shape.")
-        if set(torch.unique(true_output).numpy()) != {0, 1}:
-            raise ValueError("The classes must be labelled 0 and 1.")
+        _check_binary_labels(true_output)
         
         prediction = 2 * prediction - 1
         true_output = 2 * true_output - 1
@@ -88,8 +86,7 @@ class Exponential(BaseLoss):
             raise TypeError("prediction and true_output must be torch tensors.")
         if prediction.shape != true_output.shape:
             raise ValueError("prediction and true_output must have the same shape.")
-        if set(torch.unique(true_output).numpy()) != {0, 1}:
-            raise ValueError("The classes must be labelled 0 and 1.")
+        _check_binary_labels(true_output)
         
         prediction = 2 * prediction - 1
         true_output = 2 * true_output - 1

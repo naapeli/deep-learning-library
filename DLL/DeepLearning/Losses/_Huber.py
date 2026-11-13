@@ -29,7 +29,7 @@ class Huber(BaseLoss):
                 l_i &= \\begin{cases}
                     \\frac{1}{2}(y_i - f(x_i))^2 & \\text{if } |y_i - f(x_i)| \\leq \\delta,\\\\
                     \\delta|y_i - f(x_i)| - \\frac{1}{2}\\delta^2 & \\text{otherwise},
-                \end{cases}\\\\
+                \\end{cases}\\\\
                 L_{sum} &= \\sum_{i=1}^n l_i \\text{ or } L_{mean} = \\frac{1}{n}\\sum_{i=1}^n l_i,
 
         where :math:`f(x_i)` is the predicted value and :math:`y_i` is the true value.
@@ -95,8 +95,8 @@ class Huber(BaseLoss):
             raise ValueError("prediction and true_output must have the same shape.")
         
         abs_error = torch.abs(prediction - true_output)
-        quadratic_grad = torch.full((len(true_output),), 1)
-        linear_grad = torch.full((len(true_output),), 0)
+        quadratic_grad = torch.ones_like(prediction)
+        linear_grad = torch.zeros_like(prediction)
         if self.reduction == "mean":
             return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad) / prediction.numel()
         return torch.where(abs_error <= self.delta, quadratic_grad, linear_grad)

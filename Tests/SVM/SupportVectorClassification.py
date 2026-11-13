@@ -1,15 +1,16 @@
 """
-Support Vector Classifier Solver Comparison
-===============================================
+Support Vector Classifier
+============================
 
-This script compares the performance of different Support Vector Machine (SVM) solvers on a synthetic 2D classification dataset. The solvers compared include:
+This script trains support vector classifiers on a synthetic 2D classification dataset and compares them to the
+implementation of scikit-learn. The models minimise the primal objective of the support vector machine with
+Newton's method using either
 
-1. **CVXOPT Solver**: Custom SVM optimization using the CVXOPT library.
-2. **SMO Solver**: Custom implementation of the Sequential Minimal Optimization (SMO) algorithm.
-3. **Coordinate Ascent Solver**: Custom implementation of the coordinate ascent optimization method for SVM.
-4. **Scikit-learn SVM**: Standard implementation from the Scikit-learn library.
+1. the **hinge loss** (:class:`~DLL.DeepLearning.Losses.Hinge`), which gives the classical support vector machine, or
+2. the **squared hinge loss**, which penalises large violations of the margin more.
 
-The performance is evaluated based on prediction accuracy and training time. Visualizations of decision boundaries learned by each solver on the test set are provided for comparison.
+The hinge loss is not twice differentiable, so its corner is smoothed by a quadratic function during the training,
+and the smoothing is decreased towards zero. The squared hinge loss is minimised directly.
 """
 import torch
 import matplotlib.pyplot as plt
@@ -20,7 +21,8 @@ from sklearn import svm
 from DLL.MachineLearning.SupervisedLearning.SupportVectorMachines import SVC
 from DLL.MachineLearning.SupervisedLearning import Kernels
 from DLL.Data.Preprocessing import data_split
-from DLL.Data.Metrics import accuracy, prob_to_pred
+from DLL.Data.Metrics import accuracy
+from DLL.DeepLearning.Losses import Hinge
 
 # %%
 # Data
@@ -30,119 +32,80 @@ from DLL.Data.Metrics import accuracy, prob_to_pred
 # C = 1, and the decision regions are evaluated on a 100 x 100 grid.
 
 X, y = datasets.make_blobs(n_samples=1000, n_features=2, cluster_std=2, centers=4, random_state=3)
-
-# plt.scatter(X[:, 0], X[:, 1], c=y, s=5)
-# plt.show()
-
 X = torch.from_numpy(X)
 y = torch.from_numpy(y)
 X_train, y_train, X_test, y_test, _, _ = data_split(X, y)
 
-# %%
-# CVXOPT solver
-# -------------
-#
-# The dual problem is solved as a quadratic program with CVXOPT. The four classes are handled with one-vs-one
-# classifiers.
-
-model1 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="cvxopt")
-start1 = perf_counter()
-model1.fit(X_train, y_train, epochs=2, multi_method="ovo")
-end1 = perf_counter()
-predictions = prob_to_pred(model1.predict_proba(X_test))
-print(round(accuracy(predictions, y_test), 3))
-
 n = 100
-x_min, X_max = X[:, 0].min(), X[:, 0].max()
-y_min, y_max = X[:, 1].min(), X[:, 1].max()
-x_grid = torch.linspace(x_min, X_max, n)
-y_grid = torch.linspace(y_min, y_max, n)
+x_grid = torch.linspace(X[:, 0].min(), X[:, 0].max(), n)
+y_grid = torch.linspace(X[:, 1].min(), X[:, 1].max(), n)
 Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
-
 X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
-grid_predictions = model1.predict(X_grid).reshape((n, n))
 
 # %%
-# SMO solver
-# ----------
+# Fitting the models
+# ------------------
 #
-# Sequential minimal optimisation, also one-vs-one.
+# The four classes are handled with one-vs-rest classifiers for the hinge loss and one-vs-one classifiers for the
+# squared hinge loss.
 
-model2 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="smo")
-start2 = perf_counter()
-model2.fit(X_train, y_train, epochs=5, multi_method="ovo")
-end2 = perf_counter()
-predictions = prob_to_pred(model2.predict_proba(X_test))
-print(round(accuracy(predictions, y_test), 3))
+results = []
+for loss, multi_method in [("hinge", "ovr"), ("squared_hinge", "ovo")]:
+    model = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, loss=loss)
+    start = perf_counter()
+    model.fit(X_train, y_train, multi_method=multi_method)
+    end = perf_counter()
+    print(f"{loss} accuracy: {accuracy(model.predict(X_test), y_test):.3f}")
+    results.append((model.predict(X_grid).reshape((n, n)), f"{loss} ({multi_method}) - time to train: {end - start:.3f}"))
 
-x_min, X_max = X[:, 0].min(), X[:, 0].max()
-y_min, y_max = X[:, 1].min(), X[:, 1].max()
-x_grid = torch.linspace(x_min, X_max, n)
-y_grid = torch.linspace(y_min, y_max, n)
-Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
-
-X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
-grid_predictions2 = model2.predict(X_grid).reshape((n, n))
-
-# %%
-# Coordinate ascent solver
-# ------------------------
-#
-# Coordinate ascent on the dual problem, with one-vs-rest classifiers.
-
-model3 = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, opt_method="coord_ascent")
-start3 = perf_counter()
-model3.fit(X_train, y_train, epochs=5, multi_method="ovr")
-end3 = perf_counter()
-predictions = model3.predict(X_test)
-print(round(accuracy(predictions, y_test), 3))
-
-x_min, X_max = X[:, 0].min(), X[:, 0].max()
-y_min, y_max = X[:, 1].min(), X[:, 1].max()
-x_grid = torch.linspace(x_min, X_max, n)
-y_grid = torch.linspace(y_min, y_max, n)
-Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
-
-X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
-grid_predictions3 = model3.predict(X_grid).reshape((n, n))
-
-# %%
-# Scikit-learn
-# ------------
-#
-# Scikit-learn's SVC with the same kernel for reference.
-
-model4 = svm.SVC(kernel="rbf", C=1, gamma=1/(2 * 5 ** 2), decision_function_shape='ovr')
-start4 = perf_counter()
-model4.fit(X_train, y_train)
-end4 = perf_counter()
-predictions = model4.predict(X_test)
-print(round(accuracy(torch.from_numpy(predictions), y_test), 3))
-
-x_min, X_max = X[:, 0].min(), X[:, 0].max()
-y_min, y_max = X[:, 1].min(), X[:, 1].max()
-x_grid = torch.linspace(x_min, X_max, n)
-y_grid = torch.linspace(y_min, y_max, n)
-Xv, Yv = torch.meshgrid(x_grid, y_grid, indexing="ij")
-
-X_grid = torch.stack((Xv.flatten(), Yv.flatten()), dim=1).to(X.dtype)
-grid_predictions4 = model4.predict(X_grid).reshape((n, n))
+model = svm.SVC(kernel="rbf", C=1, gamma=1 / (2 * 5 ** 2), decision_function_shape="ovr")
+start = perf_counter()
+model.fit(X_train, y_train)
+end = perf_counter()
+print(f"scikit-learn accuracy: {accuracy(torch.from_numpy(model.predict(X_test)), y_test):.3f}")
+results.append((torch.from_numpy(model.predict(X_grid)).reshape((n, n)), f"scikit-learn - time to train: {end - start:.3f}"))
 
 # %%
 # Decision regions
 # ----------------
 
-fig, axes = plt.subplots(2, 2, figsize=(10, 10))
-axes[0, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions.numpy(), alpha=0.5)
-axes[1, 0].contourf(Xv.numpy(), Yv.numpy(), grid_predictions2.numpy(), alpha=0.5)
-axes[0, 1].contourf(Xv.numpy(), Yv.numpy(), grid_predictions3.numpy(), alpha=0.5)
-axes[1, 1].contourf(Xv.numpy(), Yv.numpy(), grid_predictions4, alpha=0.5)
-axes[0, 0].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[0, 1].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[1, 0].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[1, 1].scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
-axes[0, 0].set_title(f"cvxopt solver - time to train: {round(end1 - start1, 3)}")
-axes[1, 0].set_title(f"My SMO solver - time to train: {round(end2 - start2, 3)}")
-axes[0, 1].set_title(f"My coordinate ascent solver - time to train: {round(end3 - start3, 3)}")
-axes[1, 1].set_title(f"SKlearn implementation - time to train: {round(end4 - start4, 3)}")
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+for ax, (grid, title) in zip(axes, results):
+    ax.contourf(Xv.numpy(), Yv.numpy(), grid.numpy(), alpha=0.5)
+    ax.scatter(X_test[:, 0], X_test[:, 1], c=y_test, s=5)
+    ax.set_title(title, fontsize=10)
+plt.tight_layout()
+
+# %%
+# Convergence of the primal objective
+# -----------------------------------
+#
+# A binary problem between the first two classes. The classifier stores the primal objective after every Newton
+# iteration in ``model.history``. The steps of the hinge loss come from the four stages of decreasing smoothing,
+# while the squared hinge loss converges in a few iterations. The dashed line is the objective of the solution of
+# scikit-learn evaluated with the hinge loss.
+
+binary = y_train < 2
+X_binary, y_binary = X_train[binary], y_train[binary].to(X_train.dtype)
+
+fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+for i, loss in enumerate(["hinge", "squared_hinge"]):
+    model = SVC(kernel=Kernels.RBF(correlation_length=5), C=1, loss=loss)
+    model.fit(X_binary, y_binary.to(torch.int64))
+    ax[i].plot(model.history["loss"], marker=".", label=loss)
+
+reference = svm.SVC(kernel="rbf", C=1, gamma=1 / (2 * 5 ** 2)).fit(X_binary, y_binary)
+K = Kernels.RBF(correlation_length=5)(X_binary, X_binary).to(X_binary.dtype)
+coefficients = torch.zeros(len(X_binary), dtype=X_binary.dtype)
+coefficients[reference.support_] = torch.from_numpy(reference.dual_coef_[0])
+scores = K @ coefficients + reference.intercept_[0]
+objective = 0.5 * coefficients @ K @ coefficients + Hinge(reduction="sum").loss(scores, y_binary)
+ax[0].axhline(objective.item(), linestyle="--", color="gray", label="scikit-learn (hinge)")
+ax[0].set_yscale("log")
+for a in ax:
+    a.set_xlabel("Newton iteration")
+    a.set_ylabel("primal objective")
+    a.grid(alpha=0.3)
+    a.legend()
+plt.tight_layout()
 plt.show()
