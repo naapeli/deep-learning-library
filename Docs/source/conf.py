@@ -43,6 +43,9 @@ sphinx_gallery_conf = {
     "ignore_pattern": r".*NO_DOCS_.*\.py$",
     "image_scrapers": ("matplotlib",),  # Capture Matplotlib plots automatically
     "plot_gallery": True,  # Enable automatic execution and embedding of plots
+    # Run the examples in parallel with as many processes as the -j flag of sphinx-build gives ("-j auto" uses
+    # every CPU core). Set OMP_NUM_THREADS=1 when building, so that the examples do not compete for the cores.
+    "parallel": True,
     # "default_thumb_file": "_static/Logo.png",  # Optional: default thumbnail
     "default_thumb_file": os.path.abspath("_static/Logo.png"),
     "backreferences_dir": "gen_modules/backreferences",

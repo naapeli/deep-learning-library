@@ -2,6 +2,7 @@ import torch
 import multiprocessing
 
 from ._DecisionTree import Node
+from ._TreeUtils import _predict_values
 from ....Exceptions import NotFittedError
 from ....Data.Preprocessing import OneHotEncoder
 
@@ -40,9 +41,26 @@ class _LGBMTree:
             raise ValueError("The hessian must be 1 dimensional with the same number of samples as the input data")
         
         self.n_features = X.shape[1]
-        self.root = self._grow_tree(X, gradient, hessian, 0)
+        bins = self._bin(X)
+        self.root = self._grow_tree(X, bins, gradient, hessian, 0)
 
-    def _grow_tree(self, X, gradient, hessian, depth):
+    def _bin(self, X):
+        # The candidate thresholds of every feature are chosen once for the whole tree, like in LightGBM: the unique
+        # values if there are at most n_bins of them, otherwise n_bins quantiles. Every sample is then mapped to the
+        # index of its bin, so that the split search of a node only has to sum the statistics of every bin.
+        self._edges = []
+        for index in range(X.shape[1]):
+            edges = torch.unique(X[:, index])
+            if len(edges) > self.n_bins:
+                quantiles = torch.linspace(0, 1, self.n_bins + 1, dtype=torch.float64)[1:-1]
+                edges = torch.unique(torch.quantile(X[:, index].to(torch.float64), quantiles)).to(X.dtype)
+            self._edges.append(edges)
+        self._n_edges = torch.tensor([len(edges) for edges in self._edges])
+        self._max_bins = int(self._n_edges.max()) + 1
+        # bin i contains the values in (edges[i - 1], edges[i]], so x <= edges[i] is the same as bin <= i
+        return torch.stack([torch.bucketize(X[:, index].contiguous(), edges) for index, edges in enumerate(self._edges)], dim=1)
+
+    def _grow_tree(self, X, bins, gradient, hessian, depth):
         n_samples, n_features = X.size()
         vals = torch.unique(gradient)
 
@@ -50,49 +68,46 @@ class _LGBMTree:
             return Node(value=self._value(gradient, hessian))
 
         feature_indicies = torch.randperm(n_features)[:self.n_features]
-        split_threshold, split_index = self._best_split(X, gradient, hessian, feature_indicies)
+        split_threshold, split_index = self._best_split(bins, gradient, hessian, feature_indicies)
         # if no split gains more information
         if split_threshold is None:
             return Node(value=self._value(gradient, hessian))
         
         left_indicies, right_indicies = self._split(X[:, split_index], split_threshold)
-        left = self._grow_tree(X[left_indicies], gradient[left_indicies], hessian[left_indicies], depth + 1)
-        right = self._grow_tree(X[right_indicies], gradient[right_indicies], hessian[right_indicies], depth + 1)
+        left = self._grow_tree(X[left_indicies], bins[left_indicies], gradient[left_indicies], hessian[left_indicies], depth + 1)
+        right = self._grow_tree(X[right_indicies], bins[right_indicies], gradient[right_indicies], hessian[right_indicies], depth + 1)
         return Node(left, right, split_threshold, split_index)
     
-    def _best_split(self, X, gradient, hessian, feature_indicies):
-        max_gain = -1
-        split_index = None
-        split_threshold = None
-
-        parent_gain = self._gain_node(gradient, hessian)
-
-        for index in feature_indicies:
-            feature_values = X[:, index]
-            possible_thresholds = torch.unique(feature_values)
-            if len(possible_thresholds) > self.n_bins: _, possible_thresholds = torch.histogram(feature_values, bins=self.n_bins, weight=gradient)
-            for threshold in possible_thresholds:
-                gain = parent_gain + self._children_gain(gradient, hessian, feature_values, threshold)
-                if gain > max_gain:
-                    max_gain = gain
-                    split_index = index
-                    split_threshold = threshold
-        if max_gain <= 0: return None, None
-        return split_threshold, split_index
+    def _best_split(self, bins, gradient, hessian, feature_indicies):
+        # The histogram of the gradients, the hessians and the sample counts in every (feature, bin) pair of the node.
+        n, n_candidates = len(bins), len(feature_indicies)
+        statistics = torch.stack([gradient, hessian, torch.ones_like(gradient)], dim=1).to(torch.float64)
+        slots = (bins[:, feature_indicies] + torch.arange(n_candidates) * self._max_bins).flatten()
+        histogram = torch.zeros((n_candidates * self._max_bins, 3), dtype=torch.float64)
+        histogram.index_add_(0, slots, statistics.repeat_interleave(n_candidates, dim=0))
+        # the cumulative sums over the bins are the statistics of the left child of every threshold
+        left = torch.cumsum(histogram.reshape(n_candidates, self._max_bins, 3), dim=1)[:, :-1]
+        total = left.new_tensor([gradient.sum(), hessian.sum(), n])
+        gains = self._gain_node(total) - self._gain_node(left) - self._gain_node(total - left) - self.gamma
+        # a threshold must exist for the feature, and both children must contain at least two samples
+        n_left = left[..., 2]
+        valid = (torch.arange(self._max_bins - 1) < self._n_edges[feature_indicies].unsqueeze(1)) & (n_left > 1) & (n - n_left > 1)
+        gains = torch.where(valid, gains, torch.tensor(-float("inf"), dtype=gains.dtype))
+        # of equal gains, the smallest threshold of the first feature is chosen
+        feature_gains, positions = torch.max(gains, dim=1)
+        feature = torch.argmax(feature_gains)
+        if feature_gains[feature] <= 0: return None, None
+        split_index = feature_indicies[feature]
+        return self._edges[split_index][positions[feature]], split_index
     
     def _split(self, feature_values, threshold):
         left_indicies = torch.argwhere(feature_values <= threshold).flatten()
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _children_gain(self, gradient, hessian, feature_values, threshold):
-        left_indicies, right_indicies = self._split(feature_values, threshold)
-        if len(left_indicies) <= 1 or len(right_indicies) <= 1:
-            return 0
-        return -self._gain_node(gradient[left_indicies], hessian[left_indicies]) - self._gain_node(gradient[right_indicies], hessian[right_indicies]) - self.gamma
-
-    def _gain_node(self, gradient, hessian):
-        return -(gradient.sum() ** 2) / (hessian.sum() + self.reg_lambda)
+    def _gain_node(self, sums):
+        # sums[..., 0] is the sum of the gradients and sums[..., 1] the sum of the hessians
+        return -(sums[..., 0] ** 2) / (sums[..., 1] + self.reg_lambda)
 
     def predict(self, X):
         if self.root is None:
@@ -101,16 +116,7 @@ class _LGBMTree:
             raise TypeError("The input matrix must be a PyTorch tensor.")
         if X.ndim != 2 or X.shape[1] != self.n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
-        return torch.tensor([self._predict_single(datapoint, self.root) for datapoint in X])
-
-    def _predict_single(self, x, current_node):
-        if current_node.is_leaf():
-            return current_node.value
-        
-        if x[current_node.feature_index] <= current_node.threshold:
-            return self._predict_single(x, current_node.left)
-        
-        return self._predict_single(x, current_node.right)
+        return _predict_values(self.root, X)
 
 
 # _merge_features and _greedy_bundling functions based on https://github.com/meanxai/machine_learning/blob/main/12.LGBM/5.efb_onehot.py

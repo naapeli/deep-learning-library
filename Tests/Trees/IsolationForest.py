@@ -29,12 +29,18 @@ X = torch.from_numpy(np.array([X1, X2]).T)
 # Detecting outliers
 # ------------------
 #
-# Points that are isolated with few random splits get a high anomaly score. The sorted scores are printed, and
-# points above the threshold are labelled as outliers.
+# Points that are isolated with few random splits get a high anomaly score. Every one of the 100 trees is fitted to
+# a random subsample of 256 points and grown to a depth of 8, as in the original paper, so the trees stay small
+# however much data there is. The scores are close to 1 for outliers and below 0.5 for normal points. The five
+# largest scores are printed, and the points more than 4.7 standard deviations above the mean score are labelled as
+# outliers.
 
-model = IsolationForest(n_trees=25, threshold=6)
-predictions = model.fit_predict(X)
-print(sorted([round(score, 2) for score in model.fit_predict(X, return_scores=True).tolist()]))
+model = IsolationForest(threshold=4.7)
+model.fit(X)
+scores = model.predict(X, return_scores=True)
+predictions = model.predict(X)
+print("The largest anomaly scores:", [round(score, 3) for score in torch.sort(scores, descending=True).values[:5].tolist()])
+print("Detected outliers:", X[predictions].tolist())
 
 plt.scatter(X[:, 0][predictions], X[:, 1][predictions], label="Outliers")
 plt.scatter(X[:, 0][~predictions], X[:, 1][~predictions], label="Inliers")

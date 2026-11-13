@@ -86,7 +86,8 @@ class RandomForestClassifier:
         if X.ndim != 2 or X.shape[1] != self.trees[0].n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
-        tree_preds = Parallel(n_jobs=self.n_jobs)(delayed(tree.predict)(X) for tree in self.trees)
+        # every tree predicts all samples at once, so this is faster in a single process than in parallel workers
+        tree_preds = [tree.predict(X) for tree in self.trees]
         predictions = torch.stack(tree_preds).T
         final_preds = torch.mode(predictions, dim=1).values
         return final_preds
@@ -111,7 +112,8 @@ class RandomForestClassifier:
         if X.ndim != 2 or X.shape[1] != self.trees[0].n_features:
             raise ValueError("The input matrix must be a 2 dimensional tensor with the same number of features as the fitted tensor.")
 
-        tree_probs = Parallel(n_jobs=self.n_jobs)(delayed(tree.predict_proba)(X) for tree in self.trees)
+        # every tree predicts all samples at once, so this is faster in a single process than in parallel workers
+        tree_probs = [tree.predict_proba(X) for tree in self.trees]
         return torch.stack(tree_probs).mean(dim=0)
 
     def _bootstrap_sample(self, X, y):
