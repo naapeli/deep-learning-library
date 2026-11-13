@@ -1,45 +1,45 @@
 import torch
 
 
-def _split_statistics(feature_values, statistics, candidates=None):
+def _best_split(X, feature_indicies, statistics, gain_function, min_child_size):
     """
-    Calculates the statistics of the left child (the samples with feature_values <= threshold) for every candidate
-    threshold of a feature at once. The feature is sorted once, after which the statistics of the left child of every
-    threshold are the cumulative sums of the statistics of the sorted samples. This takes O(n log n) time for all
-    thresholds together, while calculating the statistics of every threshold separately would take O(n^2) time.
+    Finds the best split of a node over every feature and every threshold at once. All features are sorted together,
+    after which the statistics of the left child of every threshold are the cumulative sums of the statistics of the
+    sorted samples, so the gains of all splits come from one tensor expression. The candidate thresholds are the
+    unique values of every feature, which is the same as trying every split of the samples.
 
     Args:
-        feature_values (torch.Tensor of shape (n_samples,)): The values of the feature.
+        X (torch.Tensor of shape (n_samples, n_features)): The samples of the node.
+        feature_indicies (torch.Tensor of shape (n_candidate_features,)): The features that are searched, in order.
         statistics (torch.Tensor of shape (n_samples, n_statistics)): The statistics of every sample that are summed,
             for instance the targets and the squared targets.
-        candidates (torch.Tensor | None): The candidate thresholds. If None, every unique value of the feature is a
-            candidate, which is the same as trying every split of the samples.
+        gain_function (Callable): Takes the summed statistics of the left children (shape (n_samples, n_candidate_features,
+            n_statistics)), the summed statistics of the whole node (shape (n_statistics,)), the sizes of the left children
+            (shape (n_samples, 1)) and the size of the node, and returns the gains of shape (n_samples, n_candidate_features).
+        min_child_size (int): The minimum number of samples in each child.
 
     Returns:
-        candidates (torch.Tensor of shape (n_candidates,)): The candidate thresholds in ascending order.
-        n_left (torch.Tensor of shape (n_candidates,)): The number of samples in the left child of every threshold.
-        left (torch.Tensor of shape (n_candidates, n_statistics)): The summed statistics of the left child.
-        total (torch.Tensor of shape (n_statistics,)): The summed statistics of all samples.
+        gain (float): The largest gain, or -inf if there is no valid split.
+        threshold (torch.Tensor | None): The threshold of the best split. Of equal gains, the smallest threshold of the
+            first feature in feature_indicies is chosen.
+        index (torch.Tensor | None): The feature of the best split.
     """
-    values, order = torch.sort(feature_values)
-    if candidates is None:
-        candidates = torch.unique(values)
-    n_left = torch.searchsorted(values, candidates.to(values.dtype).contiguous(), right=True)
-    zero = torch.zeros((1, statistics.shape[1]), dtype=statistics.dtype)
-    cumulative = torch.cat([zero, torch.cumsum(statistics[order], dim=0)])
-    return candidates, n_left, cumulative[n_left], cumulative[-1]
-
-
-def _best_threshold(candidates, gains, valid):
-    """
-    Returns the largest gain among the valid thresholds and its threshold, or (-inf, None) if no threshold is valid.
-    Of equal gains, the smallest threshold is chosen.
-    """
-    gains = torch.where(valid, gains, torch.tensor(-float("inf"), dtype=gains.dtype))
-    if len(gains) == 0:
-        return -float("inf"), None
-    index = torch.argmax(gains)  # the first of the maximal values
-    return gains[index].item(), candidates[index]
+    n = len(X)
+    values, order = torch.sort(X[:, feature_indicies], dim=0, stable=True)
+    left = torch.cumsum(statistics[order], dim=0)  # left[i, j] sums the i + 1 smallest samples of feature j
+    total = left[-1, 0]
+    n_left = torch.arange(1, n + 1, dtype=statistics.dtype).unsqueeze(1)
+    # a threshold is a unique value, so only the last occurrence of every value is a split (ties go left together)
+    last_occurrence = torch.ones_like(values, dtype=torch.bool)
+    last_occurrence[:-1] = values[1:] != values[:-1]
+    valid = last_occurrence & (n_left >= min_child_size) & (n - n_left >= min_child_size)
+    gains = torch.where(valid, gain_function(left, total, n_left, n), torch.tensor(-float("inf"), dtype=statistics.dtype))
+    feature_gains, positions = torch.max(gains, dim=0)  # the first (smallest) threshold of the largest gain
+    feature = torch.argmax(feature_gains)  # the first feature of the largest gain
+    gain = feature_gains[feature].item()
+    if gain == -float("inf"):
+        return gain, None, None
+    return gain, values[positions[feature], feature], feature_indicies[feature]
 
 
 def _leaves(root, X, is_leaf=lambda node: node.is_leaf()):

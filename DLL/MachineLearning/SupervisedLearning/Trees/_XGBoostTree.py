@@ -1,7 +1,7 @@
 import torch
 
 from ._DecisionTree import Node
-from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
+from ._TreeUtils import _best_split, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -57,18 +57,10 @@ class _XGBoostTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, X, gradient, hessian, feature_indicies):
-        max_gain = -float("inf")
-        split_index = None
-        split_threshold = None
-
         statistics = torch.stack([gradient, hessian], dim=1).to(torch.float64)
-        for index in feature_indicies:
-            gain, threshold = self._gain(X[:, index], statistics)
-            if gain > max_gain:
-                max_gain = gain
-                split_index = index
-                split_threshold = threshold
-        if max_gain <= 0: return None, None
+        # both children must contain at least two samples
+        gain, split_threshold, split_index = _best_split(X, feature_indicies, statistics, self._gain, min_child_size=2)
+        if gain <= 0: return None, None
         return split_threshold, split_index
 
     def _split(self, feature_values, threshold):
@@ -76,13 +68,9 @@ class _XGBoostTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _gain(self, feature_values, statistics, candidates=None):
-        # The gain of every threshold at once from the sums of the gradients and the hessians of the children.
-        candidates, n_left, left, total = _split_statistics(feature_values, statistics, candidates)
-        right = total - left
-        gain = self._gain_node(total) - self._gain_node(left) - self._gain_node(right) - self.gamma
-        # both children must contain at least two samples
-        return _best_threshold(candidates, gain, (n_left > 1) & (len(feature_values) - n_left > 1))
+    def _gain(self, left, total, n_left, n):
+        # The gain of every split from the sums of the gradients and the hessians of the children.
+        return self._gain_node(total) - self._gain_node(left) - self._gain_node(total - left) - self.gamma
 
     def _gain_node(self, sums):
         # sums[..., 0] is the sum of the gradients and sums[..., 1] the sum of the hessians

@@ -1,7 +1,7 @@
 import torch
 
 from ._DecisionTree import Node
-from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
+from ._TreeUtils import _best_split, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -70,20 +70,12 @@ class RegressionTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, x, y, feature_indicies):
-        max_variance_reduction = -float("inf")
-        split_index = None
-        split_threshold = None
-
         y = y.to(torch.float64)
         y = y - y.mean()  # the variance does not change, but the sums of y^2 lose less precision
         statistics = torch.stack([y, y ** 2], dim=1)
-        for index in feature_indicies:
-            variance_reduction, threshold = self._variance_reduction(x[:, index], statistics)
-            if variance_reduction > max_variance_reduction:
-                max_variance_reduction = variance_reduction
-                split_index = index
-                split_threshold = threshold
-        if max_variance_reduction <= 0: return None, None
+        # both children must contain at least two samples for their variance to be defined
+        variance_reduction, split_threshold, split_index = _best_split(x, feature_indicies, statistics, self._variance_reduction, min_child_size=2)
+        if variance_reduction <= 0: return None, None
         return split_threshold, split_index
 
     def _split(self, feature_values, threshold):
@@ -91,20 +83,13 @@ class RegressionTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _variance_reduction(self, feature_values, statistics):
-        # The reduction of the (unbiased) variance for every threshold at once from the sums of y and y^2 of the children.
-        candidates, n_left, left, total = _split_statistics(feature_values, statistics)
-        n = len(feature_values)
-        n_right = n - n_left
-        right = total - left
-
+    def _variance_reduction(self, left, total, n_left, n):
+        # The reduction of the (unbiased) variance of every split from the sums of y and y^2 of the children.
         def variance(sums, counts):
             return (sums[..., 1] - sums[..., 0] ** 2 / counts) / (counts - 1)
 
-        n_left, n_right = n_left.to(torch.float64), n_right.to(torch.float64)
-        reduction = variance(total, torch.tensor(n, dtype=torch.float64)) - n_left / n * variance(left, n_left) - n_right / n * variance(right, n_right)
-        # both children must contain at least two samples for their variance to be defined
-        return _best_threshold(candidates, reduction, (n_left > 1) & (n_right > 1))
+        n_right = n - n_left
+        return variance(total, torch.tensor(n, dtype=total.dtype)) - n_left / n * variance(left, n_left) - n_right / n * variance(total - left, n_right)
 
     def predict(self, X):
         """

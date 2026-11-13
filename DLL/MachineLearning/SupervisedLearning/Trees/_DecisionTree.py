@@ -1,6 +1,6 @@
 import torch
 
-from ._TreeUtils import _split_statistics, _best_threshold, _predict_values
+from ._TreeUtils import _best_split, _predict_values
 from ....Exceptions import NotFittedError
 
 
@@ -97,19 +97,11 @@ class DecisionTree:
         return Node(left, right, split_threshold, split_index)
     
     def _best_split(self, x, y, feature_indicies):
-        max_entropy_gain = -float("inf")
-        split_index = None
-        split_threshold = None
-
         # the class counts of the children are the sums of the one-hot encoded labels
         statistics = torch.nn.functional.one_hot(y.to(torch.int64)).to(torch.float64)
-        for index in feature_indicies:
-            entropy_gain, threshold = self._information_gain(x[:, index], statistics)
-            if entropy_gain > max_entropy_gain:
-                max_entropy_gain = entropy_gain
-                split_index = index
-                split_threshold = threshold
-        if max_entropy_gain <= 0: return None, None
+        # both children must contain at least one sample
+        entropy_gain, split_threshold, split_index = _best_split(x, feature_indicies, statistics, self._information_gain, min_child_size=1)
+        if entropy_gain <= 0: return None, None
         return split_threshold, split_index
 
     def _split(self, feature_values, threshold):
@@ -117,16 +109,11 @@ class DecisionTree:
         right_indicies = torch.argwhere(feature_values > threshold).flatten()
         return left_indicies, right_indicies
 
-    def _information_gain(self, feature_values, statistics):
-        # The information gain of every threshold at once from the class counts of the children.
+    def _information_gain(self, left, total, n_left, n):
+        # The information gain of every split from the class counts of the children.
         information_func = self._gini if self.criterion == "gini" else self._entropy
-        candidates, n_left, left, total = _split_statistics(feature_values, statistics)
-        n = len(feature_values)
         n_right = n - n_left
-        n_left, n_right = n_left.to(torch.float64), n_right.to(torch.float64)
-        gain = information_func(total / n) - n_left / n * information_func(left / n_left[:, None]) - n_right / n * information_func((total - left) / n_right[:, None])
-        # both children must contain at least one sample
-        return _best_threshold(candidates, gain, (n_left > 0) & (n_right > 0))
+        return information_func(total / n) - n_left / n * information_func(left / n_left.unsqueeze(-1)) - n_right / n * information_func((total - left) / n_right.unsqueeze(-1))
     
     def _entropy(self, p):
         return -torch.sum(torch.xlogy(p, p), dim=-1)  # xlogy(0, 0) = 0, so the empty classes do not contribute
